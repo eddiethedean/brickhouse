@@ -1,0 +1,1071 @@
+{
+  "schema_version": 1,
+  "project": "BrickHouse",
+  "baseline_date": "2026-10-16",
+  "status_values": [
+    "planned",
+    "in_progress",
+    "blocked",
+    "done",
+    "deferred"
+  ],
+  "tasks": [
+    {
+      "id": "B001",
+      "milestone": "M0",
+      "kind": "task",
+      "title": "Create installable project skeleton",
+      "status": "planned",
+      "depends_on": [],
+      "plan_refs": [
+        "docs/plan/02-packages-and-public-api.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "pyproject.toml; src/brickhouse; CLI help/version; development and test configuration.",
+      "acceptance_criteria": [
+        "Build wheel and sdist and install the wheel into a clean environment.",
+        "Import brickhouse and invoke CLI help/version without starting a server or importing optional integrations.",
+        "Record initial dependency and supported-platform candidates; preserve planning documents."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B002",
+      "milestone": "M0",
+      "kind": "task",
+      "title": "Audit Minilake reuse and provenance",
+      "status": "planned",
+      "depends_on": [
+        "B001"
+      ],
+      "plan_refs": [
+        "docs/plan/03-dependencies-and-minilake.md",
+        "docs/plan/14-research-sources.md"
+      ],
+      "deliverable": "docs/upstream/minilake-inventory.md and a reuse ADR; no wholesale app mounting.",
+      "acceptance_criteria": [
+        "Inspect the pinned source and record each proposed file/contract, license, globals, persistence, and Spark dependencies.",
+        "Choose adaptation versus fresh implementation for the first catalog/jobs/files routes and identify required removals.",
+        "Specify notices and tests before copying source; record a rationale if no implementation code is reused."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B003",
+      "milestone": "M0",
+      "kind": "task",
+      "title": "Prove Sparkless provider extension design",
+      "status": "planned",
+      "depends_on": [
+        "B001"
+      ],
+      "plan_refs": [
+        "docs/plan/04-sparkless-upstream.md",
+        "docs/plan/05-catalog-storage-sql.md"
+      ],
+      "deliverable": "Minimal engine integration probe, proposed public contracts, and coordinated upstream task list.",
+      "acceptance_criteria": [
+        "Read current Rust/Python APIs and identify what already exists versus missing S001\u2013S006 hooks.",
+        "Demonstrate a viable path for external relation binding, writer delegation, typed interchange, and isolated sessions; a temporary probe is clearly separated from production code.",
+        "Record callback ownership, GIL/thread/reentrancy risks, failure propagation, and the smallest upstream change required."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B004",
+      "milestone": "M0",
+      "kind": "task",
+      "title": "Select native Delta provider and feature envelope",
+      "status": "planned",
+      "depends_on": [
+        "B001"
+      ],
+      "plan_refs": [
+        "docs/plan/04-sparkless-upstream.md",
+        "docs/plan/05-catalog-storage-sql.md"
+      ],
+      "deliverable": "Delta-provider ADR, pinned dependency matrix, and interoperability fixtures.",
+      "acceptance_criteria": [
+        "Exercise real create/read/append/update/delete/merge with candidate native providers; record unsupported operations explicitly.",
+        "Cross-read supported types and versions through Sparkless and selected SQL path, including nulls/decimals/timestamps.",
+        "Probe transaction identity and crash-after-commit reconciliation; choose one mutation provider and document protocol/feature rejection rules."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B005",
+      "milestone": "M0",
+      "kind": "task",
+      "title": "Pin client profiles and capture transport fixtures",
+      "status": "planned",
+      "depends_on": [
+        "B001"
+      ],
+      "plan_refs": [
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/14-research-sources.md",
+        "docs/plan/12-delivery-and-operations.md",
+        "docs/plan/15-personal-databricks-verification.md",
+        "docs/decisions/0001-personal-databricks-reference-verification.md"
+      ],
+      "deliverable": "Client version matrix; personal-workspace capture profile; bounded reference tooling/manual workflow; sanitized request/response and semantic fixtures.",
+      "acceptance_criteria": [
+        "Pin SDK, CLI, Terraform, SQL connector, and initial semantic profile versions after inspecting actual released artifacts.",
+        "Inspect the SQL connector REST/kernel option and default Thrift path separately; record TLS/auth/result requirements.",
+        "Define minimal supported workflows and fixture provenance; use the existing personal-account reference authorization only within the bounded capture/resource policy in document 15.",
+        "Record the personal workspace host alias, observed account features, relevant runtime/warehouse versions, permitted existing compute and scratch namespace, limits, and cleanup policy; never retain credentials or infer a spend budget from the token.",
+        "Implement named synthetic reference probes outside test discovery and capture at least one small real behavior case with schema/results or errors, exact client/settings provenance, reviewed sanitization, and cleanup evidence; map observations to local regression-test designs without claiming BrickHouse support from remote success.",
+        "Provide an optional workflow_dispatch capture workflow restricted to reviewed default-branch code and curated probes, with job-scoped DATABRICKS_TOKEN, bounded execution and sanitized artifacts; no automatic PR/push/schedule execution or required CI dependency.",
+        "Verify fixture tooling works without credentials and ordinary local clients cannot load .env, discover personal credentials, or contact real Databricks hosts even when credentials are inherited; missing configuration fails explicit captures clearly without redirecting local tests."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B006",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Implement workspace lifecycle and persistence",
+      "status": "planned",
+      "depends_on": [
+        "B001"
+      ],
+      "plan_refs": [
+        "docs/plan/01-architecture.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Workspace/config services, SQLite migrations, lifecycle CLI and embedded context.",
+      "acceptance_criteria": [
+        "Initialize an isolated workspace with explicit default namespace policy and reopen it after restart.",
+        "Enforce one service owner, validate config/workspace versions, and reject incompatible formats.",
+        "Two different workspace directories have independent state and clean shutdown."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B007",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Implement catalog identity and namespace services",
+      "status": "planned",
+      "depends_on": [
+        "B002",
+        "B005",
+        "B006"
+      ],
+      "plan_refs": [
+        "docs/plan/01-architecture.md",
+        "docs/plan/05-catalog-storage-sql.md"
+      ],
+      "deliverable": "Instance-scoped catalog repositories/services and initial SDK API routes.",
+      "acceptance_criteria": [
+        "Create/list/get/delete catalogs and schemas using the pinned SDK, including pagination/error fixtures where advertised.",
+        "Resolve quoted/multipart identifiers and per-session defaults without catalog-prefix stripping.",
+        "Persist stable table registrations and managed/external ownership; reject conflicting canonical locations."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B008",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Implement native Delta table service",
+      "status": "planned",
+      "depends_on": [
+        "B004",
+        "B007"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Table-service port, native provider, operation journal, staging and commit results.",
+      "acceptance_criteria": [
+        "Create/append/overwrite a real local Delta table through the service with typed results and schema checks.",
+        "Detect unsupported table features before any read/write and reject invalid mode/schema combinations.",
+        "Record operation fingerprints and commit versions; recover known completed operations and surface uncertain commits without blind retry.",
+        "Drop external metadata without deleting files; managed deletion cannot escape the owned root."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B009",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Deliver generic Sparkless integration hooks",
+      "status": "planned",
+      "depends_on": [
+        "B003"
+      ],
+      "plan_refs": [
+        "docs/plan/04-sparkless-upstream.md"
+      ],
+      "deliverable": "Upstream Sparkless changes and tested commit/artifact reference for required S001\u2013S006 subset.",
+      "acceptance_criteria": [
+        "Implement reusable session-scoped catalog/relation/write hooks without BrickHouse/FastAPI/SQLite dependencies in Sparkless.",
+        "Run focused upstream tests for type preservation, delegation, errors, and session isolation under its repository instructions.",
+        "Document public hook signatures and artifact availability; dependent integration uses an actual tested artifact."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B010",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Bind Sparkless sessions to BrickHouse tables",
+      "status": "planned",
+      "depends_on": [
+        "B008",
+        "B009"
+      ],
+      "plan_refs": [
+        "docs/plan/02-packages-and-public-api.md",
+        "docs/plan/04-sparkless-upstream.md",
+        "docs/plan/05-catalog-storage-sql.md"
+      ],
+      "deliverable": "Sparkless engine adapter, session factory, and table binding.",
+      "acceptance_criteria": [
+        "Explicit Python API writes a managed table then reads it by full name in a fresh session.",
+        "DataFrame writes and supported path saves route through the common table service; unsupported bypasses fail.",
+        "Verify typed interchange and independent namespaces/temp views/config/UDF state for two concurrent sessions."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B011",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Implement initial Statement Execution path",
+      "status": "planned",
+      "depends_on": [
+        "B005",
+        "B010"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "AST parsing/binding, query and DDL routing, statement lifecycle/results API.",
+      "acceptance_criteria": [
+        "Pinned SDK executes supported SELECT/DDL over the same registered Delta tables and receives correct schema/row encoding.",
+        "Bound parameters, error responses, timeouts, polling, cancellation, and bounded JSON results have explicit tested behavior.",
+        "Reject unsupported syntax/formats before side effects; no exception-driven engine fallback."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B012",
+      "milestone": "M1",
+      "kind": "task",
+      "title": "Prove shared-data and restart workflow",
+      "status": "planned",
+      "depends_on": [
+        "B011"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "G1 conformance fixture and report.",
+      "acceptance_criteria": [
+        "Write via Sparkless, query via SDK SQL, read in a fresh session, restart the service, and obtain the same committed rows/schema.",
+        "Run without Java/full PySpark/Docker or cloud network access; capture process/dependency evidence.",
+        "Exercise empty data, schema mismatch, external table drop, and stale metadata invalidation."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B013",
+      "milestone": "M2",
+      "kind": "task",
+      "title": "Implement process supervisor and worker protocol",
+      "status": "planned",
+      "depends_on": [
+        "B006"
+      ],
+      "plan_refs": [
+        "docs/plan/06-jobs-notebooks-dbutils.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Fresh-process executor, scoped private protocol, logs and cancellation.",
+      "acceptance_criteria": [
+        "Launch the configured Python environment by resolved executable with explicit cwd/context and bounded logs.",
+        "Cancel and time out a worker including descendant processes; persist actual exit status and clean staging.",
+        "Prevent session/import/context leakage between attempts and deny invalid worker credentials."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B014",
+      "milestone": "M2",
+      "kind": "task",
+      "title": "Implement durable jobs and workspace files",
+      "status": "planned",
+      "depends_on": [
+        "B002",
+        "B005",
+        "B013"
+      ],
+      "plan_refs": [
+        "docs/plan/06-jobs-notebooks-dbutils.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Workspace file transport, job/run/task state machine and SDK routes.",
+      "acceptance_criteria": [
+        "Use real SDK upload/submit/poll/output against a Python file with parameters and captured stdout.",
+        "Persist transitions and task attempts; reject invalid DAGs and propagate failed dependency state.",
+        "Restart during an active run produces a documented interrupted/recoverable outcome; retries get distinct attempts."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B015",
+      "milestone": "M2",
+      "kind": "task",
+      "title": "Implement managed-worker compatibility bootstrap",
+      "status": "planned",
+      "depends_on": [
+        "B010",
+        "B013"
+      ],
+      "plan_refs": [
+        "docs/plan/04-sparkless-upstream.md",
+        "docs/plan/06-jobs-notebooks-dbutils.md"
+      ],
+      "deliverable": "Worker-scoped supported pyspark/delta import facade.",
+      "acceptance_criteria": [
+        "Run a representative script using supported pyspark imports against Sparkless and the shared table service.",
+        "Parent process and other environments retain their own import modules; conflicting/unsupported imports fail clearly.",
+        "Supported DeltaTable facade methods use the selected native provider; no delta-spark or JVM launch path."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B016",
+      "milestone": "M2",
+      "kind": "task",
+      "title": "Implement scoped dbutils subset",
+      "status": "planned",
+      "depends_on": [
+        "B014"
+      ],
+      "plan_refs": [
+        "docs/plan/06-jobs-notebooks-dbutils.md"
+      ],
+      "deliverable": "Files, widgets/parameters, secrets, task values, and output-context adapters.",
+      "acceptance_criteria": [
+        "Exercise actual fs and widget behavior with path boundaries, missing values, and task-scoped context.",
+        "Resolve authorized secrets without persisting them in manifests or returning fabricated SDK values; test missing/denied access.",
+        "Persist supported task values per run/attempt and enforce serialization/size rules; unsupported methods raise explicit errors."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B017",
+      "milestone": "M2",
+      "kind": "task",
+      "title": "Implement optional Python notebook runner",
+      "status": "planned",
+      "depends_on": [
+        "B015",
+        "B016"
+      ],
+      "plan_refs": [
+        "docs/plan/06-jobs-notebooks-dbutils.md",
+        "docs/plan/11-ml-and-extensions.md"
+      ],
+      "deliverable": "nbformat/nbclient runner and explicit Databricks source/magic handling.",
+      "acceptance_criteria": [
+        "Execute ipynb and the declared Databricks source subset in fresh kernels with parameters, outputs, and error propagation.",
+        "Test %run shared-context behavior separately from child notebook execution and return values.",
+        "Reject unsupported magics/languages/package installation; cancel kernels and release resources reliably."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B018",
+      "milestone": "M2",
+      "kind": "task",
+      "title": "Prove SDK-driven job workflow",
+      "status": "planned",
+      "depends_on": [
+        "B012",
+        "B014",
+        "B015",
+        "B016",
+        "B017"
+      ],
+      "plan_refs": [
+        "docs/plan/06-jobs-notebooks-dbutils.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "G2 workflow and optional-notebook conformance report.",
+      "acceptance_criteria": [
+        "SDK submits a Python transformation that writes Delta; a dependent task and external SQL/session read observe the same result.",
+        "Exercise parameters, secrets, task output, dependency failure, cancellation, and retry without cross-run state leakage.",
+        "Run a separate notebook-extra workflow and the base workflow without notebook dependencies, Java, or cloud compute."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B019",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Expand SQL semantics with explicit routing",
+      "status": "planned",
+      "depends_on": [
+        "B011"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "SQL capability corpus, routing policy, and selected mutation/utility support.",
+      "acceptance_criteria": [
+        "Add only enumerated operations with fixtures for nulls, coercion, decimals, dates/timezones, collections, and error categories.",
+        "SQL update/delete/merge use the shared provider and match DataFrame-visible history/schema.",
+        "Any DuckDB route is selected before execution and has profile-specific evidence; mismatches stay partial/unsupported."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B020",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Prove one CLI Terraform and bundle workflow",
+      "status": "planned",
+      "depends_on": [
+        "B005",
+        "B014"
+      ],
+      "plan_refs": [
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Minimal versioned deployment fixtures and required API behavior.",
+      "acceptance_criteria": [
+        "Run the selected CLI workspace/job operations against a local server.",
+        "Apply/read/update/destroy the declared minimal Terraform resources with state/refresh semantics verified.",
+        "Validate/deploy/run one supported bundle fixture; label simulated infrastructure and reject unsupported resources explicitly."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B021",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Implement and prove SQL connector REST profile",
+      "status": "planned",
+      "depends_on": [
+        "B005",
+        "B019"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/14-research-sources.md"
+      ],
+      "deliverable": "Pinned REST-mode SQL connector integration or a documented scope decision.",
+      "acceptance_criteria": [
+        "Connect the actual selected connector REST/kernel mode locally with verified TLS/auth configuration.",
+        "Exercise parameterized execute, fetching/schema, failure, result lifetime, and cancellation where advertised.",
+        "Record unsupported metadata/driver methods; if the released client cannot target the local service, leave implementation blocked or formally defer the release claim."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B022",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Harden concurrent writes and crash recovery",
+      "status": "planned",
+      "depends_on": [
+        "B018",
+        "B019"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "G3 failure matrix, reconciliation, backup/restore evidence.",
+      "acceptance_criteria": [
+        "Inject failures before/after Delta commit and SQLite finalization; verify recovery and uncertain-state handling.",
+        "Run concurrent SQL/DataFrame appends including location aliases; no lost updates or duplicated idempotent operations.",
+        "Exercise restart, safe retry, result/log retention, and coordinated backup/restore with actual files."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B023",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Prepare alpha release candidate",
+      "status": "planned",
+      "depends_on": [
+        "B020",
+        "B021",
+        "B022"
+      ],
+      "plan_refs": [
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/08-roadmap.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Local distribution artifacts, generated capability docs, examples and release report.",
+      "acceptance_criteria": [
+        "Install built wheels on every advertised platform/Python version and run G1\u2013G4 for the declared surface.",
+        "Run base workflow without JVM/cloud/Docker; run provisioned offline check and advertised extras separately.",
+        "Confirm notices, migrations, dependency inventory, public Sparkless artifact, truthful limitations, and owner release checklist; publication is a separate authorized action."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B024",
+      "milestone": "M4",
+      "kind": "epic",
+      "title": "Expand workflow orchestration",
+      "status": "planned",
+      "depends_on": [
+        "B018"
+      ],
+      "plan_refs": [
+        "docs/plan/06-jobs-notebooks-dbutils.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Decomposed epic for advanced DAG control, retries/repair, concurrency and schedules.",
+      "acceptance_criteria": [
+        "Specify and test each selected control-flow condition and retry/repair effect on task attempts/values.",
+        "Persist schedule/run metadata and prevent duplicate dispatch after restart for supported scheduling modes.",
+        "Keep unsupported task types explicit; do not run cloud/Java task types through silent substitutions."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B025",
+      "milestone": "M4",
+      "kind": "epic",
+      "title": "Integrate real MLflow tracking and registry",
+      "status": "planned",
+      "depends_on": [
+        "B006",
+        "B007"
+      ],
+      "plan_refs": [
+        "docs/plan/11-ml-and-extensions.md"
+      ],
+      "deliverable": "Decomposed ML extra epic with provider lifecycle and registry mapping.",
+      "acceptance_criteria": [
+        "Log/retrieve actual experiments, metrics, artifacts and Python model versions through the declared clients.",
+        "Restart providers and verify authoritative state, artifact paths and name mappings.",
+        "Keep UC permissions/aliases/registry URI support bounded by fixtures and exclude JVM-dependent flavors."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B026",
+      "milestone": "M4",
+      "kind": "epic",
+      "title": "Add local Python model serving",
+      "status": "planned",
+      "depends_on": [
+        "B025",
+        "B013"
+      ],
+      "plan_refs": [
+        "docs/plan/11-ml-and-extensions.md"
+      ],
+      "deliverable": "Decomposed serving endpoint/worker epic.",
+      "acceptance_criteria": [
+        "Load a recorded Python model version and return real schema-validated predictions through declared API routes.",
+        "Exercise lifecycle, update, load failure, request errors, concurrency limits and cancellation.",
+        "Do not silently call remote model endpoints; capture native-only runtime evidence."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B027",
+      "milestone": "M4",
+      "kind": "epic",
+      "title": "Integrate dbt without duplicate tables",
+      "status": "planned",
+      "depends_on": [
+        "B019",
+        "B008"
+      ],
+      "plan_refs": [
+        "docs/plan/11-ml-and-extensions.md"
+      ],
+      "deliverable": "Decomposed dbt-duckdb profile and Delta materialization epic.",
+      "acceptance_criteria": [
+        "Run an actual sources/refs/models/tests project against the shared committed table view.",
+        "Implement supported incremental/materialization behavior through the authoritative service and test restart/schema changes.",
+        "Publish separate dbt-duckdb and dbt-databricks capability claims; unsupported macros fail explicitly."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B028",
+      "milestone": "M4",
+      "kind": "epic",
+      "title": "Add local authorization and audit semantics",
+      "status": "planned",
+      "depends_on": [
+        "B007",
+        "B016"
+      ],
+      "plan_refs": [
+        "docs/plan/11-ml-and-extensions.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Decomposed identity/grant/enforcement/audit epic.",
+      "acceptance_criteria": [
+        "Define identities/groups/ownership/inheritance and enforce the same decision across SQL/API/worker/file paths.",
+        "Verify permitted and denied operations with audit events and no unauthorized data results.",
+        "Document trusted-code filesystem bypass limits; row filters/masks require separate fixtures."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B029",
+      "milestone": "M4",
+      "kind": "epic",
+      "title": "Add native vector index workflows",
+      "status": "planned",
+      "depends_on": [
+        "B008",
+        "B028"
+      ],
+      "plan_refs": [
+        "docs/plan/11-ml-and-extensions.md"
+      ],
+      "deliverable": "Decomposed LanceDB/provider and Databricks vector API epic.",
+      "acceptance_criteria": [
+        "Create/query/update/delete a persistent index with deterministic vectors and tested filter/score behavior.",
+        "Verify dimension errors, restart, authorization, and lifecycle transitions.",
+        "For Delta-sync support, prove source version tracking and recovery; no remote embeddings by default."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B030",
+      "milestone": "M5",
+      "kind": "epic",
+      "title": "Define and execute bounded micro-batches",
+      "status": "planned",
+      "depends_on": [
+        "B010",
+        "B013"
+      ],
+      "plan_refs": [
+        "docs/plan/10-streaming-and-pipelines.md"
+      ],
+      "deliverable": "Decomposed streaming ports, bounded source/plan/sink epic.",
+      "acceptance_criteria": [
+        "Specify source identity/offset descriptor, batch ID, schema and supported output modes.",
+        "Execute a real bounded Sparkless batch into the table service with progress and cancellation.",
+        "Reject unsupported trigger/operator combinations and publish no unproven exactly-once claim."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B031",
+      "milestone": "M5",
+      "kind": "epic",
+      "title": "Implement durable checkpoints and replay",
+      "status": "planned",
+      "depends_on": [
+        "B030",
+        "B022"
+      ],
+      "plan_refs": [
+        "docs/plan/10-streaming-and-pipelines.md"
+      ],
+      "deliverable": "Decomposed checkpoint, lease and replay epic.",
+      "acceptance_criteria": [
+        "Persist offsets only after sink commit and reconcile a committed batch on restart.",
+        "Fault-inject every batch phase; the advertised source/sink guarantee holds without duplicate rows.",
+        "Reject competing owners, changed source identity and incompatible checkpoint/plan versions."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B032",
+      "milestone": "M5",
+      "kind": "epic",
+      "title": "Add file ingestion and Auto Loader subset",
+      "status": "planned",
+      "depends_on": [
+        "B031"
+      ],
+      "plan_refs": [
+        "docs/plan/10-streaming-and-pipelines.md"
+      ],
+      "deliverable": "Decomposed file discovery/schema registry/cloudFiles epic.",
+      "acceptance_criteria": [
+        "Ingest actual local files with durable discovery identity and restart-safe batch assignment.",
+        "Test file replacement, partial writes, duplicates, schema changes, bad records and backfill.",
+        "Declare supported cloudFiles options and distinguish polling from cloud notification mode."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B033",
+      "milestone": "M5",
+      "kind": "epic",
+      "title": "Implement declarative batch pipeline graph",
+      "status": "planned",
+      "depends_on": [
+        "B018",
+        "B019"
+      ],
+      "plan_refs": [
+        "docs/plan/10-streaming-and-pipelines.md"
+      ],
+      "deliverable": "Decomposed dataset definitions, dependency graph and refresh epic.",
+      "acceptance_criteria": [
+        "Compile selected decorators into a validated dependency graph and materialize real Delta outputs.",
+        "Test cycles, dataset failures, refresh and restart with per-dataset version/run status.",
+        "Keep legacy dlt and newer pipelines imports distinct from the dltHub package; no fake whole-pipeline atomicity."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B034",
+      "milestone": "M5",
+      "kind": "epic",
+      "title": "Add expectations and selected CDC semantics",
+      "status": "planned",
+      "depends_on": [
+        "B033",
+        "B031"
+      ],
+      "plan_refs": [
+        "docs/plan/10-streaming-and-pipelines.md"
+      ],
+      "deliverable": "Decomposed expectation/CDC/SCD fixtures and implementation epic.",
+      "acceptance_criteria": [
+        "Record/drop/fail expectations produce correct data, metrics and run outcomes.",
+        "Test keys, sequence ties, deletes, null updates, out-of-order records and declared SCD behavior.",
+        "Replay and partial pipeline failure preserve the documented per-table guarantees."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B035",
+      "milestone": "M5",
+      "kind": "epic",
+      "title": "Evaluate and integrate stateful streaming",
+      "status": "planned",
+      "depends_on": [
+        "B031"
+      ],
+      "plan_refs": [
+        "docs/plan/10-streaming-and-pipelines.md"
+      ],
+      "deliverable": "Decomposed native provider selection, windows/state and optional broker epic.",
+      "acceptance_criteria": [
+        "Compare provider state/offset semantics against chosen Spark fixtures before committing to a dependency.",
+        "Implement selected windows/watermarks/dedup or joins with state eviction and restart fixtures.",
+        "Run G5 and advertise only tested operator/source/sink combinations; optional services remain explicit."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B036",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Implement native Spark Connect subset",
+      "status": "planned",
+      "depends_on": [
+        "B010",
+        "B019",
+        "B005"
+      ],
+      "plan_refs": [
+        "docs/plan/02-packages-and-public-api.md",
+        "docs/plan/04-sparkless-upstream.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "Decomposed gRPC/protobuf planning, execution and pure Python client epic.",
+      "acceptance_criteria": [
+        "Pin protocol/client versions and map supported unresolved plans to Sparkless with typed Arrow results.",
+        "Exercise actual unmodified pure Python client sessions, errors, cancellation and resource cleanup.",
+        "Prove no Spark server/JVM and isolate unsupported plan/UDF/session features; consider wheel split only after boundary criteria."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B037",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Implement broader SQL driver protocols",
+      "status": "planned",
+      "depends_on": [
+        "B019",
+        "B005"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "Decomposed Thrift/metadata/session/result transport epic.",
+      "acceptance_criteria": [
+        "Pin actual driver protocol requirements and implement a minimal real connector workflow.",
+        "Test sessions, parameterization, result pagination/schema, metadata calls and cancellation for advertised methods.",
+        "Keep REST and Thrift claims separate; JDBC clients are external conformance tools, never a JVM runtime dependency."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B038",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Research native feature engineering and MLlib coverage",
+      "status": "planned",
+      "depends_on": [
+        "B025",
+        "B008"
+      ],
+      "plan_refs": [
+        "docs/plan/11-ml-and-extensions.md"
+      ],
+      "deliverable": "Decomposed feasibility/fixture epic for temporal features and selected estimators.",
+      "acceptance_criteria": [
+        "Specify point-in-time joins, lineage/lookup and candidate estimator behavior independently.",
+        "Compare native results/parameters/serialization against versioned oracles for the chosen subset.",
+        "Record infeasible or incompatible behavior rather than exporting misleading class-name aliases."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B039",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Add Delta Sharing protocol subset",
+      "status": "planned",
+      "depends_on": [
+        "B008",
+        "B028"
+      ],
+      "plan_refs": [
+        "docs/plan/05-catalog-storage-sql.md",
+        "docs/plan/07-compatibility-and-testing.md"
+      ],
+      "deliverable": "Decomposed sharing server/client and access lifecycle epic.",
+      "acceptance_criteria": [
+        "Pin the protocol and demonstrate a real independent client reading an authorized shared snapshot.",
+        "Validate schema/version/file result lifetime, revocation and unsupported Delta features.",
+        "Prevent arbitrary filesystem disclosure and preserve no-JVM server execution."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B040",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Inventory and close remaining platform gaps",
+      "status": "planned",
+      "depends_on": [
+        "B005",
+        "B007"
+      ],
+      "plan_refs": [
+        "docs/plan/00-vision-and-scope.md",
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/13-decisions-and-risks.md"
+      ],
+      "deliverable": "Decomposed platform frontier for dashboards/Genie/accounts/Lakebase/other domains.",
+      "acceptance_criteria": [
+        "Inventory public observable contracts by product/version and classify native feasibility.",
+        "For each selected slice, define a real workflow, authority and oracle before implementing.",
+        "Keep absent proprietary/cloud/Scala/JAR behavior visibly unsupported; simulated infrastructure is labeled."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B041",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Expand performance, platforms and storage adapters",
+      "status": "planned",
+      "depends_on": [
+        "B023"
+      ],
+      "plan_refs": [
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Decomposed benchmarks/wheel/platform/scaling and optional cloud-storage adapter epic.",
+      "acceptance_criteria": [
+        "Record repeatable cold/warm latency, memory, conversion and ETL baselines with data/hardware/version metadata.",
+        "Add platforms only after native wheel and golden workflow evidence.",
+        "Improve bottlenecks without changing declared semantics; no unsupported acceleration claims.",
+        "Prove advertised Python and native storage paths against pinned optional Moto/Azurite services; record URI/API limits and do not infer ADLS Gen2 compatibility."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    },
+    {
+      "id": "B042",
+      "milestone": "M6",
+      "kind": "epic",
+      "title": "Prepare expanded conformance release",
+      "status": "planned",
+      "depends_on": [
+        "B023",
+        "B024",
+        "B025",
+        "B026",
+        "B027",
+        "B028",
+        "B029",
+        "B032",
+        "B034",
+        "B035",
+        "B036",
+        "B037",
+        "B038",
+        "B039",
+        "B040",
+        "B041"
+      ],
+      "plan_refs": [
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/08-roadmap.md",
+        "docs/plan/12-delivery-and-operations.md"
+      ],
+      "deliverable": "Decomposed broad release readiness epic, scope record and versioned evidence snapshot.",
+      "acceptance_criteria": [
+        "Run applicable G1\u2013G6 and report supported/partial/simulated/unsupported cases by domain/profile.",
+        "Verify migrations, installation, native-only execution, notices, examples and optional-provider version combinations.",
+        "Retain unresolved frontier requirements; any narrower release explicitly revises scope and leaves deferred tasks open."
+      ],
+      "owner": "unassigned",
+      "evidence": [],
+      "blockers": [],
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Local credentials; keep only explicitly sanitized examples.
+.env
+.env.*
+!.env.example
+
+# Unreviewed reference captures may contain account data.
+artifacts/oracles/raw/

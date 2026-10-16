@@ -1,0 +1,1034 @@
+{
+  "schema_version": 1,
+  "project": "BrickHouse",
+  "baseline_date": "2026-10-16",
+  "inventory_status": "Initial requirements inventory; not exhaustive and not implementation evidence.",
+  "status_values": [
+    "planned",
+    "unsupported",
+    "partial",
+    "supported",
+    "simulated",
+    "experimental"
+  ],
+  "capabilities": [
+    {
+      "id": "C001",
+      "domain": "runtime",
+      "name": "workspace-lifecycle",
+      "status": "planned",
+      "target_scope": "Local CLI and embedded workspace initialization, ownership, shutdown and restart",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B006",
+        "B023"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Trusted single-user workspace; multiple service owners rejected."
+      ]
+    },
+    {
+      "id": "C002",
+      "domain": "runtime",
+      "name": "native-only-execution",
+      "status": "planned",
+      "target_scope": "Base golden workflow without Java, Spark, Docker or remote compute",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B012",
+        "B018",
+        "B023"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Must be proven from a clean installation and process/network evidence.",
+        "Personal Databricks reference probes are separate development tooling; routine tests and BrickHouse execution must not contact the account or consume its credentials."
+      ]
+    },
+    {
+      "id": "C003",
+      "domain": "runtime",
+      "name": "offline-operation",
+      "status": "planned",
+      "target_scope": "Provisioned dependencies and local artifacts run without external network",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B023"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Offline installation and optional artifact provisioning are separate concerns.",
+        "Reviewed Databricks fixtures must be consumable locally with no personal credentials; live reference refresh is outside offline/runtime gates."
+      ]
+    },
+    {
+      "id": "C004",
+      "domain": "catalog",
+      "name": "namespaces",
+      "status": "planned",
+      "target_scope": "SDK catalogs/schemas, identifier binding and persistence",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B007"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Initial API subset and quoted/case behavior must be enumerated."
+      ]
+    },
+    {
+      "id": "C005",
+      "domain": "catalog",
+      "name": "managed-tables",
+      "status": "planned",
+      "target_scope": "Real Delta managed table identities, locations and ownership",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B008",
+        "B010"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No separate DuckDB physical managed-table copy."
+      ]
+    },
+    {
+      "id": "C006",
+      "domain": "catalog",
+      "name": "external-tables",
+      "status": "planned",
+      "target_scope": "Register and access external Delta with non-destructive metadata drop",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B008"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Only verified locations/protocol features; external file ownership preserved."
+      ]
+    },
+    {
+      "id": "C007",
+      "domain": "catalog",
+      "name": "session-state",
+      "status": "planned",
+      "target_scope": "Independent namespaces, temp views, configuration and UDF registration",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B009",
+        "B010"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No assumption that all Sparkless session state is already isolated."
+      ]
+    },
+    {
+      "id": "C008",
+      "domain": "delta",
+      "name": "basic-writes",
+      "status": "planned",
+      "target_scope": "Create, append and overwrite through common table service",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B008",
+        "B010"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Initial type/protocol envelope selected by B004."
+      ]
+    },
+    {
+      "id": "C009",
+      "domain": "delta",
+      "name": "mutations",
+      "status": "planned",
+      "target_scope": "Update, delete and merge with committed version/metrics",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B008",
+        "B019"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Provider support and SQL expression semantics need separate evidence."
+      ]
+    },
+    {
+      "id": "C010",
+      "domain": "delta",
+      "name": "schema-and-partitions",
+      "status": "planned",
+      "target_scope": "Selected schema evolution and partitioned-table behavior",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B004",
+        "B008",
+        "B019"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Expand after initial unpartitioned envelope; no blanket feature support."
+      ]
+    },
+    {
+      "id": "C011",
+      "domain": "delta",
+      "name": "history-time-travel",
+      "status": "planned",
+      "target_scope": "History and version/timestamp snapshot selection",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B008",
+        "B019"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Snapshot/retention and cross-engine fidelity must be specified."
+      ]
+    },
+    {
+      "id": "C012",
+      "domain": "delta",
+      "name": "maintenance",
+      "status": "planned",
+      "target_scope": "Selected optimize/compaction/Z-order/vacuum behavior",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B004",
+        "B019"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Native provider capability alone is not Databricks API compatibility."
+      ]
+    },
+    {
+      "id": "C013",
+      "domain": "delta",
+      "name": "advanced-features",
+      "status": "planned",
+      "target_scope": "Column mapping, deletion vectors, CDF and other table features",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B004",
+        "B040"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Detect and reject unsupported features before execution; separate each feature during decomposition."
+      ]
+    },
+    {
+      "id": "C014",
+      "domain": "delta",
+      "name": "commit-recovery",
+      "status": "planned",
+      "target_scope": "Durable mutation journal, idempotency and uncertain outcome handling",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B008",
+        "B022"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Exactly-once claim limited to proven operation/provider combinations."
+      ]
+    },
+    {
+      "id": "C015",
+      "domain": "engine",
+      "name": "sparkless-dataframes",
+      "status": "planned",
+      "target_scope": "Sparkless DataFrames bound to authoritative catalog and writes",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B009",
+        "B010"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Coverage inherited only after integration fixtures pass."
+      ]
+    },
+    {
+      "id": "C016",
+      "domain": "engine",
+      "name": "typed-interchange",
+      "status": "planned",
+      "target_scope": "Arrow/staged typed interchange preserving supported nested and scalar types",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B003",
+        "B009",
+        "B010"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Bounded memory and metadata fidelity require tests."
+      ]
+    },
+    {
+      "id": "C017",
+      "domain": "sql",
+      "name": "statement-execution",
+      "status": "planned",
+      "target_scope": "SDK Statement API lifecycle, parameters, bounded JSON results and cancellation",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B011"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Formats/chunks/metadata require explicit implementation."
+      ]
+    },
+    {
+      "id": "C018",
+      "domain": "sql",
+      "name": "spark-semantics",
+      "status": "planned",
+      "target_scope": "Versioned query/DDL/mutation corpus using explicit routing",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B019"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "SQLGlot parsing/transpilation does not prove semantic equivalence."
+      ]
+    },
+    {
+      "id": "C019",
+      "domain": "sql",
+      "name": "duckdb-query-option",
+      "status": "planned",
+      "target_scope": "Explicit approved DuckDB query routes over shared committed data",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B019"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No silent exception fallback or independent managed-table storage."
+      ]
+    },
+    {
+      "id": "C020",
+      "domain": "jobs",
+      "name": "python-tasks",
+      "status": "planned",
+      "target_scope": "SDK submission, parameters, process execution, logs and output",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B013",
+        "B014",
+        "B018"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Fresh process is isolation, not a malicious-code sandbox."
+      ]
+    },
+    {
+      "id": "C021",
+      "domain": "jobs",
+      "name": "dag-lifecycle",
+      "status": "planned",
+      "target_scope": "Dependencies, persisted attempts, errors, cancellation and selected retries",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B014",
+        "B018",
+        "B024"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "External Python side effects are not automatically idempotent."
+      ]
+    },
+    {
+      "id": "C022",
+      "domain": "jobs",
+      "name": "advanced-control",
+      "status": "planned",
+      "target_scope": "Conditional tasks, repair runs, schedules and expanded orchestration",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B024"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Each task/control type requires its own contract."
+      ]
+    },
+    {
+      "id": "C023",
+      "domain": "files",
+      "name": "workspace-dbfs-volumes",
+      "status": "planned",
+      "target_scope": "Declared local file namespace mappings and client operations",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B014",
+        "B016"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "DBFS/volumes/raw storage are distinct; unsupported mounts/cloud URIs rejected."
+      ]
+    },
+    {
+      "id": "C024",
+      "domain": "runtime",
+      "name": "pyspark-import-facade",
+      "status": "planned",
+      "target_scope": "Supported imports scoped to a BrickHouse child worker",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B015"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No global module replacement; not Spark Connect."
+      ]
+    },
+    {
+      "id": "C025",
+      "domain": "runtime",
+      "name": "delta-import-facade",
+      "status": "planned",
+      "target_scope": "Supported DeltaTable API subset backed by native table service",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B015"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Not the delta-spark runtime or complete API."
+      ]
+    },
+    {
+      "id": "C026",
+      "domain": "dbutils",
+      "name": "fs-widgets-secrets",
+      "status": "planned",
+      "target_scope": "Real local files, widget/parameter context and scoped secret access",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B016"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No direct reuse of SDK methods that assume cluster execution."
+      ]
+    },
+    {
+      "id": "C027",
+      "domain": "dbutils",
+      "name": "task-values-notebooks",
+      "status": "planned",
+      "target_scope": "Run/attempt-scoped task values and child notebook results",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B016",
+        "B017"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Missing methods must raise; debug defaults do not count as implementation."
+      ]
+    },
+    {
+      "id": "C028",
+      "domain": "notebooks",
+      "name": "python-execution",
+      "status": "planned",
+      "target_scope": "Optional ipynb and declared Databricks source formats/magics",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B017"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Scala/R and arbitrary shell/package magics are outside initial subset."
+      ]
+    },
+    {
+      "id": "C029",
+      "domain": "clients",
+      "name": "databricks-sdk",
+      "status": "planned",
+      "target_scope": "Selected real SDK catalog/SQL/jobs/files workflows",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B005",
+        "B012",
+        "B018"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Exact package version and requests required; no broad SDK claim.",
+        "Personal-account captures establish reference behavior only; support requires the pinned SDK to pass local BrickHouse tests against those observations."
+      ]
+    },
+    {
+      "id": "C030",
+      "domain": "clients",
+      "name": "cli-terraform-bundles",
+      "status": "planned",
+      "target_scope": "Selected deployment and resource lifecycle workflows",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B020"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "CLI/bundle/Terraform versions and resources tracked independently."
+      ]
+    },
+    {
+      "id": "C031",
+      "domain": "clients",
+      "name": "sql-connector-rest",
+      "status": "planned",
+      "target_scope": "Selected SQL connector REST/kernel mode",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B005",
+        "B021"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Transport option documented upstream; local interoperability remains unproven."
+      ]
+    },
+    {
+      "id": "C032",
+      "domain": "clients",
+      "name": "sql-connector-thrift",
+      "status": "planned",
+      "target_scope": "Native Thrift SQL/session/metadata subset",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B037"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Separate from REST Statement API."
+      ]
+    },
+    {
+      "id": "C033",
+      "domain": "clients",
+      "name": "spark-connect",
+      "status": "planned",
+      "target_scope": "Native gRPC service for pinned pure Python Spark client",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B036"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Must implement actual protocol/plan behavior; import facade is insufficient."
+      ]
+    },
+    {
+      "id": "C034",
+      "domain": "infrastructure",
+      "name": "cluster-warehouse-metadata",
+      "status": "planned",
+      "target_scope": "Local API lifecycle records for selected compute resources",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B020",
+        "B040"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Intended eventual state is simulated; never imply cloud compute exists."
+      ]
+    },
+    {
+      "id": "C035",
+      "domain": "ml",
+      "name": "tracking-registry",
+      "status": "planned",
+      "target_scope": "Actual MLflow tracking/artifacts/selected registry mappings",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B025"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "UC model names, aliases and permissions have independent fixtures."
+      ]
+    },
+    {
+      "id": "C036",
+      "domain": "ml",
+      "name": "python-serving",
+      "status": "planned",
+      "target_scope": "Real local Python model serving via selected API routes",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B026"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Spark flavors and remote models excluded from native local profile."
+      ]
+    },
+    {
+      "id": "C037",
+      "domain": "ml",
+      "name": "feature-engineering",
+      "status": "planned",
+      "target_scope": "Temporal feature joins, lineage and model feature lookup",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B038"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Ordinary table registration alone is insufficient."
+      ]
+    },
+    {
+      "id": "C038",
+      "domain": "ml",
+      "name": "mllib-subset",
+      "status": "planned",
+      "target_scope": "Native selected estimator/pipeline compatibility",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B038"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Research frontier; no JVM serialization or arbitrary Java models promised."
+      ]
+    },
+    {
+      "id": "C039",
+      "domain": "tooling",
+      "name": "dbt-local",
+      "status": "planned",
+      "target_scope": "Actual dbt-duckdb project on shared table storage",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B027"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Separate from dbt-databricks protocol/macro compatibility."
+      ]
+    },
+    {
+      "id": "C040",
+      "domain": "vectors",
+      "name": "index-lifecycle-query",
+      "status": "planned",
+      "target_scope": "Native persistent vector index and Databricks-facing adapter",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B029"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Direct access, Delta sync, scoring/filtering and embeddings tracked separately."
+      ]
+    },
+    {
+      "id": "C041",
+      "domain": "governance",
+      "name": "identity-grants-audit",
+      "status": "planned",
+      "target_scope": "Selected local identities, grants, ownership and audit checks",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B028"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Trusted host code can bypass service controls; no multi-tenant security claim."
+      ]
+    },
+    {
+      "id": "C042",
+      "domain": "governance",
+      "name": "fine-grained-policy",
+      "status": "planned",
+      "target_scope": "Selected row filters, column masks, lineage and system tables",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B028",
+        "B040"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Needs separate propagation rules through every data access surface."
+      ]
+    },
+    {
+      "id": "C043",
+      "domain": "streaming",
+      "name": "bounded-batches",
+      "status": "planned",
+      "target_scope": "Bounded Sparkless transforms with real sink commits",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B030"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No claim of complete Structured Streaming."
+      ]
+    },
+    {
+      "id": "C044",
+      "domain": "streaming",
+      "name": "checkpoint-replay",
+      "status": "planned",
+      "target_scope": "Durable offsets, query leases, sink reconciliation and recovery",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B031"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Guarantees specific to source/sink and external side effects."
+      ]
+    },
+    {
+      "id": "C045",
+      "domain": "ingestion",
+      "name": "file-autoloader",
+      "status": "planned",
+      "target_scope": "Local durable file discovery and selected cloudFiles behavior",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B032"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Polling is not cloud notification parity."
+      ]
+    },
+    {
+      "id": "C046",
+      "domain": "pipelines",
+      "name": "declarative-batch",
+      "status": "planned",
+      "target_scope": "Selected Lakeflow/DLT definitions, DAG and refresh behavior",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B033"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Different from dltHub ingestion; cross-table atomicity not implied."
+      ]
+    },
+    {
+      "id": "C047",
+      "domain": "pipelines",
+      "name": "expectations-cdc",
+      "status": "planned",
+      "target_scope": "Expectation actions and selected CDC/SCD transformations",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B034"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Explicit sequence/delete/late-event semantics needed."
+      ]
+    },
+    {
+      "id": "C048",
+      "domain": "streaming",
+      "name": "stateful-operators",
+      "status": "planned",
+      "target_scope": "Selected windows, watermarks, deduplication or joins",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B035"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Provider API resemblance is not semantic/recovery evidence."
+      ]
+    },
+    {
+      "id": "C049",
+      "domain": "sharing",
+      "name": "delta-sharing",
+      "status": "planned",
+      "target_scope": "Native server and real independent client snapshot workflow",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B039"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Protocol versions, auth, file access and Delta features must be bounded."
+      ]
+    },
+    {
+      "id": "C050",
+      "domain": "storage",
+      "name": "cloud-emulators",
+      "status": "planned",
+      "target_scope": "Optional native reader tests against Moto/Azurite services",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B041"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "No automatic ADLS Gen2 parity; optional services are not base requirements."
+      ]
+    },
+    {
+      "id": "C051",
+      "domain": "platform",
+      "name": "remaining-products",
+      "status": "planned",
+      "target_scope": "Dashboards, Genie, Lakebase, account/admin and remaining APIs",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B040"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Explicit frontier requiring native feasibility and scoped contracts."
+      ]
+    },
+    {
+      "id": "C052",
+      "domain": "platform",
+      "name": "jvm-distributed-frontier",
+      "status": "planned",
+      "target_scope": "Scala/JAR code, Spark internals, Photon and distributed behavior",
+      "profiles": [
+        "spark35-local-v1"
+      ],
+      "task_ids": [
+        "B040"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Known architectural frontier; public compatibility must explicitly disclose exclusions."
+      ]
+    }
+  ]
+}
