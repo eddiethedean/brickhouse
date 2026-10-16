@@ -4,6 +4,7 @@ Updated: 2026-10-16
 
 - Stage: planning pack prepared; implementation has not started.
 - Active milestone: M0 — foundation and feasibility.
+- Target release: phase 0.1, version 0.1.0; [ROADMAP.md](ROADMAP.md) maps all work into release phases 0.1–0.9.
 - Next task: B001 — initialize package and development tooling.
 - Implemented BrickHouse capabilities: none.
 - Verified integrations: none. Research has examined source and documentation only.
@@ -27,3 +28,7 @@ Append an entry after each implementation slice: date, task IDs, changes, test e
 ### 2026-10-16 — Reference verification planning update
 
 Expanded B005's planned acceptance criteria and synchronized the backlog for bounded personal-account reference probes, sanitized fixture provenance, local regression design, and an optional manual GitHub capture workflow. Recorded D011/ADR 0001, updated testing/CI/bootstrap guidance, and ignored .env/raw captures. All implementation tasks and capabilities remain planned; B001 is still next. Documentation/manifest consistency checks are recorded in planning/validation.json; no implementation tests or Databricks calls were run.
+
+### 2026-10-16 — Release phase roadmap
+
+Added root ROADMAP.md with phase 0.1/version 0.1.0 covering the existing B001–B023 alpha requirements, followed by phases 0.2–0.9 covering every later work package. Recorded D012/ADR 0002 and linked release grouping from the README, engineering roadmap, and task manifest. Task dependencies, acceptance criteria, and capability states remain unchanged; B001 is still next. Documentation/manifest consistency checks are recorded in planning/validation.json; no implementation tests or remote runs were needed.

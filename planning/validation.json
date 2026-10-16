@@ -1,18 +1,22 @@
 {
   "date": "2026-10-16",
-  "scope": "Planning artifacts only; personal Databricks reference-verification plan updated. No implementation tests, credential inspection, or remote calls run.",
-  "markdown_files": 22,
+  "scope": "Planning artifacts only; added root 0.x release roadmap with initial version 0.1.0. No implementation tests, credential inspection, or remote calls run.",
+  "markdown_files": 24,
   "task_count": 42,
   "capability_count": 52,
-  "local_markdown_links_checked": 123,
+  "local_markdown_links_checked": 136,
+  "release_phase_count": 9,
   "checks": [
     "JSON parses and task/capability states are valid",
-    "Unique task and capability IDs; acyclic dependency graph; all references resolve",
-    "All referenced plan documents exist; child references resolve",
-    "Task titles, deliverables, and acceptance criteria match readable backlog for all 42 tasks",
-    "Local Markdown file links resolve",
-    "All implementation tasks and capabilities remain planned with no evidence or tested-version claims",
-    "Local .env and raw reference captures have explicit ignore rules"
+    "Unique task and capability IDs; acyclic dependencies; all references resolve",
+    "All task plan documents and child references resolve",
+    "All 42 task titles, deliverables, and acceptance criteria match the backlog",
+    "All 42 tasks assigned to exactly one release phase; no prerequisites assigned to a later phase",
+    "Phase 0.1 targets 0.1.0 and preserves B001-B023; later phases target 0.2.0 through 0.9.0",
+    "Task definitions, acceptance criteria, dependencies, and states unchanged from HEAD",
+    "Local Markdown file links resolve, including the task manifest release_roadmap pointer",
+    "All task/capability states remain planned without implementation evidence or tested-version claims",
+    "Local .env and raw reference captures retain explicit ignore rules"
   ],
   "result": "passed"
 }

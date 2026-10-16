@@ -2,6 +2,8 @@
 
 ## Execution model
 
+[The root ROADMAP.md](../../ROADMAP.md) groups this plan into release phases 0.1–0.9. Phase 0.1 ships initially as **0.1.0** and includes M0–M3 / B001–B023; M0 is internal foundation work within that initial release. Later phases split M4–M6 by outcome. Milestones remain engineering evidence gates, and release grouping does not change task prerequisites or acceptance criteria.
+
 Milestones are evidence gates, not calendar estimates. Implement the smallest useful vertical slice, then expand behavior. Task dependencies live in [the task ledger](../../planning/tasks.json); acceptance criteria live in [the backlog](09-task-backlog.md). A later milestone can contain independent work, but cannot claim completion before its prerequisites and gates pass.
 
 | Milestone | Outcome | Tasks | Exit evidence |
@@ -58,4 +60,4 @@ Before release, choose the exact advertised surface in a release scope record. D
 - Native dependency versions and third-party notices included.
 - Documented backup/restore and migration behavior for the supported workspace version.
 
-A release candidate is a local build and report. Publishing to PyPI/GitHub requires the owner's authorization at that stage. Version labels such as 0.1 are provisional; full Databricks emulation is not automatically achieved by a 1.0 label.
+A release candidate is a local build and report. Publishing to PyPI/GitHub requires the owner's authorization at that stage. The initial release is version 0.1.0; later version targets follow the root release roadmap. A future 1.0 scope requires its own evidence-backed decision and does not automatically imply full Databricks emulation.

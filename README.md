@@ -11,7 +11,7 @@ BrickHouse will combine Sparkless execution, selected Minilake-derived API behav
 1. Read [AGENTS.md](AGENTS.md) for implementation rules.
 2. Read [the product scope](docs/plan/00-vision-and-scope.md), [architecture](docs/plan/01-architecture.md), and [package design](docs/plan/02-packages-and-public-api.md).
 3. Follow [the Codex bootstrap instructions](docs/plan/CODEX_BOOTSTRAP.md).
-4. Execute [the milestone roadmap](docs/plan/08-roadmap.md) using [the task backlog](docs/plan/09-task-backlog.md).
+4. Follow [the 0.x release roadmap](ROADMAP.md), starting with **phase 0.1 / version 0.1.0**, and execute [the engineering milestones](docs/plan/08-roadmap.md) using [the task backlog](docs/plan/09-task-backlog.md).
 5. Maintain [STATUS.md](STATUS.md), [task state](planning/tasks.json), and [capability evidence](planning/capabilities.json).
 
 ## Planning documents

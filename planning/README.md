@@ -4,7 +4,7 @@ These JSON files are machine-readable starting points for implementation. All en
 
 ## tasks.json
 
-Top-level fields: schema_version, project, baseline_date, status_values, tasks. Each task has a unique id, milestone, kind (`task` or `epic`), title, status, depends_on, plan_refs, deliverable, acceptance_criteria, owner, evidence, blockers, and children.
+Top-level fields: schema_version, project, baseline_date, release_roadmap, status_values, tasks. The release_roadmap field points to [the root release roadmap](../ROADMAP.md), which maps existing work packages to 0.x release phases. Each task has a unique id, milestone, kind (`task` or `epic`), title, status, depends_on, plan_refs, deliverable, acceptance_criteria, owner, evidence, blockers, and children.
 
 Task states: `planned`, `in_progress`, `blocked`, `done`, `deferred`. Dependencies must exist and be acyclic. All required dependencies must be `done` before implementation. A deferred dependency is not complete. Epics require decomposition before coding; child tasks inherit prerequisite edges and must not depend on their own parent. Parents complete only after required children and parent acceptance criteria pass.
 

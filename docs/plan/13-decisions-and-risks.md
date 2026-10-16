@@ -17,6 +17,7 @@ These decisions guide implementation until evidence justifies a recorded change.
 | D009 | Base installation has no Java/Docker/cloud requirement | Optional services cannot enter a claimed base execution path |
 | D010 | Local trusted-user workspace first | Multi-user governance and sandboxed code need additional engineering |
 | D011 | Personal Databricks account supplies occasional behavioral reference captures; routine tests stay local | Owner authorized reference verification and test design; remote latency favors sanitized reusable fixtures. See [ADR 0001](../decisions/0001-personal-databricks-reference-verification.md) and [capture plan](15-personal-databricks-verification.md) |
+| D012 | Root ROADMAP.md groups work into phases 0.1–0.9; initial phase 0.1 ships as 0.1.0 | Preserve the existing B001–B023 alpha scope and task prerequisites; see [ADR 0002](../decisions/0002-release-phases.md) and [release roadmap](../../ROADMAP.md) |
 
 ## Open decisions with owners and gates
 
