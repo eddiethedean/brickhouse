@@ -1,5 +1,9 @@
 # 10 — Streaming, ingestion, and pipelines
 
+## Compute profiles
+
+Apply [document 17's serverless/classic contracts](17-serverless-and-classic-compute.md) when B030–B035 are decomposed. Keep trigger acceptance/rejection and runtime/environment restrictions specific to the selected mode; a trigger valid on classic compute is not automatically valid on serverless. Resolve classic/serverless pipeline compute through the shared services and verify real local batch outputs and recovery. This later work does not change the required bounded Python/SQL profiles in 0.1.
+
 ## Build in layers
 
 Sparkless batch execution is the starting point. A package with a streaming API is not automatically a Structured Streaming implementation. Preserve separate capabilities for API shape, processing semantics, state, and recovery.
@@ -45,3 +49,7 @@ CDC work requires explicit keys, sequencing, ties, deletes, null update rules, o
 ## Acceptance gate
 
 Prove restart/replay with deterministic fixtures, including empty batches, duplicate input, late events, changed files, schema change, cancellation, and crash after commit but before checkpoint. Report the exact supported operators, sources, sinks, and guarantees. Keep unsupported operators explicit even if a candidate provider offers a similarly named feature.
+
+## Later deployment reuse
+
+Phases 0.5–0.6 remain local emulator work. Preserve durable query/source/batch/plan identities, checkpoint exclusivity, per-dataset commit evidence and explicit side-effect guarantees so a future scheduler can reuse them. A local owner lock is not a distributed lease. After emulator stability, B053/SH.4 must qualify checkpoint fencing, worker loss/reassignment and commit-before-checkpoint reconciliation across real hosts before claiming deployed durable automation. It must reuse these contracts rather than create a second pipeline scheduler or bypass the table service. See [document 18](18-self-hosted-platform.md).

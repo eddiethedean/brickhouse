@@ -1,0 +1,64 @@
+name: Databricks reference capture
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_probe:
+        description: >-
+          Run one read-only literal SQL probe. It can start the existing Free Edition
+          warehouse; the workflow attempts to restore its initial stopped state.
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: databricks-reference-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    if: github.ref == 'refs/heads/main' && inputs.run_probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out reviewed default-branch source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Run the curated one-row SQL probe
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          set -eu
+          if [ -z "${DATABRICKS_TOKEN:-}" ]; then
+            echo "::error::Repository secret DATABRICKS_TOKEN is not configured."
+            exit 1
+          fi
+          if [ -z "${DATABRICKS_HOST:-}" ]; then
+            echo "::error::Set repository variable DATABRICKS_HOST to the workspace HTTPS URL."
+            exit 1
+          fi
+          case "$DATABRICKS_HOST" in
+            https://*.cloud.databricks.com) ;;
+            *)
+              echo "::error::DATABRICKS_HOST must be an HTTPS cloud.databricks.com workspace host."
+              exit 1
+              ;;
+          esac
+          python3 artifacts/probes/B005.3-free-edition-sql-reference.py \
+            --host "$DATABRICKS_HOST" > "$RUNNER_TEMP/databricks-reference.json"
+
+      - name: Upload only the sanitized probe result
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: databricks-reference-${{ github.run_id }}
+          path: ${{ runner.temp }}/databricks-reference.json
+          if-no-files-found: ignore
+          retention-days: 1

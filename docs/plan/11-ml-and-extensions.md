@@ -45,3 +45,9 @@ Row filters, column masks, lineage, audit/system tables, and workspace isolation
 ## Deferred services
 
 OSS Unity Catalog's Java server is unsuitable for the base native-only runtime. Its public contracts can still inform fixtures. Bytewax remains a candidate to revisit, but its reported maintenance transition warrants caution before making it foundational. Dashboard/Genie, account administration, marketplace, Lakebase, and managed infrastructure need explicit native feasibility work; no fabricated responses should conceal their absence.
+
+## Later deployment reuse
+
+Emulator phases 0.2–0.4 retain local policy, provider and feature behavior as their primary work. Record principal provenance, provider-owned authoritative state, artifact references, credentials and backup/lifecycle responsibilities while decomposing the existing epics. Direct Python access on the trusted host remains a documented limit.
+
+Actual authenticated service deployment, browser workflows and provider state restore belong to B050–B051/SH.1–SH.2 after emulator stability; hostile-code boundaries for serving and notebook workers belong to B052/SH.3. Optional provider endpoints cannot bypass workspace policy merely because the BrickHouse HTTP API authenticates users. [Document 18](18-self-hosted-platform.md) defines this later track; none of these deployment guarantees follows from passing a local G6 workflow.

@@ -1,0 +1,2 @@
+# Install only when intentionally regenerating the reviewed developer lock.
+pip-tools==7.5.3

@@ -6,6 +6,12 @@ Build **BrickHouse**, a locally installable Python package that aims to reproduc
 
 Full emulation is the long-term direction. It must be tracked as a versioned collection of behavioral contracts. It does not mean that a first release reproduces every Databricks product or that single-machine execution reproduces a distributed cluster's timing, scheduling, or performance. Unimplemented domains remain visible in the roadmap and compatibility denominator.
 
+## Long-term deployment direction and priority
+
+**The primary product is a Databricks emulator without a JVM.** Phases 0.1–0.9 continue to prioritize evidenced emulator behavior. Once the emulator is stable, the same core may support a self-hosted lakehouse workspace on infrastructure users control. Self-deployment comes afterwards; it is not an additional platform requirement for the emulator releases.
+
+[Document 18](18-self-hosted-platform.md) maps each existing phase to architectural boundaries worth preserving and defines the separate SH.0–SH.6 deployment track. B049 assesses actual stability after B042 before any deployment implementation begins. Network authentication, a browser workspace, hostile-code isolation, remote workers and operational qualification belong to that later track. The local wheel must remain usable independently of all deployment tooling. [ADR 0034](../decisions/0034-emulator-first-self-hosted-platform.md) records this priority.
+
 ## Intended users and workflows
 
 - Developers running existing Databricks Python transformations and notebook jobs locally.
@@ -37,11 +43,13 @@ Track four dimensions independently:
 
 Use default profile `spark35-local-v1` initially, based on the reviewed Sparkless 3.5 compatibility setting. Add a separate `spark4-local-v1` only after its conformance gates. Do not equate either profile with a complete Databricks Runtime release. Declare SDK, SQL dialect, Delta feature set, and runtime API coverage independently.
 
+Compute emulation explicitly includes **serverless and classic Python jobs/notebooks** and **serverless/pro/classic SQL warehouses**. Track compute mode, access mode, environment/runtime reference and protocol separately from engine semantics. The bounded 0.1 subsets execute real local work; allocation/lifecycle infrastructure is labeled simulated, with broader environment/access/retry and Connect behavior assigned to later phases. [Document 17](17-serverless-and-classic-compute.md) defines the researched behavior contracts and acceptance owners; [ADR 0016](../decisions/0016-serverless-and-classic-compute-profiles.md) records the scope addition.
+
 ## Initial release scope
 
-Required: local server lifecycle; catalogs/schemas; managed and external Delta tables; Sparkless DataFrames; supported SQL through Statement Execution; Python job submission and polling; job parameters and outputs; workspace files; a scoped dbutils subset; restart persistence; capability discovery; real SDK tests.
+Required: local server lifecycle; catalogs/schemas; managed and external Delta tables; Sparkless DataFrames; bounded SQL through Statement Execution; serverless/classic Python jobs and notebook-extra workflows; three SQL warehouse profiles; scoped parameters/outputs/files/dbutils; restart recovery; capability discovery; pinned SDK/CLI/Terraform/bundle/REST connector workflows. [Document 16](16-phase-0.1-initial-release.md) fixes the exact corpus and release gates.
 
-Next: notebook execution, DAG control flow, CLI/Terraform/bundles, larger SQL and runtime surfaces, MLflow, dbt, and local model serving.
+Next: expanded DAG control flow, environment/access policies, broader SQL/runtime surfaces, MLflow, dbt and local model serving. Notebook installation is optional, but its declared 0.1 workflow is a required separate gate.
 
 Later: durable streaming, Auto Loader-like ingestion, Lakeflow declarative pipelines, Vector Search, feature engineering, fine-grained governance, Spark Connect, and broader SQL-driver protocols.
 

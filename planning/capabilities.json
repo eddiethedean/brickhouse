@@ -16,20 +16,90 @@
       "id": "C001",
       "domain": "runtime",
       "name": "workspace-lifecycle",
-      "status": "planned",
+      "status": "partial",
       "target_scope": "Local CLI and embedded workspace initialization, ownership, shutdown and restart",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
         "B006",
-        "B023"
+        "B023",
+        "B006.1",
+        "B006.2",
+        "B006.3",
+        "B023.2",
+        "B007.1",
+        "B008.3"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "workspace_format": "1",
+        "metadata_schema_version": "4"
+      },
+      "test_ids": [
+        "tests/unit/test_workspace.py::test_initialize_and_reopen_workspace_with_explicit_default_namespace",
+        "tests/unit/test_workspace.py::test_initialize_uses_configured_bootstrap_namespace",
+        "tests/unit/test_workspace.py::test_initialize_refuses_a_path_created_after_initial_existence_check",
+        "tests/unit/test_workspace.py::test_config_rejects_unsupported_config_and_format_versions",
+        "tests/unit/test_workspace.py::test_open_rejects_persisted_workspace_format_mismatch",
+        "tests/unit/test_workspace_ownership.py::test_owner_lock_blocks_a_second_process_and_recovers_after_crash",
+        "tests/unit/test_workspace_ownership.py::test_owners_and_metadata_are_independent_between_workspaces",
+        "tests/unit/test_workspace_ownership.py::test_owner_context_releases_lock_deterministically",
+        "tests/unit/test_workspace_ownership.py::test_migrations_roll_back_schema_history_and_user_version_on_failure",
+        "tests/unit/test_workspace_context.py::test_embedded_context_acquires_and_releases_the_workspace",
+        "tests/unit/test_workspace_context.py::test_embedded_context_is_one_shot_and_close_is_idempotent",
+        "tests/unit/test_cli.py::test_init_creates_workspace_and_cli_capabilities_are_truthful",
+        "tests/unit/test_cli.py::test_run_fails_explicitly_without_starting_script",
+        "tests/unit/test_cli.py::test_diagnostic_server_rejects_nonloopback_bind",
+        "tests/unit/test_cli.py::test_diagnostic_server_owns_workspace_until_sigterm_shutdown",
+        "tests/unit/test_catalog_repository.py::test_owner_upgrade_migrates_schema_v1_before_repositories_open",
+        "tests/unit/test_delta_operation_journal.py::test_workspace_schema_three_migrates_to_operation_journal_four"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-16",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest -q tests/unit/test_workspace.py",
+          "result": "passed: 13 workspace configuration, initialization, validation, and reopen checks",
+          "artifact": "artifacts/conformance/B006.1-workspace-bootstrap.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest -q tests/unit/test_workspace.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 17 local filesystem/process/SQLite checks for bootstrap, cross-process workspace ownership, crash recovery, migration rollback, and independent state",
+          "artifact": "artifacts/conformance/B006.2-workspace-ownership.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_cli.py tests/unit/test_workspace_context.py tests/unit/test_workspace.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 26 local checks for workspace bootstrap, ownership, embedded and CLI composition, diagnostics-only HTTP lifecycle, graceful shutdown/reacquisition, explicit unsupported job behavior, and migration rollback",
+          "artifact": "artifacts/conformance/B006.3-cli-embedded-lifecycle.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_catalog_repository.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_ownership.py tests/unit/test_workspace_context.py",
+          "result": "passed: 31 local checks for persistent catalog/schema/table registration metadata, owner-locked schema migration, canonical local path ownership, and diagnostic accuracy; no Delta data operations or Databricks API behavior.",
+          "artifact": "artifacts/conformance/B007.1-catalog-identities.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: local schema 3 to 4 migration and workspace reopen checks; table operation journal is validated on open.",
+          "artifact": "artifacts/conformance/B008.3-operation-journal-recovery.md"
+        }
+      ],
       "limitations": [
-        "Trusted single-user workspace; multiple service owners rejected."
+        "Ownership is tested only on local POSIX filesystems; Windows and network filesystem locking are not claimed.",
+        "The HTTP server binds only to IPv4 loopback and exposes health, version, and capability diagnostics; it is not a Databricks API server.",
+        "Installed Sparkless and delta-rs packages are reported as not integrated until BrickHouse adapters have conformance evidence.",
+        "The run command explicitly rejects requests until B013 implements job supervision; the embedded context has no session or data services.",
+        "Workspace format remains version 1. Metadata schemas 1\u20133 upgrade transactionally to schema version 4 under the owner lock; no upgrade from a prior released workspace format is promised."
       ]
     },
     {
@@ -44,7 +114,10 @@
       "task_ids": [
         "B012",
         "B018",
-        "B023"
+        "B023",
+        "B012.2",
+        "B018.2",
+        "B023.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -64,7 +137,9 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B023"
+        "B023",
+        "B005.4",
+        "B023.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -78,58 +153,220 @@
       "id": "C004",
       "domain": "catalog",
       "name": "namespaces",
-      "status": "planned",
-      "target_scope": "SDK catalogs/schemas, identifier binding and persistence",
+      "status": "partial",
+      "target_scope": "Persistent catalog/schema identity metadata, bounded local SDK CRUD, local identifier resolution, and isolated namespace-state values; no Sparkless execution session or Databricks permission parity",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B007"
+        "B007",
+        "B007.1",
+        "B007.2",
+        "B007.3"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "metadata_schema_version": "4",
+        "databricks_reference": "Free Edition serverless SQL warehouse; engine version unavailable",
+        "statement_execution_api": "2.0",
+        "databricks_sdk": "0.153.0"
+      },
+      "test_ids": [
+        "tests/unit/test_catalog_repository.py::test_catalog_and_schema_repositories_read_workspace_defaults",
+        "tests/unit/test_catalog_repository.py::test_owner_upgrade_migrates_schema_v1_before_repositories_open",
+        "tests/unit/test_identifier_resolution.py::test_parser_preserves_quoted_parts_dots_and_escaped_backticks",
+        "tests/unit/test_identifier_resolution.py::test_parser_rejects_malformed_or_unsupported_identifiers",
+        "tests/unit/test_identifier_resolution.py::test_session_resolves_one_two_and_three_part_names_without_prefix_stripping",
+        "tests/unit/test_identifier_resolution.py::test_namespace_state_starts_from_workspace_configured_defaults",
+        "tests/unit/test_identifier_resolution.py::test_namespace_states_are_independent_and_failed_changes_are_atomic",
+        "tests/unit/test_identifier_resolution.py::test_missing_and_case_ambiguous_table_targets_are_explicit",
+        "tests/unit/test_catalog_api_sdk.py::test_pinned_sdk_catalog_and_schema_lifecycle_persists_and_paginates"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_identifier_resolution.py tests/unit/test_catalog_repository.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_ownership.py tests/unit/test_workspace_context.py",
+          "result": "passed: 44 local checks; explicit resolution behavior and errors are implemented for the initial local catalog profile. No SQL engine or SDK catalog behavior is claimed.",
+          "artifact": "artifacts/conformance/B007.2-identifier-resolution.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "reference_capture",
+          "command": "python artifacts/probes/B005.3-free-edition-sql-reference.py --host <redacted-workspace-host> --case identifiers",
+          "result": "one statement returned non-null current catalog/schema indicators and the expected dotted/escaped-backtick alias names; warehouse cleanup restored STOPPED state.",
+          "artifact": "artifacts/conformance/B007.2-identifiers-reference.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0073-venv/bin/python -m pytest -q tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 45 local checks on Python 3.11.14/SQLite 3.53.4 with the real databricks-sdk==0.153.0 client. Catalog/schema create, list, get, and delete, multi-page listing, duplicate/missing/invalid/in-use errors, comments, protected namespaces, migration, and persistence across server/workspace reopen passed; Ruff, format, strict mypy, and planning validation passed.",
+          "artifact": "artifacts/conformance/B007.3-sdk-catalog-schema.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_table_removal.py tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 65 local checks including the pinned SDK catalog/schema profile against metadata schema 4, identifier resolution, and the schema 3 to 4 migration; no Databricks API was used in this run.",
+          "artifact": "artifacts/conformance/B008.4-ownership-safe-removal.md"
+        }
+      ],
       "limitations": [
-        "Initial API subset and quoted/case behavior must be enumerated."
+        "Only lowercase unquoted names, comments, CRUD, and paginated list operations are implemented.",
+        "Permissions, workspace binding, storage roots, arbitrary properties, SQL/table data access, and broad Unity Catalog parity are not implemented.",
+        "The SDK bearer token is not authentication; the service binds to loopback through the CLI.",
+        "SDK compatibility evidence is local and does not establish Databricks workspace behavior."
       ]
     },
     {
       "id": "C005",
       "domain": "catalog",
       "name": "managed-tables",
-      "status": "planned",
-      "target_scope": "Real Delta managed table identities, locations and ownership",
+      "status": "partial",
+      "target_scope": "Persistent managed table registrations plus optional local delta-rs create/read/append/overwrite, durable replay recovery, and ownership-safe managed removal for the tested schema/protocol profile; no SQL or Sparkless routing",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
         "B008",
-        "B010"
+        "B010",
+        "B008.2",
+        "B010.2",
+        "B008.3",
+        "B008.4"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "metadata_schema_version": "4",
+        "deltalake": "1.2.1",
+        "pyarrow": "23.0.1"
+      },
+      "test_ids": [
+        "tests/unit/test_catalog_repository.py::test_managed_table_identity_and_location_survive_reopen",
+        "tests/unit/test_table_contracts.py::test_write_contract_validates_mode_target_protocol_and_schema",
+        "tests/unit/test_table_contracts.py::test_staging_copies_real_parquet_with_digest_ownership_and_safe_cleanup",
+        "tests/unit/test_delta_table_service.py::test_local_service_commits_and_reads_exact_delta_versions",
+        "tests/unit/test_delta_table_service.py::test_create_supports_empty_table_and_arrow_ipc_staged_input",
+        "tests/unit/test_delta_table_service.py::test_write_rejects_invalid_modes_and_incompatible_schema_before_commit",
+        "tests/unit/test_delta_table_service.py::test_writes_serialize_across_table_id_aliases_in_one_process",
+        "tests/unit/test_delta_operation_journal.py::test_operation_replay_is_deduplicated_and_changed_payload_is_rejected",
+        "tests/unit/test_delta_operation_journal.py::test_killed_writer_recovers_commit_after_workspace_reopen",
+        "tests/unit/test_delta_operation_journal.py::test_failed_provider_outcome_is_uncertain_and_never_blindly_retried",
+        "tests/unit/test_table_removal.py::test_drop_managed_table_removes_only_registered_owned_directory",
+        "tests/unit/test_table_removal.py::test_drop_recovers_after_process_dies_before_metadata_removal"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_catalog_repository.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_ownership.py tests/unit/test_workspace_context.py",
+          "result": "passed: 31 local checks for persistent catalog/schema/table registration metadata, owner-locked schema migration, canonical local path ownership, and diagnostic accuracy; no Delta data operations or Databricks API behavior.",
+          "artifact": "artifacts/conformance/B007.1-catalog-identities.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 50 local checks on Python 3.11.14/SQLite 3.53.4 with deltalake==1.2.1 and pyarrow==23.0.1. The suite covered real Delta snapshot identity/schema/protocol/version, historical version selection, protocol/feature/mode/schema rejection, Parquet staging permissions/digest/ownership/cleanup, and the preceding namespace/SDK cases; Ruff, format, strict mypy, and planning validation passed. No BrickHouse provider-backed Delta writes or reads were implemented.",
+          "artifact": "artifacts/conformance/B008.1-table-contracts-and-staging.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 56 local checks on Python 3.11.14/SQLite 3.53.4 with deltalake==1.2.1 and pyarrow==23.0.1. Real local Delta service tests cover registered managed/external paths, latest/version/timestamp reads, create/append/overwrite versions, empty data, exact schema and commit identity, invalid modes, nonempty path and partition rejection, staged manifest integrity, and same-process path-alias write serialization; no Databricks account or .env was used.",
+          "artifact": "artifacts/conformance/B008.2-local-delta-table-service.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: operation-key reuse rejection, exact replay and process-death recovery, uncertain-outcome blocking, and metadata schema 3 to 4 migration; delta-rs/PyArrow and local SQLite only.",
+          "artifact": "artifacts/conformance/B008.3-operation-journal-recovery.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_table_removal.py tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: managed removal stays within the canonical workspace UUID directory, rejects symlink redirection, blocks unfinished operations, and recovers after process death before metadata removal.",
+          "artifact": "artifacts/conformance/B008.4-ownership-safe-removal.md"
+        }
+      ],
       "limitations": [
-        "No separate DuckDB physical managed-table copy."
+        "The optional provider is local-only and supports protocol 1/2 with no table features, unpartitioned tables, and exact schemas.",
+        "Managed deletion uses local POSIX symlink-resistant cleanup and remains available only through the explicit table service; SQL, Sparkless, HTTP, and jobs do not route through it.",
+        "Replay reconciliation checks only the latest 100 Delta history entries; missing evidence remains uncertain. Cross-workspace/host coordination is not established."
       ]
     },
     {
       "id": "C006",
       "domain": "catalog",
       "name": "external-tables",
-      "status": "planned",
-      "target_scope": "Register and access external Delta with non-destructive metadata drop",
+      "status": "partial",
+      "target_scope": "Persistent external registrations and optional local delta-rs reads/writes for canonical local paths; dropping an external registration preserves files; no cloud paths or SQL/Sparkless routing",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B008"
+        "B008",
+        "B008.4"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "metadata_schema_version": "4",
+        "deltalake": "1.2.1",
+        "pyarrow": "23.0.1"
+      },
+      "test_ids": [
+        "tests/unit/test_catalog_repository.py::test_external_symlink_alias_cannot_be_registered_twice",
+        "tests/unit/test_catalog_repository.py::test_repository_rejects_remote_and_managed_root_external_locations",
+        "tests/unit/test_table_contracts.py::test_snapshot_contract_captures_real_delta_identity_schema_protocol_and_version",
+        "tests/unit/test_delta_table_service.py::test_append_missing_and_create_nonempty_external_locations_fail_safely",
+        "tests/unit/test_delta_table_service.py::test_writes_serialize_across_table_id_aliases_in_one_process",
+        "tests/unit/test_table_removal.py::test_drop_external_table_removes_metadata_and_preserves_files",
+        "tests/unit/test_table_removal.py::test_managed_drop_rejects_a_table_path_replaced_by_symlink"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_catalog_repository.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_ownership.py tests/unit/test_workspace_context.py",
+          "result": "passed: 31 local checks for persistent catalog/schema/table registration metadata, owner-locked schema migration, canonical local path ownership, and diagnostic accuracy; no Delta data operations or Databricks API behavior.",
+          "artifact": "artifacts/conformance/B007.1-catalog-identities.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 50 local checks on Python 3.11.14/SQLite 3.53.4 with deltalake==1.2.1 and pyarrow==23.0.1. The suite covered real Delta snapshot identity/schema/protocol/version, historical version selection, protocol/feature/mode/schema rejection, Parquet staging permissions/digest/ownership/cleanup, and the preceding namespace/SDK cases; Ruff, format, strict mypy, and planning validation passed. No BrickHouse provider-backed Delta writes or reads were implemented.",
+          "artifact": "artifacts/conformance/B008.1-table-contracts-and-staging.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 56 local checks on Python 3.11.14/SQLite 3.53.4 with deltalake==1.2.1 and pyarrow==23.0.1. Real local Delta service tests cover registered managed/external paths, latest/version/timestamp reads, create/append/overwrite versions, empty data, exact schema and commit identity, invalid modes, nonempty path and partition rejection, staged manifest integrity, and same-process path-alias write serialization; no Databricks account or .env was used.",
+          "artifact": "artifacts/conformance/B008.2-local-delta-table-service.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_table_removal.py tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: external drop removes metadata while retaining sentinel bytes; managed path symlink redirection is rejected without changing target files.",
+          "artifact": "artifacts/conformance/B008.4-ownership-safe-removal.md"
+        }
+      ],
       "limitations": [
-        "Only verified locations/protocol features; external file ownership preserved."
+        "Cloud URIs are rejected; external registration, access, and deregistration cover local filesystem paths only.",
+        "A nonempty non-Delta location is preserved and rejected during create; external drop always preserves the registered location.",
+        "Cross-workspace/process writers, SQL/Sparkless routing, and API drop integration remain unsupported."
       ]
     },
     {
@@ -143,33 +380,92 @@
       ],
       "task_ids": [
         "B009",
-        "B010"
+        "B010",
+        "B009.3",
+        "B010.3",
+        "B014.5",
+        "B017.4",
+        "B046",
+        "B046.2"
       ],
       "tested_versions": {},
       "test_ids": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "upstream_release_probe",
+          "versions": {
+            "sparkless": "4.14.0",
+            "deltalake": "1.2.1",
+            "pyarrow": "23.0.1",
+            "python": "3.11.14"
+          },
+          "result": "56 release provider tests and 14 selected journaled Delta/provider checks passed. Nullable-struct ingestion/collect contracts fail (#1694/#1695); B046.3/B010 remain blocked and production integration is unimplemented.",
+          "artifact": "artifacts/conformance/B046.3-sparkless-4.14.0-provider.md"
+        }
+      ],
       "limitations": [
-        "No assumption that all Sparkless session state is already isolated."
+        "No assumption that all Sparkless session state is already isolated.",
+        "Apply the selected serverless/classic contracts and exact tested profile combinations from document 17; planning does not establish compute compatibility.",
+        "The public Python hook is published in 4.14.0; nullable-struct defects #1694/#1695 block the selected type envelope. Probe evidence is not a production BrickHouse compatibility claim."
       ]
     },
     {
       "id": "C008",
       "domain": "delta",
       "name": "basic-writes",
-      "status": "planned",
-      "target_scope": "Create, append and overwrite through common table service",
+      "status": "partial",
+      "target_scope": "Optional local delta-rs create/read/append/overwrite with durable same-payload replay reconciliation for registered unpartitioned tables using protocol 1/2, no table features, exact schemas, and typed commit results",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
         "B008",
-        "B010"
+        "B010",
+        "B008.2",
+        "B010.2",
+        "B008.3"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "workspace_format": "1",
+        "metadata_schema_version": "4",
+        "deltalake": "1.2.1",
+        "pyarrow": "23.0.1"
+      },
+      "test_ids": [
+        "tests/unit/test_delta_table_service.py::test_local_service_commits_and_reads_exact_delta_versions",
+        "tests/unit/test_delta_table_service.py::test_create_supports_empty_table_and_arrow_ipc_staged_input",
+        "tests/unit/test_delta_table_service.py::test_write_rejects_invalid_modes_and_incompatible_schema_before_commit",
+        "tests/unit/test_delta_table_service.py::test_append_missing_and_create_nonempty_external_locations_fail_safely",
+        "tests/unit/test_delta_table_service.py::test_writes_serialize_across_table_id_aliases_in_one_process",
+        "tests/unit/test_delta_table_service.py::test_partitioned_delta_tables_are_rejected_before_row_reads",
+        "tests/unit/test_delta_operation_journal.py::test_operation_replay_is_deduplicated_and_changed_payload_is_rejected",
+        "tests/unit/test_delta_operation_journal.py::test_killed_writer_recovers_commit_after_workspace_reopen",
+        "tests/unit/test_delta_operation_journal.py::test_failed_provider_outcome_is_uncertain_and_never_blindly_retried"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: 56 local checks on Python 3.11.14/SQLite 3.53.4 with deltalake==1.2.1 and pyarrow==23.0.1. Real local Delta service tests cover registered managed/external paths, latest/version/timestamp reads, create/append/overwrite versions, empty data, exact schema and commit identity, invalid modes, nonempty path and partition rejection, staged manifest integrity, and same-process path-alias write serialization; no Databricks account or .env was used.",
+          "artifact": "artifacts/conformance/B008.2-local-delta-table-service.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
+          "result": "passed: real local Delta writes use table-scoped monotonic transaction versions and operation fingerprints; known commits reconcile after process death and uncertain outcomes block blind retry. History lookup is bounded to 100 entries.",
+          "artifact": "artifacts/conformance/B008.3-operation-journal-recovery.md"
+        }
+      ],
       "limitations": [
-        "Initial type/protocol envelope selected by B004."
+        "The tested provider is optional and local-only; it is not connected to SQL, Sparkless, the HTTP server, or jobs.",
+        "Replay recovery requires matching transaction metadata and one matching entry in the latest 100 history commits; missing or expired evidence stays uncertain.",
+        "Partitioned tables, schema evolution, cloud paths, advanced Delta features, update/delete/merge, and cross-workspace/host coordination are unsupported."
       ]
     },
     {
@@ -183,7 +479,8 @@
       ],
       "task_ids": [
         "B008",
-        "B019"
+        "B019",
+        "B019.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -204,13 +501,29 @@
       "task_ids": [
         "B004",
         "B008",
-        "B019"
+        "B019",
+        "B004.2",
+        "B019.1"
       ],
       "tested_versions": {},
       "test_ids": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "upstream_release_probe",
+          "versions": {
+            "sparkless": "4.13.4",
+            "deltalake": "1.2.1",
+            "pyarrow": "23.0.1",
+            "python": "3.11.14"
+          },
+          "result": "Exact upstream cases for Decimal Delta reads, PyArrow Decimal ingress, Delta path writes, nullable scalar/nested data, and Sparkless SQL projection passed; BrickHouse integration is not implemented.",
+          "artifact": "artifacts/conformance/B004.2-typed-interoperability.md"
+        }
+      ],
       "limitations": [
-        "Expand after initial unpartitioned envelope; no blanket feature support."
+        "Expand after initial unpartitioned envelope; no blanket feature support.",
+        "Sparkless 4.13.4 passed the B004.2 local upstream probe, but this capability is not yet integrated or supported by BrickHouse."
       ]
     },
     {
@@ -224,7 +537,9 @@
       ],
       "task_ids": [
         "B008",
-        "B019"
+        "B019",
+        "B008.1",
+        "B019.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -244,7 +559,8 @@
       ],
       "task_ids": [
         "B004",
-        "B019"
+        "B019",
+        "B019.3"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -264,7 +580,8 @@
       ],
       "task_ids": [
         "B004",
-        "B040"
+        "B040",
+        "B004.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -284,7 +601,10 @@
       ],
       "task_ids": [
         "B008",
-        "B022"
+        "B022",
+        "B008.3",
+        "B022.1",
+        "B022.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -304,13 +624,50 @@
       ],
       "task_ids": [
         "B009",
-        "B010"
+        "B010",
+        "B009.1",
+        "B009.2",
+        "B010.1",
+        "B010.2",
+        "B046",
+        "B046.2",
+        "B046.3"
       ],
       "tested_versions": {},
       "test_ids": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "upstream_development",
+          "command": "make check-crate CRATE=robin-sparkless-polars (in robin-sparkless)",
+          "result": "Sparkless source commit c81e97699aae7d967404d3de342146b6428afa0c implements tested external catalog/relation reads. PR #1692 remains open and unmerged; BrickHouse has not consumed the API, so this capability remains planned.",
+          "artifact": "artifacts/conformance/B009.1-sparkless-external-catalog-hooks.md",
+          "commit": "c81e97699aae7d967404d3de342146b6428afa0c"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "upstream_development",
+          "command": "make check-crate CRATE=robin-sparkless-polars (in robin-sparkless)",
+          "result": "Rust external catalog reads, delegated saveAsTable append/overwrite, and SQL INSERT INTO pass the full crate gate at commit 4923b857b0208a5d81116e7782f17110d4558eb6. PR #1692 is open/unmerged; hooks are not released or exposed to Python. BrickHouse integration remains blocked.",
+          "artifact": "artifacts/conformance/B009.2-sparkless-write-delegation.md",
+          "commit": "4923b857b0208a5d81116e7782f17110d4558eb6"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "upstream_release_probe",
+          "versions": {
+            "sparkless": "4.14.0",
+            "deltalake": "1.2.1",
+            "pyarrow": "23.0.1",
+            "python": "3.11.14"
+          },
+          "result": "56 release provider tests and 14 selected journaled Delta/provider checks passed. Nullable-struct ingestion/collect contracts fail (#1694/#1695); B046.3/B010 remain blocked and production integration is unimplemented.",
+          "artifact": "artifacts/conformance/B046.3-sparkless-4.14.0-provider.md"
+        }
+      ],
       "limitations": [
-        "Coverage inherited only after integration fixtures pass."
+        "Coverage inherited only after integration fixtures pass.",
+        "The public Python hook is published in 4.14.0; nullable-struct defects #1694/#1695 block the selected type envelope. Probe evidence is not a production BrickHouse compatibility claim."
       ]
     },
     {
@@ -325,13 +682,54 @@
       "task_ids": [
         "B003",
         "B009",
-        "B010"
+        "B010",
+        "B003.2",
+        "B004.2",
+        "B009.2",
+        "B010.3",
+        "B046.2",
+        "B046.3"
       ],
       "tested_versions": {},
       "test_ids": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "upstream_release_probe",
+          "versions": {
+            "sparkless": "4.13.4",
+            "deltalake": "1.2.1",
+            "pyarrow": "23.0.1",
+            "python": "3.11.14"
+          },
+          "result": "Exact upstream cases for Decimal Delta reads, PyArrow Decimal ingress, Delta path writes, nullable scalar/nested data, and Sparkless SQL projection passed; BrickHouse integration is not implemented.",
+          "artifact": "artifacts/conformance/B004.2-typed-interoperability.md"
+        },
+        {
+          "date": "2026-10-19",
+          "kind": "upstream_development",
+          "command": "make check-crate CRATE=robin-sparkless-polars (in robin-sparkless)",
+          "result": "A buffered Arrow IPC stream preserves tested decimal/date/timestamp/array/struct values through the Rust external writer hook at commit 4923b857b0208a5d81116e7782f17110d4558eb6. This is upstream-only evidence; BrickHouse has no Python binding or integration.",
+          "artifact": "artifacts/conformance/B009.2-sparkless-write-delegation.md",
+          "commit": "4923b857b0208a5d81116e7782f17110d4558eb6"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "upstream_release_probe",
+          "versions": {
+            "sparkless": "4.14.0",
+            "deltalake": "1.2.1",
+            "pyarrow": "23.0.1",
+            "python": "3.11.14"
+          },
+          "result": "56 release provider tests and 14 selected journaled Delta/provider checks passed. Nullable-struct ingestion/collect contracts fail (#1694/#1695); B046.3/B010 remain blocked and production integration is unimplemented.",
+          "artifact": "artifacts/conformance/B046.3-sparkless-4.14.0-provider.md"
+        }
+      ],
       "limitations": [
-        "Bounded memory and metadata fidelity require tests."
+        "Bounded memory and metadata fidelity require tests.",
+        "Sparkless 4.13.4 passed the B004.2 local upstream probe, but this capability is not yet integrated or supported by BrickHouse.",
+        "The public Python hook is published in 4.14.0; nullable-struct defects #1694/#1695 block the selected type envelope. Probe evidence is not a production BrickHouse compatibility claim."
       ]
     },
     {
@@ -344,13 +742,20 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B011"
+        "B011",
+        "B011.1",
+        "B011.2",
+        "B011.3",
+        "B011.4",
+        "B011.5",
+        "B011.6"
       ],
       "tested_versions": {},
       "test_ids": [],
       "evidence": [],
       "limitations": [
-        "Formats/chunks/metadata require explicit implementation."
+        "Formats/chunks/metadata require explicit implementation.",
+        "Apply the selected serverless/classic contracts and exact tested profile combinations from document 17; planning does not establish compute compatibility."
       ]
     },
     {
@@ -363,7 +768,10 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B019"
+        "B019",
+        "B019.1",
+        "B019.2",
+        "B019.3"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -382,7 +790,8 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B019"
+        "B019",
+        "B019.3"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -395,42 +804,285 @@
       "id": "C020",
       "domain": "jobs",
       "name": "python-tasks",
-      "status": "planned",
-      "target_scope": "SDK submission, parameters, process execution, logs and output",
+      "status": "partial",
+      "target_scope": "Pinned-SDK Python-source upload, sequential local dispatch of up to ten Python script tasks, bounded retries and run admission, PID-based restart interruption, and actual worker binding to the seven selected serverless/classic-standard/classic-dedicated compute request shapes with simulated classic resource lifetimes",
       "profiles": [
+        "serverless-local-v1",
+        "classic-standard-local-v1",
+        "classic-dedicated-local-v1",
         "spark35-local-v1"
       ],
       "task_ids": [
         "B013",
         "B014",
-        "B018"
+        "B018",
+        "B013.1",
+        "B013.3",
+        "B014.2",
+        "B018.1",
+        "B014.4",
+        "B014.5",
+        "B014.6",
+        "B013.2",
+        "B014.1",
+        "B014.3.1",
+        "B014.3.2.1",
+        "B014.3.2.2",
+        "B014.3.3"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "workspace_metadata_schema": "10",
+        "databricks_sdk": "0.153.0 against local loopback only",
+        "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)"
+      },
+      "test_ids": [
+        "tests/unit/test_worker.py::test_worker_runs_absolute_interpreter_with_snapshot_context_and_explicit_cwd",
+        "tests/unit/test_worker.py::test_worker_bounds_output_while_draining_both_pipes",
+        "tests/unit/test_worker.py::test_worker_does_not_inherit_credentials_or_import_context",
+        "tests/unit/test_worker.py::test_worker_context_rejects_invalid_or_oversized_values",
+        "tests/unit/test_worker.py::test_worker_context_rejects_non_json_values",
+        "tests/unit/test_worker.py::test_worker_rejects_path_and_limit_errors_before_launch",
+        "tests/unit/test_worker.py::test_worker_returns_nonzero_exit_status_and_bounded_diagnostics",
+        "tests/unit/test_worker_auth.py::test_worker_message_round_trips_without_credentials",
+        "tests/unit/test_worker_auth.py::test_worker_authentication_is_scoped_and_revoked_per_attempt",
+        "tests/unit/test_worker_auth.py::test_worker_authentication_rejects_missing_invalid_and_expired_tokens",
+        "tests/unit/test_worker_auth.py::test_worker_token_is_separate_from_json_context_and_redacted_from_results",
+        "tests/unit/test_worker_auth.py::test_worker_launch_rejects_credential_from_another_context_before_start",
+        "tests/unit/test_worker_supervision.py::test_timeout_kills_reaps_worker_and_persists_actual_exit_and_cleanup",
+        "tests/unit/test_worker_supervision.py::test_crashed_worker_exit_status_is_persisted",
+        "tests/unit/test_worker_supervision.py::test_attempts_do_not_share_environment_import_or_context_state",
+        "tests/unit/test_worker_supervision.py::test_cancellation_kills_descendants_revokes_token_and_reopens_outcome",
+        "tests/unit/test_jobs_repository.py::test_job_definition_and_submission_snapshot_survive_reopen",
+        "tests/unit/test_jobs_repository.py::test_invalid_task_graphs_and_secret_settings_are_rejected",
+        "tests/unit/test_jobs_repository.py::test_attempt_order_dependencies_and_terminal_state_validation",
+        "tests/unit/test_jobs_repository.py::test_interrupted_run_persists_unknown_exit_and_pending_work",
+        "tests/unit/test_jobs_api_sdk.py::test_pinned_sdk_uploads_runs_and_retrieves_bounded_python_output",
+        "tests/unit/test_jobs_repository.py::test_attempt_output_is_bounded_persisted_and_immutable",
+        "tests/unit/test_jobs_repository.py::test_schema_seven_migrates_without_losing_jobs_or_runs",
+        "tests/unit/test_worker.py::test_worker_passes_bounded_task_arguments_without_a_shell",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_executes_out_of_order_dag_only_after_dependencies_succeed",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_timeout_retry_requires_explicit_retry_on_timeout",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_stops_after_the_configured_number_of_retries",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_enforces_the_local_process_limit_across_jobs",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
+        "tests/unit/test_workspace.py::test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants",
+        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_worker.py",
+          "result": "passed: internal child runner resolves the current interpreter and explicit cwd, snapshots context, isolates inherited environment, bounds stdout/stderr, and captures the real exit status. The overall Python job capability remains planned; no public job API, auth, cancellation, or persistence is implemented.",
+          "artifact": "artifacts/conformance/B013.1-python-worker-launch.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0013-dev/bin/python -m pytest -q tests/unit/test_worker_auth.py tests/unit/test_worker.py",
+          "result": "B013.2 private protocol/authentication primitives pass 27 focused worker checks. Overall jobs capability remains planned; no public job route, worker listener, cancellation or job persistence is complete.",
+          "artifact": "artifacts/conformance/B013.2-worker-authentication.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_worker.py tests/unit/test_worker_auth.py tests/unit/test_worker_supervision.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py tests/unit/test_table_contracts.py tests/unit/test_delta_table_service.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_removal.py",
+          "result": "70 passed. Internal workers now support bounded timeout/cancellation and POSIX process-group cleanup; persist observed exit outcomes through workspace reopen; revoke and redact attempt credentials; clean caller-staged input; and isolate attempt context/environment/import state. Public job routes and job lifecycle remain incomplete, so overall capability remains planned.",
+          "artifact": "artifacts/conformance/B013.3-worker-supervision.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_repository.py tests/unit/test_workspace.py tests/unit/test_delta_operation_journal.py",
+          "result": "21 focused B014.1 repository/workspace/migration checks passed, and the full 105-test unit regression suite passed with environment credentials removed. B014.1 persists immutable job definitions/submissions and task snapshots, idempotency fingerprints, bounded acyclic Python task graphs, attempt identities, legal states and observed/interrupted outcomes in schema 6. Overall Python job and DAG capabilities remain planned: this does not add public SDK routes, execution dispatch, automatic retry/restart policy or user output retrieval.",
+          "artifact": "artifacts/conformance/B014.1-durable-job-state.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit",
+          "result": "126 local unit tests passed, including the actual databricks-sdk==0.153.0 loopback upload/create/submit/poll/output flow, bounded/truncated output, failure-state mapping, active and terminal idempotency replay, unsupported-request and missing-file errors, persisted state across reopen, and schema 7-to-8 migration. Full Ruff, format, strict mypy (41 files), and diff checks passed. Credentials were removed; no account, cloud compute, Spark or JVM was used.",
+          "artifact": "artifacts/conformance/B014.2-workspace-files-sdk-jobs.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py tests/unit/test_jobs_repository.py",
+          "result": "9 tests passed. The actual pinned SDK against loopback verified stable topological dispatch for an out-of-order DAG, dependency failure mapping to SKIPPED/UPSTREAM_FAILED without launching the dependent, and continuation of independent tasks. Local repository transitions still gate each attempt on successful dependencies.",
+          "artifact": "artifacts/conformance/B014.3.1-dag-dispatch.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "regression",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit; /tmp/brickhouse-sparkless-4140/bin/python -m ruff check src tests scripts; /tmp/brickhouse-sparkless-4140/bin/python -m ruff format --check src tests scripts; /tmp/brickhouse-sparkless-4140/bin/python -m mypy; python scripts/validate_planning.py; git diff --check",
+          "result": "128 local unit tests passed; Ruff check and format, strict mypy for 41 source files, planning validation (94 Markdown files, 129 tasks, 46 work packages, 83 children, 58 capabilities, 807 links), and git diff --check passed. The tests and SDK loopback calls used no Databricks credentials or account.",
+          "artifact": "artifacts/conformance/B014.3.1-dag-dispatch.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py tests/unit/test_jobs_repository.py",
+          "result": "12 tests passed. The local pinned-SDK job flow verified bounded retries on observed worker failures, timeout retry policy, retry delay, distinct attempt identities, and per-attempt output.",
+          "artifact": "artifacts/conformance/B014.3.2.1-retry-attempts.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py tests/unit/test_jobs_repository.py",
+          "result": "14 tests passed. Pinned SDK loopback checks covered per-job run limits, process-wide four-run capacity, pre-creation HTTP 409 capacity conflict, active/terminal idempotency replay, changed-input token conflict, and no duplicate run records.",
+          "artifact": "artifacts/conformance/B014.3.2.2-run-admission.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "regression",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "133 local unit tests passed; Ruff check and format passed for 62 files; strict mypy passed for 41 source files; planning validation passed (98 Markdown files, 131 tasks, 46 work packages, 85 children, 58 capabilities, 832 links); git diff --check passed. SDK traffic used local loopback only, with no Databricks credentials or cloud compute.",
+          "artifact": "artifacts/conformance/B014.3.2.2-run-admission.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output tests/unit/test_workspace.py::test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome",
+          "result": "2 focused tests passed. A real loopback server and worker process were stopped and reopened; the run and unknown attempt were reported interrupted without an exit code or replay, earlier attempt output was retained, and the schema 8 to 9 migration preserved a worker record.",
+          "artifact": "artifacts/conformance/B014.3.3-active-run-recovery.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "regression",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "135 local unit tests passed; SDK traffic used local loopback only, with no Databricks credentials or cloud compute.",
+          "artifact": "artifacts/conformance/B014.3.3-active-run-recovery.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output tests/unit/test_compute_service.py tests/unit/test_compute_api_sdk.py",
+          "result": "10 focused tests passed; the full local unit suite passed 138 tests. Actual local Python workers exercised all seven selected compute request shapes; classic resources were reserved/released truthfully, restart and termination reaped worker descendants, and a committed Delta table remained readable after workspace reopen. Ruff check/format, strict mypy (41 source files), planning validation, and git diff checks passed. No Databricks credentials/account, cloud compute, Spark, or JVM was used.",
+          "artifact": "artifacts/conformance/B014.6-job-worker-compute-lifetimes.md"
+        }
+      ],
       "limitations": [
-        "Fresh process is isolation, not a malicious-code sandbox."
+        "Only the seven selected serverless/classic-standard/classic-dedicated plain-Python job shapes are exercised; workers receive no Spark/Sparkless session or job-facing Delta/table-service API, and notebooks, package installation, and broad runtime/access compatibility remain unsupported.",
+        "Classic resource allocation/lifecycle labels are simulated. All-purpose restart/termination cancels active local workers, but no cloud infrastructure or serverless compute object exists.",
+        "Task retries are bounded and run concurrency is limited to four active service-process runs; external Python side effects are not exactly once. Process restart reconciles after the worker PID is gone and does not automatically replay user code.",
+        "Only default ALL_SUCCESS dependency policy is supported. SDK output retrieval for multi-task runs remains unsupported.",
+        "The SDK profile has been verified against the local loopback adapter only; no Databricks workspace/runtime compatibility or authorization boundary is claimed.",
+        "Fresh-process isolation is not a malicious-code sandbox. POSIX process-group cleanup is tested; Windows descendant cleanup and descendants that escape the process group are not claimed."
       ]
     },
     {
       "id": "C021",
       "domain": "jobs",
       "name": "dag-lifecycle",
-      "status": "planned",
-      "target_scope": "Dependencies, persisted attempts, errors, cancellation and selected retries",
+      "status": "partial",
+      "target_scope": "Sequential local Python DAG dispatch with persisted dependency gating, bounded per-task retries, idempotent per-job concurrency admission (up to four active service-process runs), and PID-based restart interruption without automatic replay",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
         "B014",
         "B018",
-        "B024"
+        "B024",
+        "B014.1",
+        "B014.3",
+        "B018.1",
+        "B014.3.1",
+        "B014.3.2.1",
+        "B014.3.2.2",
+        "B014.3.3"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "workspace_metadata_schema": "10"
+      },
+      "test_ids": [
+        "tests/unit/test_jobs_repository.py::test_job_definition_and_submission_snapshot_survive_reopen",
+        "tests/unit/test_jobs_repository.py::test_invalid_task_graphs_and_secret_settings_are_rejected",
+        "tests/unit/test_jobs_repository.py::test_attempt_order_dependencies_and_terminal_state_validation",
+        "tests/unit/test_jobs_repository.py::test_interrupted_run_persists_unknown_exit_and_pending_work",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_executes_out_of_order_dag_only_after_dependencies_succeed",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_timeout_retry_requires_explicit_retry_on_timeout",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_stops_after_the_configured_number_of_retries",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_enforces_the_local_process_limit_across_jobs",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
+        "tests/unit/test_workspace.py::test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_repository.py tests/unit/test_workspace.py tests/unit/test_delta_operation_journal.py",
+          "result": "21 focused B014.1 repository/workspace/migration checks passed, and the full 105-test unit regression suite passed with environment credentials removed. B014.1 persists immutable job definitions/submissions and task snapshots, idempotency fingerprints, bounded acyclic Python task graphs, attempt identities, legal states and observed/interrupted outcomes in schema 6. Overall Python job and DAG capabilities remain planned: this does not add public SDK routes, execution dispatch, automatic retry/restart policy or user output retrieval.",
+          "artifact": "artifacts/conformance/B014.1-durable-job-state.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py tests/unit/test_jobs_repository.py",
+          "result": "B014.3.1 passes the bounded sequential DAG slice: success-only dependency gating, explicit failed-dependency skips without attempts, continued execution of independent work, and truthful terminal job state. Automatic retries, concurrency above one, and process-restart reconciliation have not been implemented.",
+          "artifact": "artifacts/conformance/B014.3.1-dag-dispatch.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "regression",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit; /tmp/brickhouse-sparkless-4140/bin/python -m ruff check src tests scripts; /tmp/brickhouse-sparkless-4140/bin/python -m ruff format --check src tests scripts; /tmp/brickhouse-sparkless-4140/bin/python -m mypy; python scripts/validate_planning.py; git diff --check",
+          "result": "128 local unit tests passed; Ruff check and format, strict mypy for 41 source files, planning validation (94 Markdown files, 129 tasks, 46 work packages, 83 children, 58 capabilities, 807 links), and git diff --check passed. The tests and SDK loopback calls used no Databricks credentials or account.",
+          "artifact": "artifacts/conformance/B014.3.1-dag-dispatch.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py tests/unit/test_jobs_repository.py",
+          "result": "B014.3.2.1 passed the validated bounded retry profile: failures receive distinct persisted attempts and outputs; timeouts retry only when configured; attempts stop at max_retries; and retry delays are honored. Job-level concurrency admission and restart recovery remain incomplete.",
+          "artifact": "artifacts/conformance/B014.3.2.1-retry-attempts.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py tests/unit/test_jobs_repository.py",
+          "result": "14 tests passed. Pinned SDK loopback checks covered per-job run limits, process-wide four-run capacity, pre-creation HTTP 409 capacity conflict, active/terminal idempotency replay, changed-input token conflict, and no duplicate run records.",
+          "artifact": "artifacts/conformance/B014.3.2.2-run-admission.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "regression",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "133 local unit tests passed; Ruff check and format passed for 62 files; strict mypy passed for 41 source files; planning validation passed (98 Markdown files, 131 tasks, 46 work packages, 85 children, 58 capabilities, 832 links); git diff --check passed. SDK traffic used local loopback only, with no Databricks credentials or cloud compute.",
+          "artifact": "artifacts/conformance/B014.3.2.2-run-admission.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output tests/unit/test_workspace.py::test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome",
+          "result": "2 focused tests passed. A real loopback server and worker process were stopped and reopened; the run and unknown attempt were reported interrupted without an exit code or replay, earlier attempt output was retained, and the schema 8 to 9 migration preserved a worker record.",
+          "artifact": "artifacts/conformance/B014.3.3-active-run-recovery.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "regression",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "135 local unit tests passed; SDK traffic used local loopback only, with no Databricks credentials or cloud compute.",
+          "artifact": "artifacts/conformance/B014.3.3-active-run-recovery.md"
+        }
+      ],
       "limitations": [
-        "External Python side effects are not automatically idempotent."
+        "Dispatch is sequential and supports only the default ALL_SUCCESS dependency policy.",
+        "Per-task retries are bounded to the validated 0\u201310 profile. External Python side effects can repeat after a failed attempt.",
+        "Each job accepts max_concurrent_runs 1\u20134 within a four-run process-wide limit; capacity rejects with HTTP 409 instead of queueing.",
+        "A run is marked interrupted when its recorded worker PID is gone. Surviving workers are not adopted or killed and may finish side effects before polling observes their exit; PID reuse is not guarded against.",
+        "SDK output retrieval for multi-task runs is unsupported; per-attempt output remains available from the local repository."
       ]
     },
     {
@@ -463,7 +1115,9 @@
       ],
       "task_ids": [
         "B014",
-        "B016"
+        "B016",
+        "B014.2",
+        "B016.1"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -482,7 +1136,8 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B015"
+        "B015",
+        "B015.1"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -501,7 +1156,8 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B015"
+        "B015",
+        "B015.2"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -514,39 +1170,102 @@
       "id": "C026",
       "domain": "dbutils",
       "name": "fs-widgets-secrets",
-      "status": "planned",
-      "target_scope": "Real local files, widget/parameter context and scoped secret access",
+      "status": "partial",
+      "target_scope": "Local dbutils.fs, attempt-local widgets and explicitly job-granted process-memory secrets; remaining utility surfaces are incomplete",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B016"
+        "B016",
+        "B016.1",
+        "B016.2"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "workspace_metadata_schema": "10",
+        "databricks_sdk": "0.153.0 against local loopback only"
+      },
+      "test_ids": [
+        "tests/unit/test_dbutils_local.py::test_dbutils_filesystem_operations_share_dbfs_aliases",
+        "tests/unit/test_dbutils_local.py::test_dbutils_filesystem_rejects_unmapped_and_traversing_paths",
+        "tests/unit/test_dbutils_local.py::test_dbutils_filesystem_rejects_symlink_traversal",
+        "tests/unit/test_dbutils_local.py::test_dbutils_filesystem_bounds_recursive_work_and_file_preview",
+        "tests/unit/test_dbutils_local.py::test_widgets_apply_parameters_after_defaults_and_are_attempt_local",
+        "tests/unit/test_dbutils_local.py::test_widgets_reject_invalid_choice_values_and_unknown_dbutils_methods",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
+        "tests/unit/test_dbutils_local.py::test_dbutils_secrets_expose_only_authorized_scope_metadata",
+        "tests/unit/test_secrets.py::test_secret_provider_snapshots_only_job_granted_scopes",
+        "tests/unit/test_secrets.py::test_secret_provider_rejects_invalid_and_oversized_values",
+        "tests/unit/test_secrets.py::test_worker_reads_secret_payload_from_private_stdin_and_redacts_output",
+        "tests/unit/test_secrets.py::test_secret_values_are_not_added_to_immutable_worker_context",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "155 local unit tests passed in 46.17 seconds, including the focused dbutils filesystem/widget tests and real pinned-SDK loopback worker test. Ruff check/format, strict mypy, planning validation, and git diff checks passed. No Databricks credentials/account, cloud compute, Spark, or JVM was used.",
+          "artifact": "artifacts/conformance/B016.1-worker-dbutils-files-widgets.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "161 local unit tests passed in 48.29 seconds. The local SDK worker verified filesystem/widgets and authorized, missing and denied secret behavior with value isolation and output redaction. Ruff check/format, strict mypy, planning validation and git diff checks passed; no Databricks account or credentials were used.",
+          "artifact": "artifacts/conformance/B016.2-process-memory-scoped-secrets.md"
+        }
+      ],
       "limitations": [
-        "No direct reuse of SDK methods that assume cluster execution."
+        "Only dbfs:/ and /dbfs/ are mapped under workspace/files/dbfs; mounts, volumes, cloud URIs and workspace source paths are not dbutils.fs namespaces.",
+        "The selected fs methods use real local operations with path traversal and symlink rejection and bounded file/tree sizes; direct Python file access remains trusted code and is not sandboxed.",
+        "Widget state is per worker attempt; only text/dropdown/combobox/multiselect/get/getAll/remove/removeAll are implemented.",
+        "Secret values and job grants exist only in process memory and must be reconfigured after service restart; no authenticated HTTP secret-management route or persistent encrypted store is provided.",
+        "Only explicitly granted scopes enter a bounded one-way worker pipe. Exact raw secret bytes are redacted from retained output; transformed values and the trusted-code threat model remain limitations.",
+        "Task values are separately recorded under C027; notebooks, mounts, credential utilities and unknown methods outside the listed subset remain unsupported."
       ]
     },
     {
       "id": "C027",
       "domain": "dbutils",
       "name": "task-values-notebooks",
-      "status": "planned",
-      "target_scope": "Run/attempt-scoped task values and child notebook results",
+      "status": "partial",
+      "target_scope": "Run/task/attempt-scoped Python job task values; child notebook results remain incomplete",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
         "B016",
-        "B017"
+        "B016.3",
+        "B017",
+        "B017.3"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "workspace_metadata_schema": "10",
+        "databricks_sdk": "0.153.0 against local loopback only"
+      },
+      "test_ids": [
+        "tests/unit/test_jobs_repository.py::test_task_values_are_attempt_isolated_and_only_visible_to_successful_upstream",
+        "tests/unit/test_jobs_repository.py::test_task_value_json_and_per_run_limits_are_enforced",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
+          "result": "43 focused checks and 165 local unit tests passed in 54.55 seconds. A pinned SDK loopback job verified task value set/get, strict JSON serialization, the 48 KiB/value and 250 distinct task/key run limits, defaults, missing-task errors, successful retry-attempt selection, transitive upstream-only reads, unsupported methods, and run isolation. Schema 8/7/3/1 upgrade fixtures reached schema 10; incomplete task-value constraints were rejected. Ruff check/format, strict mypy, planning validation, and diff checks passed. No Databricks credentials/account, cloud compute, Spark, JVM, or .env was used.",
+          "artifact": "artifacts/conformance/B016.3-attempt-scoped-task-values.md"
+        }
+      ],
       "limitations": [
-        "Missing methods must raise; debug defaults do not count as implementation."
+        "Databricks documents dbutils.jobs.taskValues for Python notebooks; the Python script worker adapter is an explicit local extension and does not establish cloud parity.",
+        "Only get/set are supported. For-each iteration aggregation, notebook child outputs, notebook context getters, and other jobs methods remain unsupported.",
+        "Values are ordinary durable job metadata, not a secret store; use the separately scoped secret provider for secret material.",
+        "The private worker service currently requires POSIX socket descriptor passing and has no public HTTP route."
       ]
     },
     {
@@ -559,13 +1278,20 @@
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B017"
+        "B017",
+        "B017.1",
+        "B017.2",
+        "B017.3",
+        "B018.2",
+        "B017.4",
+        "B017.5"
       ],
       "tested_versions": {},
       "test_ids": [],
       "evidence": [],
       "limitations": [
-        "Scala/R and arbitrary shell/package magics are outside initial subset."
+        "Scala/R and arbitrary shell/package magics are outside initial subset.",
+        "Apply the selected serverless/classic contracts and exact tested profile combinations from document 17; planning does not establish compute compatibility."
       ]
     },
     {
@@ -580,7 +1306,12 @@
       "task_ids": [
         "B005",
         "B012",
-        "B018"
+        "B018",
+        "B005.1",
+        "B005.3",
+        "B005.4",
+        "B012.1",
+        "B018.1"
       ],
       "tested_versions": {},
       "test_ids": [],
@@ -594,19 +1325,64 @@
       "id": "C030",
       "domain": "clients",
       "name": "cli-terraform-bundles",
-      "status": "planned",
-      "target_scope": "Selected deployment and resource lifecycle workflows",
+      "status": "partial",
+      "target_scope": "Databricks CLI v1.21.0 workspace Python-source import/Python job workflow and one classic single-task Python bundle validate/deploy/run/destroy profile; Terraform Core 1.16.6 with databricks/databricks v1.137.0 workspace-file and single-task Python-job lifecycle on an existing simulated local classic cluster. Bundle user identity and new-cluster allocation are simulated. SQL, Terraform compute/warehouse resources, authentication, and remote workspace behavior remain unverified.",
       "profiles": [
         "spark35-local-v1"
       ],
       "task_ids": [
-        "B020"
+        "B020",
+        "B020.1",
+        "B020.2",
+        "B020.3",
+        "B020.4",
+        "B020.5"
       ],
-      "tested_versions": {},
-      "test_ids": [],
-      "evidence": [],
+      "tested_versions": {
+        "databricks_cli": "1.21.0 (macOS arm64 release ZIP SHA-256 5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83)",
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)",
+        "terraform_core": "1.16.6 (official macOS arm64 release ZIP SHA-256 85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd)",
+        "databricks_terraform_provider": "databricks/databricks 1.137.0"
+      },
+      "test_ids": [
+        "tests/integration/test_databricks_cli_bundle_v1_21_0.py::test_cli_bundle_v1_21_0_validate_deploy_and_run_local_python_job",
+        "tests/integration/test_databricks_cli_v1_21_0.py::test_cli_v1_21_0_workspace_file_and_python_job_flow",
+        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py::test_terraform_v1_16_6_databricks_provider_v1_137_0_lifecycle",
+        "tests/unit/test_host_metadata_api.py::test_bundle_current_user_is_a_stable_synthetic_identity",
+        "tests/unit/test_jobs_api_sdk.py::test_pinned_sdk_uploads_runs_and_retrieves_bounded_python_output",
+        "tests/unit/test_terraform_job_api.py::test_terraform_job_v2_lifecycle_keeps_stable_id_and_versions_definitions",
+        "tests/unit/test_workspace_files_api.py::test_workspace_bundle_json_status_export_and_recursive_cleanup"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST DATABRICKS_CLI=/tmp/brickhouse-cli-1.21.0/databricks PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/integration/test_databricks_cli_v1_21_0.py",
+          "result": "Databricks CLI v1.21.0 (official macOS arm64 release ZIP SHA-256 5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83) passed its loopback workflow. Real CLI calls imported a Python file, rejected duplicate import and a job referencing a missing source, created/submitted/polled a Python job, and returned worker output. The disposable workspace was removed. Synthetic local auth only; no Databricks credentials/account, .env, cloud compute, Spark, or JVM was used.",
+          "artifact": "artifacts/conformance/B020.1-databricks-cli-v1.21.0.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST -u DATABRICKS_CONFIG_PROFILE -u DATABRICKS_ACCOUNT_ID -u DATABRICKS_WORKSPACE_ID -u DATABRICKS_CLIENT_ID BRICKHOUSE_TERRAFORM=/tmp/brickhouse-terraform-1.16.6/terraform BRICKHOUSE_TERRAFORM_PLUGIN_CACHE=/tmp/brickhouse-tf-trial/plugin-cache PYTHONPATH=/Volumes/T7/coding/brickhouse/src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/unit/test_terraform_job_api.py",
+          "result": "3 passed. Actual Terraform/provider subprocesses completed local resource CRUD, update, refresh, error, state-recovery, job execution, and cleanup. Synthetic auth and loopback only; no account or cloud resource calls.",
+          "artifact": "artifacts/conformance/B020.2-terraform-v1.16.6-provider-v1.137.0.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST -u DATABRICKS_CONFIG_PROFILE -u DATABRICKS_ACCOUNT_ID -u DATABRICKS_WORKSPACE_ID -u DATABRICKS_CLIENT_ID DATABRICKS_CLI=/tmp/brickhouse-cli-1.21.0/databricks PYTHONPATH=/Volumes/T7/coding/brickhouse/src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/integration/test_databricks_cli_bundle_v1_21_0.py",
+          "result": "Actual CLI v1.21.0 passed bundle validate/deploy/run/destroy against an ephemeral loopback server for one classic single-task Python job. Actual local worker output was returned; simulated identity/compute were labeled; destroy removed managed bundle files and hid the job while preserving job/run history. Notebook task and pipeline probes were rejected. Synthetic token and temporary CLI configuration only; no account or cloud execution.",
+          "artifact": "artifacts/conformance/B020.3-databricks-cli-bundle-v1.21.0.md"
+        }
+      ],
       "limitations": [
-        "CLI/bundle/Terraform versions and resources tracked independently."
+        "The CLI and Terraform profiles have bounded local loopback evidence only; neither establishes Databricks authentication or remote workspace compatibility.",
+        "CLI bundle support covers one classic single-task Python job with local sync files. Notebook tasks, pipelines, apps, dashboards, serverless bundles, multi-task output, and broad bundle semantics remain unsupported or unverified.",
+        "The Terraform provider workspace identity, bundle current-user identity, and classic compute allocation are simulated local metadata. The local API does not authenticate callers; synthetic tokens configure the pinned clients only.",
+        "Terraform cluster/warehouse resources, SQL, broader workspace routes, and remote Databricks behavior remain unverified."
       ]
     },
     {
@@ -620,13 +1396,28 @@
       ],
       "task_ids": [
         "B005",
-        "B021"
+        "B021",
+        "B005.1",
+        "B021.1",
+        "B021.2",
+        "B011.5",
+        "B045"
       ],
       "tested_versions": {},
       "test_ids": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "clean env -i with databricks-sql-connector==4.6.0 and databricks-sql-kernel==1.1.0; scripts/probe_sql_connector_transport.py --timeout-seconds 4",
+          "result": "Transport-only B045 probe captured POST /api/2.0/sql/sessions with strict TLS verification, synthetic Bearer auth, and the warehouse ID from http_path. Local HTTP 401 was surfaced as OperationalError. No statement or query result was produced; C031 stays planned.",
+          "artifact": "artifacts/conformance/B045-sql-connector-loopback.md"
+        }
+      ],
       "limitations": [
-        "Transport option documented upstream; local interoperability remains unproven."
+        "B045 proves only the pinned kernel can send a session-open request over a local verified TLS/auth boundary; SQL execution, result/error semantics, cancellation and lifetime remain unverified.",
+        "The pinned kernel path ignores the connector port option; the probe uses an undocumented server_hostname host:port form. The private _tls_trusted_ca_file argument is contained in the research adapter only.",
+        "Thrift is a separate profile and remains unverified. Apply the selected serverless/classic contracts and exact profiles from document 17."
       ]
     },
     {
@@ -672,19 +1463,31 @@
       "domain": "infrastructure",
       "name": "cluster-warehouse-metadata",
       "status": "planned",
-      "target_scope": "Local API lifecycle records for selected compute resources",
+      "target_scope": "Persistent classic all-purpose/run-scoped job compute and serverless/pro/classic SQL warehouse metadata with versioned API lifecycle transitions",
       "profiles": [
-        "spark35-local-v1"
+        "serverless-local-v1",
+        "classic-standard-local-v1",
+        "classic-dedicated-local-v1",
+        "sql-serverless-local-v1",
+        "sql-pro-local-v1",
+        "sql-classic-local-v1"
       ],
       "task_ids": [
         "B020",
-        "B040"
+        "B040",
+        "B020.3",
+        "B011.5",
+        "B014.4",
+        "B020.4"
       ],
       "tested_versions": {},
       "test_ids": [],
       "evidence": [],
       "limitations": [
-        "Intended eventual state is simulated; never imply cloud compute exists."
+        "Only the bounded classic lifecycle metadata slice in C057 is implemented; the broader serverless, SQL warehouse, and cross-profile infrastructure inventory remains planned. All represented allocation is simulated.",
+        "Resource records and lifecycle states do not establish job/query compatibility; real workload behavior is tracked separately in C053-C056.",
+        "Access-mode and runtime/environment labels require selected versioned contracts and cannot imply a sandbox, shared driver state, or full Databricks Runtime parity.",
+        "Document 16 defines the bounded 0.1 variants, fixture limits and planned acceptance families; resource/context completion or prerequisite research is not workload conformance."
       ]
     },
     {
@@ -817,7 +1620,8 @@
       "test_ids": [],
       "evidence": [],
       "limitations": [
-        "Trusted host code can bypass service controls; no multi-tenant security claim."
+        "Trusted host code can bypass service controls; no multi-tenant security claim.",
+        "Apply the selected serverless/classic contracts and exact tested profile combinations from document 17; planning does not establish compute compatibility."
       ]
     },
     {
@@ -856,7 +1660,8 @@
       "test_ids": [],
       "evidence": [],
       "limitations": [
-        "No claim of complete Structured Streaming."
+        "No claim of complete Structured Streaming.",
+        "Apply the selected serverless/classic contracts and exact tested profile combinations from document 17; planning does not establish compute compatibility."
       ]
     },
     {
@@ -913,7 +1718,8 @@
       "test_ids": [],
       "evidence": [],
       "limitations": [
-        "Different from dltHub ingestion; cross-table atomicity not implied."
+        "Different from dltHub ingestion; cross-table atomicity not implied.",
+        "Apply the selected serverless/classic contracts and exact tested profile combinations from document 17; planning does not establish compute compatibility."
       ]
     },
     {
@@ -1028,6 +1834,372 @@
       "evidence": [],
       "limitations": [
         "Known architectural frontier; public compatibility must explicitly disclose exclusions."
+      ]
+    },
+    {
+      "id": "C053",
+      "domain": "runtime",
+      "name": "serverless-python-workloads",
+      "status": "planned",
+      "target_scope": "Bounded serverless Python jobs/notebooks with real local execution, validated environment selection, supported config/defaults, isolated sessions, and accurate outputs/errors",
+      "profiles": [
+        "serverless-local-v1"
+      ],
+      "task_ids": [
+        "B014",
+        "B014.5",
+        "B014.2",
+        "B014.3",
+        "B015.1",
+        "B017.4",
+        "B018",
+        "B019.1",
+        "B023",
+        "B024",
+        "B036",
+        "B014.6",
+        "B017.5",
+        "B020.5",
+        "B046"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Required bounded 0.1 subset; not implemented or verified by source research or the existing serverless SQL reference.",
+        "Initial environments must be provisioned/mapped locally; automatic optimization retries are explicitly disabled until the selected phase 0.2 policy is implemented.",
+        "Full native Connect protocol and deferred-analysis/view/UDF semantics require B036 in phase 0.7; local subset execution alone does not claim them.",
+        "JVM tasks, cloud allocation/performance and unimplemented file/UDF/network behavior remain explicitly unsupported.",
+        "Document 16 defines the bounded 0.1 variants, fixture limits and planned acceptance families; resource/context completion or prerequisite research is not workload conformance."
+      ]
+    },
+    {
+      "id": "C054",
+      "domain": "runtime",
+      "name": "classic-python-workloads",
+      "status": "planned",
+      "target_scope": "Bounded classic all-purpose/jobs Python and notebook execution with new/existing/shared-compute selection, mapped standard/dedicated runtime contracts, real local workers and durable resource lifetimes",
+      "profiles": [
+        "classic-standard-local-v1",
+        "classic-dedicated-local-v1"
+      ],
+      "task_ids": [
+        "B014",
+        "B014.4",
+        "B014.5",
+        "B014.2",
+        "B014.3",
+        "B015.1",
+        "B017.4",
+        "B018",
+        "B023",
+        "B028",
+        "B036",
+        "B014.6",
+        "B017.5",
+        "B020.5",
+        "B046"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Required bounded 0.1 subset; classic reference runtime/access modes have not been observed on the personal account.",
+        "Fresh child processes intentionally exclude shared driver, JVM, module and singleton state even when job tasks share a compute resource; claims remain partial for such workloads.",
+        "Classic compute can use Connect in selected reference runtimes; compute mode alone cannot select analysis/protocol semantics.",
+        "Access-mode labels do not establish a security sandbox or full ACL enforcement; phase 0.2 requires B028 evidence.",
+        "Document 16 defines the bounded 0.1 variants, fixture limits and planned acceptance families; resource/context completion or prerequisite research is not workload conformance."
+      ]
+    },
+    {
+      "id": "C055",
+      "domain": "sql",
+      "name": "warehouse-execution-profiles",
+      "status": "planned",
+      "target_scope": "Serverless/pro/classic warehouse identity binding, type/flag validation, start/stop/idle/admission behavior and real shared-table statement results with versioned connector identity",
+      "profiles": [
+        "sql-serverless-local-v1",
+        "sql-pro-local-v1",
+        "sql-classic-local-v1"
+      ],
+      "task_ids": [
+        "B011",
+        "B011.5",
+        "B011.3",
+        "B011.4",
+        "B020.4",
+        "B021",
+        "B023",
+        "B011.6"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Required bounded 0.1 subset; no SQL warehouse execution or lifecycle compatibility is implemented.",
+        "Serverless uses the selected API PRO type plus enable_serverless_compute=true; no invented SERVERLESS warehouse enum.",
+        "Node sizing and cloud scaling are simulated under C034; actual local admission limits and query work require tests, and Photon/predictive I/O/IWM performance are not claimed.",
+        "Direct Statement Execution warehouse coverage does not automatically permit every SQL/dbt job task and warehouse combination.",
+        "Document 16 defines the bounded 0.1 variants, fixture limits and planned acceptance families; resource/context completion or prerequisite research is not workload conformance."
+      ]
+    },
+    {
+      "id": "C056",
+      "domain": "runtime",
+      "name": "compute-environments-and-configuration",
+      "status": "planned",
+      "target_scope": "Mode/access/runtime/protocol-specific context resolution, provisioned environment mappings and settings in 0.1; selected locked provisioning/cache/reset, dependency modes and compute permission policies in 0.2",
+      "profiles": [
+        "serverless-local-v1",
+        "classic-standard-local-v1",
+        "classic-dedicated-local-v1"
+      ],
+      "task_ids": [
+        "B014.5",
+        "B017.4",
+        "B010.3",
+        "B019.1",
+        "B024",
+        "B028"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Initial environment mappings are explicit local contracts, not emulated full Databricks runtimes or arbitrary environment versions.",
+        "Unmapped dependencies, unsupported installs/settings and unavailable effects fail before dispatch; no automatic JVM/runtime installation.",
+        "Classic Environments mode and serverless compute objects are version/preview-specific contracts requiring later selection and evidence.",
+        "List only actually tested compute/access/environment/semantic/protocol combinations; no whole cross-product claim.",
+        "Document 16 defines the bounded 0.1 variants, fixture limits and planned acceptance families; resource/context completion or prerequisite research is not workload conformance."
+      ]
+    },
+    {
+      "id": "C057",
+      "domain": "infrastructure",
+      "name": "classic-compute-lifecycle-metadata",
+      "status": "simulated",
+      "target_scope": "Pinned-SDK classic all-purpose cluster lifecycle plus run-scoped new/shared consumer lifetimes bound to actual local Python job workers; restart/termination invalidation and worker cleanup remain simulated local behavior",
+      "profiles": [
+        "classic-standard-local-v1",
+        "classic-dedicated-local-v1"
+      ],
+      "task_ids": [
+        "B014",
+        "B014.4",
+        "B014.6"
+      ],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "sqlite": "3.53.4",
+        "workspace_metadata_schema": "10",
+        "databricks_sdk": "0.153.0 against loopback only",
+        "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)"
+      },
+      "test_ids": [
+        "tests/unit/test_compute_api_sdk.py::test_pinned_sdk_classic_cluster_lifecycle_persists_and_paginates",
+        "tests/unit/test_compute_api_sdk.py::test_pinned_sdk_cluster_routes_reject_unmapped_runtime_and_compute_effects",
+        "tests/unit/test_compute_service.py::test_all_purpose_identity_idle_expiry_and_autostart_are_durable",
+        "tests/unit/test_compute_service.py::test_shared_job_compute_uses_first_and_last_planned_consumers",
+        "tests/unit/test_compute_service.py::test_compute_requires_explicit_local_runtime_and_rejects_unmapped_effects",
+        "tests/unit/test_compute_service.py::test_job_new_requires_one_consumer_and_run_key_is_idempotent",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants",
+        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_compute_service.py tests/unit/test_compute_api_sdk.py",
+          "result": "6 passed using temporary local SQLite workspaces and Databricks SDK 0.153.0 against the loopback adapter. No .env, Databricks account, cloud compute, Spark, or JVM was used; lifecycle/allocation remain simulated metadata.",
+          "artifact": "artifacts/conformance/B014.4-classic-compute-lifecycle.md"
+        },
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_compute_service.py tests/unit/test_compute_api_sdk.py",
+          "result": "Local SDK tests ran all seven worker/compute selections. New/shared consumers started and released around actual workers, all-purpose identity/autostart persisted, and active restart/termination canceled workers and reaped descendants. Resource allocation remains simulated; no cloud VM, Databricks account, Spark, or JVM was used.",
+          "artifact": "artifacts/conformance/B014.6-job-worker-compute-lifetimes.md"
+        }
+      ],
+      "limitations": [
+        "No cloud VM is allocated. The runtime alias is local to BrickHouse and is not a Databricks Runtime or parity claim.",
+        "The SDK profile is tested only against the local loopback adapter, not a Databricks workspace.",
+        "Access-mode labels do not implement authorization, identity isolation, or a malicious-code sandbox.",
+        "Workers now consume simulated classic resource lifetimes and react to all-purpose invalidation. Only the selected local Python contexts are tested; no cloud VM, Spark/Sparkless session, authorization boundary, or broad runtime/access parity is implemented.",
+        "Serverless and SQL warehouse lifecycle metadata remain planned under C034."
+      ]
+    },
+    {
+      "id": "C058",
+      "domain": "runtime",
+      "name": "pre-dispatch-execution-context-resolution",
+      "status": "partial",
+      "target_scope": "Internal immutable context resolution for the bounded serverless environment and classic inline/shared/existing Python and notebook task profiles before dispatch",
+      "profiles": [
+        "serverless-local-v1",
+        "classic-standard-local-v1",
+        "classic-dedicated-local-v1"
+      ],
+      "task_ids": [
+        "B014.5",
+        "B014.6"
+      ],
+      "tested_versions": {
+        "brickhouse": "0.1.0.dev0",
+        "python": "3.11.14",
+        "databricks_sdk": "0.153.0 model serialization only",
+        "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)",
+        "serverless_environment_version": "1 (mapped to active local Python minor)",
+        "worker_timeout_limit_seconds": "86400"
+      },
+      "test_ids": [
+        "tests/unit/test_execution_context.py::test_serverless_environment_and_defaults_resolve_from_pinned_sdk_models",
+        "tests/unit/test_execution_context.py::test_classic_inline_shared_and_existing_compute_selectors_resolve_before_dispatch",
+        "tests/unit/test_execution_context.py::test_context_resolver_rejects_conflicts_missing_resources_and_unmapped_effects",
+        "tests/unit/test_execution_context.py::test_notebook_context_requires_python_compute_and_mapped_environment",
+        "tests/unit/test_execution_context.py::test_task_paths_must_be_normalized_workspace_local_paths",
+        "tests/unit/test_execution_context.py::test_unmapped_environment_client_and_timeout_values_fail_before_dispatch"
+      ],
+      "evidence": [
+        {
+          "date": "2026-10-20",
+          "kind": "conformance",
+          "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_execution_context.py; /tmp/brickhouse-sparkless-4140/bin/python -m ruff check src/brickhouse/jobs/execution_context.py tests/unit/test_execution_context.py; /tmp/brickhouse-sparkless-4140/bin/python -m mypy src/brickhouse/jobs src/brickhouse/runtime",
+          "result": "11 local resolver tests passed; Ruff and strict mypy passed. SDK model serialization, temporary local SQLite workspaces and installed package metadata only; no account or cloud execution.",
+          "artifact": "artifacts/conformance/B014.5-execution-context-resolution.md"
+        }
+      ],
+      "limitations": [
+        "Internal resolver only; B014.2/B014.3.1 consume resolved values for local plain-Python tasks but do not provide Sparkless/DataFrame behavior, retries, compute lifecycle effects or broad workload compatibility.",
+        "Profiles and aliases are BrickHouse-local mappings and do not establish Databricks workspace/runtime parity or security isolation.",
+        "Only serverless environment version 1, the active local Python minor, and exact installed dependency pins are mapped; no environment creation or arbitrary package installation is performed.",
+        "The initial serverless profile requires disable_auto_optimization=true; only standard ALL_SUCCESS task conditions are accepted.",
+        "Capabilities C053\u2013C056 remain planned; this partial result is not serverless or classic workload conformance."
+      ]
+    },
+    {
+      "id": "C059",
+      "domain": "deployment",
+      "name": "authenticated-single-server-deployment",
+      "status": "planned",
+      "target_scope": "Authenticated encrypted single-server operation for trusted code authors after emulator stability",
+      "profiles": [
+        "server-trusted-v1"
+      ],
+      "task_ids": [
+        "B050"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Deployment implementation is gated by B049 after emulator conformance B042; JVM-free Databricks emulation remains the primary goal.",
+        "No network authentication, persistent deployed secret store or shared-service security is implemented by this plan; arbitrary Python host access remains explicit in the trusted profile."
+      ]
+    },
+    {
+      "id": "C060",
+      "domain": "deployment",
+      "name": "deployed-browser-workspace-and-integrations",
+      "status": "planned",
+      "target_scope": "A browser workspace and selected optional services using the same catalog, authorization and job services",
+      "profiles": [
+        "server-trusted-v1"
+      ],
+      "task_ids": [
+        "B051"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Deployment implementation is gated by B049 after emulator conformance B042; JVM-free Databricks emulation remains the primary goal.",
+        "No browser workspace or deployed optional-service boundary is implemented; existing local SDK and provider evidence does not qualify this capability."
+      ]
+    },
+    {
+      "id": "C061",
+      "domain": "deployment",
+      "name": "isolated-self-hosted-workloads",
+      "status": "planned",
+      "target_scope": "Shared workload execution inside a tested host/platform isolation and resource boundary",
+      "profiles": [
+        "server-isolated-v1"
+      ],
+      "task_ids": [
+        "B052"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Deployment implementation is gated by B049 after emulator conformance B042; JVM-free Databricks emulation remains the primary goal.",
+        "Fresh local processes and compatibility access-mode labels are not a sandbox; hostile-code isolation requires real negative and resource-exhaustion tests."
+      ]
+    },
+    {
+      "id": "C062",
+      "domain": "deployment",
+      "name": "authenticated-remote-worker-pool",
+      "status": "planned",
+      "target_scope": "Enrolled multi-host job workers with fenced commits/checkpoints and verified data transport",
+      "profiles": [
+        "worker-pool-v1"
+      ],
+      "task_ids": [
+        "B053"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Deployment implementation is gated by B049 after emulator conformance B042; JVM-free Databricks emulation remains the primary goal.",
+        "No remote worker backend, distributed leases or multi-host native storage is implemented; distributing one query, HA and exactly-once external Python effects are outside this claim."
+      ]
+    },
+    {
+      "id": "C063",
+      "domain": "deployment",
+      "name": "self-hosted-operational-qualification",
+      "status": "planned",
+      "target_scope": "Versioned upgrades, coordinated cross-host restore, rotation, monitoring and measured capacity for selected deployment profiles",
+      "profiles": [
+        "server-trusted-v1",
+        "server-isolated-v1",
+        "worker-pool-v1"
+      ],
+      "task_ids": [
+        "B054"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Deployment implementation is gated by B049 after emulator conformance B042; JVM-free Databricks emulation remains the primary goal.",
+        "No deployed availability, recovery objectives or production capacity is established; single-control-service limits and each provider/platform require separate evidence."
+      ]
+    },
+    {
+      "id": "C064",
+      "domain": "deployment",
+      "name": "self-hosted-distribution",
+      "status": "planned",
+      "target_scope": "A consolidated self-hosted candidate after emulator stability and all advertised deployment gates",
+      "profiles": [
+        "server-trusted-v1",
+        "server-isolated-v1",
+        "worker-pool-v1"
+      ],
+      "task_ids": [
+        "B055"
+      ],
+      "tested_versions": {},
+      "test_ids": [],
+      "evidence": [],
+      "limitations": [
+        "Deployment implementation is gated by B049 after emulator conformance B042; JVM-free Databricks emulation remains the primary goal.",
+        "Future post-stability distribution only; neither emulator phase completion nor this planning record establishes deployment readiness, publication authorization or full Databricks parity."
       ]
     }
   ]

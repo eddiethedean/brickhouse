@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Python ${{ matrix.python-version }} checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements/dev.txt
+      - name: Install locked developer tools
+        run: python -m pip install --require-hashes -r requirements/dev.txt
+      - name: Validate plans
+        run: python scripts/validate_planning.py
+      - name: Lint
+        run: python -m ruff check src tests scripts
+      - name: Type check
+        run: python -m mypy
+      - name: Run local tests
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+        run: python -m pytest
+      - name: Build wheel and source distribution
+        run: python -m build --no-isolation
+
+  clean-wheel-install:
+    name: Clean wheel install
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: Install locked developer tools
+        run: python -m pip install --require-hashes -r requirements/dev.txt
+      - name: Build distributions
+        run: python -m build --no-isolation
+      - name: Install wheel without runtime dependencies
+        run: |
+          python -m venv /tmp/brickhouse-clean
+          /tmp/brickhouse-clean/bin/python -m pip install --no-deps --no-index dist/brickhouse-*.whl
+      - name: Check installed CLI and import
+        run: |
+          /tmp/brickhouse-clean/bin/brickhouse --help
+          /tmp/brickhouse-clean/bin/brickhouse --version
+          /tmp/brickhouse-clean/bin/python -I -c "import brickhouse; assert brickhouse.__version__ == '0.1.0.dev0'"

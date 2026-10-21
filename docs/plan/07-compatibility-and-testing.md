@@ -19,6 +19,18 @@ Expose a generated view through the CLI and `/_brickhouse/capabilities`. Unknown
 | Delta protocol fixtures and cross-engine reads | Physical table interoperability |
 | Minilake reference tests | Useful regression examples; not the final compatibility authority |
 
+The initial released-client pins and the distinct SQL REST/kernel and Thrift profiles are recorded in the [B005.1 client matrix](../../artifacts/conformance/B005.1-client-profile-matrix.md). The matrix is research evidence, not a compatibility claim. Its `spark35-local-v1` semantic target does not identify an observed Databricks Runtime or warehouse. Revalidate pins before implementation and publication.
+
+B045 verified the exact connector 4.6.0 and kernel 1.1.0 wheels against a local HTTPS capture. It observed one authenticated SQL session-open request and the connector's 401 handling with strict TLS verification; it did not execute SQL. The private custom-CA argument and host-with-port workaround are contained in the research harness under [ADR 0021](../decisions/0021-sql-kernel-local-transport-adaptation.md); no query compatibility claim follows.
+
+B020.1 verifies a selected workflow using the actual [Databricks CLI v1.21.0](../../artifacts/conformance/B020.1-databricks-cli-v1.21.0.md) against an ephemeral loopback server: workspace Python-source import, duplicate/missing-source errors, Python job create/submit/poll/output, and scratch cleanup. This makes C030 partial for that exact CLI profile. The CLI fixture uses a synthetic token because the local API does not authenticate requests; authentication, broader workspace routes, SQL, compute resources, Terraform, bundles, and remote workspace behavior remain unverified.
+
+B020.2 verifies Terraform Core 1.16.6 with `databricks/databricks` 1.137.0 against a disposable loopback workspace. The selected resource subset is `databricks_workspace_file` plus a single-task `databricks_job` that runs an uploaded Python script on an existing simulated local classic cluster. Apply/read/update/refresh/destroy, a rejected update, recovery through refresh, worker output, and resource cleanup are exercised by the [opt-in conformance test](../../tests/integration/test_terraform_v1_16_6_provider_1_137_0.py) and recorded in the [B020.2 report](../../artifacts/conformance/B020.2-terraform-v1.16.6-provider-v1.137.0.md). The local host advertises a deterministic numeric ID only for the provider's workspace routing metadata; this ID is simulated and is not the workspace's UUID or a Databricks account ID. No token from `.env` or a GitHub secret is read. Classic cluster allocation remains simulated; broader Terraform resources, SQL, authentication, and remote workspace behavior remain unverified.
+
+B020.3 verifies Databricks CLI v1.21.0 bundle validate/deploy/run/destroy for one classic single-task Python job against an ephemeral loopback workspace. The CLI uploads and exports bundle JSON/source files, creates local workspace folders, resolves a synthetic current-user identity, executes a real local worker, and destroys the bundle through managed-file cleanup and a job tombstone that preserves run history. The [opt-in conformance test](../../tests/integration/test_databricks_cli_bundle_v1_21_0.py) and [B020.3 report](../../artifacts/conformance/B020.3-databricks-cli-bundle-v1.21.0.md) record the profile and exact boundary. The CLI subprocess receives only a synthetic token and a temporary config/home; no `.env`, GitHub secret, personal Databricks account, cloud compute, Spark, or JVM is used. The user identity and `new_cluster` allocation are simulated. Notebook tasks, pipelines, apps, dashboards, serverless bundles, multi-task output, broad bundle semantics, authentication, and remote workspace behavior remain unverified.
+
+[Document 17](17-serverless-and-classic-compute.md) defines separate serverless/classic workload and SQL warehouse targets. Every claim identifies compute/access mode, environment or runtime reference, semantic profile and protocol as an explicit tested combination. A planned profile list does not claim every cross-product combination. C034 measures infrastructure simulation separately from workload/environment capabilities C053–C056; none is established by B043's source research. A serverless SQL capture cannot stand in for serverless Python, classic compute or Connect evidence.
+
 Runtime CI is JVM-free. Use the owner's personal Databricks account for occasional bounded reference probes to verify representative code and resolve test-design questions. [The reference verification plan](15-personal-databricks-verification.md) defines the existing authorization, configuration, capture workflow, and evidence requirements. Routine tests, required CI, milestone gates, and release tests use sanitized stored fixtures locally; they do not execute against Databricks. Separate optional tooling may generate real Spark references or manually capture Databricks observations; the runtime must never call it to complete a user operation.
 
 For each captured fixture record source product/version, date, profile, input schema/data, operation, result/error, ordering requirements, normalization policy, and provenance. Normalize only documented nondeterminism such as IDs/timestamps; do not normalize away type, timezone, or error-class differences. Sort output only when row order is unspecified.
@@ -55,9 +67,28 @@ Do not use mocks to claim data writes, SQL execution, job execution, or durable 
 
 **G4 clients:** pin-specific CLI, Terraform, bundle, and SQL-connector workflows for advertised compatibility.
 
+For 0.1.0, G1–G4 include the selected serverless and classic Python/notebook variants and serverless/pro/classic warehouse cases from document 17. Verify real execution, invalid selectors/settings and resource lifetimes; use a controlled clock for infrastructure timing rather than cloud startup sleeps. Missing required mode behavior blocks the gate or requires a recorded scope revision. Full Connect protocol/analysis behavior has its own later B036 gate.
+
 **G5 streaming (later):** replay after failure preserves declared offset/state/output guarantees; late-data/window behavior matches fixtures.
 
 **G6 extensions:** each advertised optional extra installs and passes an actual provider workflow with the base stack.
+
+[Document 16](16-phase-0.1-initial-release.md#release-case-families-and-evidence-owners) fixes 27 planned acceptance families with task owners, seven Python job and ten notebook variants, local test limits and candidate evidence requirements. Family IDs are design identifiers, not passing test IDs. B045 transport research and B046 provider development artifacts resolve prerequisites; runtime support still requires the real downstream workflows.
+
+## Post-stability deployment gates
+
+The emulator remains primary through phases 0.1–0.9. B048 uses real G1–G4 evidence for a bounded architecture review before B023; it does not assert deployed functionality. B049 assesses repeated applicable G1–G6, exact candidate/compatibility scope, defects, upgrades and coordinated restore after B042. Deployment implementation cannot begin before that stability gate. [Document 18](18-self-hosted-platform.md) defines proposed trust profiles and exact evidence responsibilities; the IDs below identify future gates, not passing tests.
+
+| Gate | Owner / stage | Required evidence |
+|---|---|---|
+| S1 | B050 / SH.1 | Real verified TLS and authentication, service-wide authorization/denial, protected durable secrets and rotation, bounded single-server work and coordinated restore; trusted-code limits explicit |
+| S2 | B051 / SH.2 | Actual browser/source/job/SQL workflows, session/output security and cross-principal denial, selected optional-provider lifecycle and state restore |
+| S3 | B052 / SH.3 | Actual selected isolation mechanism denies host/other-principal access and enforces resource/cancellation/cleanup limits; applicable emulator corpus still passes |
+| S4 | B053 / SH.4 | Real enrolled second host, verified native storage/transfer, fenced attempts/checkpoints/commits, partition/stale-worker/lost-response recovery and selected automation reassignment |
+| S5 | B054 / SH.5 | Clean install/upgrade, coordinated restore to another host with measured recovery objectives, rotation, capacity/soak/overload results, monitoring and operator runbooks |
+| S6 | B055 / SH.6 | Applicable G1–G6 and S1–S5 from exact distribution artifacts for each claimed deployment profile, plus independently passing local installation |
+
+Use real local services and provisioned test infrastructure. Simulations may inject external failure boundaries but cannot prove isolation, host separation or storage effects. No paid infrastructure or cloud workspace run is authorized by this plan. Absence of qualifying infrastructure leaves the relevant future gate blocked. Deployment/OS/isolation/storage versions are independent of semantic/compute/client versions, and simulated compute metadata remains separately labeled.
 
 ## Coverage reporting
 

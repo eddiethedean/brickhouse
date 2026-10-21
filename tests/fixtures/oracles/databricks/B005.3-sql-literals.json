@@ -1,0 +1,55 @@
+{
+  "capture_id": "B005.3-sql-literals",
+  "captured_at": "2026-10-16",
+  "source": {
+    "product": "Databricks Free Edition SQL Warehouse",
+    "workspace_alias": "free-edition-workspace-1",
+    "warehouse": {
+      "type": "PRO",
+      "compute": "serverless",
+      "size": "2X-Small",
+      "state_before": "STOPPED",
+      "state_after_cleanup": "STOPPED"
+    },
+    "runtime_version": null,
+    "warehouse_engine_version": null,
+    "client": "Python standard-library urllib using Databricks SQL Statement Execution API",
+    "api_version": "2.0",
+    "result_format": "JSON_ARRAY",
+    "result_disposition": "INLINE",
+    "authentication_source": "DATABRICKS_TOKEN from ignored local .env; token value not retained"
+  },
+  "operation": {
+    "kind": "read-only SQL statement with inline synthetic literals",
+    "statement": "SELECT current_timezone() AS session_timezone, CAST(12.34 AS DECIMAL(12, 2)) AS amount, CAST('2026-10-16' AS DATE) AS event_date, CAST('2026-10-16 12:34:56' AS TIMESTAMP) AS event_ts, CAST(NULL AS STRING) AS optional_text, ARRAY(1, 2) AS item_ids",
+    "limits": {
+      "statement_count": 1,
+      "max_wait_seconds": 75,
+      "no_catalog_or_schema_created": true,
+      "no_tables_or_files_written": true
+    }
+  },
+  "result": {
+    "schema": [
+      {"name": "session_timezone", "type_name": "STRING", "type_text": "STRING"},
+      {"name": "amount", "type_name": "DECIMAL", "type_precision": 12, "type_scale": 2, "type_text": "DECIMAL(12,2)"},
+      {"name": "event_date", "type_name": "DATE", "type_text": "DATE"},
+      {"name": "event_ts", "type_name": "TIMESTAMP", "type_text": "TIMESTAMP"},
+      {"name": "optional_text", "type_name": "STRING", "type_text": "STRING"},
+      {"name": "item_ids", "type_name": "ARRAY", "type_text": "ARRAY<INT>"}
+    ],
+    "data_array": [
+      ["Etc/UTC", "12.34", "2026-10-16", "2026-10-16T12:34:56.000Z", null, "[\"1\",\"2\"]"]
+    ]
+  },
+  "normalization": {
+    "row_order": "single row",
+    "nondeterministic_values": "none",
+    "redaction": "Workspace URL, organization ID, user identity, warehouse ID, and statement ID omitted.",
+    "wire_encoding": "Preserve JSON_ARRAY's decimal string and nested array JSON string exactly; do not coerce them in the oracle fixture."
+  },
+  "cleanup": {
+    "warehouse_restored_to_initial_state": true,
+    "scratch_namespace_used": false
+  }
+}

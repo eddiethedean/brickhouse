@@ -1,0 +1,46 @@
+{
+  "capture_id": "B007.2-identifiers",
+  "captured_at": "2026-10-19",
+  "source": {
+    "product": "Databricks Free Edition SQL Warehouse",
+    "workspace_alias": "free-edition-workspace-1",
+    "warehouse": {
+      "type": "PRO",
+      "compute": "serverless",
+      "size": "2X-Small",
+      "state_before": "STOPPED",
+      "state_after_cleanup": "STOPPED"
+    },
+    "warehouse_engine_version": null,
+    "client": "Python standard-library urllib using Databricks SQL Statement Execution API",
+    "api_version": "2.0",
+    "result_format": "JSON_ARRAY",
+    "result_disposition": "INLINE",
+    "authentication_source": "DATABRICKS_TOKEN from ignored local .env; token value not retained"
+  },
+  "operation": {
+    "kind": "one read-only SQL statement with synthetic literals and delimited aliases",
+    "statement": "SELECT current_catalog() AS catalog_context, current_schema() AS schema_context, 1 AS `simple`, 2 AS `part.with.dot`, 3 AS `mixed``tick`",
+    "limits": {
+      "statement_count": 1,
+      "max_wait_seconds": 75,
+      "catalog_or_schema_created": false,
+      "tables_or_files_written": false
+    }
+  },
+  "result": {
+    "schema": [
+      {"name": "catalog_context", "type_name": "STRING", "type_text": "STRING"},
+      {"name": "schema_context", "type_name": "STRING", "type_text": "STRING"},
+      {"name": "simple", "type_name": "INT", "type_text": "INT"},
+      {"name": "part.with.dot", "type_name": "INT", "type_text": "INT"},
+      {"name": "mixed`tick", "type_name": "INT", "type_text": "INT"}
+    ],
+    "data_array": [["present", "present", "1", "2", "3"]],
+    "redaction": "Actual current catalog and schema strings replaced with non-null indicators."
+  },
+  "cleanup": {
+    "warehouse_restored_to_initial_state": true,
+    "scratch_namespace_used": false
+  }
+}

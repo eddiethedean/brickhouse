@@ -1,0 +1,40 @@
+{
+  "result": "passed",
+  "date": "2026-10-20",
+  "versions": {
+    "python": "3.11.14",
+    "sparkless": "4.14.0",
+    "deltalake": "1.2.1",
+    "pyarrow": "23.0.1"
+  },
+  "case_count": 14,
+  "cases": [
+    "native DataFrame/reader/SQL/catalog reads through public Python provider",
+    "decimal, scalar null, array and struct append uses journaled table service",
+    "SQL INSERT SELECT delegated through the same commit authority",
+    "overwrite returns the exact committed Delta version and physical rows",
+    "version-pinned external reads remain distinct from latest",
+    "fresh session has no provider until explicitly attached",
+    "callback failure surfaced as SparklessError; no mutation or local fallback",
+    "catalog lookup failure is explicit rather than false absence",
+    "unsupported write options fail before the provider commit",
+    "provider strong reference released on detach; existing reader sees removal",
+    "fresh workspace owner reads the same committed schema/data after reopen",
+    "independent owner threads keep sessions, callback context and tables isolated",
+    "process termination before commit preserves the actual Delta outcome",
+    "process termination after commit preserves the actual Delta outcome"
+  ],
+  "excluded_contracts": {
+    "nullable_structs": "B046.3-null-struct-repro.py; upstream issues #1694 and #1695"
+  },
+  "limits": {
+    "callback_ipc_bytes": 1048576,
+    "callback_rows": 32
+  },
+  "limitations": [
+    "Native writer materializes data before these callback limits apply.",
+    "Sessions stay on their owner thread; cross-thread transfer is unsupported.",
+    "Synchronous callbacks have process containment, not an async cancellation API.",
+    "This explicit probe is not a production adapter or a Databricks compatibility claim."
+  ]
+}

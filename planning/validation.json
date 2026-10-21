@@ -1,22 +1,165 @@
 {
-  "date": "2026-10-16",
-  "scope": "Planning artifacts only; added root 0.x release roadmap with initial version 0.1.0. No implementation tests, credential inspection, or remote calls run.",
-  "markdown_files": 24,
-  "task_count": 42,
-  "capability_count": 52,
-  "local_markdown_links_checked": 136,
+  "date": "2026-10-20",
+  "scope": "B047 emulator-first roadmap planning: preserve 0.1-0.9 emulator phases, add a bounded B048 architecture review, and gate SH.1-SH.6 deployment implementation on B049 stability after B042.",
+  "result": "passed",
+  "markdown_files": 116,
+  "task_count": 140,
+  "work_package_count": 55,
+  "phase_0_1_child_task_count": 85,
+  "capability_count": 64,
   "release_phase_count": 9,
+  "local_markdown_links_checked": 1019,
   "checks": [
-    "JSON parses and task/capability states are valid",
-    "Unique task and capability IDs; acyclic dependencies; all references resolve",
-    "All task plan documents and child references resolve",
-    "All 42 task titles, deliverables, and acceptance criteria match the backlog",
-    "All 42 tasks assigned to exactly one release phase; no prerequisites assigned to a later phase",
-    "Phase 0.1 targets 0.1.0 and preserves B001-B023; later phases target 0.2.0 through 0.9.0",
-    "Task definitions, acceptance criteria, dependencies, and states unchanged from HEAD",
-    "Local Markdown file links resolve, including the task manifest release_roadmap pointer",
-    "All task/capability states remain planned without implementation evidence or tested-version claims",
-    "Local .env and raw reference captures retain explicit ignore rules"
+    "Planning schema, task graph/cycles, parent-child criteria/prerequisites, all nine emulator release assignments, seven separate post-stability stages, the B049 stability barrier, backlog agreement, capability/evidence references and local Markdown links passed.",
+    "10 focused planning-validator regression checks passed: the real plan, eight malformed graph/assignment/start-state cases and future deployment-child stage inheritance. No emulator or deployment runtime test was run for B047.",
+    "Pre-edit preservation audit retained every original task acceptance criterion, child list, prerequisite edge, reference and evidence record. B023 and its children only gained B048; existing later emulator epics gained guidance references. All original capability states remain. Concurrent B020.2/B020.3 and C030 implementation updates were retained.",
+    "Ruff check and formatting passed for scripts/validate_planning.py and tests/unit/test_planning_validation.py; strict mypy passed for the validator; git diff --check passed.",
+    "C059-C064 are planned only, without tested versions, test IDs or evidence. No JVM, remote Spark fallback, Databricks credential/account request, cloud workload, dependency change, runtime migration or publication was introduced."
   ],
-  "result": "passed"
+  "implementation_tests_run": false,
+  "databricks_account_requests_run": false,
+  "provider_qualification": {
+    "result": "blocked",
+    "issues": [
+      "https://github.com/eddiethedean/robin-sparkless/issues/1694",
+      "https://github.com/eddiethedean/robin-sparkless/issues/1695"
+    ],
+    "report": "artifacts/conformance/B046.3-sparkless-4.14.0-provider.md"
+  },
+  "worker_supervision": {
+    "result": "done",
+    "task": "B013",
+    "focused_checks": "70 passed",
+    "report": "artifacts/conformance/B013.3-worker-supervision.md"
+  },
+  "connector_transport": {
+    "result": "session-open feasible; SQL compatibility unproven",
+    "task": "B045",
+    "connector": "databricks-sql-connector==4.6.0",
+    "kernel": "databricks-sql-kernel==1.1.0",
+    "report": "artifacts/conformance/B045-sql-connector-loopback.md"
+  },
+  "job_state": {
+    "result": "done",
+    "task": "B014.1",
+    "focused_checks": "21 passed",
+    "metadata_schema_version": 6,
+    "report": "artifacts/conformance/B014.1-durable-job-state.md",
+    "public_job_compatibility": "not claimed"
+  },
+  "compute_lifecycle": {
+    "result": "simulated metadata implemented",
+    "task": "B014.4",
+    "focused_checks": "6 passed",
+    "full_unit_suite": "111 passed",
+    "metadata_schema_version": 7,
+    "sdk": "databricks-sdk==0.153.0, loopback only",
+    "report": "artifacts/conformance/B014.4-classic-compute-lifecycle.md",
+    "workload_compatibility": "not claimed"
+  },
+  "execution_context_resolution": {
+    "result": "partial internal resolution implemented",
+    "task": "B014.5",
+    "focused_checks": "11 passed",
+    "sdk": "databricks-sdk==0.153.0 model serialization only",
+    "capability": "C058 partial",
+    "report": "artifacts/conformance/B014.5-execution-context-resolution.md",
+    "workload_compatibility": "not claimed",
+    "full_unit_suite": "122 passed"
+  },
+  "workspace_files_and_sdk_jobs": {
+    "result": "partial local plain-Python SDK profile with sequential DAG dispatch, bounded retries/admission, restart interruption, compute-context binding, and selected worker dbutils services",
+    "tasks": [
+      "B014.2",
+      "B014.3.1",
+      "B014.3.2.1",
+      "B014.3.2.2",
+      "B014.3.3",
+      "B014.4",
+      "B014.5",
+      "B014.6",
+      "B016.1",
+      "B016.2",
+      "B016.3"
+    ],
+    "metadata_schema_version": 12,
+    "sdk": "databricks-sdk==0.153.0, loopback only",
+    "full_unit_suite": "165 passed; the opt-in CLI fixture is skipped unless explicitly configured",
+    "report": "artifacts/conformance/B016.3-attempt-scoped-task-values.md",
+    "limitations": "Python script workers only; no Spark/Sparkless table/session effects, notebook tasks, or multi-task SDK output retrieval; a worker recorded active at service restart is marked interrupted but surviving workers are not adopted/terminated; local job max_concurrent_runs is 1\u20134 within a four-run process cap."
+  },
+  "job_run_admission": {
+    "result": "implemented with HTTP 409 capacity conflicts and token-safe idempotency",
+    "task": "B014.3.2.2",
+    "per_job_limit": "1\u20134",
+    "process_limit": 4,
+    "focused_checks": "14 passed",
+    "full_unit_suite": "133 passed",
+    "report": "artifacts/conformance/B014.3.2.2-run-admission.md",
+    "restart_reconciliation": "done: B014.3.3 records abandoned workers as interrupted without replay; a surviving process is not adopted or terminated"
+  },
+  "cli_workflow": {
+    "result": "partial local client workflow passed",
+    "task": "B020.1",
+    "client": "Databricks CLI v1.21.0, commit 71934db",
+    "platform": "macOS arm64",
+    "release_zip_sha256": "5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83",
+    "test_id": "tests/integration/test_databricks_cli_v1_21_0.py::test_cli_v1_21_0_workspace_file_and_python_job_flow",
+    "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST DATABRICKS_CLI=/tmp/brickhouse-cli-1.21.0/databricks PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/integration/test_databricks_cli_v1_21_0.py",
+    "result_detail": "1 passed. Workspace source import, duplicate/missing-source errors, Python job create/submit/poll/output, and cleanup passed against loopback. The CLI receives a synthetic token; the local API does not authenticate it.",
+    "report": "artifacts/conformance/B020.1-databricks-cli-v1.21.0.md",
+    "remote_compatibility": "not claimed"
+  },
+  "prior_implementation_validation": {
+    "scope": "B014 job DAG, retry/admission, restart reconciliation, compute context/lifetimes, B016 worker dbutils subsets, and B020.1 pinned CLI workflow complete; B020.2 minimal Terraform lifecycle is active; Sparkless provider qualification remains blocked.",
+    "implementation_tests_run": true,
+    "active_implementation_task": "B020.2",
+    "note": "Retained historical implementation results; B047 ran planning-tool regression tests only. Concurrent Terraform work retains its own task/report evidence."
+  },
+  "child_task_count": 85,
+  "post_stability_stage_count": 7,
+  "emulator_stability_task": "B049",
+  "planning_tooling_tests_run": true,
+  "planning_update": {
+    "task": "B047",
+    "status": "done",
+    "report": "artifacts/conformance/B047-self-hosted-roadmap.md",
+    "regression_tests_passed": 10,
+    "next_review_task": "B048",
+    "stability_gate": "B049",
+    "deployment_implementation_tasks": [
+      "B050",
+      "B051",
+      "B052",
+      "B053",
+      "B054",
+      "B055"
+    ],
+    "capability_claims_added": "C059-C064 planned; no new implemented deployment claims"
+  },
+  "initially_ready_implementation_tasks_at_validation": [
+    "B020.3"
+  ],
+  "active_implementation_task_at_validation": "B020.3",
+  "active_implementation_task": null,
+  "initially_ready_implementation_tasks": [],
+  "current_implementation": {
+    "completed_task": "B020.3",
+    "status": "done",
+    "report": "artifacts/conformance/B020.3-databricks-cli-bundle-v1.21.0.md",
+    "next_ready_phase_0_1_task": null,
+    "dependency_gate": "B020.4 depends on B011; B011 depends on B010, whose child B010.1 and B046.3 are blocked by Sparkless nullable-struct issues #1694/#1695.",
+    "full_local_suite": "184 passed, 3 opt-in CLI/Terraform integrations skipped with client variables unset",
+    "bundle_integration": "1 passed against ephemeral loopback with synthetic token and actual Databricks CLI v1.21.0",
+    "static_checks": "Ruff check/format, strict mypy for 46 source files, planning validation and git diff --check passed",
+    "client_reruns_after_schema_12": "CLI workspace 1 passed; CLI bundle 1 passed; Terraform provider plus API routes 3 passed, all loopback with synthetic credentials."
+  },
+  "bundle_workflow": {
+    "result": "bounded local classic single-task Python bundle passed",
+    "task": "B020.3",
+    "client": "Databricks CLI v1.21.0, commit 71934db",
+    "test_id": "tests/integration/test_databricks_cli_bundle_v1_21_0.py::test_cli_bundle_v1_21_0_validate_deploy_and_run_local_python_job",
+    "report": "artifacts/conformance/B020.3-databricks-cli-bundle-v1.21.0.md",
+    "limitations": "Synthetic current-user identity and simulated compute; notebook tasks, pipelines, apps, dashboards, serverless bundles, authentication, and remote workspace behavior remain unsupported or unverified."
+  }
 }

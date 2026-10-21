@@ -8,6 +8,8 @@ Paste the following into Codex after copying this planning pack into the new rep
 
 This prompt authorizes implementation and the relevant tests when the owner submits it. The current repository starter is planning only.
 
+Phase 0.1 is now decomposed: begin with ready leaf **B001.1** under B001, then B001.2 and B001.3. Read the child's parent criteria and [the phase 0.1 contract](16-phase-0.1-initial-release.md) as well as its plan references. A parent is done only after all required children and the original acceptance criteria pass.
+
 ## First work slice: B001
 
 Create only the package skeleton, build metadata, CLI help/version entry point, test structure, and development configuration needed to run subsequent probes. Do not scaffold hundreds of placeholder API routes. Preserve these plans and replace the README's planning-only banner only when actual behavior is described accurately.
@@ -45,3 +47,7 @@ artifacts/conformance/     # generated reports; retention/git policy in B001
 Use the owner's personal Databricks account for occasional bounded reference probes when designing tests or verifying representative code, under [document 15](15-personal-databricks-verification.md). The owner has supplied the token through local `.env` and GitHub Actions secrets; verify configuration before capture without displaying credentials. Required tests and CI run locally from sanitized fixtures. Token presence does not authorize paid provisioning, and this planning update does not initiate a remote run.
 
 A matching Python method name, a successful import, or an HTTP 200 does not complete emulation. Prefer the golden workflow and shared-data invariants over broad empty surfaces. Use the long-term frontier to keep gaps visible. A narrower release must state its boundary and retain deferred tasks; it must not rename unimplemented behavior as supported.
+
+## Long-term direction
+
+Prioritize the JVM-free Databricks emulator through phases 0.1–0.9. [Document 18](18-self-hosted-platform.md) maps lightweight architecture preparation to each phase; B048 is the bounded local review before B023. Actual self-hosting tasks B050–B055 remain unavailable until B049 records emulator stability after B042. Do not select deployment epics merely because local policy or worker infrastructure exists. Decompose future epics before implementation, retain one catalog/commit authority, and keep deployment dependencies out of the base wheel.

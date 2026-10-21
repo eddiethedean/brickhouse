@@ -1,0 +1,34 @@
+# Sparkless API inventory for BrickHouse 0.1
+
+## Audit identity
+
+- Repository: [eddiethedean/robin-sparkless](https://github.com/eddiethedean/robin-sparkless)
+- Inspected checkout: /Volumes/T7/coding/robin-sparkless
+- Exact clean source revision: [b73067252abd0720ea91ac447bfd3ce027e96a88](https://github.com/eddiethedean/robin-sparkless/tree/b73067252abd0720ea91ac447bfd3ce027e96a88)
+- Python/Rust package version in that checkout: 4.13.3 (python/pyproject.toml, root and Python Cargo.toml).
+- Inspection covered the engine-neutral Rust traits, root Rust facades, PyO3 binding implementation/type stubs, compatibility profile, feature declarations, and API gap notes. Checkout was clean. No upstream files were changed and no APIs were guessed from the proposed S001–S006 names.
+
+The findings below describe source at this revision. They do not establish that a PyPI wheel built from it is available, that this revision is an approved BrickHouse runtime dependency, or that any interface is stable across Sparkless releases.
+
+## Actual API versus proposed hooks
+
+| Hook | Existing source/API at this revision | Missing for BrickHouse | Evidence and boundary |
+|---|---|---|---|
+| S001 — external catalog provider | Rust SparkSession exposes register_database, register_table, table, table_exists, get_saved_table, and new_session; Python exposes SparkSession.table, catalog, and a private _storage.create_table helper. | No session-scoped provider port resolves multipart names to BrickHouse-owned stable table handles with location/schema/version/permissions. register_table installs a local DataFrame in Sparkless's catalog; it is not an external authoritative catalog implementation. | src/session.rs; crates/robin-sparkless-core/src/engine/session.rs; python/src/lib.rs. Built-in session catalog must not become BrickHouse's second durable catalog. |
+| S002 — table writer delegation | Rust DataFrameWriter exposes path saving, save_as_table, save_as_table_with_options, and Delta path writes (write_delta, subject to the delta feature). Python writer exposes save, format-specific path writes, and saveAsTable. Python DataFrame.writeTo(table) explicitly raises NotImplementedError. | No service/provider callback that routes saveAsTable, SQL DDL/DML, or path mutation into BrickHouse's one Delta commit service. insertInto was not found in the PyO3 binding. Existing writers own Sparkless/local storage behavior. | src/dataframe.rs; Python writer methods in python/src/lib.rs; DataFrame.writeTo implementation in the same file. Save modes/options need explicit translation if an adapter is added. |
+| S003 — typed Arrow interchange | Python createDataFrame accepts objects with to_pylist() (including PyArrow tables) by materializing them to Python row lists. collect() returns Python row objects; toPandas() constructs Pandas columns after collecting JSON rows. | No Arrow RecordBatch/stream import or export API was found at the Rust or PyO3 boundary. The current paths materialize rows and may lose or normalize type metadata; they are not a zero-copy or bounded typed interchange contract. | python/src/lib.rs, normalize_create_dataframe_input, PyDataFrame.collect, and to_pandas; src/dataframe.rs collect/collect_as_json_rows. |
+| S004 — session isolation | Rust SparkSession.new_session and Python SparkSession.newSession() exist. Python bindings maintain a thread-local active-session stack/context; getOrCreate uses singleton compatibility behavior. | Presence of newSession does not prove isolation of namespaces, temp views, configs, UDFs, process-global callbacks, or concurrent execution. No BrickHouse provider lifecycle/context contract exists yet. | src/session.rs; Python PySparkSession implementation and active-session helpers in python/src/lib.rs. B003.3 must exercise isolation and cross-thread use before making a claim. |
+| S005 — stable errors/capabilities | Rust core defines EngineError; backend traits return it. Python converts native errors through the PyO3 boundary. | No operation capability registry/inspection API or BrickHouse provider error envelope with operation/table/version context was found. Error conversion and categorized behavior need contract tests; do not branch on rendered Polars error strings. | crates/robin-sparkless-core/src/error.rs and engine/*; python/src/lib.rs error conversion. |
+| S006 — external relation binding | Rust SparkSessionBackend has table/sql; DataFrameReaderBackend has table; the Polars backend supplies local session catalog resolution. | No external relation resolver, snapshot descriptor, bound provider relation, or shared callback from SQL and DataFrame name resolution to BrickHouse's table service. JSON row import is not an acceptable substitute for nested/decimal/timezone-preserving relation binding. | crates/robin-sparkless-core/src/engine/session.rs, reader.rs, dataframe.rs; src/session.rs. |
+
+## Details for subsequent probes
+
+- SparkSessionBackend, DataFrameBackend, DataFrameReaderBackend, and PlanExecutor are Rust traits in the current workspace. The session/dataframe traits are Send + Sync; the engine-neutral session contract has only local table, sql, and registration operations and no callback lifetime/thread contract.
+- The default Python native build enables Sparkless's delta feature and the package is backed by a PyO3 extension plus Rust/Polars. This means the current Delta writer and Sparkless's bundled Delta dependencies are a real provider-selection consideration for B004; it does not make those writes BrickHouse-authoritative.
+- newSession and thread-local active-session bookkeeping exist, but callback GIL release, Python reentrancy, Rust lock ownership, cancellation, and error propagation have not been tested with BrickHouse callbacks.
+- writeTo explicitly reports unsupported behavior. This is useful honest failure behavior but does not cover the phase 0.1 writer surface.
+- Because the current Python collect/toPandas implementation materializes rows and because a PyArrow input is normalized through to_pylist, the first provider design should prefer either a supported native Arrow C/PyCapsule boundary or a deliberately bounded typed bridge. It must not silently route through JSON for table interchange.
+
+## B003.1 result
+
+The source already supplies Spark-style local sessions, SQL/DataFrame APIs, a local catalog, session creation, Delta path IO, Rust engine traits, and a Python binding. It does not supply the external catalog, table-provider relation resolution, delegated writes, Arrow interchange, or provider capability/error contracts required by the proposed S001–S006. Session API presence is not isolation evidence. B003.2/B003.3 must prove a temporary integration path and callback feasibility using native data before any production dependency or upstream signature is selected.

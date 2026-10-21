@@ -1,0 +1,12 @@
+# Lock tooling is pinned separately from the tools it resolves.
+# Regenerate with: pip-compile --generate-hashes --strip-extras --output-file requirements/dev.txt requirements/dev.in
+build==1.5.0
+databricks-sdk==0.153.0
+deltalake==1.2.1
+hatchling==1.32.4
+mypy==1.19.1
+pyarrow==23.0.1
+pytest==9.1.1
+ruff==0.15.6
+# Candidate engine for explicit local integration probes; production adapter is B010.
+sparkless==4.14.0
