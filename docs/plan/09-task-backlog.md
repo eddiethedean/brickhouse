@@ -3629,12 +3629,13 @@ These bound the worker import/factory boundary separately from read-only methods
 
 **Parent:** B066 · **Parent criteria:** 3.
 
+**Required children:** B066.3.1, B066.3.2.
 
 ## B066.4 — Freeze final artifacts and release-readiness evidence
 
 **Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
 
-**Dependencies:** B065, B066.2, B066.3.
+**Dependencies:** B065, B066.2, B066.3.1.
 
 **Deliverable:** Audited final artifacts and hash-bound qualification bundle, current requirement evidence, and passing GitHub checks without public publication.
 
@@ -3691,3 +3692,35 @@ These bound the worker import/factory boundary separately from read-only methods
 1. Pass all original B066.2 platform, Python, installation, client and recovery requirements after the portability and terminal-ordering fixes, retaining exact hashes and isolation evidence.
 
 **Parent:** B066.2 · **Parent criteria:** 1.
+
+## B066.3.1 — Finalize release metadata and truthful diagnostics
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+
+**Dependencies:** B065, B066.1.
+
+**Plans:** [21-release-readiness.md](21-release-readiness.md).
+
+**Deliverable:** Apache-2.0 and version 0.1.0 metadata, current user/release documentation, and truthful CLI provider/capability diagnostics.
+
+**Acceptance criteria:**
+
+1. Retain the owner-selected license and notices, align package/runtime metadata and user docs, and verify that doctor/capabilities and the reserved run command describe the implemented Sparkless, SQL, bundle and job surfaces accurately.
+
+**Parent:** B066.3 · **Parent criteria:** 1.
+
+## B066.3.2 — Verify GitHub and PyPI publishing configuration
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+
+**Dependencies:** B065, B066.1, B066.3.1.
+
+**Plans:** [21-release-readiness.md](21-release-readiness.md).
+
+**Deliverable:** Verified repository/package ownership and exact GitHub environment/PyPI Trusted Publisher configuration.
+
+**Acceptance criteria:**
+
+1. Verify the repository, package-name lookup and tag-only GitHub environment, then configure and verify the PyPI publisher for eddiethedean/brickhouse, release.yml and environment pypi without publishing a distribution.
+
+**Parent:** B066.3 · **Parent criteria:** 1.

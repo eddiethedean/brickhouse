@@ -41,6 +41,7 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           python - <<'PY'
+          import json
           import os
           import re
           import tomllib
@@ -58,6 +59,16 @@ jobs:
               raise SystemExit(f"Unexpected distribution name: {project['name']!r}")
           if not (project.get("license") or Path("LICENSE").is_file()):
               raise SystemExit("Select the BrickHouse project license before publishing to PyPI")
+          publishing = json.loads(Path("planning/publishing.json").read_text(encoding="utf-8"))
+          publisher = publishing["trusted_publisher"]
+          expected = {
+              "owner": "eddiethedean", "repository": "brickhouse",
+              "workflow": "release.yml", "environment": "pypi",
+          }
+          if not publisher.get("configured_and_verified") or any(
+              publisher.get(key) != value for key, value in expected.items()
+          ):
+              raise SystemExit("Verify the exact PyPI Trusted Publisher before tagging a release")
           PY
       - name: Check versioned release-readiness checklist
         env:

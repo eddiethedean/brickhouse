@@ -120,15 +120,20 @@ def test_init_creates_workspace_and_cli_capabilities_are_truthful(tmp_path: Path
     assert report["capabilities"]["python_job_execution"] == "partial_local_sdk_python_script_dag"
     assert (
         report["capabilities"]["databricks_cli_bundle"]
-        == "partial_local_classic_single_task_python"
+        == "partial_local_serverless_classic_python_notebook"
     )
     assert report["capabilities"]["sdk_job_deletion"] == "soft_delete_with_history_retention"
     assert (
         report["capabilities"]["dbutils_task_values"]
         == "partial_local_attempt_scoped_python_script_jobs"
     )
-    assert report["providers"]["sparkless"]["integrated"] is False
+    assert report["providers"]["sparkless"]["integrated"] is True
     assert report["providers"]["delta-rs"]["integrated"] is True
+    assert report["capabilities"]["sql_api"] == "partial_local_statement_execution"
+    assert all(
+        provider["status"] == "integrated_local_subset" and provider["required"]
+        for provider in report["providers"].values()
+    )
 
     doctor = run_module("doctor", "--workspace", str(workspace_path))
     assert doctor.returncode == 0, doctor.stderr
@@ -148,8 +153,8 @@ def test_run_fails_explicitly_without_starting_script(tmp_path: Path) -> None:
     result = run_module("run", str(script))
 
     assert result.returncode == 2
-    assert "no script was started" in result.stderr
-    assert "B013" in result.stderr
+    assert "No script was started" in result.stderr
+    assert "local Jobs API" in result.stderr
     assert not marker.exists()
 
 

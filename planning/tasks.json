@@ -9344,7 +9344,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Finalize license and 0.1.0 release metadata",
-      "status": "in_progress",
+      "status": "blocked",
       "depends_on": [
         "B065",
         "B066.1"
@@ -9361,8 +9361,16 @@
       ],
       "owner": "Codex",
       "evidence": [],
-      "blockers": [],
-      "children": [],
+      "blockers": [
+        {
+          "kind": "owner-account-access",
+          "description": "PyPI Trusted Publisher configuration cannot be inspected or submitted while the Mac is locked and no PyPI account session is accessible. Owner sign-in is required; no distribution has been published."
+        }
+      ],
+      "children": [
+        "B066.3.1",
+        "B066.3.2"
+      ],
       "parent_id": "B066",
       "parent_criteria": [
         3
@@ -9377,7 +9385,7 @@
       "depends_on": [
         "B065",
         "B066.2",
-        "B066.3"
+        "B066.3.1"
       ],
       "plan_refs": [
         "docs/plan/09-task-backlog.md",
@@ -9432,7 +9440,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Release statement admission before terminal publication",
-      "status": "in_progress",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.1"
@@ -9448,7 +9456,15 @@
         "Ensure a visible terminal statement response has released its warehouse admission after actual engine termination, including warehouse stop cancellation; prove the ordering with a deterministic barrier regression."
       ],
       "owner": "Codex",
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "terminal-admission-ordering",
+          "command": "pytest -q tests/unit/test_sql_statement_api.py::test_terminal_statement_is_not_published_before_admission_release tests/unit/test_sql_statement_api.py::test_cancel_active_sparkless_statement_waits_for_engine_terminal_outcome",
+          "result": "5 passed on macOS arm64 CPython 3.11.15. Deterministic barriers hold admission release while actual SQL success, failure and warehouse-stop cancellation finish; polling remains RUNNING until release, then reports the true terminal result with RELEASED admission. Native cancellation variants also pass. Original CI failure preserved at run 39859177176.",
+          "commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b"
+        }
+      ],
       "blockers": [],
       "children": [],
       "parent_id": "B066.2",
@@ -9483,6 +9499,85 @@
       "blockers": [],
       "children": [],
       "parent_id": "B066.2",
+      "parent_criteria": [
+        1
+      ]
+    },
+    {
+      "id": "B066.3.1",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Finalize release metadata and truthful diagnostics",
+      "status": "done",
+      "depends_on": [
+        "B065",
+        "B066.1"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/12-delivery-and-operations.md",
+        "docs/plan/16-phase-0.1-initial-release.md",
+        "docs/plan/21-release-readiness.md"
+      ],
+      "deliverable": "Apache-2.0 and version 0.1.0 metadata, current user/release documentation, and truthful CLI provider/capability diagnostics.",
+      "acceptance_criteria": [
+        "Retain the owner-selected license and notices, align package/runtime metadata and user docs, and verify that doctor/capabilities and the reserved run command describe the implemented Sparkless, SQL, bundle and job surfaces accurately."
+      ],
+      "owner": "Codex",
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "final-metadata-license-and-diagnostics",
+          "command": "pytest -q tests/unit/test_cli.py tests/unit/test_capture_isolation.py tests/unit/test_diagnostic_server.py tests/unit/test_planning_validation.py; scripts/audit_distribution.py --artifact-dir <0.1.0-candidate>",
+          "result": "41 focused cases passed. Apache-2.0 root LICENSE and SPDX metadata are retained and audited in wheel/sdist; package/runtime version 0.1.0 matches. Current README and changelog describe implemented behavior. CLI diagnostics now identify Sparkless/native Delta as required integrated local subsets, SQL Statement Execution as partial, and selected serverless/classic Python/notebook bundle support. The reserved run command directs users to the working local Jobs API. No cloud or credential access in these tests."
+        }
+      ],
+      "blockers": [],
+      "children": [],
+      "parent_id": "B066.3",
+      "parent_criteria": [
+        1
+      ]
+    },
+    {
+      "id": "B066.3.2",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Verify GitHub and PyPI publishing configuration",
+      "status": "blocked",
+      "depends_on": [
+        "B065",
+        "B066.1",
+        "B066.3.1"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/12-delivery-and-operations.md",
+        "docs/plan/16-phase-0.1-initial-release.md",
+        "docs/plan/21-release-readiness.md"
+      ],
+      "deliverable": "Verified repository/package ownership and exact GitHub environment/PyPI Trusted Publisher configuration.",
+      "acceptance_criteria": [
+        "Verify the repository, package-name lookup and tag-only GitHub environment, then configure and verify the PyPI publisher for eddiethedean/brickhouse, release.yml and environment pypi without publishing a distribution."
+      ],
+      "owner": "Codex",
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "publisher-preparation",
+          "command": "gh api repos/eddiethedean/brickhouse/environments/pypi; PyPI JSON project lookup; browser inventory",
+          "result": "Repository and tag-only pypi environment are prepared. The public brickhouse PyPI lookup returned 404 (not a reservation). Exact pending publisher fields are owner eddiethedean, repository brickhouse, workflow release.yml, environment pypi. Browser inventory reports the Mac locked, so PyPI configuration is explicitly unverified. The release workflow checks this record and fails before publication when unverified.",
+          "artifact": "planning/publishing.json"
+        }
+      ],
+      "blockers": [
+        {
+          "kind": "owner-account-access",
+          "description": "PyPI Trusted Publisher configuration cannot be inspected or submitted while the Mac is locked and no PyPI account session is accessible. Owner sign-in is required; no distribution has been published."
+        }
+      ],
+      "children": [],
+      "parent_id": "B066.3",
       "parent_criteria": [
         1
       ]

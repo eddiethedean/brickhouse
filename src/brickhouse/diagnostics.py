@@ -24,7 +24,7 @@ def provider_diagnostics() -> dict[str, dict[str, str | bool | None]]:
     """Report package installation separately from code integration."""
     providers: dict[str, dict[str, str | bool | None]] = {}
     for name, distribution, integrated in (
-        ("sparkless", "sparkless", False),
+        ("sparkless", "sparkless", True),
         ("delta-rs", "deltalake", True),
     ):
         version = _distribution_version(distribution)
@@ -32,13 +32,14 @@ def provider_diagnostics() -> dict[str, dict[str, str | bool | None]]:
             "installed": version is not None,
             "version": version,
             "integrated": integrated,
-            "status": "integrated_optional" if integrated else "not_integrated",
+            "status": "integrated_local_subset" if integrated else "not_integrated",
+            "required": True,
         }
     return providers
 
 
 def capability_report(workspace: Workspace | None = None) -> dict[str, object]:
-    """Describe the implemented foundation and explicitly absent services."""
+    """Describe the implemented local surface and its simulated infrastructure."""
     workspace_report: dict[str, object] | None = None
     if workspace is not None:
         workspace_report = {
@@ -58,7 +59,7 @@ def capability_report(workspace: Workspace | None = None) -> dict[str, object]:
             "diagnostic_http": "supported_on_loopback",
             "terraform_provider_workspace_identity": "simulated_local_identity",
             "bundle_current_user_identity": "simulated_local_identity",
-            "databricks_cli_bundle": "partial_local_classic_single_task_python",
+            "databricks_cli_bundle": "partial_local_serverless_classic_python_notebook",
             "catalog_metadata_repository": "partial_local_persistence",
             "table_registration_metadata": "partial_local_persistence",
             "catalog_api": "partial_local_rest_profile",
@@ -66,7 +67,7 @@ def capability_report(workspace: Workspace | None = None) -> dict[str, object]:
             "job_compute_lifecycle": "simulated_run_scoped_metadata",
             "sql_warehouse_lifecycle": "simulated_persistent_metadata",
             "workspace_python_source_import": "partial_local_workspace_files",
-            "sql_api": "planned",
+            "sql_api": "partial_local_statement_execution",
             "table_provider_integration": "partial_local_delta",
             "python_job_execution": "partial_local_sdk_python_script_dag",
             "sdk_job_deletion": "soft_delete_with_history_retention",

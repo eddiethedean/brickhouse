@@ -40,12 +40,12 @@ def _build_parser() -> argparse.ArgumentParser:
     initialize = commands.add_parser("init", help="initialize a local workspace")
     initialize.add_argument("--workspace", required=True, type=Path)
 
-    serve = commands.add_parser("serve", help="serve local diagnostic endpoints")
+    serve = commands.add_parser("serve", help="serve local workspace APIs")
     serve.add_argument("--workspace", required=True, type=Path)
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", default=8000, type=_port_number)
 
-    run = commands.add_parser("run", help="run a Python job (not yet available)")
+    run = commands.add_parser("run", help="reserved; submit jobs through the SDK")
     run.add_argument("script", type=Path)
 
     capabilities = commands.add_parser(
@@ -116,7 +116,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         if args.command == "run":
             raise FeatureUnavailableError(
-                "Python job execution is not available yet; no script was started (B013)."
+                "The run command is reserved; submit Python jobs through the local Jobs API. "
+                "No script was started."
             )
 
         if args.command == "capabilities":
