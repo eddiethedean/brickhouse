@@ -9329,7 +9329,11 @@
       "owner": "Codex",
       "evidence": [],
       "blockers": [],
-      "children": [],
+      "children": [
+        "B066.2.1",
+        "B066.2.2",
+        "B066.2.3"
+      ],
       "parent_id": "B066",
       "parent_criteria": [
         2
@@ -9392,6 +9396,95 @@
       "parent_id": "B066",
       "parent_criteria": [
         4
+      ]
+    },
+    {
+      "id": "B066.2.1",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Make pinned client fixtures portable",
+      "status": "in_progress",
+      "depends_on": [
+        "B065",
+        "B066.1"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/12-delivery-and-operations.md",
+        "docs/plan/16-phase-0.1-initial-release.md",
+        "docs/plan/21-release-readiness.md"
+      ],
+      "deliverable": "Portable verified-TLS connector and separate immutable Terraform mirror/writable cache fixtures.",
+      "acceptance_criteria": [
+        "Fix the actual macOS 14 connector HTTP-client construction failure and Linux Terraform mirror/cache collision; retain TLS verification and exact client pins."
+      ],
+      "owner": "Codex",
+      "evidence": [],
+      "blockers": [],
+      "children": [],
+      "parent_id": "B066.2",
+      "parent_criteria": [
+        1
+      ]
+    },
+    {
+      "id": "B066.2.2",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Release statement admission before terminal publication",
+      "status": "in_progress",
+      "depends_on": [
+        "B065",
+        "B066.1"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/12-delivery-and-operations.md",
+        "docs/plan/16-phase-0.1-initial-release.md",
+        "docs/plan/21-release-readiness.md"
+      ],
+      "deliverable": "Deterministic cancellation/success/failure ordering regression and corrected admission release.",
+      "acceptance_criteria": [
+        "Ensure a visible terminal statement response has released its warehouse admission after actual engine termination, including warehouse stop cancellation; prove the ordering with a deterministic barrier regression."
+      ],
+      "owner": "Codex",
+      "evidence": [],
+      "blockers": [],
+      "children": [],
+      "parent_id": "B066.2",
+      "parent_criteria": [
+        1
+      ]
+    },
+    {
+      "id": "B066.2.3",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Pass every required offline qualification lane",
+      "status": "planned",
+      "depends_on": [
+        "B065",
+        "B066.1",
+        "B066.2.1",
+        "B066.2.2"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/12-delivery-and-operations.md",
+        "docs/plan/16-phase-0.1-initial-release.md",
+        "docs/plan/21-release-readiness.md"
+      ],
+      "deliverable": "Zero-skip installed-wheel and full-source Linux/macOS reports bound to one candidate.",
+      "acceptance_criteria": [
+        "Pass all original B066.2 platform, Python, installation, client and recovery requirements after the portability and terminal-ordering fixes, retaining exact hashes and isolation evidence."
+      ],
+      "owner": "Codex",
+      "evidence": [],
+      "blockers": [],
+      "children": [],
+      "parent_id": "B066.2",
+      "parent_criteria": [
+        1
       ]
     }
   ],

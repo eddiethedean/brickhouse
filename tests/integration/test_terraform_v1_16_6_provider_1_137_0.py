@@ -648,7 +648,7 @@ def _terraform_environment(
         "HOME": str(directory / "home"),
         "TMPDIR": os.environ.get("TMPDIR", "/tmp"),
         "TF_CLI_CONFIG_FILE": str(cli_config),
-        "TF_PLUGIN_CACHE_DIR": str(plugin_cache),
+        "TF_PLUGIN_CACHE_DIR": str(directory / "provider-cache"),
         "TF_IN_AUTOMATION": "1",
         "TF_VAR_host": host,
         "TF_VAR_token": "brickhouse-local-test-token",
@@ -659,6 +659,7 @@ def _terraform_environment(
         if value := os.environ.get(key):
             environment[key] = value
     Path(environment["HOME"]).mkdir(parents=True, exist_ok=True)
+    Path(environment["TF_PLUGIN_CACHE_DIR"]).mkdir(parents=True, exist_ok=True)
     return environment
 
 

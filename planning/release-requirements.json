@@ -381,10 +381,6 @@
         "15.75"
       ]
     ],
-    "explicit_casts": [
-      "count to BIGINT",
-      "sum to DECIMAL(22,2)"
-    ],
     "reference_scope": "Expected values use the reviewed local fixture. Databricks rejected the bounded aggregate capture; no remote aggregate parity is claimed."
   }
 }

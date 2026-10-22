@@ -797,9 +797,12 @@ class SqlStatementExecutionService:
         if not claimed:
             return
         control = self._control(statement_id)
+        # Native execution must finish before release; admission must be released
+        # before terminal state becomes visible to polling clients.
         try:
             warehouses = self._context.compute.warehouses
             if not warehouses.validate_admission(statement_id):
+                self._release_statement(statement_id)
                 self._repository.cancel(
                     statement_id,
                     message="SQL warehouse stopped before statement execution",
@@ -823,6 +826,7 @@ class SqlStatementExecutionService:
             if execution.operation.value == "select" and not warehouses.validate_admission(
                 statement_id
             ):
+                self._release_statement(statement_id)
                 self._repository.cancel(
                     statement_id,
                     message="SQL warehouse stopped while the statement was executing",
@@ -836,6 +840,7 @@ class SqlStatementExecutionService:
                 result_truncated=execution.result_truncated,
             )
             manifest, chunks = split_json_array_result(manifest, result)
+            self._release_statement(statement_id)
             self._repository.succeed(
                 statement_id,
                 manifest=manifest,
@@ -844,8 +849,10 @@ class SqlStatementExecutionService:
                 byte_count=byte_count,
             )
         except SqlStatementCancelledError as error:
+            self._release_statement(statement_id)
             self._repository.cancel(statement_id, message=str(error))
         except (SqlStatementError, CatalogRepositoryError) as error:
+            self._release_statement(statement_id)
             self._repository.fail(
                 statement_id,
                 error_code="BAD_REQUEST",
@@ -853,11 +860,13 @@ class SqlStatementExecutionService:
                 sql_state="42000",
             )
         except WarehouseNotFoundError as error:
+            self._release_statement(statement_id)
             self._repository.cancel(
                 statement_id,
                 message=str(error),
             )
         except SqlResultLimitError as error:
+            self._release_statement(statement_id)
             self._repository.fail(
                 statement_id,
                 error_code="RESOURCE_EXHAUSTED",
@@ -865,6 +874,7 @@ class SqlStatementExecutionService:
                 sql_state="54000",
             )
         except Exception as error:
+            self._release_statement(statement_id)
             self._repository.fail(
                 statement_id,
                 error_code="INTERNAL_ERROR",

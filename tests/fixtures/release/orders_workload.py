@@ -57,8 +57,8 @@ if role == "produce":
         )
         .groupBy("customer")
         .agg(
-            F.count("*").cast("long").alias("order_count"),
-            F.sum("amount").cast("decimal(22,2)").alias("total_amount"),
+            F.count("*").alias("order_count"),
+            F.sum("amount").alias("total_amount"),
         )
     )
     result.write.format("delta").mode("append").saveAsTable(table_name)

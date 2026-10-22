@@ -1,0 +1,17 @@
+{
+  "sparkless": "4.15.2",
+  "pyarrow": "23.0.1",
+  "python": "3.11.15",
+  "platform": "macos-arm64",
+  "sql": "SELECT g, COUNT(*) AS n FROM orders GROUP BY g",
+  "sql_count_type": "IntegerType/int32",
+  "dataframe_count_type": "LongType/int64",
+  "rows": [
+    {
+      "g": "a",
+      "n": 2
+    }
+  ],
+  "upstream_issue": "https://github.com/eddiethedean/robin-sparkless/issues/1723",
+  "databricks_account_used": false
+}

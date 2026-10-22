@@ -1490,3 +1490,52 @@ def test_sdk_statement_update_commits_and_a_followup_statement_reads_it(tmp_path
         assert visible.status is not None and visible.status.state is StatementState.SUCCEEDED
         assert visible.result is not None
         assert visible.result.data_array == [["1", "false"]]
+
+
+@pytest.mark.parametrize("outcome", ["SUCCEEDED", "FAILED", "CANCELED"])
+def test_terminal_statement_is_not_published_before_admission_release(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, outcome: str
+) -> None:
+    with local_statement_sdk_client(tmp_path / "workspace") as (client, _path, context):
+        warehouse_id = _warehouse_id(client)
+        query_entered, allow_query = Event(), Event()
+        release_entered, allow_release = Event(), Event()
+        warehouses = context.compute.warehouses
+        execute = SqlStatementService.execute
+        release = warehouses.release_statement
+
+        def pause_query(self, *args, **kwargs):
+            query_entered.set()
+            assert allow_query.wait(8), "test did not release the real SQL execution"
+            return execute(self, *args, **kwargs)
+
+        def pause_release(statement_id):
+            release_entered.set()
+            assert allow_release.wait(8), "test did not release the admission barrier"
+            return release(statement_id)
+
+        monkeypatch.setattr(SqlStatementService, "execute", pause_query)
+        monkeypatch.setattr(warehouses, "release_statement", pause_release)
+        pending = client.statement_execution.execute_statement(
+            "SELECT * FROM missing_table" if outcome == "FAILED" else "SELECT 1 AS n",
+            warehouse_id,
+            wait_timeout="0s",
+        )
+        assert pending.statement_id is not None
+        try:
+            assert query_entered.wait(5)
+            if outcome == "CANCELED":
+                client.warehouses.stop(warehouse_id).result()
+            allow_query.set()
+            assert release_entered.wait(5)
+            visible = client.statement_execution.get_statement(pending.statement_id)
+            assert visible.status is not None
+            assert visible.status.state is StatementState.RUNNING
+            assert warehouses.get_admission(pending.statement_id).state == "ACTIVE"
+        finally:
+            allow_query.set()
+            allow_release.set()
+        terminal = _get_until_terminal(client, pending.statement_id)
+        assert terminal.status is not None
+        assert terminal.status.state.value == outcome
+        assert warehouses.get_admission(pending.statement_id).state == "RELEASED"

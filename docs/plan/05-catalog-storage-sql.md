@@ -180,3 +180,5 @@ After emulator stability, SH.1 enforces deployed caller identity for queries/res
 ## Reused parser/provider qualification
 
 [Document 20](20-open-source-reuse.md) retains the declared delta-rs mutation provider and current Arrow envelope. SQLGlot is a candidate parser/AST tool, not semantic execution; DuckDB routes remain explicit and capability-selected. Optional dbt materializations and future UC/sharing/native-format adapters must reuse table IDs, snapshot/commit policy and ownership rather than create separate mutable copies. PyIceberg/Delta Kernel source availability does not qualify a new format, Delta feature or distributed manifest commit; B040/B041/SC.0 retain those decisions and tests.
+
+The SQL COUNT type discrepancy was reproduced on published Sparkless 4.15.2 and reported as [upstream issue #1723](https://github.com/eddiethedean/robin-sparkless/issues/1723). DataFrame count produces LongType/int64; SQL COUNT produces IntegerType/int32. The release orders workflow uses native DataFrame aggregates and verifies BIGINT and DECIMAL(22,2) without output casts. The frozen SQL fixture remains an explicit local compatibility limit.

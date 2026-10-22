@@ -70,6 +70,15 @@ def main() -> int:
         "candidate_wheel_sha256": sha256(wheel),
         "source_distribution_sha256": sha256(sdist),
         "source_commit": revision,
+        "source_worktree_dirty": bool(
+            subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        ),
         "python_version": platform.python_version(),
         "platform": platform.platform(),
         "machine": platform.machine(),
@@ -145,7 +154,8 @@ def main() -> int:
                         environment,
                     ).stdout
                 )
-                for name, selectors in requirements["groups"].items():
+                for name in ["G4", *(key for key in requirements["groups"] if key != "G4")]:
+                    selectors = requirements["groups"][name]
                     if name == "Notebook" and lane == "base":
                         continue
                     selectors = list(selectors)

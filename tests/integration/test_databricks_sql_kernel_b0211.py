@@ -3,10 +3,11 @@ from __future__ import annotations
 import io
 import json
 import os
-import shutil
 import ssl
 import subprocess
 import time
+from datetime import UTC, datetime, timedelta
+from ipaddress import ip_address
 from pathlib import Path
 from threading import Thread
 from typing import Any
@@ -418,6 +419,8 @@ def test_pinned_connector_sessions_and_inline_results_over_verified_tls(
 def _connector_probe_script() -> str:
     return """
 import json
+from datetime import UTC, datetime, timedelta
+from ipaddress import ip_address
 import os
 import time
 from threading import Thread
@@ -558,84 +561,88 @@ print(json.dumps(result, sort_keys=True))
 
 
 def _create_local_tls_files(directory: Path) -> tuple[Path, Path, Path]:
-    openssl = shutil.which("openssl")
-    if openssl is None:
-        pytest.skip("openssl is required for the local-only SQL TLS test")
-    ca_key = directory / "ca.key"
-    ca_cert = directory / "ca.pem"
-    server_key = directory / "server.key"
-    server_csr = directory / "server.csr"
-    server_cert = directory / "server.pem"
-    extensions = directory / "server-extensions.cnf"
-    extensions.write_text(
-        "basicConstraints=critical,CA:FALSE\n"
-        "keyUsage=critical,digitalSignature,keyEncipherment\n"
-        "extendedKeyUsage=serverAuth\n"
-        "subjectAltName=IP:127.0.0.1\n",
-        encoding="ascii",
-    )
-    commands = [
-        [
-            openssl,
-            "req",
-            "-x509",
-            "-newkey",
-            "rsa:2048",
-            "-nodes",
-            "-days",
-            "1",
-            "-keyout",
-            str(ca_key),
-            "-out",
-            str(ca_cert),
-            "-subj",
-            "/CN=BrickHouse local SQL test CA",
-            "-addext",
-            "basicConstraints=critical,CA:TRUE",
-            "-addext",
-            "keyUsage=critical,keyCertSign,cRLSign",
-        ],
-        [
-            openssl,
-            "req",
-            "-new",
-            "-newkey",
-            "rsa:2048",
-            "-nodes",
-            "-keyout",
-            str(server_key),
-            "-out",
-            str(server_csr),
-            "-subj",
-            "/CN=127.0.0.1",
-        ],
-        [
-            openssl,
-            "x509",
-            "-req",
-            "-in",
-            str(server_csr),
-            "-CA",
-            str(ca_cert),
-            "-CAkey",
-            str(ca_key),
-            "-CAcreateserial",
-            "-out",
-            str(server_cert),
-            "-days",
-            "1",
-            "-sha256",
-            "-extfile",
-            str(extensions),
-        ],
-    ]
-    for command in commands:
-        subprocess.run(
-            command,
-            check=True,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            timeout=15,
+    # Use the pinned cryptography dependency rather than the runner's OpenSSL
+    # command/configuration; explicitly encode every CA/server extension.
+    from cryptography import x509
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import rsa
+    from cryptography.x509.oid import ExtendedKeyUsageOID, NameOID
+
+    now = datetime.now(UTC)
+    ca_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    ca_name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "BrickHouse local SQL test CA")])
+    ca = (
+        x509.CertificateBuilder()
+        .subject_name(ca_name)
+        .issuer_name(ca_name)
+        .public_key(ca_key.public_key())
+        .serial_number(x509.random_serial_number())
+        .not_valid_before(now - timedelta(minutes=1))
+        .not_valid_after(now + timedelta(days=1))
+        .add_extension(x509.BasicConstraints(ca=True, path_length=0), critical=True)
+        .add_extension(
+            x509.KeyUsage(
+                digital_signature=True,
+                content_commitment=False,
+                key_encipherment=False,
+                data_encipherment=False,
+                key_agreement=False,
+                key_cert_sign=True,
+                crl_sign=True,
+                encipher_only=None,
+                decipher_only=None,
+            ),
+            critical=True,
         )
-    return ca_cert, server_cert, server_key
+        .add_extension(
+            x509.SubjectKeyIdentifier.from_public_key(ca_key.public_key()), critical=False
+        )
+        .sign(ca_key, hashes.SHA256())
+    )
+    server_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    server = (
+        x509.CertificateBuilder()
+        .subject_name(x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "127.0.0.1")]))
+        .issuer_name(ca_name)
+        .public_key(server_key.public_key())
+        .serial_number(x509.random_serial_number())
+        .not_valid_before(now - timedelta(minutes=1))
+        .not_valid_after(now + timedelta(days=1))
+        .add_extension(x509.BasicConstraints(ca=False, path_length=None), critical=True)
+        .add_extension(
+            x509.KeyUsage(
+                digital_signature=True,
+                content_commitment=False,
+                key_encipherment=True,
+                data_encipherment=False,
+                key_agreement=False,
+                key_cert_sign=False,
+                crl_sign=False,
+                encipher_only=None,
+                decipher_only=None,
+            ),
+            critical=True,
+        )
+        .add_extension(x509.ExtendedKeyUsage([ExtendedKeyUsageOID.SERVER_AUTH]), critical=False)
+        .add_extension(
+            x509.SubjectAlternativeName([x509.IPAddress(ip_address("127.0.0.1"))]), critical=False
+        )
+        .add_extension(
+            x509.AuthorityKeyIdentifier.from_issuer_public_key(ca_key.public_key()), critical=False
+        )
+        .sign(ca_key, hashes.SHA256())
+    )
+    ca_file, certificate_file, key_file = (
+        directory / name for name in ("ca.pem", "server.pem", "server.key")
+    )
+    ca_file.write_bytes(ca.public_bytes(serialization.Encoding.PEM))
+    certificate_file.write_bytes(server.public_bytes(serialization.Encoding.PEM))
+    key_file.write_bytes(
+        server_key.private_bytes(
+            serialization.Encoding.PEM,
+            serialization.PrivateFormat.PKCS8,
+            serialization.NoEncryption(),
+        )
+    )
+    key_file.chmod(0o600)
+    return ca_file, certificate_file, key_file

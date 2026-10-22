@@ -106,7 +106,7 @@ socket.socket.connect = blocked_connect
     )
 
     assert result.returncode == 0, result.stderr
-    assert result.stdout == "brickhouse 0.1.0.dev0\n"
+    assert result.stdout == "brickhouse 0.1.0\n"
     assert result.stderr == ""
 
 

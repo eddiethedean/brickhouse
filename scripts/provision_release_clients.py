@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import platform
+import shutil
 import stat
 import subprocess
 import sys
@@ -44,12 +45,9 @@ def main() -> None:
             raise SystemExit(f"Client artifact checksum mismatch: {artifact['filename']}")
         output = destination / name
         if name == "provider":
-            output = (
-                destination
-                / "provider-mirror/registry.terraform.io/databricks/databricks"
-                / "1.137.0"
-                / tag
-            )
+            mirror = destination / "provider-mirror/registry.terraform.io/databricks/databricks"
+            mirror.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(archive_path, mirror / artifact["filename"])
         output.mkdir(parents=True, exist_ok=True)
         with ZipFile(archive_path) as archive:
             for member in archive.infolist():

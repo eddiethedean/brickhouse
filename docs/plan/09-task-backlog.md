@@ -3613,6 +3613,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 **Parent:** B066 · **Parent criteria:** 2.
 
+**Required children:** B066.2.1, B066.2.2, B066.2.3.
 
 ## B066.3 — Finalize license and 0.1.0 release metadata
 
@@ -3642,3 +3643,51 @@ These bound the worker import/factory boundary separately from read-only methods
 1. Freeze and audit final wheel/sdist artifacts, exact qualification hashes and requirement traceability; complete release-readiness records and pass GitHub CI while preserving separate public-publication authorization.
 
 **Parent:** B066 · **Parent criteria:** 4.
+
+## B066.2.1 — Make pinned client fixtures portable
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+
+**Dependencies:** B065, B066.1.
+
+**Plans:** [21-release-readiness.md](21-release-readiness.md).
+
+**Deliverable:** Portable verified-TLS connector and separate immutable Terraform mirror/writable cache fixtures.
+
+**Acceptance criteria:**
+
+1. Fix the actual macOS 14 connector HTTP-client construction failure and Linux Terraform mirror/cache collision; retain TLS verification and exact client pins.
+
+**Parent:** B066.2 · **Parent criteria:** 1.
+
+## B066.2.2 — Release statement admission before terminal publication
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+
+**Dependencies:** B065, B066.1.
+
+**Plans:** [21-release-readiness.md](21-release-readiness.md).
+
+**Deliverable:** Deterministic cancellation/success/failure ordering regression and corrected admission release.
+
+**Acceptance criteria:**
+
+1. Ensure a visible terminal statement response has released its warehouse admission after actual engine termination, including warehouse stop cancellation; prove the ordering with a deterministic barrier regression.
+
+**Parent:** B066.2 · **Parent criteria:** 1.
+
+## B066.2.3 — Pass every required offline qualification lane
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+
+**Dependencies:** B065, B066.1, B066.2.1, B066.2.2.
+
+**Plans:** [21-release-readiness.md](21-release-readiness.md).
+
+**Deliverable:** Zero-skip installed-wheel and full-source Linux/macOS reports bound to one candidate.
+
+**Acceptance criteria:**
+
+1. Pass all original B066.2 platform, Python, installation, client and recovery requirements after the portability and terminal-ordering fixes, retaining exact hashes and isolation evidence.
+
+**Parent:** B066.2 · **Parent criteria:** 1.
