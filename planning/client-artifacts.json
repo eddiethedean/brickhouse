@@ -40,5 +40,16 @@
       "checksum_url": "https://github.com/databricks/terraform-provider-databricks/releases/download/v1.137.0/terraform-provider-databricks_1.137.0_SHA256SUMS",
       "url": "https://github.com/databricks/terraform-provider-databricks/releases/download/v1.137.0/terraform-provider-databricks_1.137.0_linux_amd64.zip"
     }
+  },
+  "python_provisioning": {
+    "tool": "uv",
+    "version": "0.13.5",
+    "pypi_json_url": "https://pypi.org/pypi/uv/0.13.5/json",
+    "provider": "astral-sh/python-build-standalone",
+    "python_versions": {
+      "3.11": "3.11.17",
+      "3.12": "3.12.15"
+    },
+    "requirements": "requirements/qualification-tools.txt"
   }
 }

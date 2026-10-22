@@ -40,7 +40,8 @@ def run_isolated(
             raise RuntimeError("macOS qualification requires sandbox-exec")
         profile = (
             "(version 1) (allow default) (deny network-outbound) "
-            '(allow network-outbound (remote ip "localhost:*")) '
+            '(allow network-outbound (remote tcp "localhost:*")) '
+            '(allow network-outbound (remote udp "localhost:*")) '
             '(allow network-outbound (subpath "/"))'
         )
         return subprocess.run(

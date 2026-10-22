@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
+          check-latest: true
           cache: pip
           cache-dependency-path: requirements/dev.txt
       - name: Install locked developer tools
@@ -30,4 +31,4 @@ jobs:
       - name: Type check
         run: |
           python -m mypy
-          python -m mypy --strict scripts/provision_release_clients.py scripts/qualify_release.py scripts/verify_g1_local_only.py
+          python -m mypy --strict scripts/provision_qualification_python.py scripts/provision_release_clients.py scripts/qualify_release.py scripts/verify_g1_local_only.py

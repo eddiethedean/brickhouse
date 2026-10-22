@@ -326,7 +326,8 @@
       "owners": "B023.1\u2013B023.2",
       "gate": "G1\u2013G4",
       "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py"
+        "tests/integration/test_g1_shared_table_restart.py",
+        "tests/unit/test_qualification_python.py"
       ]
     },
     {
