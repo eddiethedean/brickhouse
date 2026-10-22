@@ -1,0 +1,65 @@
+{
+  "candidate_wheel_sha256": "c4b419840cb505ae789c2fa543dd09a9d806365df9241ce2a8c993f10382c47e",
+  "source_distribution_sha256": "2c58879107a7f11cfcbad2676e5764ce5389f6bb66c4008d8c1710c998b2b2c0",
+  "source_commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b",
+  "source_worktree_dirty": false,
+  "python_version": "3.12.15",
+  "platform": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "databricks_account_used": false,
+  "result": "passed",
+  "groups": [
+    {
+      "lane": "base",
+      "group": "G4",
+      "passed_cases": 5,
+      "report": "base-g4.json"
+    },
+    {
+      "lane": "base",
+      "group": "G1+G2",
+      "passed_cases": 19,
+      "report": "base-g1-g2.json"
+    },
+    {
+      "lane": "base",
+      "group": "G3",
+      "passed_cases": 123,
+      "report": "base-g3.json"
+    },
+    {
+      "lane": "notebooks",
+      "group": "G4",
+      "passed_cases": 6,
+      "report": "notebooks-g4.json"
+    },
+    {
+      "lane": "notebooks",
+      "group": "G1+G2",
+      "passed_cases": 19,
+      "report": "notebooks-g1-g2.json"
+    },
+    {
+      "lane": "notebooks",
+      "group": "G3",
+      "passed_cases": 123,
+      "report": "notebooks-g3.json"
+    },
+    {
+      "lane": "notebooks",
+      "group": "Notebook",
+      "passed_cases": 47,
+      "report": "notebooks-notebook.json"
+    }
+  ],
+  "full_source_suite": {
+    "counts": {
+      "tests": 451,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "stdout": "........................................................................ [ 15%]\n........................................................................ [ 31%]\n........................................................................ [ 47%]\n........................................................................ [ 63%]\n........................................................................ [ 79%]\n........................................................................ [ 95%]\n...................                                                      [100%]\n451 passed in 323.43s (0:05:23)\n"
+  },
+  "matrix_passed_cases": 342
+}

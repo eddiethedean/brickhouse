@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-22",
+  "development_lock": {
+    "file": "uv.lock",
+    "sha256": "a709d83648b05f52ef1075a1b76fae510617ad7901ccf2684a54c8ba3746add2"
+  },
+  "direct_runtime_dependencies": [
+    "deltalake==1.2.1",
+    "pyarrow==23.0.1",
+    "sparkless==4.15.2",
+    "sqlglot==30.24.0"
+  ],
+  "distribution": {
+    "build_backend": "hatchling==1.32.4",
+    "candidate_version": "0.1.0.dev0",
+    "name": "brickhouse",
+    "project_license_selected": false,
+    "requires_python": ">=3.11",
+    "target_release": "0.1.0",
+    "wheel_tag": "py3-none-any"
+  },
+  "optional_dependencies": {
+    "notebooks": [
+      "ipykernel==7.4.0",
+      "jupyter-client==8.10.0",
+      "nbclient==0.11.0",
+      "nbformat==5.11.1"
+    ]
+  },
+  "public_sparkless_artifact": {
+    "qualified_macos_arm64_wheel": "sparkless-4.15.2-cp38-abi3-macosx_11_0_arm64.whl",
+    "sha256": "7d12d6f76212e52586cbe07ab12152f4c7dcf04bd2873532751f1335ee81cfb2",
+    "version": "4.15.2"
+  },
+  "qualification_boundary": "The exact current 0.1.0.dev0 candidate wheel and source archive passed the complete selected offline G1-G4 matrix on macOS 26.5.2 arm64 CPython 3.11.15 and 3.12.13: base 137 per interpreter (274 total) and notebook-extra 175 per interpreter (350 total), 624 matrix passes. The selected Sparkless 4.15.2 UTC-aware Delta timestamp regression passes within G1+G2. A separate fresh installed-wheel B064 review run passed 99 focused cases on CPython 3.11.15. All qualification ran locally with outbound traffic denied except loopback/local Unix sockets; Databricks credentials were absent, .env was not read, and no JVM, Spark driver, Docker, cloud compute, or personal workspace was used. This qualifies only the selected local cases and macOS arm64 Python combinations; it does not establish broad or remote Databricks parity.",
+  "runtime_and_native_versions": {
+    "deltalake": "1.2.1",
+    "metadata_schema": "21",
+    "pyarrow": "23.0.1",
+    "sparkless": "4.15.2",
+    "sqlglot": "30.24.0",
+    "workspace_format": "1"
+  },
+  "schema_version": 1,
+  "test_and_reference_clients": {
+    "databricks_cli": "1.21.0",
+    "databricks_sdk": "0.153.0",
+    "databricks_sql_connector": "4.6.0",
+    "databricks_sql_kernel": "1.1.0",
+    "notebook_extra": {
+      "ipykernel": "7.4.0",
+      "jupyter-client": "8.10.0",
+      "nbclient": "0.11.0",
+      "nbformat": "5.11.1"
+    },
+    "pytest": "9.1.1",
+    "terraform": "1.16.6",
+    "terraform_databricks_provider": "1.137.0"
+  },
+  "previous_candidate_local_qualification_environments": [
+    {
+      "base_cases": 132,
+      "notebook_extra_cases": 169,
+      "platform": "macOS 26.5.2 arm64",
+      "python": "3.11.15"
+    },
+    {
+      "base_cases": 132,
+      "notebook_extra_cases": 169,
+      "platform": "macOS 26.5.2 arm64",
+      "python": "3.12.13"
+    }
+  ],
+  "current_candidate_installed_wheel_review": {
+    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
+    "python": "3.11.15",
+    "lane": "base",
+    "passed_cases": 99,
+    "sparkless": "4.15.2",
+    "network": "offline except loopback and local Unix sockets",
+    "full_g1_g4_matrix_requalified": true,
+    "full_g1_g4_matrix_cases": 624
+  },
+  "candidate_artifacts": {
+    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+  },
+  "current_candidate_local_qualification_environments": [
+    {
+      "platform": "macOS 26.5.2 arm64",
+      "python": "3.11.15",
+      "base_g1_g4_cases": 137,
+      "notebook_extra_g1_g4_cases": 175,
+      "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+    },
+    {
+      "platform": "macOS 26.5.2 arm64",
+      "python": "3.12.13",
+      "base_g1_g4_cases": 137,
+      "notebook_extra_g1_g4_cases": 175,
+      "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+    }
+  ]
+}

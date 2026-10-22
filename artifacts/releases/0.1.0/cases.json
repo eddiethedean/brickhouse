@@ -1,1055 +1,386 @@
 {
-  "candidate_version": "0.1.0.dev0",
-  "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-  "case_mapping_note": "Each exact pytest selector is retained below. Expected schemas, results, and errors are asserted in the selected test and owning conformance report. This gate manifest does not turn selected local behavior into broad Databricks compatibility claims.",
-  "date": "2026-10-22",
-  "groups": [
+  "schema_version": 1,
+  "target_release": "0.1.0",
+  "platforms": [
+    "linux-x86_64",
+    "macos-arm64"
+  ],
+  "python_versions": [
+    "3.11",
+    "3.12"
+  ],
+  "lanes": [
+    "base",
+    "notebooks"
+  ],
+  "groups": {
+    "G1+G2": [
+      "tests/integration/test_g1_shared_table_restart.py",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
+      "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
+      "tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases",
+      "tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles"
+    ],
+    "G3": [
+      "tests/unit/test_jobs_repository.py",
+      "tests/unit/test_delta_operation_journal.py",
+      "tests/unit/test_table_contracts.py",
+      "tests/unit/test_workspace.py",
+      "tests/unit/test_catalog_repository.py",
+      "tests/unit/test_sql_statement_api.py",
+      "tests/unit/test_sql_mutations.py",
+      "tests/unit/test_sql_merge.py",
+      "tests/unit/test_delta_table_service.py",
+      "tests/unit/test_sparkless_engine.py",
+      "tests/unit/test_workspace_snapshot.py",
+      "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
+      "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
+    ],
+    "G4": [
+      "tests/integration/test_databricks_cli_v1_21_0.py",
+      "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
+      "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
+      "tests/integration/test_databricks_sql_kernel_b0211.py"
+    ],
+    "Notebook": [
+      "tests/unit/test_notebook_runner.py",
+      "tests/unit/test_notebook_context.py",
+      "tests/unit/test_notebook_source.py",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles",
+      "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta",
+      "tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles",
+      "tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families"
+    ]
+  },
+  "notebook_extra_g4_selectors": [
+    "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py"
+  ],
+  "families": [
     {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G1",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g1-offline.json",
-      "passed_cases": 1,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
+      "id": "P01",
+      "requirement": "Public Python provider callback/read/write API, exact typed values, lifecycle/errors and reproducible artifact",
+      "owners": "B046.1\u2013B046.3, B010",
+      "gate": "G1 prerequisite",
+      "test_selectors": [
+        "tests/unit/test_sparkless_engine.py",
+        "tests/unit/test_worker_imports.py"
+      ]
+    },
+    {
+      "id": "P02",
+      "requirement": "Released connector local host/TLS/auth/path feasibility with actual captured request/error and no fake SQL success",
+      "owners": "B045",
+      "gate": "G4 prerequisite",
+      "test_selectors": [
+        "tests/integration/test_databricks_sql_kernel_b0211.py"
+      ]
+    },
+    {
+      "id": "D01",
+      "requirement": "SDK catalog/schema CRUD/pagination, quoted name resolution and stable table ownership/location",
+      "owners": "B007, B012",
+      "gate": "G1",
+      "test_selectors": [
+        "tests/unit/test_catalog_api_sdk.py",
+        "tests/unit/test_identifier_resolution.py",
+        "tests/unit/test_table_removal.py"
+      ]
+    },
+    {
+      "id": "D02",
+      "requirement": "Typed DataFrame create/read/append/overwrite, empty input and schema mismatch",
+      "owners": "B010, B012",
+      "gate": "G1",
+      "test_selectors": [
+        "tests/unit/test_sparkless_engine.py",
+        "tests/unit/test_delta_table_service.py"
+      ]
+    },
+    {
+      "id": "D03",
+      "requirement": "SQL query/DDL/insert/parameters and exact manifest schema/row encoding",
+      "owners": "B011, B019.1",
+      "gate": "G1",
+      "test_selectors": [
+        "tests/unit/test_sql_statement_service.py",
+        "tests/unit/test_sql_parameters.py",
+        "tests/unit/test_sql_statement_api.py",
+        "tests/unit/test_sql_statement_results.py"
+      ]
+    },
+    {
+      "id": "D04",
+      "requirement": "UPDATE/DELETE/MERGE, describe/history/snapshots and DataFrame-visible committed versions",
+      "owners": "B019.2",
+      "gate": "G1/G3",
+      "test_selectors": [
+        "tests/unit/test_sql_mutations.py",
+        "tests/unit/test_sql_merge.py",
+        "tests/unit/test_sql_describe_history.py",
+        "tests/unit/test_sql_time_travel.py"
+      ]
+    },
+    {
+      "id": "D05",
+      "requirement": "Protocol/features/type/path rejection before unsafe access or mutation; no silent executor retry",
+      "owners": "B010, B019.3",
+      "gate": "G1",
+      "test_selectors": [
+        "tests/unit/test_table_contracts.py",
+        "tests/unit/test_sparkless_engine.py"
+      ]
+    },
+    {
+      "id": "S01",
+      "requirement": "Concurrent session namespace/config/view/UDF isolation and profile-specific defaults/restrictions",
+      "owners": "B010.3, B015.1, B015.2, B019.1",
+      "gate": "G1/G2",
+      "test_selectors": [
+        "tests/unit/test_sparkless_engine.py",
+        "tests/unit/test_worker_session.py",
+        "tests/unit/test_notebook_context.py"
+      ]
+    },
+    {
+      "id": "W01",
+      "requirement": "Three warehouse type/flag/resource lifecycles and missing/invalid identifiers",
+      "owners": "B011.5",
+      "gate": "G1/G4",
+      "test_selectors": [
+        "tests/unit/test_sql_warehouse_service.py"
+      ]
+    },
+    {
+      "id": "W02",
+      "requirement": "Real statement admission, queue/overload limits, stop/cancel/restart and consistent results",
+      "owners": "B011.6, B011.3\u2013B011.4",
+      "gate": "G1/G3",
+      "test_selectors": [
+        "tests/unit/test_sql_warehouse_service.py",
+        "tests/unit/test_sql_statement_api.py",
+        "tests/unit/test_sql_statement_results.py"
+      ]
+    },
+    {
+      "id": "J01",
+      "requirement": "All seven Python job selections produce the orders schema/data/output and correct resource lifetime",
+      "owners": "B014.2, B014.6, B018.1",
+      "gate": "G2",
+      "test_selectors": [
+        "tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles"
+      ]
+    },
+    {
+      "id": "J02",
+      "requirement": "Invalid DAG/selector/environment/file/task, dependency failure, distinct retry attempts and submission replay",
+      "owners": "B014.1\u2013B014.5, B018.1",
+      "gate": "G2/G3",
+      "test_selectors": [
+        "tests/unit/test_jobs_api_sdk.py",
+        "tests/unit/test_execution_context.py"
+      ]
+    },
+    {
+      "id": "J03",
+      "requirement": "Real file/widget/secret/task-value operations, parameter precedence, size limits and scope denial",
+      "owners": "B016.1\u2013B016.3, B018.1",
+      "gate": "G2",
+      "test_selectors": [
+        "tests/unit/test_dbutils_local.py",
+        "tests/unit/test_secrets.py",
+        "tests/unit/test_worker_auth.py",
+        "tests/unit/test_jobs_api_sdk.py"
+      ]
+    },
+    {
+      "id": "J04",
+      "requirement": "Worker crash/timeout/cancel with descendants, bounded output and no import/context leakage",
+      "owners": "B013.2\u2013B013.3, B014.6",
+      "gate": "G2/G3",
+      "test_selectors": [
+        "tests/unit/test_worker.py",
+        "tests/unit/test_worker_supervision.py"
+      ]
+    },
+    {
+      "id": "N01",
+      "requirement": "Seven ipynb selections and three source-export profile variants have real results/errors",
+      "owners": "B017.1\u2013B017.2, B017.5, B018.2",
+      "gate": "G2",
+      "test_selectors": [
+        "tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families"
+      ]
+    },
+    {
+      "id": "N02",
+      "requirement": "%run shared scope versus child run/exit isolation and notebook/job environment precedence",
+      "owners": "B017.3\u2013B017.4",
+      "gate": "G2",
+      "test_selectors": [
+        "tests/unit/test_notebook_runner.py",
+        "tests/unit/test_notebook_source.py",
+        "tests/unit/test_notebook_context.py"
+      ]
+    },
+    {
+      "id": "N03",
+      "requirement": "Compute reset/termination or parent cancellation during a cell reaps kernels, starts fresh state and preserves committed data",
+      "owners": "B017.5",
+      "gate": "G2/G3",
+      "test_selectors": [
+        "tests/unit/test_notebook_runner.py",
+        "tests/unit/test_jobs_api_sdk.py"
+      ]
+    },
+    {
+      "id": "C01",
+      "requirement": "Real pinned CLI workspace/file/job success/errors and cleanup",
+      "owners": "B020.1",
+      "gate": "G4",
+      "test_selectors": [
+        "tests/integration/test_databricks_cli_v1_21_0.py"
+      ]
+    },
+    {
+      "id": "C02",
+      "requirement": "Real pinned Terraform file/job/cluster/three-warehouse lifecycle and state refresh",
+      "owners": "B020.2, B020.4",
+      "gate": "G4",
+      "test_selectors": [
+        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py"
+      ]
+    },
+    {
+      "id": "C03",
+      "requirement": "Serverless/classic bundle validate/deploy/update/run, actual workload output and cleanup",
+      "owners": "B020.3, B020.5",
+      "gate": "G4",
+      "test_selectors": [
+        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
+        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py"
+      ]
+    },
+    {
+      "id": "C04",
+      "requirement": "Released REST/kernel connector parameters/schema/fetch chunks/errors/expiry/cancellation where advertised",
+      "owners": "B021.1\u2013B021.2",
+      "gate": "G4",
+      "test_selectors": [
+        "tests/integration/test_databricks_sql_kernel_b0211.py"
+      ]
+    },
+    {
+      "id": "R01",
+      "requirement": "Failure before commit, after commit/before journal finalization, and after finalization/before response; identical versus changed operation payload",
+      "owners": "B022.1",
+      "gate": "G3",
+      "test_selectors": [
+        "tests/unit/test_delta_operation_journal.py"
+      ]
+    },
+    {
+      "id": "R02",
+      "requirement": "Concurrent SQL/DataFrame appends with location aliases preserve rows; identical operation replay does not duplicate commits",
+      "owners": "B022.2",
+      "gate": "G3",
+      "test_selectors": [
+        "tests/unit/test_sparkless_engine.py::test_concurrent_sql_and_dataframe_appends_serialize_location_aliases_and_replay"
+      ]
+    },
+    {
+      "id": "R03",
+      "requirement": "Classic compute restart/termination and serverless worker timeout preserve accurate attempts and already committed Delta data; retries create distinct attempts and do not replay a timed-out side effect",
+      "owners": "B014.3, B014.6, B017.5, B018.1.2, B022.1, B022.4",
+      "gate": "G3",
+      "test_selectors": [
+        "tests/unit/test_jobs_api_sdk.py",
+        "tests/unit/test_worker_supervision.py",
+        "tests/unit/test_notebook_runner.py"
+      ]
+    },
+    {
+      "id": "R04",
+      "requirement": "A quiesced local snapshot restores managed Delta rows/history, operation records, job history, and files; external bytes are excluded while registrations remain references; result/log/staging retention is bounded and ownership-safe",
+      "owners": "B022.3.1\u2013B022.3.2",
+      "gate": "G3",
+      "test_selectors": [
+        "tests/unit/test_workspace_snapshot.py",
+        "tests/unit/test_sql_statement_results.py",
+        "tests/unit/test_jobs_repository.py"
+      ]
+    },
+    {
+      "id": "A01",
+      "requirement": "Candidate installation and base/notebook-extra separation; process/dependency/network checks prove native and provisioned offline execution",
+      "owners": "B023.1\u2013B023.2",
+      "gate": "G1\u2013G4",
       "test_selectors": [
         "tests/integration/test_g1_shared_table_restart.py"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
+      ]
     },
     {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G2",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g2-offline.json",
-      "passed_cases": 10,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
+      "id": "A02",
+      "requirement": "Exact scope/client/provider/profile matrix, notices/license/migrations/examples and reviewable artifact hashes",
+      "owners": "B023.1, B023.3",
+      "gate": "G1\u2013G4",
       "test_selectors": [
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G3",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g3-offline.json",
-      "passed_cases": 116,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G4",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g4-offline.json",
-      "passed_cases": 5,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G1+G2",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g1-g2-python-3.12.json",
-      "passed_cases": 11,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G3",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g3-python-3.12.json",
-      "passed_cases": 116,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G4",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "base",
-      "machine_report": "evidence/conformance/B023.2.2-base-g4-python-3.12.json",
-      "passed_cases": 5,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G1+G2",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-g1-g2-python-3.11.json",
-      "passed_cases": 11,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "Notebook",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-python-3.11.json",
-      "passed_cases": 36,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_notebook_runner.py tests/unit/test_notebook_context.py tests/unit/test_notebook_source.py tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/unit/test_notebook_runner.py",
-        "tests/unit/test_notebook_context.py",
-        "tests/unit/test_notebook_source.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G3",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-g3-python-3.11.json",
-      "passed_cases": 116,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G4",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-g4-python-3.11.json",
-      "passed_cases": 6,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "python": "3.11.15",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G1+G2",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-g1-g2-python-3.12.json",
-      "passed_cases": 11,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "Notebook",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-python-3.12.json",
-      "passed_cases": 36,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_notebook_runner.py tests/unit/test_notebook_context.py tests/unit/test_notebook_source.py tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/unit/test_notebook_runner.py",
-        "tests/unit/test_notebook_context.py",
-        "tests/unit/test_notebook_source.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G3",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-g3-python-3.12.json",
-      "passed_cases": 116,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "candidate_wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-      "group": "G4",
-      "guard_summary": {
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_keys": 0,
-        "observed_non_loopback_traffic": false,
-        "outbound_network": "denied except loopback and per-run local Unix sockets"
-      },
-      "lane": "notebooks",
-      "machine_report": "evidence/conformance/B023.2.3-notebook-g4-python-3.12.json",
-      "passed_cases": 6,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "python": "3.12.13",
-      "result": "passed",
-      "source_distribution_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "qualification_generation": "previous-qualified-candidate"
-    },
-    {
-      "group": "B064 review regressions",
-      "lane": "base",
-      "python": "3.11.15",
-      "candidate_wheel_sha256": "568516eca2ecf7995fc9c64e383767491b8f361df7c4b2a4983fd8171f20ed29",
-      "source_distribution_sha256": "5aa18a4cee593157b2a1bbc3e0967bbac207d22d29070f861465b304bb8fea8c",
-      "qualification_generation": "current-candidate",
-      "passed_cases": 99,
-      "result": "passed",
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_api_sdk.py::test_reset_revisions_share_stable_job_concurrency_identity tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers tests/unit/test_jobs_api_sdk.py::test_restart_resumes_undispatched_fifo_runs_without_replaying_started_attempts tests/unit/test_worker_supervision.py tests/unit/test_jobs_repository.py tests/unit/test_workspace_snapshot.py tests/unit/test_delta_operation_journal.py tests/unit/test_sql_statement_service.py tests/unit/test_sql_statement_results.py tests/unit/test_sql_statement_api.py",
-      "test_selectors": [
-        "tests/unit/test_jobs_api_sdk.py::test_reset_revisions_share_stable_job_concurrency_identity",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers",
-        "tests/unit/test_jobs_api_sdk.py::test_restart_resumes_undispatched_fifo_runs_without_replaying_started_attempts",
-        "tests/unit/test_worker_supervision.py",
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_sql_statement_service.py",
-        "tests/unit/test_sql_statement_results.py",
-        "tests/unit/test_sql_statement_api.py"
-      ],
-      "machine_report": "evidence/conformance/B064-current-wheel-offline.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "dotenv_loads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "inherited_databricks_environment_key_count": 0,
-        "network_policy": "outbound denied except loopback and run-scoped Unix sockets"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "B064 focused review regressions",
-      "lane": "base",
-      "python": "3.11.15",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 99,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_api_sdk.py::test_reset_revisions_share_stable_job_concurrency_identity tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers tests/unit/test_jobs_api_sdk.py::test_restart_resumes_undispatched_fifo_runs_without_replaying_started_attempts tests/unit/test_worker_supervision.py tests/unit/test_jobs_repository.py tests/unit/test_workspace_snapshot.py tests/unit/test_delta_operation_journal.py tests/unit/test_sql_statement_service.py tests/unit/test_sql_statement_results.py tests/unit/test_sql_statement_api.py",
-      "test_selectors": [
-        "tests/unit/test_jobs_api_sdk.py::test_reset_revisions_share_stable_job_concurrency_identity",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers",
-        "tests/unit/test_jobs_api_sdk.py::test_restart_resumes_undispatched_fifo_runs_without_replaying_started_attempts",
-        "tests/unit/test_worker_supervision.py",
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_sql_statement_service.py",
-        "tests/unit/test_sql_statement_results.py",
-        "tests/unit/test_sql_statement_api.py"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/B064-current-wheel-offline.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G1+G2 including B019.1.3 timestamp regression",
-      "lane": "base",
-      "python": "3.11.15",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 12,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-        "tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/base-py31115-g1-g2.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G3",
-      "lane": "base",
-      "python": "3.11.15",
-      "platform": "macOS-26.5.2-arm64-arm-64bit",
-      "result": "passed",
-      "passed_cases": 120,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/base-py31115-g3.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G4",
-      "lane": "base",
-      "python": "3.11.15",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 5,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/base-py31115-g4.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G1+G2 including B019.1.3 timestamp regression",
-      "lane": "base",
-      "python": "3.12.13",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 12,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-        "tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/base-py31213-g1-g2.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G3",
-      "lane": "base",
-      "python": "3.12.13",
-      "platform": "macOS-26.5.2-arm64-arm-64bit",
-      "result": "passed",
-      "passed_cases": 120,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/base-py31213-g3.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G4",
-      "lane": "base",
-      "python": "3.12.13",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 5,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/base-py31213-g4.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G1+G2 including B019.1.3 timestamp regression",
-      "lane": "notebooks",
-      "python": "3.11.15",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 12,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-        "tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31115-g1-g2.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G3",
-      "lane": "notebooks",
-      "python": "3.11.15",
-      "platform": "macOS-26.5.2-arm64-arm-64bit",
-      "result": "passed",
-      "passed_cases": 120,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31115-g3.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G4",
-      "lane": "notebooks",
-      "python": "3.11.15",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 6,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31115-g4.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "Notebook",
-      "lane": "notebooks",
-      "python": "3.11.15",
-      "platform": "macOS-26.5.2-arm64-arm-64bit",
-      "result": "passed",
-      "passed_cases": 37,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_notebook_runner.py tests/unit/test_notebook_context.py tests/unit/test_notebook_source.py tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta",
-      "test_selectors": [
-        "tests/unit/test_notebook_runner.py",
-        "tests/unit/test_notebook_context.py",
-        "tests/unit/test_notebook_source.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31115-notebook.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G1+G2 including B019.1.3 timestamp regression",
-      "lane": "notebooks",
-      "python": "3.12.13",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 12,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases",
-      "test_selectors": [
-        "tests/integration/test_g1_shared_table_restart.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
-        "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-        "tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31213-g1-g2.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G3",
-      "lane": "notebooks",
-      "python": "3.12.13",
-      "platform": "macOS-26.5.2-arm64-arm-64bit",
-      "result": "passed",
-      "passed_cases": 120,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
-      "test_selectors": [
-        "tests/unit/test_jobs_repository.py",
-        "tests/unit/test_delta_operation_journal.py",
-        "tests/unit/test_table_contracts.py",
-        "tests/unit/test_workspace.py",
-        "tests/unit/test_catalog_repository.py",
-        "tests/unit/test_sql_statement_api.py",
-        "tests/unit/test_sql_mutations.py",
-        "tests/unit/test_sql_merge.py",
-        "tests/unit/test_delta_table_service.py",
-        "tests/unit/test_sparkless_engine.py",
-        "tests/unit/test_workspace_snapshot.py",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31213-g3.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "G4",
-      "lane": "notebooks",
-      "python": "3.12.13",
-      "platform": "macOS 26.5.2 arm64",
-      "result": "passed",
-      "passed_cases": 6,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py",
-      "test_selectors": [
-        "tests/integration/test_databricks_cli_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
-        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py",
-        "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
-        "tests/integration/test_databricks_sql_kernel_b0211.py"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31213-g4.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
-    },
-    {
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-      "qualification_generation": "current-sparkless-4.15.2-candidate",
-      "group": "Notebook",
-      "lane": "notebooks",
-      "python": "3.12.13",
-      "platform": "macOS-26.5.2-arm64-arm-64bit",
-      "result": "passed",
-      "passed_cases": 37,
-      "pytest_command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_notebook_runner.py tests/unit/test_notebook_context.py tests/unit/test_notebook_source.py tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta",
-      "test_selectors": [
-        "tests/unit/test_notebook_runner.py",
-        "tests/unit/test_notebook_context.py",
-        "tests/unit/test_notebook_source.py",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta"
-      ],
-      "machine_report": "evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31213-notebook.json",
-      "guard_summary": {
-        "databricks_credentials_present": false,
-        "inherited_databricks_environment_key_count": 0,
-        "dotenv_reads": 0,
-        "forbidden_importable_modules": [],
-        "forbidden_processes": [],
-        "forbidden_events": [],
-        "outbound_network": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections"
-      }
+        "tests/unit/test_planning_validation.py",
+        "tests/integration/test_phase_0_1_example.py"
+      ]
     }
   ],
-  "schema_version": 1,
-  "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-  "target_release": "0.1.0",
-  "totals": {
-    "base_cases": 264,
-    "base_per_interpreter": 132,
-    "notebook_extra_cases": 338,
-    "notebook_extra_per_interpreter": 169
-  },
-  "previous_qualified_candidate": {
-    "wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-    "sdist_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
-    "archived_artifacts": "evidence/prior-qualified-candidate/",
-    "qualified_totals": {
-      "base_cases": 264,
-      "base_per_interpreter": 132,
-      "notebook_extra_cases": 338,
-      "notebook_extra_per_interpreter": 169
-    }
-  },
-  "totals_scope": "The totals block describes the archived previous candidate only; current-candidate totals are listed separately.",
-  "current_candidate_totals": {
-    "full_g1_g4_requalified": true,
-    "g1_g4_passed_cases": 624,
-    "base_cases": 274,
-    "base_cases_per_interpreter": 137,
-    "notebook_extra_cases": 350,
-    "notebook_extra_cases_per_interpreter": 175,
-    "python_versions": [
-      "3.11.15",
-      "3.12.13"
+  "required_compute_variants": [
+    "SL",
+    "CSN",
+    "CSE",
+    "CSH",
+    "CDN",
+    "CDE",
+    "CDH"
+  ],
+  "required_source_notebook_profiles": [
+    "SL",
+    "CSN",
+    "CDN"
+  ],
+  "warehouse_profiles": [
+    "serverless",
+    "pro",
+    "classic"
+  ],
+  "golden_orders_output": {
+    "schema": [
+      {
+        "name": "customer",
+        "type": "string"
+      },
+      {
+        "name": "order_count",
+        "type": "int64"
+      },
+      {
+        "name": "total_amount",
+        "type": "decimal128(22,2)"
+      }
     ],
-    "platform": "macOS 26.5.2 arm64",
-    "sparkless": "4.15.2",
-    "installed_wheel_b064_review_cases": 99
-  },
-  "current_candidate_qualification": {
-    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-    "sparkless_version": "4.15.2",
-    "result": "passed",
-    "full_g1_g4_matrix_requalified": true,
-    "g1_g4_passed_cases": 624,
-    "base_lane_cases": 274,
-    "notebook_extra_lane_cases": 350,
-    "python_versions": [
-      "3.11.15",
-      "3.12.13"
+    "rows": [
+      [
+        "alice",
+        2,
+        "15.75"
+      ]
     ],
-    "platform": "macOS 26.5.2 arm64",
-    "b064_review_cases": 99
-  },
-  "current_candidate_source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+    "reference_scope": "Expected values use the reviewed local fixture. Databricks rejected the bounded aggregate capture; no remote aggregate parity is claimed."
+  }
 }

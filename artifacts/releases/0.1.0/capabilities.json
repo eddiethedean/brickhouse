@@ -158,7 +158,7 @@
         "The HTTP server binds only to IPv4 loopback and exposes health, version, and capability diagnostics; it is not a Databricks API server.",
         "Installed Sparkless and delta-rs packages are reported as not integrated until BrickHouse adapters have conformance evidence.",
         "The run command explicitly rejects requests until B013 implements job supervision; the embedded context has no session or data services.",
-        "Workspace format remains version 1. Metadata schemas 1–3 upgrade transactionally to schema version 4 under the owner lock; no upgrade from a prior released workspace format is promised."
+        "Workspace format remains version 1. Metadata schemas 1\u20133 upgrade transactionally to schema version 4 under the owner lock; no upgrade from a prior released workspace format is promised."
       ]
     },
     {
@@ -1536,7 +1536,7 @@
       "limitations": [
         "Only the selected B011.1 SQL corpus and named scalar parameter types are exposed. Sparkless has no public prepared-parameter argument, so validated values are attached as typed AST literal nodes and rendered by the local adapter; no remote prepared execution claim is made. Local results use 10,000-row/8 MiB hard defaults, at most 1,000 rows per chunk, 12-hour retention, and a 64 MiB workspace cap with oldest-first eviction. Result collection retains only the row/byte-limited Arrow-batch prefix while scanning for total counts and truncation. This bounds retained result memory, not all Sparkless engine working memory. INSERT supports the selected VALUES and SELECT append forms; other forms fail before mutation.",
         "Warehouse identity and admission are persisted local simulations/policy, not Databricks allocation, scheduling, queue, or performance parity.",
-        "Actual connector 4.6.0 evidence covers kernel session open/close and SEA-mode INLINE JSON_ARRAY named-INT execution, schema/fetch, and terminal-result close. Per-session settings, kernel ARROW_STREAM/LZ4 results, connector-visible errors/cancellation/method limits remain open under B021.2.3; remote behavior is not claimed.",
+        "Actual connector 4.6.0 evidence covers kernel session open/close and SEA-mode INLINE JSON_ARRAY named-INT execution, schema/fetch, and terminal-result close. B021.2.3 additionally qualifies selected connector-visible errors, cancellation, close, expiry, and explicit unsupported-method outcomes. Per-session settings, kernel ARROW_STREAM/LZ4 results and broader metadata remain unqualified; remote behavior is not claimed.",
         "The loopback API does not authenticate callers. SDK request/response compatibility against BrickHouse does not establish remote Databricks SQL behavior.",
         "The local Sparkless execution profile and Arrow-to-JSON mappings are limited to the exact versions and tests listed here; SQLGlot parsing alone is not a semantic parity claim."
       ]
@@ -1639,7 +1639,7 @@
           "date": "2026-10-21",
           "kind": "local_conformance",
           "command": "See artifacts/conformance/B019.1.5-sql-joins.md",
-          "result": "Selected aliased inner equijoin passed with null key and duplicate-match cases. Explicit INNER JOIN is now accepted by BrickHouse’s SQL planner; unsupported outer, self, multi-key, and multiple joins raise typed planner errors. No remote join claim; C018 stays planned.",
+          "result": "Selected aliased inner equijoin passed with null key and duplicate-match cases. Explicit INNER JOIN is now accepted by BrickHouse\u2019s SQL planner; unsupported outer, self, multi-key, and multiple joins raise typed planner errors. No remote join claim; C018 stays planned.",
           "artifact": "artifacts/conformance/B019.1.5-sql-joins.md"
         },
         {
@@ -1725,8 +1725,9 @@
       ],
       "limitations": [
         "SQLGlot parsing/transpilation does not prove semantic equivalence.",
-        "B019.1.1–B019.1.7 qualify selected local scalar, aggregate, date/time, collection, join, DDL/error, and serverless/classic session subsets; B019.2.1 qualifies one-table UPDATE/DELETE with a required WHERE predicate and simple expressions; B019.2.2 qualifies only a registered-table, one-key MERGE with one unconditional matched update and one unconditional explicit insert over identical schemas. SQLGlot parsing/transpilation does not establish full semantic equivalence. Broad SQL and Databricks parity, MERGE subqueries/multi-key or residual predicates/conditional clauses/deletes/star inserts/arbitrary expressions/differing schemas, timestamp forms beyond the selected UTC-aware Delta predicate, parameterized or unselected VERSION AS OF selectors beyond the tested literal integer form, broader nested-field SQL access beyond the selected leaf projection (#1715), collection functions/operators, outer/self/multi-key/multiple joins, broader mutations, routing, classic remote behavior, Connect protocol, and deferred analysis remain unqualified. Sparkless 4.15.1 locally resolves the selected nested-field projection under PR #1717. The selected UTC-aware Delta predicate passes with published Sparkless 4.15.2 under PR #1721; the historical 4.15.1 discrepancy in issue #1720 is resolved. B019.2.3 qualifies DESCRIBE TABLE schema output and only the latest 100 committed delta-rs history records; extended/detail forms, caller-specified history limits, and unavailable Databricks metadata fields remain unqualified.",
-        "B019.3 qualifies only the enumerated local route matrix; the current base distribution has no DuckDB executor, and no general cross-engine routing or remote Databricks SQL parity is claimed."
+        "B019.1.1\u2013B019.1.7 qualify selected local scalar, aggregate, date/time, collection, join, DDL/error, and serverless/classic session subsets; B019.2.1 qualifies one-table UPDATE/DELETE with a required WHERE predicate and simple expressions; B019.2.2 qualifies only a registered-table, one-key MERGE with one unconditional matched update and one unconditional explicit insert over identical schemas. SQLGlot parsing/transpilation does not establish full semantic equivalence. Broad SQL and Databricks parity, MERGE subqueries/multi-key or residual predicates/conditional clauses/deletes/star inserts/arbitrary expressions/differing schemas, timestamp forms beyond the selected UTC-aware Delta predicate, parameterized or unselected VERSION AS OF selectors beyond the tested literal integer form, broader nested-field SQL access beyond the selected leaf projection (#1715), collection functions/operators, outer/self/multi-key/multiple joins, broader mutations, routing, classic remote behavior, Connect protocol, and deferred analysis remain unqualified. Sparkless 4.15.1 locally resolves the selected nested-field projection under PR #1717. The selected UTC-aware Delta predicate passes with published Sparkless 4.15.2 under PR #1721; the historical 4.15.1 discrepancy in issue #1720 is resolved. B019.2.3 qualifies DESCRIBE TABLE schema output and only the latest 100 committed delta-rs history records; extended/detail forms, caller-specified history limits, and unavailable Databricks metadata fields remain unqualified.",
+        "B019.3 qualifies only the enumerated local route matrix; the current base distribution has no DuckDB executor, and no general cross-engine routing or remote Databricks SQL parity is claimed.",
+        "Sparkless 4.15.2 SQL COUNT returns IntegerType/Arrow int32 while DataFrame count returns LongType/int64 (upstream issue #1723). The local SQL fixture records this result; no Spark/Databricks COUNT schema parity is claimed."
       ]
     },
     {
@@ -2071,7 +2072,7 @@
       "limitations": [
         "The worker SparkSession is a bounded Sparkless facade, and its writer supports only authenticated append to an existing registered Delta table (32 KiB Arrow IPC, 100,000 rows); worker table creation, overwrite, arbitrary paths/options, and other writer operations remain unsupported.",
         "Classic resource allocation/lifecycle labels are simulated. All-purpose restart/termination cancels active local workers, but no cloud infrastructure or serverless compute object exists.",
-        "Task retries are bounded and run concurrency dispatches at most two worker attempts while persisting up to eight FIFO queued runs; each job accepts max_concurrent_runs 1–10. Overflow is rejected before run creation. Undispatched runs resume after restart; runs with started attempts are interrupted without automatic replay. External Python side effects are not exactly once.",
+        "Task retries are bounded and run concurrency dispatches at most two worker attempts while persisting up to eight FIFO queued runs; each job accepts max_concurrent_runs 1\u201310. Overflow is rejected before run creation. Undispatched runs resume after restart; runs with started attempts are interrupted without automatic replay. External Python side effects are not exactly once.",
         "Only default ALL_SUCCESS dependency policy is supported. SDK output retrieval for multi-task runs remains unsupported.",
         "The SDK profile has been verified against the local loopback adapter only; no Databricks workspace/runtime compatibility or authorization boundary is claimed.",
         "Fresh-process isolation is not a malicious-code sandbox. POSIX process-group cleanup is tested; Windows descendant cleanup and descendants that escape the process group are not claimed."
@@ -2272,8 +2273,8 @@
       ],
       "limitations": [
         "Dispatch is sequential and supports only the default ALL_SUCCESS dependency policy.",
-        "Per-task retries are bounded to the validated 0–10 profile. External Python side effects can repeat after a failed attempt.",
-        "The process dispatches at most two worker attempts and persists up to eight additional FIFO queued runs. Each job accepts max_concurrent_runs 1–10; overflow rejects with HTTP 409 before a run record is created. Restart resumes undispatched entries and interrupts runs with started attempts.",
+        "Per-task retries are bounded to the validated 0\u201310 profile. External Python side effects can repeat after a failed attempt.",
+        "The process dispatches at most two worker attempts and persists up to eight additional FIFO queued runs. Each job accepts max_concurrent_runs 1\u201310; overflow rejects with HTTP 409 before a run record is created. Restart resumes undispatched entries and interrupts runs with started attempts.",
         "A run is marked interrupted when its recorded worker PID is gone. Surviving workers are not adopted or killed and may finish side effects before polling observes their exit; PID reuse is not guarded against.",
         "SDK output retrieval for multi-task runs is unsupported; per-attempt output remains available from the local repository."
       ]
@@ -3822,7 +3823,7 @@
         "Profiles and aliases are BrickHouse-local mappings and do not establish Databricks workspace/runtime parity or security isolation.",
         "Only serverless environment version 1, the active local Python minor, and exact installed dependency pins are mapped; no environment creation or arbitrary package installation is performed.",
         "The initial serverless profile requires disable_auto_optimization=true; only standard ALL_SUCCESS task conditions are accepted.",
-        "Capabilities C053–C056 remain planned; this partial result is not serverless or classic workload conformance."
+        "Capabilities C053\u2013C056 remain planned; this partial result is not serverless or classic workload conformance."
       ]
     },
     {

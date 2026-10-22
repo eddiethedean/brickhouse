@@ -1,0 +1,104 @@
+{
+  "result": "passed",
+  "lane": "base",
+  "command": "unshare [network namespace] [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_repository.py tests/unit/test_delta_operation_journal.py tests/unit/test_table_contracts.py tests/unit/test_workspace.py tests/unit/test_catalog_repository.py tests/unit/test_sql_statement_api.py tests/unit/test_sql_mutations.py tests/unit/test_sql_merge.py tests/unit/test_delta_table_service.py tests/unit/test_sparkless_engine.py tests/unit/test_workspace_snapshot.py tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
+  "return_code": 0,
+  "argv": [
+    "/tmp/brickhouse-qualification-927jjr00/base/bin/python",
+    "-m",
+    "pytest",
+    "-c",
+    "/dev/null",
+    "--rootdir",
+    "/home/runner/work/brickhouse/brickhouse",
+    "-q",
+    "--junitxml=/home/runner/work/_temp/qualification/base-g3.xml",
+    "tests/unit/test_jobs_repository.py",
+    "tests/unit/test_delta_operation_journal.py",
+    "tests/unit/test_table_contracts.py",
+    "tests/unit/test_workspace.py",
+    "tests/unit/test_catalog_repository.py",
+    "tests/unit/test_sql_statement_api.py",
+    "tests/unit/test_sql_mutations.py",
+    "tests/unit/test_sql_merge.py",
+    "tests/unit/test_delta_table_service.py",
+    "tests/unit/test_sparkless_engine.py",
+    "tests/unit/test_workspace_snapshot.py",
+    "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
+    "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output"
+  ],
+  "os_network_probe": {
+    "non_loopback_denied": true,
+    "uid": 1001
+  },
+  "counts": {
+    "tests": 123,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "passed_cases": 123,
+  "skipped_cases": 0,
+  "databricks_credentials_present": false,
+  "inherited_databricks_environment_key_count": 0,
+  "dotenv_loads": [],
+  "candidate_python": "3.11.17 (main, Oct  1 2026, 14:34:26) [GCC 11.4.0]",
+  "candidate_version": "0.1.0",
+  "candidate_import": "/tmp/brickhouse-qualification-927jjr00/base/lib/python3.11/site-packages/brickhouse/__init__.py",
+  "candidate_wheel_installed": true,
+  "forbidden_distributions_installed": [],
+  "notebook_distributions_installed": {},
+  "forbidden_importable_modules": [],
+  "java_spark_environment_keys_removed": [],
+  "forbidden_events": [],
+  "network_policy": "Linux network namespace contains only an enabled loopback interface; tests run as the original non-root user; local Unix-domain sockets are permitted; Python audit hook rejects non-loopback resolution/connections",
+  "sandbox_profile": "isolated Linux network namespace; permit loopback and Unix-domain sockets (filesystem access remains that of the invoking user)",
+  "process_policy": "test PATH exposes only the candidate wheel environment and whitelisted local utilities; Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports",
+  "loopback_connections": {
+    "count": 235,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "loopback_resolutions": {
+    "count": 235,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "subprocesses": {
+    "count": 7,
+    "executables": [
+      "python"
+    ]
+  },
+  "forbidden_processes": [],
+  "blocked_process_names": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": "........................................................................ [ 58%]\n...................................................                      [100%]\n123 passed in 42.86s",
+  "stderr": "",
+  "candidate_wheel_sha256": "c4b419840cb505ae789c2fa543dd09a9d806365df9241ce2a8c993f10382c47e",
+  "source_distribution_sha256": "2c58879107a7f11cfcbad2676e5764ce5389f6bb66c4008d8c1710c998b2b2c0",
+  "source_commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b",
+  "source_worktree_dirty": false,
+  "python_version": "3.11.17",
+  "platform": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "databricks_account_used": false,
+  "group": "G3",
+  "installed_versions": {
+    "brickhouse": "0.1.0",
+    "sparkless": "4.15.2",
+    "import": "/tmp/brickhouse-qualification-927jjr00/base/lib/python3.11/site-packages/brickhouse/__init__.py"
+  }
+}

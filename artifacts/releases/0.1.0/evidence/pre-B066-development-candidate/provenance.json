@@ -1,0 +1,6 @@
+{
+  "status": "historical development candidate",
+  "original_bundle_commit": "c76a7a9e31dff4be03787d00087ca1a817c1bd7c",
+  "candidate_version": "0.1.0.dev0",
+  "metadata_snapshot": "Files capture the former root bundle metadata. References in historical JSON inventories resolve in the original commit; final release qualification is separate."
+}

@@ -1,0 +1,104 @@
+{
+  "result": "passed",
+  "lane": "notebooks",
+  "command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_notebook_runner.py tests/unit/test_notebook_context.py tests/unit/test_notebook_source.py tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families",
+  "return_code": 0,
+  "argv": [
+    "/var/folders/s6/5hzmn6lx4dz5nxs7k_0slzph0000gn/T/brickhouse-qualification-un9j_wvz/notebooks/bin/python",
+    "-m",
+    "pytest",
+    "-c",
+    "/dev/null",
+    "--rootdir",
+    "/Users/runner/work/brickhouse/brickhouse",
+    "-q",
+    "--junitxml=/Users/runner/work/_temp/qualification/notebooks-notebook.xml",
+    "tests/unit/test_notebook_runner.py",
+    "tests/unit/test_notebook_context.py",
+    "tests/unit/test_notebook_source.py",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_notebook_tasks_across_all_seven_compute_selections",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_environment_fallback_and_job_precedence",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_runs_marked_python_notebook_exports_in_three_profiles",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_notebook_interruption_reaps_kernel_and_preserves_committed_delta",
+    "tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles",
+    "tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families"
+  ],
+  "os_network_probe": {
+    "non_loopback_denied": true,
+    "uid": 501
+  },
+  "counts": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "passed_cases": 47,
+  "skipped_cases": 0,
+  "databricks_credentials_present": false,
+  "inherited_databricks_environment_key_count": 0,
+  "dotenv_loads": [],
+  "candidate_python": "3.11.9 (v3.11.9:de54cf5be3, Apr  2 2024, 07:12:50) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "candidate_version": "0.1.0",
+  "candidate_import": "/private/var/folders/s6/5hzmn6lx4dz5nxs7k_0slzph0000gn/T/brickhouse-qualification-un9j_wvz/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py",
+  "candidate_wheel_installed": true,
+  "forbidden_distributions_installed": [],
+  "notebook_distributions_installed": {
+    "nbformat": "5.11.1",
+    "ipykernel": "7.4.0",
+    "jupyter-client": "8.10.0",
+    "nbclient": "0.11.0"
+  },
+  "forbidden_importable_modules": [],
+  "java_spark_environment_keys_removed": [],
+  "forbidden_events": [],
+  "network_policy": "macOS sandbox denies outbound networking except localhost on any port; local Unix-domain sockets are permitted; Python audit hook rejects non-loopback resolution/connections",
+  "sandbox_profile": "deny network-outbound; permit localhost IP sockets and Unix-domain sockets under the unique per-run temporary directory",
+  "process_policy": "test PATH exposes only the candidate wheel environment and whitelisted local utilities; Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports",
+  "loopback_connections": {
+    "count": 329,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "loopback_resolutions": {
+    "count": 329,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "subprocesses": {
+    "count": 80,
+    "executables": [
+      "python"
+    ]
+  },
+  "forbidden_processes": [],
+  "blocked_process_names": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": "...............................................                          [100%]\n47 passed in 122.58s (0:02:02)",
+  "stderr": "",
+  "candidate_wheel_sha256": "c4b419840cb505ae789c2fa543dd09a9d806365df9241ce2a8c993f10382c47e",
+  "source_distribution_sha256": "2c58879107a7f11cfcbad2676e5764ce5389f6bb66c4008d8c1710c998b2b2c0",
+  "source_commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b",
+  "source_worktree_dirty": false,
+  "python_version": "3.11.9",
+  "platform": "macOS-14.8.9-arm64-arm-64bit",
+  "machine": "arm64",
+  "databricks_account_used": false,
+  "group": "Notebook",
+  "installed_versions": {
+    "brickhouse": "0.1.0",
+    "sparkless": "4.15.2",
+    "import": "/private/var/folders/s6/5hzmn6lx4dz5nxs7k_0slzph0000gn/T/brickhouse-qualification-un9j_wvz/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
+  }
+}

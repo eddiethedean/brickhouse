@@ -1,0 +1,49 @@
+{
+  "result": "passed",
+  "source_workflow_sha256": "4671d164da24be9e39353c74b2758188e458f1a30052c5acf0c1082333ada4ff",
+  "cases": [
+    {
+      "case": "unverified-publisher",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Verify the exact PyPI Trusted Publisher before tagging a release"
+    },
+    {
+      "case": "tag-mismatch",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Tag 'v0.1.1' does not match pyproject.toml version '0.1.0'"
+    },
+    {
+      "case": "malformed-tag",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Release tag must be vMAJOR.MINOR.PATCH, got 'v0.1.0rc1'"
+    },
+    {
+      "case": "wrong-package",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Unexpected distribution name: 'other'"
+    },
+    {
+      "case": "wrong-publisher-workflow",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Verify the exact PyPI Trusted Publisher before tagging a release"
+    },
+    {
+      "case": "valid-configuration-fixture",
+      "expected_exit": "success",
+      "actual_returncode": 0,
+      "passed": true,
+      "message": ""
+    }
+  ],
+  "scope": "Local configuration/script fixture checks only. No release tag, PyPI account action or publication occurred; actual publisher configuration is still unverified."
+}

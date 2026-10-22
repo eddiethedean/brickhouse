@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "project": "brickhouse",
+  "project_license": "Apache-2.0",
+  "repository": "eddiethedean/brickhouse",
+  "workflow": "release.yml",
+  "github_environment": "pypi",
+  "github_environment_verified": true,
+  "deployment_tag_pattern": "v*.*.*",
+  "pypi_project_lookup": {
+    "date": "2026-10-22",
+    "http_status": 404,
+    "name_reserved": false
+  },
+  "trusted_publisher": {
+    "type": "github",
+    "owner": "eddiethedean",
+    "repository": "brickhouse",
+    "workflow": "release.yml",
+    "environment": "pypi",
+    "configured_and_verified": false,
+    "remaining_action": "Sign into PyPI and add/verify the pending publisher for brickhouse. Browser access is unavailable while the Mac is locked."
+  },
+  "publication_authorized": false,
+  "published": false
+}
