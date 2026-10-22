@@ -9,7 +9,12 @@ from threading import Thread
 import pytest
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.errors import InvalidParameterValue, ResourceDoesNotExist
-from databricks.sdk.service.compute import DataSecurityMode, RuntimeEngine, State
+from databricks.sdk.service.compute import (
+    DataSecurityMode,
+    ListClustersFilterBy,
+    RuntimeEngine,
+    State,
+)
 
 from brickhouse.diagnostic_server import create_diagnostic_server
 from brickhouse.workspace import WorkspaceContext, initialize_workspace
@@ -70,6 +75,12 @@ def test_pinned_sdk_classic_cluster_lifecycle_persists_and_paginates(
             first.cluster_id,
             second.cluster_id,
         ]
+        assert [
+            cluster.cluster_id
+            for cluster in client.clusters.list(filter_by=ListClustersFilterBy(is_pinned=False))
+        ] == [first.cluster_id, second.cluster_id]
+        assert list(client.clusters.list(filter_by=ListClustersFilterBy(is_pinned=True))) == []
+        assert client.clusters.get(first.cluster_id).cluster_id == first.cluster_id
 
         edited = client.clusters.edit(
             first.cluster_id,
@@ -94,6 +105,15 @@ def test_pinned_sdk_classic_cluster_lifecycle_persists_and_paginates(
             client.clusters.get(first.cluster_id)
         with pytest.raises(ResourceDoesNotExist):
             client.clusters.permanent_delete(first.cluster_id)
+
+        active = client.clusters.create(
+            "spark35-local-v1",
+            cluster_name="direct-permanent-delete",
+            num_workers=0,
+        ).result()
+        client.clusters.permanent_delete(active.cluster_id)
+        with pytest.raises(ResourceDoesNotExist):
+            client.clusters.get(active.cluster_id)
 
     with WorkspaceContext.local(workspace_path) as reopened:
         assert [record.cluster_name for record in reopened.compute.list_clusters()] == ["second"]

@@ -1,0 +1,148 @@
+{
+  "candidate_distribution_version": "0.1.0.dev0",
+  "candidate_state": "owner-review candidate; not published",
+  "capability_registry": {
+    "entries": 67,
+    "fully_supported_entries": 0,
+    "status_counts": {
+      "partial": 24,
+      "planned": 41,
+      "simulated": 2
+    }
+  },
+  "date": "2026-10-22",
+  "frozen_local_workload_profiles": {
+    "infrastructure_lifecycle": "simulated metadata; real local workers/SQL/table behavior are covered only by selected evidence",
+    "notebook_compute_selectors": [
+      "SL",
+      "CSN",
+      "CSE",
+      "CSH",
+      "CDN",
+      "CDE",
+      "CDH"
+    ],
+    "python_job_selectors": [
+      "SL",
+      "CSN",
+      "CSE",
+      "CSH",
+      "CDN",
+      "CDE",
+      "CDH"
+    ],
+    "sql_warehouse_profiles": [
+      "serverless",
+      "pro",
+      "classic"
+    ]
+  },
+  "known_scope_limits": [
+    "No remote Databricks runtime or service parity is claimed.",
+    "No cloud compute or real infrastructure lifecycle behavior is claimed.",
+    "Warehouse and cluster lifecycle metadata is simulated.",
+    "Kernel Arrow-stream/LZ4 and broader SQL connector methods remain unqualified.",
+    "Thrift and Windows are unqualified.",
+    "The selected UTC-aware Delta timestamp predicate passes on the published Sparkless 4.15.2 wheel under upstream PR #1721; other timestamp forms, broad SQL, and remote Databricks behavior remain unqualified."
+  ],
+  "release_gates": {
+    "current_candidate_b064_installed_wheel": "passed: 99 focused installed-wheel cases with Sparkless 4.15.2 on macOS arm64 CPython 3.11.15 under the loopback-only offline guard",
+    "current_candidate_full_g1_g4": "passed: 624 selected cases across base (274) and notebook-extra (350) lanes on macOS arm64 CPython 3.11.15 and 3.12.13; current wheel SHA-256 f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+    "linux_x86_64": "unqualified; do not advertise until CI passes or scope is revised",
+    "notices_and_distribution_audit": "passed for final current wheel and source archive; project license remains unselected",
+    "project_license": "owner decision required; not selected",
+    "publication": "not authorized by this candidate task; separate owner authorization required",
+    "remote_databricks_parity": "not claimed"
+  },
+  "schema_version": 1,
+  "source_provenance": {
+    "base_commit": "e767437726b96be91f1d1b1291780736ab913483",
+    "development_lock_sha256": "a709d83648b05f52ef1075a1b76fae510617ad7901ccf2684a54c8ba3746add2",
+    "source_archive_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
+    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+    "working_tree_was_dirty_during_candidate_build": true
+  },
+  "target_release": "0.1.0",
+  "unqualified_install_matrix": [
+    {
+      "architecture": "x86_64",
+      "os": "Linux",
+      "python": "3.11/3.12",
+      "reason": "Configured CI matrix has not passed; not advertised."
+    },
+    {
+      "architecture": "any",
+      "os": "Windows",
+      "python": "any",
+      "reason": "No install/offline qualification; not advertised."
+    }
+  ],
+  "previous_candidate_qualified_install_matrix": [
+    {
+      "architecture": "arm64",
+      "base": true,
+      "notebooks_extra": true,
+      "os": "macOS 26.5.2",
+      "python": "3.11.15"
+    },
+    {
+      "architecture": "arm64",
+      "base": true,
+      "notebooks_extra": true,
+      "os": "macOS 26.5.2",
+      "python": "3.12.13"
+    }
+  ],
+  "previous_candidate_release_gates": {
+    "base_offline_g1_g4": "passed: 264 cases across two macOS Python combinations",
+    "linux_x86_64": "unqualified; do not advertise until CI passes or scope is revised",
+    "notebook_extra_offline_g1_g4": "passed: 338 cases across two macOS Python combinations",
+    "notices_and_distribution_audit": "passed",
+    "project_license": "owner decision required; not selected",
+    "publication": "not authorized by this candidate task; separate owner authorization required",
+    "remote_databricks_parity": "not claimed"
+  },
+  "previous_candidate_artifact_hashes": {
+    "wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
+    "sdist_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63"
+  },
+  "current_candidate_qualification": {
+    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
+    "sparkless_version": "4.15.2",
+    "full_g1_g4_matrix_requalified": true,
+    "g1_g4_passed_cases": 624,
+    "base_lane_cases": 274,
+    "notebook_extra_lane_cases": 350,
+    "per_interpreter": {
+      "base": 137,
+      "notebook_extra": 175
+    },
+    "python_versions": [
+      "3.11.15",
+      "3.12.13"
+    ],
+    "platform": "macOS 26.5.2 arm64",
+    "b064_installed_wheel_cases": 99,
+    "databricks_credentials_used": false
+  },
+  "current_candidate_full_g1_g4": "passed: 624 selected cases across base (274) and notebook-extra (350) lanes on macOS arm64 CPython 3.11.15 and 3.12.13; current wheel SHA-256 f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+  "current_candidate_install_matrix": [
+    {
+      "os": "macOS 26.5.2",
+      "architecture": "arm64",
+      "python": "3.11.15",
+      "base": true,
+      "notebooks_extra": true,
+      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef"
+    },
+    {
+      "os": "macOS 26.5.2",
+      "architecture": "arm64",
+      "python": "3.12.13",
+      "base": true,
+      "notebooks_extra": true,
+      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef"
+    }
+  ]
+}

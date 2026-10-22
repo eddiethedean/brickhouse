@@ -1,0 +1,2797 @@
+{
+  "schema_version": 1,
+  "project": "BrickHouse",
+  "as_of": "2026-10-20",
+  "research_task_id": "B063",
+  "status": "research_snapshot_not_a_runtime_lock",
+  "project_dependencies_changed": false,
+  "selection_policy": "Existing pins are retained; other versions are finite research candidates available before 2026-10-21 UTC, not production selections or compatibility claims. Complete transitive/environment/wheel qualification remains with owning implementation tasks.",
+  "package_candidates": [
+    {
+      "package": "sparkless",
+      "version": "4.14.1",
+      "selection": "existing_project_pin",
+      "pypi_json_url": "https://pypi.org/pypi/sparkless/4.14.1/json",
+      "metadata_json_sha256": "3c2f287ad86f310fc75c78b00e6253436b977f8589032b394338580ecdbf1cc3",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "requires_python": ">=3.8",
+      "requires_dist": [
+        "pytest; extra == \"dev\"",
+        "pandas; extra == \"dev\"",
+        "pytest-xdist; extra == \"dev\"",
+        "hypothesis; extra == \"dev\"",
+        "pytest-timeout; extra == \"dev\"",
+        "polars; extra == \"dev\"",
+        "pyarrow; extra == \"dev\"",
+        "testcontainers; extra == \"jdbc\"",
+        "psycopg2-binary; extra == \"jdbc\"",
+        "pymysql; extra == \"jdbc\"",
+        "pymssql; extra == \"jdbc\"",
+        "oracledb; extra == \"jdbc\"",
+        "pyspark<3.6,>=3.5; extra == \"pyspark\"",
+        "delta-spark<4,>=3.0; extra == \"pyspark\"",
+        "pyspark<4.2,>=4.0; extra == \"pyspark4\"",
+        "delta-spark<5,>=4.0; extra == \"pyspark4\""
+      ],
+      "project_urls": null,
+      "summary": "PySpark-like DataFrame API in Python\u2014no JVM. Uses robin-sparkless (Rust/Polars) as the execution engine.",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "sparkless-4.14.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/8d/07/030e333aad3b2d9822bfb5e5709af25cb22757cc44b29431890f5168b54c/sparkless-4.14.1.tar.gz",
+          "digests": {
+            "blake2b_256": "8d07030e333aad3b2d9822bfb5e5709af25cb22757cc44b29431890f5168b54c",
+            "md5": "32caaeba6daf9d6c9a1983c2be6b5d61",
+            "sha256": "42ed99c84b2c1de4bd8683119dd25d26ac4024a2a28863aef9b6ffa47f14e172"
+          },
+          "upload_time_iso_8601": "2026-10-21T00:50:15.797921Z",
+          "size": 693955,
+          "requires_python": ">=3.8",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "sparkless-4.14.1-cp38-abi3-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/29/70/547785f51bb5cb11041dee7939bec1a63b4dcedf521f45744e63f055b103/sparkless-4.14.1-cp38-abi3-macosx_10_12_x86_64.whl",
+          "digests": {
+            "blake2b_256": "2970547785f51bb5cb11041dee7939bec1a63b4dcedf521f45744e63f055b103",
+            "md5": "54fddacd71d8a779c38e1dfa1cc794b1",
+            "sha256": "e1cdb1b8e0c9e027d8a673e3b804554dc4b004177f76002ac89e897b605bbb57"
+          },
+          "upload_time_iso_8601": "2026-10-21T01:00:39.541648Z",
+          "size": 39852848,
+          "requires_python": ">=3.8",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 8,
+      "wheel_tags": [
+        "cp38-abi3-macosx_10_12_x86_64.whl",
+        "cp38-abi3-macosx_11_0_arm64.whl",
+        "cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "cp38-abi3-manylinux_2_28_aarch64.whl",
+        "cp38-abi3-musllinux_1_2_aarch64.whl",
+        "cp38-abi3-musllinux_1_2_x86_64.whl",
+        "cp38-abi3-win_amd64.whl",
+        "cp38-abi3-win_arm64.whl"
+      ],
+      "license_metadata_sha256": "e5dcffe836b6ec8a58e492419b550e65fb8cbdc308503979e5dacb33ac7ea3b7",
+      "declared_license": "MIT",
+      "owner_task_ids": [
+        "B010",
+        "B046",
+        "B057"
+      ],
+      "decision": "retain_existing",
+      "decision_rationale": "Retain the default semantic engine and current bounded local adapter; no cluster capability is inferred.",
+      "runtime_qualification": "existing_bounded_evidence_only",
+      "inspection": {
+        "package": "sparkless",
+        "version": "4.14.1",
+        "artifact_filename": "sparkless-4.14.1-cp38-abi3-macosx_10_12_x86_64.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/29/70/547785f51bb5cb11041dee7939bec1a63b4dcedf521f45744e63f055b103/sparkless-4.14.1-cp38-abi3-macosx_10_12_x86_64.whl",
+        "artifact_sha256": "e1cdb1b8e0c9e027d8a673e3b804554dc4b004177f76002ac89e897b605bbb57",
+        "bytes_downloaded": 39852848,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "sparkless-4.14.1.dist-info/licenses/LICENSE",
+            "sha256": "8600cf7ba70b9b68bb28d351940559478cefc1af9d09247a1a6902e2e4847214",
+            "bytes": 1080
+          },
+          {
+            "path": "sparkless-4.14.1.dist-info/METADATA",
+            "sha256": "0626bd1cb20c8786f1c664f7bbcfe715c6d1b2ef44f781efc4c6e936ffd50b50",
+            "bytes": 7153
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "deltalake",
+      "version": "1.2.1",
+      "selection": "existing_project_pin",
+      "pypi_json_url": "https://pypi.org/pypi/deltalake/1.2.1/json",
+      "metadata_json_sha256": "d8002a799407255fc4edf07d7262a310b093c86e7416784051682257186708e1",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.9",
+      "requires_dist": [
+        "arro3-core>=0.5.0",
+        "deprecated>=1.2.18",
+        "pandas; extra == \"pandas\"",
+        "pyarrow>=16; extra == \"pyarrow\""
+      ],
+      "project_urls": {
+        "Homepage": "https://github.com/delta-io/delta-rs",
+        "documentation": "https://delta-io.github.io/delta-rs/",
+        "repository": "https://github.com/delta-io/delta-rs/tree/main/python/"
+      },
+      "summary": "Native Delta Lake Python binding based on delta-rs with Pandas integration",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "deltalake-1.2.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/d0/f2/1ee40a1e1d65386ff8c34b268cd456e9baa5cbfda05f8762f1dd6d2f5700/deltalake-1.2.1.tar.gz",
+          "digests": {
+            "blake2b_256": "d0f21ee40a1e1d65386ff8c34b268cd456e9baa5cbfda05f8762f1dd6d2f5700",
+            "md5": "0a103878c9112e70373ea25b3ba138d2",
+            "sha256": "76ace48961de01b7d7cc4b1a2b2462271fb49bf74838c8bdfa0c6372e053d905"
+          },
+          "upload_time_iso_8601": "2025-10-21T08:49:45.265422Z",
+          "size": 5144436,
+          "requires_python": ">=3.9",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "deltalake-1.2.1-cp39-abi3-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/4c/b2/1c34fbac16707abaaf0d4ef490d31cfe9e34d77c7fd8f24d605f5959198d/deltalake-1.2.1-cp39-abi3-macosx_10_12_x86_64.whl",
+          "digests": {
+            "blake2b_256": "4cb21c34fbac16707abaaf0d4ef490d31cfe9e34d77c7fd8f24d605f5959198d",
+            "md5": "55fbce9c6c256bfc51b1c2471573d25c",
+            "sha256": "fc0951859963ee294a7afa11fdd7168c35e5062139949c6d00f6fadae386cf0e"
+          },
+          "upload_time_iso_8601": "2025-10-21T08:47:54.339583Z",
+          "size": 47045602,
+          "requires_python": ">=3.9",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 6,
+      "wheel_tags": [
+        "cp39-abi3-macosx_10_12_x86_64.whl",
+        "cp39-abi3-macosx_11_0_arm64.whl",
+        "cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "cp39-abi3-manylinux_2_28_aarch64.whl",
+        "cp39-abi3-musllinux_1_2_x86_64.whl",
+        "cp39-abi3-win_amd64.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B008",
+        "B019",
+        "B060"
+      ],
+      "decision": "retain_existing",
+      "decision_rationale": "Retain the declared native mutation provider and journal; do not enable new Delta features from upstream metadata alone.",
+      "runtime_qualification": "existing_bounded_evidence_only",
+      "inspection": {
+        "package": "deltalake",
+        "version": "1.2.1",
+        "artifact_filename": "deltalake-1.2.1-cp39-abi3-macosx_10_12_x86_64.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/4c/b2/1c34fbac16707abaaf0d4ef490d31cfe9e34d77c7fd8f24d605f5959198d/deltalake-1.2.1-cp39-abi3-macosx_10_12_x86_64.whl",
+        "artifact_sha256": "fc0951859963ee294a7afa11fdd7168c35e5062139949c6d00f6fadae386cf0e",
+        "bytes_downloaded": 47045602,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "deltalake-1.2.1.dist-info/licenses/LICENSE.txt",
+            "sha256": "a25917a221b6184dcb9e0701f91dde42acc495f69958a84e2a5860a5c0f21ddd",
+            "bytes": 10257
+          },
+          {
+            "path": "deltalake-1.2.1.dist-info/METADATA",
+            "sha256": "3a12fa34a5aa48723be7f6cc4cd07884691ad544246aae9be1f87ba0290d6ffb",
+            "bytes": 5264
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "pyarrow",
+      "version": "23.0.1",
+      "selection": "existing_project_pin",
+      "pypi_json_url": "https://pypi.org/pypi/pyarrow/23.0.1/json",
+      "metadata_json_sha256": "80a4c54a574d59462c4dd81c9a4187d2a1c9c2833472e12aec57b90b167cd7b9",
+      "license_expression": "Apache-2.0",
+      "license_classifiers": [],
+      "requires_python": ">=3.10",
+      "requires_dist": null,
+      "project_urls": {
+        "Documentation": "https://arrow.apache.org/docs/python",
+        "Homepage": "https://arrow.apache.org/",
+        "Issues": "https://github.com/apache/arrow/issues",
+        "Repository": "https://github.com/apache/arrow"
+      },
+      "summary": "Python library for Apache Arrow",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "pyarrow-23.0.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/88/22/134986a4cc224d593c1afde5494d18ff629393d74cc2eddb176669f234a4/pyarrow-23.0.1.tar.gz",
+          "digests": {
+            "blake2b_256": "8822134986a4cc224d593c1afde5494d18ff629393d74cc2eddb176669f234a4",
+            "md5": "565d6008a0a091f5d93baedebaa7c8c2",
+            "sha256": "b8c5873e33440b2bc2f4a79d2b47017a89c5a24116c055625e6f2ee50523f019"
+          },
+          "upload_time_iso_8601": "2026-02-16T10:14:12.390820Z",
+          "size": 1167336,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "pyarrow-23.0.1-cp310-cp310-macosx_12_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/bc/a8/24e5dc6855f50a62936ceb004e6e9645e4219a8065f304145d7fb8a79d5d/pyarrow-23.0.1-cp310-cp310-macosx_12_0_arm64.whl",
+          "digests": {
+            "blake2b_256": "bca824e5dc6855f50a62936ceb004e6e9645e4219a8065f304145d7fb8a79d5d",
+            "md5": "1f560279e2f8df0487172e66def1c77e",
+            "sha256": "3fab8f82571844eb3c460f90a75583801d14ca0cc32b1acc8c361650e006fd56"
+          },
+          "upload_time_iso_8601": "2026-02-16T10:08:08.654161Z",
+          "size": 34307390,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 49,
+      "wheel_tags": [
+        "cp310-cp310-macosx_12_0_arm64.whl",
+        "cp310-cp310-macosx_12_0_x86_64.whl",
+        "cp310-cp310-manylinux_2_28_aarch64.whl",
+        "cp310-cp310-manylinux_2_28_x86_64.whl",
+        "cp310-cp310-musllinux_1_2_aarch64.whl",
+        "cp310-cp310-musllinux_1_2_x86_64.whl",
+        "cp310-cp310-win_amd64.whl",
+        "cp311-cp311-macosx_12_0_arm64.whl",
+        "cp311-cp311-macosx_12_0_x86_64.whl",
+        "cp311-cp311-manylinux_2_28_aarch64.whl",
+        "cp311-cp311-manylinux_2_28_x86_64.whl",
+        "cp311-cp311-musllinux_1_2_aarch64.whl",
+        "cp311-cp311-musllinux_1_2_x86_64.whl",
+        "cp311-cp311-win_amd64.whl",
+        "cp312-cp312-macosx_12_0_arm64.whl",
+        "cp312-cp312-macosx_12_0_x86_64.whl",
+        "cp312-cp312-manylinux_2_28_aarch64.whl",
+        "cp312-cp312-manylinux_2_28_x86_64.whl",
+        "cp312-cp312-musllinux_1_2_aarch64.whl",
+        "cp312-cp312-musllinux_1_2_x86_64.whl",
+        "cp312-cp312-win_amd64.whl",
+        "cp313-cp313-macosx_12_0_arm64.whl",
+        "cp313-cp313-macosx_12_0_x86_64.whl",
+        "cp313-cp313-manylinux_2_28_aarch64.whl",
+        "cp313-cp313-manylinux_2_28_x86_64.whl",
+        "cp313-cp313-musllinux_1_2_aarch64.whl",
+        "cp313-cp313-musllinux_1_2_x86_64.whl",
+        "cp313-cp313t-macosx_12_0_arm64.whl",
+        "cp313-cp313t-macosx_12_0_x86_64.whl",
+        "cp313-cp313t-manylinux_2_28_aarch64.whl",
+        "cp313-cp313t-manylinux_2_28_x86_64.whl",
+        "cp313-cp313t-musllinux_1_2_aarch64.whl",
+        "cp313-cp313t-musllinux_1_2_x86_64.whl",
+        "cp313-cp313t-win_amd64.whl",
+        "cp313-cp313-win_amd64.whl",
+        "cp314-cp314-macosx_12_0_arm64.whl",
+        "cp314-cp314-macosx_12_0_x86_64.whl",
+        "cp314-cp314-manylinux_2_28_aarch64.whl",
+        "cp314-cp314-manylinux_2_28_x86_64.whl",
+        "cp314-cp314-musllinux_1_2_aarch64.whl",
+        "cp314-cp314-musllinux_1_2_x86_64.whl",
+        "cp314-cp314t-macosx_12_0_arm64.whl",
+        "cp314-cp314t-macosx_12_0_x86_64.whl",
+        "cp314-cp314t-manylinux_2_28_aarch64.whl",
+        "cp314-cp314t-manylinux_2_28_x86_64.whl",
+        "cp314-cp314t-musllinux_1_2_aarch64.whl",
+        "cp314-cp314t-musllinux_1_2_x86_64.whl",
+        "cp314-cp314t-win_amd64.whl",
+        "cp314-cp314-win_amd64.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B008",
+        "B017",
+        "B036",
+        "B039"
+      ],
+      "decision": "retain_existing",
+      "decision_rationale": "Retain typed batch/IPC/Parquet interchange; version and feature-check every provider boundary.",
+      "runtime_qualification": "existing_bounded_evidence_only",
+      "inspection": {
+        "package": "pyarrow",
+        "version": "23.0.1",
+        "artifact_filename": "pyarrow-23.0.1-cp310-cp310-macosx_12_0_arm64.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/bc/a8/24e5dc6855f50a62936ceb004e6e9645e4219a8065f304145d7fb8a79d5d/pyarrow-23.0.1-cp310-cp310-macosx_12_0_arm64.whl",
+        "artifact_sha256": "3fab8f82571844eb3c460f90a75583801d14ca0cc32b1acc8c361650e006fd56",
+        "bytes_downloaded": 34307390,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "pyarrow-23.0.1.dist-info/licenses/LICENSE.txt",
+            "sha256": "23fc45dce1769d9ddf4aac4d6cdaf3f7f0d14fcc4d930dd0d4afbefa2ea3322a",
+            "bytes": 113501
+          },
+          {
+            "path": "pyarrow-23.0.1.dist-info/licenses/NOTICE.txt",
+            "sha256": "afd895d61a00101f6d5a41cf518c83865d815e8109e956f512a0ce4ea9738c06",
+            "bytes": 2916
+          },
+          {
+            "path": "pyarrow-23.0.1.dist-info/METADATA",
+            "sha256": "f393c62e6cb9715e82dc6e7ca50369517472172bf68e1584e294949496acdbdd",
+            "bytes": 3053
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "databricks-sdk",
+      "version": "0.153.0",
+      "selection": "existing_project_pin",
+      "pypi_json_url": "https://pypi.org/pypi/databricks-sdk/0.153.0/json",
+      "metadata_json_sha256": "c747a52674b8647f8467e89015c3ff2ac3048c0b54c849c859a059a2c20371c3",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "requests<3,>=2.28.1",
+        "google-auth~=2.0",
+        "protobuf!=5.26.*,!=5.27.*,!=5.28.*,!=5.29.0,!=5.29.1,!=5.29.2,!=5.29.3,!=5.29.4,!=6.30.0,!=6.30.1,!=6.31.0,<8.0,>=4.25.8",
+        "urllib3<3,>=1.26",
+        "pytest; extra == \"dev\"",
+        "pytest-cov; extra == \"dev\"",
+        "pytest-xdist<4.0,>=3.6.1; extra == \"dev\"",
+        "pytest-mock; extra == \"dev\"",
+        "ruff==0.5.6; extra == \"dev\"",
+        "pycodestyle; extra == \"dev\"",
+        "wheel; extra == \"dev\"",
+        "ipython; extra == \"dev\"",
+        "ipywidgets; extra == \"dev\"",
+        "requests-mock; extra == \"dev\"",
+        "pyfakefs; extra == \"dev\"",
+        "openai; extra == \"dev\"",
+        "langchain-openai; extra == \"dev\"",
+        "httpx; extra == \"dev\"",
+        "grpcio<2,>=1.81.1; extra == \"dev\"",
+        "build; extra == \"dev\"",
+        "check-manifest; extra == \"dev\"",
+        "ipython<10,>=8; extra == \"notebook\"",
+        "ipywidgets<9,>=8; extra == \"notebook\"",
+        "openai; extra == \"openai\"",
+        "langchain-openai; extra == \"openai\"",
+        "httpx; extra == \"openai\"",
+        "protobuf<8.0,>=6.33.5; extra == \"sandbox\"",
+        "grpcio<2,>=1.81.1; extra == \"sandbox\""
+      ],
+      "project_urls": {
+        "Documentation": "https://databricks-sdk-py.readthedocs.io"
+      },
+      "summary": "Databricks SDK for Python (Beta)",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "databricks_sdk-0.153.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/dd/e3/ccd9ac5a7a482d7c439f90241facd68b5d59f3d9178093d242bcee96a371/databricks_sdk-0.153.0.tar.gz",
+          "digests": {
+            "blake2b_256": "dde3ccd9ac5a7a482d7c439f90241facd68b5d59f3d9178093d242bcee96a371",
+            "md5": "914d3d128d891641133333f97db50079",
+            "sha256": "db0f0dc6d60128d39bb9ee219c6991de04b34ce46a04293ac30108332725f4be"
+          },
+          "upload_time_iso_8601": "2026-10-15T11:30:37.491736Z",
+          "size": 1159212,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "databricks_sdk-0.153.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/90/4c/0f687a62b9ae72376e3ed4152260fe4abee29d26c3978fc37ec7c2881fc8/databricks_sdk-0.153.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "904c0f687a62b9ae72376e3ed4152260fe4abee29d26c3978fc37ec7c2881fc8",
+            "md5": "9be8b605282f23a9a4307e9b8bc44b0b",
+            "sha256": "5f813d98cf704c20371f940a22ee00975e61e9d255bc02ca0e6f46551e86723e"
+          },
+          "upload_time_iso_8601": "2026-10-15T11:30:35.818730Z",
+          "size": 1102624,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B005",
+        "B020",
+        "B025"
+      ],
+      "decision": "client_conformance_only",
+      "decision_rationale": "Retain the current tested client pin; explicitly configured local clients only.",
+      "runtime_qualification": "existing_bounded_evidence_only",
+      "inspection": {
+        "package": "databricks-sdk",
+        "version": "0.153.0",
+        "artifact_filename": "databricks_sdk-0.153.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/90/4c/0f687a62b9ae72376e3ed4152260fe4abee29d26c3978fc37ec7c2881fc8/databricks_sdk-0.153.0-py3-none-any.whl",
+        "artifact_sha256": "5f813d98cf704c20371f940a22ee00975e61e9d255bc02ca0e6f46551e86723e",
+        "bytes_downloaded": 1102624,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "databricks_sdk-0.153.0.dist-info/licenses/LICENSE",
+            "sha256": "69f0604d9a3e26c62a8f854e8e77a305eb4cb8729c151df46286c376954592a6",
+            "bytes": 11411
+          },
+          {
+            "path": "databricks_sdk-0.153.0.dist-info/licenses/NOTICE",
+            "sha256": "b6445c41803593af300cb7273966e0db1243b14389c3c1bc0c60616fc767237c",
+            "bytes": 1588
+          },
+          {
+            "path": "databricks_sdk-0.153.0.dist-info/METADATA",
+            "sha256": "3e8fcbb05af5021bdbf6d9d135f61f21ee157b1d23735d0292460d1a2d8d9258",
+            "bytes": 44285
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "databricks-sql-connector",
+      "version": "4.6.0",
+      "selection": "existing_project_pin",
+      "pypi_json_url": "https://pypi.org/pypi/databricks-sql-connector/4.6.0/json",
+      "metadata_json_sha256": "622f5996fccbb8c2a2192d53a55630986ab4d90f48895011c4f13a5f7af8fe11",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": "<4.0,>=3.10",
+      "requires_dist": [
+        "databricks-sql-kernel<2.0.0,>=1.1.0; python_version >= \"3.10\" and extra == \"kernel\"",
+        "lz4<5.0.0,>=4.0.2; python_version >= \"3.10\" and python_version < \"3.14\"",
+        "lz4<5.0.0,>=4.4.5; python_version >= \"3.14\"",
+        "oauthlib<4.0.0,>=3.1.0",
+        "openpyxl<4.0.0,>=3.0.10",
+        "pandas<4.0.0,>=1.2.5; python_version >= \"3.10\" and python_version < \"3.13\"",
+        "pandas<4.0.0,>=2.2.3; python_version >= \"3.13\"",
+        "pyarrow>=14.0.1; (python_version >= \"3.10\" and python_version < \"3.13\") and extra == \"pyarrow\"",
+        "pyarrow>=18.0.0; python_version == \"3.13\" and extra == \"pyarrow\"",
+        "pyarrow>=22.0.0; python_version >= \"3.14\" and extra == \"pyarrow\"",
+        "pybreaker<2.0.0,>=1.0.0",
+        "pyjwt<3.0.0,>=2.0.0",
+        "python-dateutil<3.0.0,>=2.8.0",
+        "requests<3.0.0,>=2.18.1",
+        "thrift<0.25.0,>=0.24.0",
+        "urllib3>=1.26"
+      ],
+      "project_urls": {
+        "Bug Tracker": "https://github.com/databricks/databricks-sql-python/issues",
+        "Homepage": "https://github.com/databricks/databricks-sql-python"
+      },
+      "summary": "Databricks SQL Connector for Python",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "databricks_sql_connector-4.6.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/40/48/13691ccdf268aaddea0d981563616ad5f0811d8626a45a3d061de50a9174/databricks_sql_connector-4.6.0.tar.gz",
+          "digests": {
+            "blake2b_256": "404813691ccdf268aaddea0d981563616ad5f0811d8626a45a3d061de50a9174",
+            "md5": "a4148ede65ca00ce6bec5d8c4dfc6da8",
+            "sha256": "2c3fdb28a08b7e9d4c10775f88aa7d6cf8212a1f88f5baacb05f294ee148c1e5"
+          },
+          "upload_time_iso_8601": "2026-09-24T18:30:55.003153Z",
+          "size": 244176,
+          "requires_python": "<4.0,>=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "databricks_sql_connector-4.6.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/27/4f/198110284fca731db1b7876b206138ee81b92bbf8d10f4c024cfd00e8b7d/databricks_sql_connector-4.6.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "274f198110284fca731db1b7876b206138ee81b92bbf8d10f4c024cfd00e8b7d",
+            "md5": "ad7be0c13d267b2c249a0875ec6895ef",
+            "sha256": "9f2128592052d3aadb7a3c46df0a8ef414402ec6ea7a0fdb8490da737fe43cdc"
+          },
+          "upload_time_iso_8601": "2026-09-24T18:30:53.306662Z",
+          "size": 270341,
+          "requires_python": "<4.0,>=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "2af71558e438db0b73a20beab92dc278a94e1bbe974c00c1a33e3ab62d53a608",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B021",
+        "B027",
+        "B037"
+      ],
+      "decision": "client_conformance_only",
+      "decision_rationale": "Retain exact REST/kernel versus Thrift qualification boundaries; a client is not a native server.",
+      "runtime_qualification": "existing_bounded_evidence_only",
+      "inspection": {
+        "package": "databricks-sql-connector",
+        "version": "4.6.0",
+        "artifact_filename": "databricks_sql_connector-4.6.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/27/4f/198110284fca731db1b7876b206138ee81b92bbf8d10f4c024cfd00e8b7d/databricks_sql_connector-4.6.0-py3-none-any.whl",
+        "artifact_sha256": "9f2128592052d3aadb7a3c46df0a8ef414402ec6ea7a0fdb8490da737fe43cdc",
+        "bytes_downloaded": 270341,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "databricks_sql_connector-4.6.0.dist-info/licenses/LICENSE",
+            "sha256": "5a0566d95a5f6770ac51f3e7743d8d782ac421c140e1407e6279d6e1e8f171b1",
+            "bytes": 11346
+          },
+          {
+            "path": "databricks_sql_connector-4.6.0.dist-info/METADATA",
+            "sha256": "6f749de6e9e677224faf94dce9b6f1413c8e0df4f56d2fee0c5062466b21626c",
+            "bytes": 7176
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "mlflow",
+      "version": "3.17.1",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/mlflow/3.17.1/json",
+      "metadata_json_sha256": "9a932d344bd1276ab30f5ebab99588d703ec0b79cc96223def1fdcaf644c259c",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "mlflow-skinny==3.17.1",
+        "mlflow-tracing==3.17.1",
+        "Flask-CORS<7",
+        "Flask<4",
+        "aiohttp<4,>=3.7.0",
+        "alembic!=1.10.0,<2",
+        "cryptography<51,>=43.0.0",
+        "docker<8,>=4.0.0",
+        "graphene<4",
+        "gunicorn<27; platform_system != \"Windows\"",
+        "huey<4,>=2.5.4",
+        "matplotlib<4",
+        "numpy<3",
+        "pandas<4",
+        "pyarrow<26,>=4.0.0",
+        "scikit-learn<2",
+        "scipy<2",
+        "skops<1",
+        "sqlalchemy<3,>=1.4.0",
+        "waitress<4; platform_system == \"Windows\"",
+        "pyarrow; extra == \"extras\"",
+        "requests-auth-aws-sigv4; extra == \"extras\"",
+        "boto3; extra == \"extras\"",
+        "botocore; extra == \"extras\"",
+        "google-cloud-storage>=1.30.0; extra == \"extras\"",
+        "azureml-core>=1.2.0; extra == \"extras\"",
+        "pysftp; extra == \"extras\"",
+        "kubernetes; extra == \"extras\"",
+        "prometheus-flask-exporter; extra == \"extras\"",
+        "PyMySQL; extra == \"db\"",
+        "psycopg2-binary; extra == \"db\"",
+        "psycopg[binary]; extra == \"db\"",
+        "pymssql; extra == \"db\"",
+        "azure-storage-file-datalake>12; extra == \"databricks\"",
+        "google-cloud-storage>=1.30.0; extra == \"databricks\"",
+        "boto3>1; extra == \"databricks\"",
+        "botocore; extra == \"databricks\"",
+        "databricks-agents<2.0,>=1.2.0; extra == \"databricks\"",
+        "boto3<2,>=1.28.56; extra == \"gateway\"",
+        "fastapi<1; extra == \"gateway\"",
+        "slowapi<1,>=0.1.9; extra == \"gateway\"",
+        "tiktoken<1; extra == \"gateway\"",
+        "uvicorn[standard]<1; extra == \"gateway\"",
+        "watchfiles<2; extra == \"gateway\"",
+        "boto3<2,>=1.28.56; extra == \"genai\"",
+        "fastapi<1; extra == \"genai\"",
+        "slowapi<1,>=0.1.9; extra == \"genai\"",
+        "tiktoken<1; extra == \"genai\"",
+        "uvicorn[standard]<1; extra == \"genai\"",
+        "watchfiles<2; extra == \"genai\"",
+        "fastmcp<4,>=2.7.0; extra == \"mcp\"",
+        "click!=8.3.0; extra == \"mcp\"",
+        "azure-storage-blob>=12; extra == \"azure\"",
+        "azure-identity>=1.6.1; extra == \"azure\"",
+        "mlflow-dbstore; extra == \"sqlserver\"",
+        "aliyunstoreplugin; extra == \"aliyun-oss\"",
+        "mlflow-jfrog-plugin; extra == \"jfrog\"",
+        "kubernetes; extra == \"kubernetes\"",
+        "langchain<=1.4.3,>=1.0.0; extra == \"langchain\"",
+        "Flask-WTF<2; extra == \"auth\""
+      ],
+      "project_urls": {
+        "documentation": "https://mlflow.org/docs/latest",
+        "homepage": "https://mlflow.org",
+        "issues": "https://github.com/mlflow/mlflow/issues",
+        "repository": "https://github.com/mlflow/mlflow"
+      },
+      "summary": "MLflow is an open source platform for the complete machine learning lifecycle",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "mlflow-3.17.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/6e/30/953491ffbd83c90aba4a72c8a68c03ea16a8b016050557094d059268bf7d/mlflow-3.17.1.tar.gz",
+          "digests": {
+            "blake2b_256": "6e30953491ffbd83c90aba4a72c8a68c03ea16a8b016050557094d059268bf7d",
+            "md5": "e00eef09cbdb09b47fc06c542b23be25",
+            "sha256": "b41225845f200968bfeb015c48ad9e57a02f3bf4cee246fb04a75325728c21d8"
+          },
+          "upload_time_iso_8601": "2026-10-13T09:00:18.681286Z",
+          "size": 11158262,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "mlflow-3.17.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/a4/64/ee5ca7500b3f4ca187b7c0c2f080a029eed1df7f22b334391587979b23dc/mlflow-3.17.1-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "a464ee5ca7500b3f4ca187b7c0c2f080a029eed1df7f22b334391587979b23dc",
+            "md5": "ce5a7faaca26de6c3e43fbfb76093991",
+            "sha256": "726bf7feac25dbdb5b3098bf20b86574393bb75468eef721902ec025e724752f"
+          },
+          "upload_time_iso_8601": "2026-10-13T09:00:14.749497Z",
+          "size": 12004276,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "7cfdeab2846256c82c6e4b3f53b882cd71cc17bfd0778d0b9fd671357d6f212b",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B025",
+        "B026",
+        "B051"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Use a real optional local service and database-backed registry; no duplicate ML state, implicit cloud target or Spark model flavor.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "mlflow",
+        "version": "3.17.1",
+        "artifact_filename": "mlflow-3.17.1-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/a4/64/ee5ca7500b3f4ca187b7c0c2f080a029eed1df7f22b334391587979b23dc/mlflow-3.17.1-py3-none-any.whl",
+        "artifact_sha256": "726bf7feac25dbdb5b3098bf20b86574393bb75468eef721902ec025e724752f",
+        "bytes_downloaded": 12004276,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "mlflow/assistant/skills/LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "bytes": 11357
+          },
+          {
+            "path": "mlflow-3.17.1.dist-info/licenses/LICENSE.txt",
+            "sha256": "6395355de6f391afff35996a30fb41b189b4991a4cb54993ace35ab69a0bfa28",
+            "bytes": 11382
+          },
+          {
+            "path": "mlflow-3.17.1.dist-info/METADATA",
+            "sha256": "a547175a9a2aaea451a6a984d6f21637500586668b5efc74b202e36692c50971",
+            "bytes": 50230
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "mlflow/server/__init__.py",
+            "sha256": "2f8bd48b7be37f2ed0281e39741aa1d8066885632f53dde92fe944f61e229232",
+            "bytes": 20608
+          },
+          {
+            "path": "mlflow/models/python_api.py",
+            "sha256": "89af3a35dfa860c83a6256c8de4d2d40122da62b5ef7569fe64fc7b7cdb786ab",
+            "bytes": 16191
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "nbclient",
+      "version": "0.11.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/nbclient/0.11.0/json",
+      "metadata_json_sha256": "04ff5a4e5bb9dbf00f8fc0d4f5bea38ed492639855d60420c855503b7b7da474",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "requires_python": ">=3.10.0",
+      "requires_dist": [
+        "jupyter-client>=7.0.0",
+        "jupyter-core>=5.4.0",
+        "nbformat>=5.2.0",
+        "traitlets>=5.13",
+        "pre-commit; extra == \"dev\"",
+        "autodoc-traits; extra == \"docs\"",
+        "flaky; extra == \"docs\"",
+        "ipykernel>=6.19.3; extra == \"docs\"",
+        "ipython; extra == \"docs\"",
+        "ipywidgets; extra == \"docs\"",
+        "mock; extra == \"docs\"",
+        "moto; extra == \"docs\"",
+        "myst-parser; extra == \"docs\"",
+        "nbconvert>=7.1.0; extra == \"docs\"",
+        "pytest-asyncio>=1.3.0; extra == \"docs\"",
+        "pytest-cov>=4.0; extra == \"docs\"",
+        "pytest<10,>=9.0.1; extra == \"docs\"",
+        "sphinx-book-theme; extra == \"docs\"",
+        "sphinx>=1.7; extra == \"docs\"",
+        "sphinxcontrib-spelling; extra == \"docs\"",
+        "testpath; extra == \"docs\"",
+        "xmltodict; extra == \"docs\"",
+        "flaky; extra == \"test\"",
+        "ipykernel>=6.19.3; extra == \"test\"",
+        "ipython; extra == \"test\"",
+        "ipywidgets; extra == \"test\"",
+        "nbconvert>=7.1.0; extra == \"test\"",
+        "pytest-asyncio>=1.3.0; extra == \"test\"",
+        "pytest-cov>=4.0; extra == \"test\"",
+        "pytest<10,>=9.0.1; extra == \"test\"",
+        "testpath; extra == \"test\"",
+        "xmltodict; extra == \"test\""
+      ],
+      "project_urls": {
+        "Documentation": "https://nbclient.readthedocs.io",
+        "Homepage": "https://jupyter.org",
+        "Source": "https://github.com/jupyter/nbclient",
+        "Tracker": "https://github.com/jupyter/nbclient/issues"
+      },
+      "summary": "A client library for executing notebooks. Formerly nbconvert's ExecutePreprocessor.",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "nbclient-0.11.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/28/a5/b3bae4b590c0cbcada2c63a34f7580024e834a8ba213e949a2f906705787/nbclient-0.11.0.tar.gz",
+          "digests": {
+            "blake2b_256": "28a5b3bae4b590c0cbcada2c63a34f7580024e834a8ba213e949a2f906705787",
+            "md5": "d927c9d65c9c7828f09855ed7f052c5b",
+            "sha256": "04a134a5b087f2c5887f228aca155db50169b8cd9334dee6942c8e927e56081a"
+          },
+          "upload_time_iso_8601": "2026-06-05T07:52:41.746780Z",
+          "size": 62535,
+          "requires_python": ">=3.10.0",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "nbclient-0.11.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/36/c9/94d73e5a01c5b926c3fa2496e97d7a8dc28ed5a77c0b2ed712f1a62e6694/nbclient-0.11.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "36c994d73e5a01c5b926c3fa2496e97d7a8dc28ed5a77c0b2ed712f1a62e6694",
+            "md5": "65c53dcf54158fc57a1f2ba144795f69",
+            "sha256": "ef7fa0d59d6e1d41103933d8a445a18d5de860ca6b613b87b8574accdb3c2895"
+          },
+          "upload_time_iso_8601": "2026-06-05T07:52:40.115078Z",
+          "size": 25288,
+          "requires_python": ">=3.10.0",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "f0b1e280a9706c5b5108bb687e514d42aece60dc38e6bdb09ec709c1e960f1ba",
+      "declared_license": "BSD-3-Clause",
+      "owner_task_ids": [
+        "B017"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Preferred direct notebook executor; BrickHouse owns magic handlers, child runs, injection and cancellation.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "nbclient",
+        "version": "0.11.0",
+        "artifact_filename": "nbclient-0.11.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/36/c9/94d73e5a01c5b926c3fa2496e97d7a8dc28ed5a77c0b2ed712f1a62e6694/nbclient-0.11.0-py3-none-any.whl",
+        "artifact_sha256": "ef7fa0d59d6e1d41103933d8a445a18d5de860ca6b613b87b8574accdb3c2895",
+        "bytes_downloaded": 25288,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "nbclient-0.11.0.dist-info/licenses/LICENSE",
+            "sha256": "83c56c2de2a2a71227d0a98fd246049e6320c094d03e2d560c7c0c0b3ec576e9",
+            "bytes": 1534
+          },
+          {
+            "path": "nbclient-0.11.0.dist-info/METADATA",
+            "sha256": "97b199c27c838caf67939deb40ea5432a3cc0ce2b68deb5bb20043dd7e295191",
+            "bytes": 7262
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "nbclient/client.py",
+            "sha256": "5a61fded74a94fd0851c8a85d55d12a9e9fb44be34324a44583efe48e874da8a",
+            "bytes": 49883
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "nbformat",
+      "version": "5.11.1",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/nbformat/5.11.1/json",
+      "metadata_json_sha256": "25c5c85814cb58ec8f45a333dc6c2cdf550320bddcf7cb5693f1762d3d29cd25",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "fastjsonschema>=2.15",
+        "jsonschema>=2.6",
+        "jupyter-core!=5.0.*,>=4.12",
+        "traitlets>=5.1",
+        "intersphinx-registry; extra == \"docs\"",
+        "myst-parser; extra == \"docs\"",
+        "pydata-sphinx-theme; extra == \"docs\"",
+        "sphinx; extra == \"docs\"",
+        "sphinxcontrib-github-alt; extra == \"docs\"",
+        "sphinxcontrib-spelling; extra == \"docs\"",
+        "packaging; extra == \"test\"",
+        "pre-commit; extra == \"test\"",
+        "pytest; extra == \"test\"",
+        "testpath; extra == \"test\""
+      ],
+      "project_urls": {
+        "Changelog": "https://github.com/jupyter/nbformat/blob/main/CHANGELOG.md",
+        "Documentation": "https://nbformat.readthedocs.io/",
+        "Homepage": "https://jupyter.org",
+        "Repository": "https://github.com/jupyter/nbformat.git"
+      },
+      "summary": "The Jupyter Notebook format",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "nbformat-5.11.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/31/72/b3446efab8756e7df4b8ec587f8e611cb5a7249e4323db480802f1d3be04/nbformat-5.11.1.tar.gz",
+          "digests": {
+            "blake2b_256": "3172b3446efab8756e7df4b8ec587f8e611cb5a7249e4323db480802f1d3be04",
+            "md5": "cc5555fabcc3b26d89f3c24e921117bf",
+            "sha256": "32d4521c68c6e7d5b29c76defaeed9f42ea733142b9b19f88277ce10390b9c4d"
+          },
+          "upload_time_iso_8601": "2026-08-17T08:10:51.942780Z",
+          "size": 147775,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "nbformat-5.11.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/1a/69/ee613f74085ca7103f79cd08d579c4f3177d1d26e5d3d9528d2d6536a707/nbformat-5.11.1-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "1a69ee613f74085ca7103f79cd08d579c4f3177d1d26e5d3d9528d2d6536a707",
+            "md5": "564bb7309496ab5c0548b64ba9f12045",
+            "sha256": "cc6698fa75f4fab8755ead786317815f13a6fee3b53311c0abb1a8b51d52f7ec"
+          },
+          "upload_time_iso_8601": "2026-08-17T08:10:50.180784Z",
+          "size": 79849,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "a0cd9340c3e2e5e906a3c3d34e3b0885751a2229aefa890129a7e259d37c4200",
+      "declared_license": "BSD-3-Clause",
+      "owner_task_ids": [
+        "B017"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Use notebook format validation and output artifacts; no automatic Databricks source parity.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "nbformat",
+        "version": "5.11.1",
+        "artifact_filename": "nbformat-5.11.1-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/1a/69/ee613f74085ca7103f79cd08d579c4f3177d1d26e5d3d9528d2d6536a707/nbformat-5.11.1-py3-none-any.whl",
+        "artifact_sha256": "cc6698fa75f4fab8755ead786317815f13a6fee3b53311c0abb1a8b51d52f7ec",
+        "bytes_downloaded": 79849,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "nbformat-5.11.1.dist-info/licenses/LICENSE",
+            "sha256": "5ca74e4d2eeb9330b0d129c25f874d3544a13413bc62ae8d367819100d095072",
+            "bytes": 1588
+          },
+          {
+            "path": "nbformat-5.11.1.dist-info/METADATA",
+            "sha256": "6a25a2f961025655ed80a66f794ac6b8ded4e4ea4c0600ad1801876c0bec6c74",
+            "bytes": 3686
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "ipykernel",
+      "version": "7.4.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/ipykernel/7.4.0/json",
+      "metadata_json_sha256": "ffbcb8aff4b867cfc4c6b39cf3b276deb5a2b01c680c89ee62f14314b26ae016",
+      "license_expression": "BSD-3-Clause",
+      "license_classifiers": [],
+      "requires_python": ">=3.11",
+      "requires_dist": [
+        "appnope>=0.1.2; platform_system == \"Darwin\"",
+        "comm>=0.1.1",
+        "debugpy>=1.6.5",
+        "ipython>=7.23.1",
+        "jupyter-client>=8.9.0",
+        "jupyter-core!=6.0.*,>=5.1",
+        "matplotlib-inline>=0.1",
+        "nest-asyncio2>=1.7.0",
+        "packaging>=22",
+        "pyzmq>=25",
+        "tornado>=6.5.7",
+        "traitlets>=5.4.0"
+      ],
+      "project_urls": {
+        "Documentation": "https://ipykernel.readthedocs.io",
+        "Homepage": "https://ipython.org",
+        "Source": "https://github.com/ipython/ipykernel",
+        "Tracker": "https://github.com/ipython/ipykernel/issues"
+      },
+      "summary": "IPython Kernel for Jupyter",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "ipykernel-7.4.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/7a/05/e5499c8b762387d83926bf0389e8fff888c9bf6e7af30566a8527bc12f4a/ipykernel-7.4.0.tar.gz",
+          "digests": {
+            "blake2b_256": "7a05e5499c8b762387d83926bf0389e8fff888c9bf6e7af30566a8527bc12f4a",
+            "md5": "8c44f0bc9b064708fb706eb135f88266",
+            "sha256": "4330114d22b9b33575b2c7c68753fc8faabbbcfbc60b0cdff9f14dd4ce63742f"
+          },
+          "upload_time_iso_8601": "2026-09-29T16:33:11.468750Z",
+          "size": 192731,
+          "requires_python": ">=3.11",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "ipykernel-7.4.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/a5/f8/8b5c10c7f36ab5a3b5c4703669e5b14e44e98782b58e535dd30670e8799a/ipykernel-7.4.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "a5f88b5c10c7f36ab5a3b5c4703669e5b14e44e98782b58e535dd30670e8799a",
+            "md5": "c3f3c15f02d5b6649bd0472cb454b551",
+            "sha256": "a6757f790ddc5a6006b813d82da1a9dbb65b3a00f2b6607df776418c6566ec1c"
+          },
+          "upload_time_iso_8601": "2026-09-29T16:33:09.612386Z",
+          "size": 123184,
+          "requires_python": ">=3.11",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "BSD-3-Clause",
+      "owner_task_ids": [
+        "B017"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Provision explicit fresh Python kernels and enforce child-process lifetimes; no dependency installation at job time.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "ipykernel",
+        "version": "7.4.0",
+        "artifact_filename": "ipykernel-7.4.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/a5/f8/8b5c10c7f36ab5a3b5c4703669e5b14e44e98782b58e535dd30670e8799a/ipykernel-7.4.0-py3-none-any.whl",
+        "artifact_sha256": "a6757f790ddc5a6006b813d82da1a9dbb65b3a00f2b6607df776418c6566ec1c",
+        "bytes_downloaded": 123184,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "ipykernel-7.4.0.dist-info/licenses/LICENSE",
+            "sha256": "36ec29c871f7a382cde301cba47698191cf327c3f95ff5c240065e95dde80bfd",
+            "bytes": 1533
+          },
+          {
+            "path": "ipykernel-7.4.0.dist-info/METADATA",
+            "sha256": "39f6a0cbe6a0d0b404880684902f085c1c6c93947d218b317b0d8a9c3ee1a137",
+            "bytes": 3381
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "ipykernel/kernelspec.py",
+            "sha256": "e061458922fe1d66031bc9a3e94ab64e4cf52c69615617f646310f8dc67ea3c6",
+            "bytes": 9853
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "papermill",
+      "version": "2.7.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/papermill/2.7.0/json",
+      "metadata_json_sha256": "faea59f4633b273ae8d3fdace716842d7c6f72e4373f463d76a8b0e14f8f109b",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "aiohttp>=3.9; python_version == \"3.12\"",
+        "click",
+        "entrypoints",
+        "nbclient>=0.2",
+        "nbformat>=5.2",
+        "pyyaml",
+        "requests",
+        "tenacity>=5.0.2",
+        "tqdm>=4.32.2",
+        "azure-datalake-store<1.0.0a0,>=0.0.30; extra == \"all\"",
+        "azure-identity>=1.3.1; extra == \"all\"",
+        "azure-storage-blob>=12.1; extra == \"all\"",
+        "black>=19.3b0; extra == \"all\"",
+        "boto3; extra == \"all\"",
+        "gcsfs>=0.2; extra == \"all\"",
+        "pyarrow>=2; extra == \"all\"",
+        "pygithub>=1.55; extra == \"all\"",
+        "requests>=2.21; extra == \"all\"",
+        "azure-datalake-store<1.0.0a0,>=0.0.30; extra == \"azure\"",
+        "azure-identity>=1.3.1; extra == \"azure\"",
+        "azure-storage-blob>=12.1; extra == \"azure\"",
+        "requests>=2.21; extra == \"azure\"",
+        "black>=19.3b0; extra == \"black\"",
+        "attrs>=17.4; extra == \"dev\"",
+        "azure-datalake-store<1.0.0a0,>=0.0.30; extra == \"dev\"",
+        "azure-identity>=1.3.1; extra == \"dev\"",
+        "azure-storage-blob>=12.1; extra == \"dev\"",
+        "black>=19.3b0; extra == \"dev\"",
+        "boto3; extra == \"dev\"",
+        "botocore; extra == \"dev\"",
+        "bumpversion; extra == \"dev\"",
+        "check-manifest; extra == \"dev\"",
+        "codecov; extra == \"dev\"",
+        "coverage; extra == \"dev\"",
+        "gcsfs>=0.2; extra == \"dev\"",
+        "google-compute-engine; extra == \"dev\"",
+        "ipython<9,>=5; extra == \"dev\"",
+        "ipywidgets; extra == \"dev\"",
+        "moto<5.1,>=5; extra == \"dev\"",
+        "notebook; extra == \"dev\"",
+        "pip>=18.1; extra == \"dev\"",
+        "pre-commit; extra == \"dev\"",
+        "pyarrow>=2; extra == \"dev\"",
+        "pygithub>=1.55; extra == \"dev\"",
+        "pytest>=4.1; extra == \"dev\"",
+        "pytest-cov>=2.6.1; extra == \"dev\"",
+        "pytest-env>=0.6.2; extra == \"dev\"",
+        "pytest-mock>=1.10; extra == \"dev\"",
+        "recommonmark; extra == \"dev\"",
+        "requests>=2.21; extra == \"dev\"",
+        "setuptools>=38.6; extra == \"dev\"",
+        "tox; extra == \"dev\"",
+        "twine>=1.11; extra == \"dev\"",
+        "wheel>=0.31; extra == \"dev\"",
+        "azure-datalake-store<1.0.0a0,>=0.0.30; extra == \"docs\"",
+        "azure-identity>=1.3.1; extra == \"docs\"",
+        "azure-storage-blob>=12.1; extra == \"docs\"",
+        "black>=19.3b0; extra == \"docs\"",
+        "boto3; extra == \"docs\"",
+        "furo>=2023.9.10; extra == \"docs\"",
+        "gcsfs>=0.2; extra == \"docs\"",
+        "moto>=4.2.8; extra == \"docs\"",
+        "myst-parser>=2; extra == \"docs\"",
+        "pyarrow>=2; extra == \"docs\"",
+        "pygithub>=1.55; extra == \"docs\"",
+        "requests>=2.21; extra == \"docs\"",
+        "sphinx>=7.2.6; extra == \"docs\"",
+        "sphinx-copybutton>=0.5.2; extra == \"docs\"",
+        "gcsfs>=0.2; extra == \"gcs\"",
+        "pygithub>=1.55; extra == \"github\"",
+        "pyarrow>=2; extra == \"hdfs\"",
+        "boto3; extra == \"s3\"",
+        "attrs>=17.4; extra == \"test\"",
+        "azure-datalake-store<1.0.0a0,>=0.0.30; extra == \"test\"",
+        "azure-identity>=1.3.1; extra == \"test\"",
+        "azure-storage-blob>=12.1; extra == \"test\"",
+        "black>=19.3b0; extra == \"test\"",
+        "boto3; extra == \"test\"",
+        "botocore; extra == \"test\"",
+        "bumpversion; extra == \"test\"",
+        "check-manifest; extra == \"test\"",
+        "codecov; extra == \"test\"",
+        "coverage; extra == \"test\"",
+        "gcsfs>=0.2; extra == \"test\"",
+        "google-compute-engine; extra == \"test\"",
+        "ipython<9,>=5; extra == \"test\"",
+        "ipywidgets; extra == \"test\"",
+        "moto<5.1,>=5; extra == \"test\"",
+        "notebook; extra == \"test\"",
+        "pip>=18.1; extra == \"test\"",
+        "pre-commit; extra == \"test\"",
+        "pyarrow>=2; extra == \"test\"",
+        "pygithub>=1.55; extra == \"test\"",
+        "pytest>=4.1; extra == \"test\"",
+        "pytest-cov>=2.6.1; extra == \"test\"",
+        "pytest-env>=0.6.2; extra == \"test\"",
+        "pytest-mock>=1.10; extra == \"test\"",
+        "recommonmark; extra == \"test\"",
+        "requests>=2.21; extra == \"test\"",
+        "setuptools>=38.6; extra == \"test\"",
+        "tox; extra == \"test\"",
+        "twine>=1.11; extra == \"test\"",
+        "wheel>=0.31; extra == \"test\""
+      ],
+      "project_urls": {
+        "Documentation": "https://papermill.readthedocs.io",
+        "Funding": "https://nteract.io",
+        "Source": "https://github.com/nteract/papermill/",
+        "Tracker": "https://github.com/nteract/papermill/issues"
+      },
+      "summary": "Parameterize and run Jupyter and nteract Notebooks",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "papermill-2.7.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/f8/b6/92d770c5ced66ed0134256f8de781e98c824d3a0662af1643a91fcc36663/papermill-2.7.0.tar.gz",
+          "digests": {
+            "blake2b_256": "f8b692d770c5ced66ed0134256f8de781e98c824d3a0662af1643a91fcc36663",
+            "md5": "8b25c5a0acc60f21c57cd15507564404",
+            "sha256": "ec10b37594a060662f57269e1ebd108c209d204450f00fdfeb70a1c7cfb7fbc8"
+          },
+          "upload_time_iso_8601": "2026-02-27T19:07:30.548123Z",
+          "size": 77961,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "papermill-2.7.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/95/9f/f9fd57a727dcc89c54e84455d8317bff7db05ef21bb6d05b03705111f7c0/papermill-2.7.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "959ff9fd57a727dcc89c54e84455d8317bff7db05ef21bb6d05b03705111f7c0",
+            "md5": "76196e071531c53395a4e610f9cce054",
+            "sha256": "e1855e6670100a02bb4f8a6870484a5c10b84a8d2e49c49921c90209940c7514"
+          },
+          "upload_time_iso_8601": "2026-02-27T19:07:28.862675Z",
+          "size": 88858,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "49d9777da612e1f4e9269fa9f93ea324a66f9dcc7722ad812de124ef3f266d93",
+      "declared_license": "BSD-3-Clause",
+      "owner_task_ids": [
+        "B017"
+      ],
+      "decision": "conditional_optional",
+      "decision_rationale": "Add only if a concrete parameterization gap remains after nbclient; widgets and job precedence stay BrickHouse contracts.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "papermill",
+        "version": "2.7.0",
+        "artifact_filename": "papermill-2.7.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/95/9f/f9fd57a727dcc89c54e84455d8317bff7db05ef21bb6d05b03705111f7c0/papermill-2.7.0-py3-none-any.whl",
+        "artifact_sha256": "e1855e6670100a02bb4f8a6870484a5c10b84a8d2e49c49921c90209940c7514",
+        "bytes_downloaded": 88858,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "papermill-2.7.0.dist-info/licenses/LICENSE",
+            "sha256": "629bc35dca685923eae18dd4b7238df963aad4da8f37573ece84101fb1c6ca6c",
+            "bytes": 1507
+          },
+          {
+            "path": "papermill-2.7.0.dist-info/METADATA",
+            "sha256": "d7efe230b737c2b24f91c7dbde529902f1b38478cc86294d7d1fbecb8a88449b",
+            "bytes": 13450
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "pyspark-client",
+      "version": "4.2.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/pyspark-client/4.2.0/json",
+      "metadata_json_sha256": "742d319b5de71924cefa6f8cf7d325b5c4998587cd70677f160666f91388574c",
+      "license_expression": null,
+      "license_classifiers": [],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "pandas>=2.2.0",
+        "pyarrow>=18.0.0",
+        "grpcio>=1.76.0",
+        "grpcio-status>=1.76.0",
+        "googleapis-common-protos>=1.71.0",
+        "zstandard>=0.25.0",
+        "numpy>=1.21",
+        "pyyaml>=3.11"
+      ],
+      "project_urls": {
+        "Homepage": "https://github.com/apache/spark/tree/master/python"
+      },
+      "summary": "Python Spark Connect client for Apache Spark",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "pyspark_client-4.2.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/31/1b/b7fc2cb3cb34a9d71790bd556ac5802c2d93e861c6af850f6e97e3e92b7c/pyspark_client-4.2.0.tar.gz",
+          "digests": {
+            "blake2b_256": "311bb7fc2cb3cb34a9d71790bd556ac5802c2d93e861c6af850f6e97e3e92b7c",
+            "md5": "825887e1e4e8ad402886a4bd73e2fdc2",
+            "sha256": "4008fe5e537bf0e57e7243d03abfaac089b7c87316bd07024784d8ea726f5d41"
+          },
+          "upload_time_iso_8601": "2026-07-14T22:41:58.134023Z",
+          "size": 1675557,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        }
+      ],
+      "wheel_count": 0,
+      "wheel_tags": [],
+      "license_metadata_sha256": "2af71558e438db0b73a20beab92dc278a94e1bbe974c00c1a33e3ab62d53a608",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B036"
+      ],
+      "decision": "client_conformance_only",
+      "decision_rationale": "Future pure-Python Connect client candidate, isolated from full pyspark and host import facades; qualify exact proto and result semantics.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "pyspark-client",
+        "version": "4.2.0",
+        "artifact_filename": "pyspark_client-4.2.0.tar.gz",
+        "artifact_url": "https://files.pythonhosted.org/packages/31/1b/b7fc2cb3cb34a9d71790bd556ac5802c2d93e861c6af850f6e97e3e92b7c/pyspark_client-4.2.0.tar.gz",
+        "artifact_sha256": "4008fe5e537bf0e57e7243d03abfaac089b7c87316bd07024784d8ea726f5d41",
+        "bytes_downloaded": 1675557,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "pyspark_client-4.2.0/LICENSE",
+            "sha256": "b8ea0873b8410497804dbb19dac00ffa5017d2ab33582b9e7ce46692fa4a0da1",
+            "bytes": 13640
+          },
+          {
+            "path": "pyspark_client-4.2.0/NOTICE",
+            "sha256": "9346e8e0a1e21cb45ac792b75ca4d3adfd858bc57dd6627e47714c761e917a0d",
+            "bytes": 2002
+          },
+          {
+            "path": "pyspark_client-4.2.0/setup.py",
+            "sha256": "ea133ba7c1dbd8ad8c541101d4bc0c16832aeefe69d82fd2bc5f19ed94024ed7",
+            "bytes": 9105
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "pyspark_client-4.2.0/pyspark/sql/connect/session.py",
+            "sha256": "480406aa09ba45a83ba2e7bdb6088f9b23e73887d64baaecc762431ef143df95",
+            "bytes": 52849
+          },
+          {
+            "path": "pyspark_client-4.2.0/setup.py",
+            "sha256": "ea133ba7c1dbd8ad8c541101d4bc0c16832aeefe69d82fd2bc5f19ed94024ed7",
+            "bytes": 9105
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "delta-sharing",
+      "version": "1.4.2",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/delta-sharing/1.4.2/json",
+      "metadata_json_sha256": "bd2b6dba6febf4ce7512bcd9225bf3ba5836746c7d8c705e281a50f5038b3388",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "delta-kernel-rust-sharing-wrapper<1.0,>=0.3.2",
+        "pandas<3.0.0,>=2.0.3",
+        "pyarrow<=23.0.1,>=16.1.0",
+        "fsspec<=2026.2.0,>=0.7.4",
+        "requests<=2.33.0,>=2.20.0",
+        "aiohttp<=3.13.4,>=3.0.0",
+        "yarl<=1.23.0,>=1.6.0",
+        "jwcrypto<2.0,>=1.5.6",
+        "s3fs; extra == \"s3\"",
+        "adlfs; extra == \"abfs\"",
+        "adlfs; extra == \"adl\"",
+        "gcsfs; extra == \"gcs\"",
+        "gcsfs; extra == \"gs\""
+      ],
+      "project_urls": {
+        "Documentation": "https://github.com/delta-io/delta-sharing",
+        "Issues": "https://github.com/delta-io/delta-sharing/issues",
+        "Source": "https://github.com/delta-io/delta-sharing"
+      },
+      "summary": "Python Connector for Delta Sharing",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "delta_sharing-1.4.2.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/4d/c2/4a8cf337118dcdcce2a5398ec8648681d80f067c7c0d59512d9ded2cb5fa/delta_sharing-1.4.2.tar.gz",
+          "digests": {
+            "blake2b_256": "4dc24a8cf337118dcdcce2a5398ec8648681d80f067c7c0d59512d9ded2cb5fa",
+            "md5": "2e711edc6c4844c5c7ec4c5d2cccc653",
+            "sha256": "4e8d248a547d997ed5c18a92d84ffd361e4dbad47a786fbc0333729a785b8abe"
+          },
+          "upload_time_iso_8601": "2026-08-10T20:13:28.212368Z",
+          "size": 27757,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "delta_sharing-1.4.2-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/eb/f1/c32fc9c99bfcfdcdc165eaf99543c3a923db1de5bc4171f669fc39b3ab96/delta_sharing-1.4.2-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "ebf1c32fc9c99bfcfdcdc165eaf99543c3a923db1de5bc4171f669fc39b3ab96",
+            "md5": "087ff3c1a12cb431d243a1714364958b",
+            "sha256": "6797d71d9f59236db6a38e3cb64e31f695a1a2f8059aceb9929c147155b4827a"
+          },
+          "upload_time_iso_8601": "2026-08-10T20:13:27.031071Z",
+          "size": 31352,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "2af71558e438db0b73a20beab92dc278a94e1bbe974c00c1a33e3ab62d53a608",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B039"
+      ],
+      "decision": "client_conformance_only",
+      "decision_rationale": "Future independent non-Spark client for the native sharing server; reject/avoid load_as_spark and qualify native wrapper wheels.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "delta-sharing",
+        "version": "1.4.2",
+        "artifact_filename": "delta_sharing-1.4.2-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/eb/f1/c32fc9c99bfcfdcdc165eaf99543c3a923db1de5bc4171f669fc39b3ab96/delta_sharing-1.4.2-py3-none-any.whl",
+        "artifact_sha256": "6797d71d9f59236db6a38e3cb64e31f695a1a2f8059aceb9929c147155b4827a",
+        "bytes_downloaded": 31352,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "delta_sharing-1.4.2.dist-info/licenses/NOTICE.txt",
+            "sha256": "fae35cfe53102037d4e786d15f41c195d24970e360e2cdf78136777254859abc",
+            "bytes": 534
+          },
+          {
+            "path": "delta_sharing-1.4.2.dist-info/METADATA",
+            "sha256": "bf8716b925500e440e9188955de5676e2d8b38ccf34d8e6222bba26cb6d89e2d",
+            "bytes": 3072
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "delta_sharing/reader.py",
+            "sha256": "7a802c704a719c9d1fff394b4e836cbcb4726b22d79eb048726705ff440f0e2a",
+            "bytes": 21657
+          },
+          {
+            "path": "delta_sharing/delta_sharing.py",
+            "sha256": "c66afd5e5fd5ff347865ad12593c6119662e06986dc1346a281f5384ffdb9da2",
+            "bytes": 15313
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "unitycatalog-client",
+      "version": "0.7.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/unitycatalog-client/0.7.0/json",
+      "metadata_json_sha256": "f655593273b238c6f3aa1dddfec48237a15c560f4e3f2cb71a8c128c6e8a80c2",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.9",
+      "requires_dist": [
+        "aiohttp-retry<=2.9.1,>=2.8.3",
+        "aiohttp<=3.13.3,>=3.8.4",
+        "pydantic<=2.12.5,>=2",
+        "python-dateutil<=2.9.0.post0,>=2.8.2",
+        "typing-extensions<=4.15.0,>=4.7.1",
+        "urllib3<=2.6.3,>=1.25.3"
+      ],
+      "project_urls": {
+        "homepage": "https://www.unitycatalog.io/",
+        "issues": "https://github.com/unitycatalog/unitycatalog/issues",
+        "repository": "https://github.com/unitycatalog/unitycatalog"
+      },
+      "summary": "Official Python SDK for Unity Catalog",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "unitycatalog_client-0.7.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/3a/de/254e6c2b30425a7b4f9d0e0e1d78be4c3133d67b7890284ac583999bab3d/unitycatalog_client-0.7.0.tar.gz",
+          "digests": {
+            "blake2b_256": "3ade254e6c2b30425a7b4f9d0e0e1d78be4c3133d67b7890284ac583999bab3d",
+            "md5": "69178fb0afafa0c3081b3020d0ecbf2c",
+            "sha256": "e960aba5d476675a1218a0b1dfc433868aa02e103fd8180d3c577cc89cec4e20"
+          },
+          "upload_time_iso_8601": "2026-10-11T21:56:22.710742Z",
+          "size": 133408,
+          "requires_python": ">=3.9",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "unitycatalog_client-0.7.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/2b/f9/2b4ac8f5e81610583ed4a881aa3a3929a96bb5910d3faaf6393012e82855/unitycatalog_client-0.7.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "2bf92b4ac8f5e81610583ed4a881aa3a3929a96bb5910d3faaf6393012e82855",
+            "md5": "6e4e34efceea25801e9f1633073a76f9",
+            "sha256": "3dbc6618be5623de68759adb9c44c2e848c927d43c8743ead299bbb0e340efcf"
+          },
+          "upload_time_iso_8601": "2026-10-11T21:56:21.372071Z",
+          "size": 285461,
+          "requires_python": ">=3.9",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "2af71558e438db0b73a20beab92dc278a94e1bbe974c00c1a33e3ab62d53a608",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B028",
+        "B040"
+      ],
+      "decision": "contract_reference_only",
+      "decision_rationale": "Generated client/API models are interoperability inputs; retain one BrickHouse catalog and prove every selected operation.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "unitycatalog-client",
+        "version": "0.7.0",
+        "artifact_filename": "unitycatalog_client-0.7.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/2b/f9/2b4ac8f5e81610583ed4a881aa3a3929a96bb5910d3faaf6393012e82855/unitycatalog_client-0.7.0-py3-none-any.whl",
+        "artifact_sha256": "3dbc6618be5623de68759adb9c44c2e848c927d43c8743ead299bbb0e340efcf",
+        "bytes_downloaded": 285461,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "unitycatalog_client-0.7.0.dist-info/METADATA",
+            "sha256": "4ac125937745b6686ade2bff1d433bf0231475cef93d37fd9743213d5cfc25f4",
+            "bytes": 7872
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "unitycatalog/client/api_client.py",
+            "sha256": "2a38a5ae84607d3a951323f5de3ee6ab073f5f3602a5e5185806c88a85bac673",
+            "bytes": 27612
+          },
+          {
+            "path": "unitycatalog/client/configuration.py",
+            "sha256": "bcb70ec866fd339728c8efb0b4e2372af707bc114fd30f60ada8eb2bcfbaa14c",
+            "bytes": 14843
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "pyiceberg",
+      "version": "0.12.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/pyiceberg/0.12.0/json",
+      "metadata_json_sha256": "08946916c144d149cfc2a6f3ef1fb62b2b33601189e466c459856fb1a57d0815",
+      "license_expression": "Apache-2.0",
+      "license_classifiers": [],
+      "requires_python": "<4.0.0,>=3.10.0",
+      "requires_dist": [
+        "mmh3>=4.0.0",
+        "requests>=2.20.0",
+        "click>=7.1.1",
+        "rich>=10.11.0",
+        "strictyaml>=1.7.0",
+        "pydantic!=2.12.0,!=2.12.1,!=2.4.0,!=2.4.1,<3.0,>=2.0",
+        "fsspec>=2023.1.0",
+        "pyparsing>=3.1.0",
+        "tenacity>=8.2.3",
+        "pyroaring>=1.0.0",
+        "cachetools>=5.5",
+        "zstandard>=0.13.0",
+        "pyarrow>=18.0.0; extra == \"pyarrow\"",
+        "pandas>=1.0.0; extra == \"pandas\"",
+        "pyarrow>=18.0.0; extra == \"pandas\"",
+        "duckdb>=0.5.0; extra == \"duckdb\"",
+        "pyarrow>=18.0.0; extra == \"duckdb\"",
+        "ray>=2.10.0; extra == \"ray\"",
+        "pyarrow>=18.0.0; extra == \"ray\"",
+        "pandas>=1.0.0; extra == \"ray\"",
+        "bodo>=2025.7.4; extra == \"bodo\"",
+        "daft>=0.7.10; extra == \"daft\"",
+        "polars>=1.21.0; extra == \"polars\"",
+        "python-snappy>=0.6.0; extra == \"snappy\"",
+        "thrift>=0.13.0; extra == \"hive\"",
+        "thrift>=0.13.0; extra == \"hive-kerberos\"",
+        "thrift-sasl>=0.4.3; extra == \"hive-kerberos\"",
+        "kerberos>=1.3.1; extra == \"hive-kerberos\"",
+        "s3fs>=2023.1.0; extra == \"s3fs\"",
+        "boto3>=1.24.59; extra == \"glue\"",
+        "adlfs>=2024.7.0; extra == \"adlfs\"",
+        "boto3>=1.24.59; extra == \"dynamodb\"",
+        "google-cloud-bigquery<4,>=3.33.0; extra == \"bigquery\"",
+        "sqlalchemy<3,>=2.0.18; extra == \"sql-postgres\"",
+        "psycopg2-binary>=2.9.6; extra == \"sql-postgres\"",
+        "sqlalchemy<3,>=2.0.18; extra == \"sql-sqlite\"",
+        "gcsfs>=2023.1.0; extra == \"gcsfs\"",
+        "boto3>=1.24.59; extra == \"rest-sigv4\"",
+        "huggingface-hub>=0.24.0; extra == \"hf\"",
+        "pyiceberg-core<0.11.0,>=0.10.1; extra == \"pyiceberg-core\"",
+        "datafusion<54,>=53; extra == \"datafusion\"",
+        "google-auth>=2.4.0; extra == \"gcp-auth\"",
+        "azure-identity>=1.25.1; extra == \"entra-auth\"",
+        "geoarrow-pyarrow>=0.2.0; extra == \"geoarrow\""
+      ],
+      "project_urls": {
+        "Homepage": "https://py.iceberg.apache.org/",
+        "Repository": "https://github.com/apache/iceberg-python"
+      },
+      "summary": "Apache Iceberg is an open table format for huge analytic datasets",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "pyiceberg-0.12.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/85/08/bde71e0bbcf1a62c92d7fa457b508691596c65fa7e52c1982c78c461cd1c/pyiceberg-0.12.0.tar.gz",
+          "digests": {
+            "blake2b_256": "8508bde71e0bbcf1a62c92d7fa457b508691596c65fa7e52c1982c78c461cd1c",
+            "md5": "c50229a0395fade891dc6047e0c557cd",
+            "sha256": "19f165d298054f9436108691098b60fa0fa99d0eff5fb884700c43b29334a39d"
+          },
+          "upload_time_iso_8601": "2026-09-01T17:28:42.378630Z",
+          "size": 1212830,
+          "requires_python": "<4.0.0,>=3.10.0",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "pyiceberg-0.12.0-cp310-cp310-macosx_10_9_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/b8/a4/32d35527d48b3d569d7cc0a4319a52c431d91e0a82f8855059167426b741/pyiceberg-0.12.0-cp310-cp310-macosx_10_9_x86_64.whl",
+          "digests": {
+            "blake2b_256": "b8a432d35527d48b3d569d7cc0a4319a52c431d91e0a82f8855059167426b741",
+            "md5": "b61d5d2a9ff88b0d5560d9319103f477",
+            "sha256": "21f7462f4777bcda2af0a7c270a51525542a79ff37cf1334a82e0dd80717aa92"
+          },
+          "upload_time_iso_8601": "2026-09-01T17:27:57.111347Z",
+          "size": 567107,
+          "requires_python": "<4.0.0,>=3.10.0",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 35,
+      "wheel_tags": [
+        "cp310-cp310-macosx_10_9_x86_64.whl",
+        "cp310-cp310-macosx_11_0_arm64.whl",
+        "cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+        "cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "cp310-cp310-musllinux_1_2_aarch64.whl",
+        "cp310-cp310-musllinux_1_2_x86_64.whl",
+        "cp310-cp310-win_amd64.whl",
+        "cp311-cp311-macosx_10_9_x86_64.whl",
+        "cp311-cp311-macosx_11_0_arm64.whl",
+        "cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+        "cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "cp311-cp311-musllinux_1_2_aarch64.whl",
+        "cp311-cp311-musllinux_1_2_x86_64.whl",
+        "cp311-cp311-win_amd64.whl",
+        "cp312-cp312-macosx_10_13_x86_64.whl",
+        "cp312-cp312-macosx_11_0_arm64.whl",
+        "cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+        "cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "cp312-cp312-musllinux_1_2_aarch64.whl",
+        "cp312-cp312-musllinux_1_2_x86_64.whl",
+        "cp312-cp312-win_amd64.whl",
+        "cp313-cp313-macosx_10_13_x86_64.whl",
+        "cp313-cp313-macosx_11_0_arm64.whl",
+        "cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+        "cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "cp313-cp313-musllinux_1_2_aarch64.whl",
+        "cp313-cp313-musllinux_1_2_x86_64.whl",
+        "cp313-cp313-win_amd64.whl",
+        "cp314-cp314-macosx_10_15_x86_64.whl",
+        "cp314-cp314-macosx_11_0_arm64.whl",
+        "cp314-cp314-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+        "cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "cp314-cp314-musllinux_1_2_aarch64.whl",
+        "cp314-cp314-musllinux_1_2_x86_64.whl",
+        "cp314-cp314-win_amd64.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B040",
+        "B041"
+      ],
+      "decision": "defer_native_research",
+      "decision_rationale": "Research a separate optional format/provider profile after local alpha; no second metadata authority or automatic Delta/Iceberg dual writes.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "pyiceberg",
+        "version": "0.12.0",
+        "artifact_filename": "pyiceberg-0.12.0-cp310-cp310-macosx_10_9_x86_64.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/b8/a4/32d35527d48b3d569d7cc0a4319a52c431d91e0a82f8855059167426b741/pyiceberg-0.12.0-cp310-cp310-macosx_10_9_x86_64.whl",
+        "artifact_sha256": "21f7462f4777bcda2af0a7c270a51525542a79ff37cf1334a82e0dd80717aa92",
+        "bytes_downloaded": 567107,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "pyiceberg-0.12.0.dist-info/licenses/LICENSE",
+            "sha256": "6fb9fca17a54eb1b246f6037fa3294ea3b43b0c4bd5c9a14248b01aa225cfaf9",
+            "bytes": 12548
+          },
+          {
+            "path": "pyiceberg-0.12.0.dist-info/licenses/NOTICE",
+            "sha256": "8b5b9c1154080c1ea56b0cf7e81819ea3f1146c3978d24484724992abc5234c4",
+            "bytes": 251
+          },
+          {
+            "path": "pyiceberg-0.12.0.dist-info/METADATA",
+            "sha256": "4980f90d7e6047dfe8e136067fc0571fc6ddbe5dafec18a17a9f63127d4f5d41",
+            "bytes": 4724
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "pyiceberg/catalog/rest/__init__.py",
+            "sha256": "3377c06e4c4c79591f3024324cede08d12c11e2edcbe23bd3eaa4cb83136a619",
+            "bytes": 62238
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "dbt-duckdb",
+      "version": "1.11.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/dbt-duckdb/1.11.0/json",
+      "metadata_json_sha256": "c141193c8c35e6869ae17ad1b6c325f6b15b9d00cce87d5e0fa08c674ecf1d2d",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "dbt-common<2,>=1",
+        "dbt-adapters<2,>=1",
+        "duckdb>=1.0.0",
+        "dbt-core>=1.8.0",
+        "boto3; extra == \"glue\"",
+        "mypy-boto3-glue; extra == \"glue\"",
+        "duckdb==1.5.5; extra == \"md\""
+      ],
+      "project_urls": {
+        "Homepage": "https://github.com/duckdb/dbt-duckdb"
+      },
+      "summary": "The duckdb adapter plugin for dbt (data build tool)",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "dbt_duckdb-1.11.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/dc/2e/cd495dbdee474eefb431156055dd7142b893258567e2167e414fceac0641/dbt_duckdb-1.11.0.tar.gz",
+          "digests": {
+            "blake2b_256": "dc2ecd495dbdee474eefb431156055dd7142b893258567e2167e414fceac0641",
+            "md5": "3a5ae4bc22a65e8f3ac6c8e7c3b3f018",
+            "sha256": "4b087557e8559e2c141a8daae28f4a832a06f425d0b4567eca7c8ffb635cd0fe"
+          },
+          "upload_time_iso_8601": "2026-08-07T16:08:10.453423Z",
+          "size": 170805,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "dbt_duckdb-1.11.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/eb/79/52cf57da07b05ff2e6a055c44b249d6fde200af340641995daea22ed6e2c/dbt_duckdb-1.11.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "eb7952cf57da07b05ff2e6a055c44b249d6fde200af340641995daea22ed6e2c",
+            "md5": "0183095f1ff1c55b8f7e82b408d4d22e",
+            "sha256": "bac8c77771de890efa1af5b003af7c74de50c5ef67dba5891894e78348f7091b"
+          },
+          "upload_time_iso_8601": "2026-08-07T16:08:09.004335Z",
+          "size": 91227,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "a84c1233c210e5dd54df0b8a741c954b29a5a900d0773d25196e2b2d3de34d37",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B027"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Preferred first dbt profile, with custom service-routed registered-table materializations instead of independent managed DuckDB tables.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "dbt-duckdb",
+        "version": "1.11.0",
+        "artifact_filename": "dbt_duckdb-1.11.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/eb/79/52cf57da07b05ff2e6a055c44b249d6fde200af340641995daea22ed6e2c/dbt_duckdb-1.11.0-py3-none-any.whl",
+        "artifact_sha256": "bac8c77771de890efa1af5b003af7c74de50c5ef67dba5891894e78348f7091b",
+        "bytes_downloaded": 91227,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "dbt_duckdb-1.11.0.dist-info/licenses/LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "bytes": 11357
+          },
+          {
+            "path": "dbt_duckdb-1.11.0.dist-info/METADATA",
+            "sha256": "f9e79d6ebc4e4d51ef86ddaf631525f2b3304ef44b3467a9492d74599a8748af",
+            "bytes": 43407
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "dbt/adapters/duckdb/environments/local.py",
+            "sha256": "1ab000e2a46775fc698af8d3c31a0f69896f8a16243cc5118c42bcf02d92bca1",
+            "bytes": 5963
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "dbt-databricks",
+      "version": "1.12.7",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/dbt-databricks/1.12.7/json",
+      "metadata_json_sha256": "c0e45d110325cef68c78f1a817f965a3a1cb76e7e596c999d41ea786b36406d8",
+      "license_expression": "Apache-2.0",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "click<9.0.0,>=8.2.0",
+        "databricks-sdk<0.118.0,>=0.68.0",
+        "databricks-sql-connector[pyarrow]<4.4.1,>=4.1.1",
+        "dbt-adapters<1.25.0,>=1.22.0",
+        "dbt-common<1.39.0,>=1.37.0",
+        "dbt-core<1.12.6,>=1.11.2",
+        "dbt-spark<1.11.0,>=1.10.0",
+        "packaging<26.0,>=21.0",
+        "pydantic<2.13.0,>=1.10.0"
+      ],
+      "project_urls": {
+        "changelog": "https://github.com/databricks/dbt-databricks/blob/main/CHANGELOG.md",
+        "documentation": "https://docs.getdbt.com/reference/resource-configs/databricks-configs",
+        "homepage": "https://github.com/databricks/dbt-databricks",
+        "issues": "https://github.com/databricks/dbt-databricks/issues",
+        "repository": "https://github.com/databricks/dbt-databricks"
+      },
+      "summary": "The Databricks adapter plugin for dbt",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "dbt_databricks-1.12.7.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/f9/c4/1c103dec4aa667ed6ae3d357639824537a73cf297c4fee4823afd23533ee/dbt_databricks-1.12.7.tar.gz",
+          "digests": {
+            "blake2b_256": "f9c41c103dec4aa667ed6ae3d357639824537a73cf297c4fee4823afd23533ee",
+            "md5": "162530d7332f904825d2756e657969f5",
+            "sha256": "5dd39e4118c93d39903a069ad8e02bc196c0411ee982240251f726cb8eb2770d"
+          },
+          "upload_time_iso_8601": "2026-10-12T10:51:41.088123Z",
+          "size": 123737,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "dbt_databricks-1.12.7-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/da/86/09fea46d26f32d468b42b0903f56666732f18ef52001bec449736177018b/dbt_databricks-1.12.7-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "da8609fea46d26f32d468b42b0903f56666732f18ef52001bec449736177018b",
+            "md5": "d4aea7d55649d3eb2f4c8225d8ee374a",
+            "sha256": "99fa4aa2af1b21215ca376e0b92515391697bfbdaf736aa07480c3dba06d2468"
+          },
+          "upload_time_iso_8601": "2026-10-12T10:51:39.467996Z",
+          "size": 181940,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B027"
+      ],
+      "decision": "client_conformance_only",
+      "decision_rationale": "Separate exact client environment for future protocol/macro tests; observed SDK/connector bounds conflict with BrickHouse pins.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "dbt-databricks",
+        "version": "1.12.7",
+        "artifact_filename": "dbt_databricks-1.12.7-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/da/86/09fea46d26f32d468b42b0903f56666732f18ef52001bec449736177018b/dbt_databricks-1.12.7-py3-none-any.whl",
+        "artifact_sha256": "99fa4aa2af1b21215ca376e0b92515391697bfbdaf736aa07480c3dba06d2468",
+        "bytes_downloaded": 181940,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "dbt_databricks-1.12.7.dist-info/METADATA",
+            "sha256": "c3996e53d72aaebdb2b61e0dfd32f81dd09f01098f89b9bd1af1c0e2a90dc062",
+            "bytes": 8071
+          }
+        ],
+        "inspected_source_files": [
+          {
+            "path": "dbt/adapters/databricks/connections.py",
+            "sha256": "3748aeba21738b3a9d70a4d3f621aa2bca9c0080dfd6f6cba86f8ef88012e375",
+            "bytes": 24020
+          }
+        ],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "sqlglot",
+      "version": "30.24.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/sqlglot/30.24.0/json",
+      "metadata_json_sha256": "9f9b9a3ab4517fdc2e184fb0a84cfc33705560237704ecaa04c16d88b8bf45d4",
+      "license_expression": "MIT",
+      "license_classifiers": [],
+      "requires_python": ">=3.9",
+      "requires_dist": [
+        "duckdb>=0.6; extra == \"dev\"",
+        "mypy>=2.4.0; python_version >= \"3.10\" and extra == \"dev\"",
+        "mypy; python_version < \"3.10\" and extra == \"dev\"",
+        "setuptools_scm; extra == \"dev\"",
+        "pandas; extra == \"dev\"",
+        "pandas-stubs; extra == \"dev\"",
+        "python-dateutil; extra == \"dev\"",
+        "pytz; extra == \"dev\"",
+        "pdoc; extra == \"dev\"",
+        "pre-commit; extra == \"dev\"",
+        "ruff==0.15.6; extra == \"dev\"",
+        "types-python-dateutil; extra == \"dev\"",
+        "types-pytz; extra == \"dev\"",
+        "typing_extensions; extra == \"dev\"",
+        "pyperf; extra == \"dev\"",
+        "sqlglotc==30.24.0; python_version >= \"3.10\" and extra == \"c\"",
+        "sqlglotrs==0.13.0; extra == \"rs\"",
+        "sqlglotc==30.24.0; python_version >= \"3.10\" and extra == \"rs\""
+      ],
+      "project_urls": {
+        "Documentation": "https://sqlglot.com/sqlglot.html",
+        "Homepage": "https://sqlglot.com/",
+        "Issues": "https://github.com/tobymao/sqlglot/issues",
+        "Repository": "https://github.com/tobymao/sqlglot"
+      },
+      "summary": "An easily customizable SQL parser and transpiler",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "sqlglot-30.24.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/53/7c/9fd907983ff041692399bf855d344e1fcc9a02c8d92a5fee6dbdf139d19e/sqlglot-30.24.0.tar.gz",
+          "digests": {
+            "blake2b_256": "537c9fd907983ff041692399bf855d344e1fcc9a02c8d92a5fee6dbdf139d19e",
+            "md5": "2fd5499b82185150d1ad79f596a880c2",
+            "sha256": "6451aabd1c9994d0f73355c962a5eaf9258381b3f2554e53db916cd9a605552a"
+          },
+          "upload_time_iso_8601": "2026-10-20T17:14:03.987502Z",
+          "size": 6131857,
+          "requires_python": ">=3.9",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "sqlglot-30.24.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/68/5f/d78f74306cc026c5f40f8808a47356dfd37461eb15eb759a20e5e9efe7d7/sqlglot-30.24.0-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "685fd78f74306cc026c5f40f8808a47356dfd37461eb15eb759a20e5e9efe7d7",
+            "md5": "ed2efb13b46f9dba7a0f0297ff31efe1",
+            "sha256": "9488828cc018453b7a3ba01e65d2749c9a731314c14583695163ca1f358203fe"
+          },
+          "upload_time_iso_8601": "2026-10-20T17:14:02.053646Z",
+          "size": 792162,
+          "requires_python": ">=3.9",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "MIT",
+      "owner_task_ids": [
+        "B011",
+        "B019"
+      ],
+      "decision": "qualify_core_candidate",
+      "decision_rationale": "Parser/binder candidate only; transpilation never proves Spark semantics or supplies a mutation executor.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "sqlglot",
+        "version": "30.24.0",
+        "artifact_filename": "sqlglot-30.24.0-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/68/5f/d78f74306cc026c5f40f8808a47356dfd37461eb15eb759a20e5e9efe7d7/sqlglot-30.24.0-py3-none-any.whl",
+        "artifact_sha256": "9488828cc018453b7a3ba01e65d2749c9a731314c14583695163ca1f358203fe",
+        "bytes_downloaded": 792162,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "sqlglot-30.24.0.dist-info/licenses/LICENSE",
+            "sha256": "b0bf909b472ddf9bd4eab30f6e6fd8b33bf3997ce038b882fe0663f291958d2d",
+            "bytes": 1065
+          },
+          {
+            "path": "sqlglot-30.24.0.dist-info/METADATA",
+            "sha256": "5c3c4861d5eaf790f7623e59de8ebd0364597635a7e30289c611c92e1a9d61e1",
+            "bytes": 25783
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "duckdb",
+      "version": "1.5.6",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/duckdb/1.5.6/json",
+      "metadata_json_sha256": "a23afd6b35f77fd68ffe495d11eeadb1079dcbf08f7c3ce4a83cac5e8721c957",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "requires_python": ">=3.10.0",
+      "requires_dist": [
+        "ipython; extra == \"all\"",
+        "fsspec; extra == \"all\"",
+        "numpy; extra == \"all\"",
+        "pandas; extra == \"all\"",
+        "pyarrow; extra == \"all\"",
+        "adbc-driver-manager; extra == \"all\""
+      ],
+      "project_urls": {
+        "Changelog": "https://github.com/duckdb/duckdb-python/releases",
+        "Documentation": "https://duckdb.org/docs/stable/clients/python/overview",
+        "Issues": "https://github.com/duckdb/duckdb-python/issues",
+        "Source": "https://github.com/duckdb/duckdb-python"
+      },
+      "summary": "DuckDB in-process database",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "duckdb-1.5.6.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/59/0b/d65ea3be00ea79aa276a8388bec588a9cbf409ce637c6d306e5316210d15/duckdb-1.5.6.tar.gz",
+          "digests": {
+            "blake2b_256": "590bd65ea3be00ea79aa276a8388bec588a9cbf409ce637c6d306e5316210d15",
+            "md5": "a5c94d2acaea882cb70db44a79da95b2",
+            "sha256": "166a91dbfacfc0c9f08cc76c0243cb6d3d4296bfab5bad72a3cfb63140a5b7c8"
+          },
+          "upload_time_iso_8601": "2026-09-28T13:38:37.978689Z",
+          "size": 18032957,
+          "requires_python": ">=3.10.0",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "duckdb-1.5.6-cp310-cp310-macosx_10_9_universal2.whl",
+          "url": "https://files.pythonhosted.org/packages/58/e1/5d05ecb59e3fd401414dacc9c969a326fe3a0b1eb07920058b656fe728d6/duckdb-1.5.6-cp310-cp310-macosx_10_9_universal2.whl",
+          "digests": {
+            "blake2b_256": "58e15d05ecb59e3fd401414dacc9c969a326fe3a0b1eb07920058b656fe728d6",
+            "md5": "b6dbce9f1c347f48ef79a8d13f1e2232",
+            "sha256": "64db8a6700e81fe419fba130d8f1780686ad40fbf2eb69f78d2a1533728a0549"
+          },
+          "upload_time_iso_8601": "2026-09-28T13:37:14.588282Z",
+          "size": 32758341,
+          "requires_python": ">=3.10.0",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 34,
+      "wheel_tags": [
+        "cp310-cp310-macosx_10_9_universal2.whl",
+        "cp310-cp310-macosx_10_9_x86_64.whl",
+        "cp310-cp310-macosx_11_0_arm64.whl",
+        "cp310-cp310-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl",
+        "cp310-cp310-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+        "cp310-cp310-win_amd64.whl",
+        "cp311-cp311-macosx_10_9_universal2.whl",
+        "cp311-cp311-macosx_10_9_x86_64.whl",
+        "cp311-cp311-macosx_11_0_arm64.whl",
+        "cp311-cp311-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl",
+        "cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+        "cp311-cp311-win_amd64.whl",
+        "cp311-cp311-win_arm64.whl",
+        "cp312-cp312-macosx_10_13_universal2.whl",
+        "cp312-cp312-macosx_10_13_x86_64.whl",
+        "cp312-cp312-macosx_11_0_arm64.whl",
+        "cp312-cp312-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl",
+        "cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+        "cp312-cp312-win_amd64.whl",
+        "cp312-cp312-win_arm64.whl",
+        "cp313-cp313-macosx_10_13_universal2.whl",
+        "cp313-cp313-macosx_10_13_x86_64.whl",
+        "cp313-cp313-macosx_11_0_arm64.whl",
+        "cp313-cp313-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl",
+        "cp313-cp313-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+        "cp313-cp313-win_amd64.whl",
+        "cp313-cp313-win_arm64.whl",
+        "cp314-cp314-macosx_10_15_universal2.whl",
+        "cp314-cp314-macosx_10_15_x86_64.whl",
+        "cp314-cp314-macosx_11_0_arm64.whl",
+        "cp314-cp314-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl",
+        "cp314-cp314-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+        "cp314-cp314-win_amd64.whl",
+        "cp314-cp314-win_arm64.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "MIT",
+      "owner_task_ids": [
+        "B011",
+        "B027"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Explicit preselected capability route on shared committed data; no silent semantic fallback or independent table authority.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "duckdb",
+        "version": "1.5.6",
+        "artifact_filename": "duckdb-1.5.6-cp310-cp310-macosx_10_9_universal2.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/58/e1/5d05ecb59e3fd401414dacc9c969a326fe3a0b1eb07920058b656fe728d6/duckdb-1.5.6-cp310-cp310-macosx_10_9_universal2.whl",
+        "artifact_sha256": "64db8a6700e81fe419fba130d8f1780686ad40fbf2eb69f78d2a1533728a0549",
+        "bytes_downloaded": 32758341,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "duckdb-1.5.6.dist-info/licenses/LICENSE",
+            "sha256": "075c33400ffcb0c586dd106a029d3e733e9da3693f8fcb9cebfc651c8a2f14e3",
+            "bytes": 1072
+          },
+          {
+            "path": "duckdb/experimental/spark/LICENSE",
+            "sha256": "ff5aa49c52e9830627582e9854fa76827d19c3b040b856162d172d72a9e95067",
+            "bytes": 13387
+          },
+          {
+            "path": "duckdb-1.5.6.dist-info/METADATA",
+            "sha256": "7ca8c6be6ceda35157b2087d4d577b4ca3a6b757e8b27463f0c827c2447d372b",
+            "bytes": 4245
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "datafusion",
+      "version": "55.0.0",
+      "selection": "research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/datafusion/55.0.0/json",
+      "metadata_json_sha256": "4527c702e0621ce635e14db38b3ec77d151a297d8909da1eea69e468af0403b6",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved",
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "cloudpickle>=2.0",
+        "pyarrow>=16.0.0; python_full_version < \"3.14\"",
+        "pyarrow>=22.0.0; python_full_version >= \"3.14\"",
+        "typing-extensions>=4.12; python_full_version < \"3.13\""
+      ],
+      "project_urls": {
+        "Homepage": "https://datafusion.apache.org/python",
+        "documentation": "https://datafusion.apache.org/python",
+        "repository": "https://github.com/apache/datafusion-python"
+      },
+      "summary": "Build and run queries against data",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "datafusion-55.0.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/54/00/ffa23f15be4c8fba69ec361d69c2db80967660336dbdb080e665b4a70fdd/datafusion-55.0.0.tar.gz",
+          "digests": {
+            "blake2b_256": "5400ffa23f15be4c8fba69ec361d69c2db80967660336dbdb080e665b4a70fdd",
+            "md5": "198264e7cd69b34c6c018e789b15731b",
+            "sha256": "12ac1a7666cd61533f610d38173347aa42189b7a1a78c78bb166052b680ffb6d"
+          },
+          "upload_time_iso_8601": "2026-10-12T16:20:44.776921Z",
+          "size": 318430,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "datafusion-55.0.0-cp310-abi3-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/ad/fd/de0aff300301b46ae5b334cca5945bed3a49bbdf07053eec325ba4f77118/datafusion-55.0.0-cp310-abi3-macosx_10_12_x86_64.whl",
+          "digests": {
+            "blake2b_256": "adfdde0aff300301b46ae5b334cca5945bed3a49bbdf07053eec325ba4f77118",
+            "md5": "bbbf37b5e06b6b9d0b547d5e011aa308",
+            "sha256": "dbb4d001a4151a1751654ea599a7c475985b0abe7b24721ed4436ac9cb5c0a2e"
+          },
+          "upload_time_iso_8601": "2026-10-12T16:20:09.878105Z",
+          "size": 41483433,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 10,
+      "wheel_tags": [
+        "cp310-abi3-macosx_10_12_x86_64.whl",
+        "cp310-abi3-macosx_11_0_arm64.whl",
+        "cp310-abi3-manylinux_2_28_aarch64.whl",
+        "cp310-abi3-manylinux_2_28_x86_64.whl",
+        "cp310-abi3-win_amd64.whl",
+        "cp314-cp314t-macosx_10_12_x86_64.whl",
+        "cp314-cp314t-macosx_11_0_arm64.whl",
+        "cp314-cp314t-manylinux_2_28_aarch64.whl",
+        "cp314-cp314t-manylinux_2_28_x86_64.whl",
+        "cp314-cp314t-win_amd64.whl"
+      ],
+      "license_metadata_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B057",
+        "B060"
+      ],
+      "decision": "qualify_native_cluster_option",
+      "decision_rationale": "Future engine/kernel candidate for SC.0 comparison; no replacement of the Sparkless default or assumption of Spark SQL parity.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "datafusion",
+        "version": "55.0.0",
+        "artifact_filename": "datafusion-55.0.0-cp310-abi3-macosx_10_12_x86_64.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/ad/fd/de0aff300301b46ae5b334cca5945bed3a49bbdf07053eec325ba4f77118/datafusion-55.0.0-cp310-abi3-macosx_10_12_x86_64.whl",
+        "artifact_sha256": "dbb4d001a4151a1751654ea599a7c475985b0abe7b24721ed4436ac9cb5c0a2e",
+        "bytes_downloaded": 41483433,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "datafusion-55.0.0.dist-info/licenses/LICENSE.txt",
+            "sha256": "5a17c11dfbda82066a28369aa97a9583cb2a8f2c99087babda982593dac7071e",
+            "bytes": 72047
+          },
+          {
+            "path": "datafusion-55.0.0.dist-info/METADATA",
+            "sha256": "0cc033a6b847c481a504614db14666ba73deb791cc9b6754bb4ece4c49bd1925",
+            "bytes": 14283
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "mlflow-skinny",
+      "version": "3.17.1",
+      "selection": "transitive_research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/mlflow-skinny/3.17.1/json",
+      "metadata_json_sha256": "bfaa35f6eb96b9ab9e5ed5f182a287fae6a5c4f8e67b4187991efa6a1f07d3ee",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "anyio!=4.15.0,<5,>=3.6.2",
+        "cachetools<8,>=5.0.0",
+        "click<9,>=7.0",
+        "cloudpickle<4",
+        "databricks-sdk<1,>=0.20.0",
+        "fastapi<1",
+        "gitpython<4,>=3.1.9",
+        "importlib_metadata!=4.7.0,<10,>=3.7.0",
+        "opentelemetry-api<3,>=1.9.0",
+        "opentelemetry-proto<3,>=1.9.0",
+        "opentelemetry-sdk<3,>=1.9.0",
+        "packaging<27",
+        "protobuf<8,>=3.12.0",
+        "pydantic<3,>=2.0.0",
+        "python-dotenv<2,>=0.19.0",
+        "pyyaml<7,>=5.1",
+        "requests<3,>=2.17.3",
+        "sqlparse<1,>=0.4.0",
+        "starlette<2",
+        "typing-extensions<5,>=4.0.0",
+        "uvicorn<1",
+        "pyarrow; extra == \"extras\"",
+        "requests-auth-aws-sigv4; extra == \"extras\"",
+        "boto3; extra == \"extras\"",
+        "botocore; extra == \"extras\"",
+        "google-cloud-storage>=1.30.0; extra == \"extras\"",
+        "azureml-core>=1.2.0; extra == \"extras\"",
+        "pysftp; extra == \"extras\"",
+        "kubernetes; extra == \"extras\"",
+        "prometheus-flask-exporter; extra == \"extras\"",
+        "PyMySQL; extra == \"db\"",
+        "psycopg2-binary; extra == \"db\"",
+        "psycopg[binary]; extra == \"db\"",
+        "pymssql; extra == \"db\"",
+        "azure-storage-file-datalake>12; extra == \"databricks\"",
+        "google-cloud-storage>=1.30.0; extra == \"databricks\"",
+        "boto3>1; extra == \"databricks\"",
+        "botocore; extra == \"databricks\"",
+        "databricks-agents<2.0,>=1.2.0; extra == \"databricks\"",
+        "boto3<2,>=1.28.56; extra == \"gateway\"",
+        "fastapi<1; extra == \"gateway\"",
+        "slowapi<1,>=0.1.9; extra == \"gateway\"",
+        "tiktoken<1; extra == \"gateway\"",
+        "uvicorn[standard]<1; extra == \"gateway\"",
+        "watchfiles<2; extra == \"gateway\"",
+        "boto3<2,>=1.28.56; extra == \"genai\"",
+        "fastapi<1; extra == \"genai\"",
+        "slowapi<1,>=0.1.9; extra == \"genai\"",
+        "tiktoken<1; extra == \"genai\"",
+        "uvicorn[standard]<1; extra == \"genai\"",
+        "watchfiles<2; extra == \"genai\"",
+        "fastmcp<4,>=2.7.0; extra == \"mcp\"",
+        "click!=8.3.0; extra == \"mcp\"",
+        "azure-storage-blob>=12; extra == \"azure\"",
+        "azure-identity>=1.6.1; extra == \"azure\"",
+        "mlflow-dbstore; extra == \"sqlserver\"",
+        "aliyunstoreplugin; extra == \"aliyun-oss\"",
+        "mlflow-jfrog-plugin; extra == \"jfrog\"",
+        "kubernetes; extra == \"kubernetes\"",
+        "langchain<=1.4.3,>=1.0.0; extra == \"langchain\"",
+        "Flask-WTF<2; extra == \"auth\""
+      ],
+      "project_urls": {
+        "documentation": "https://mlflow.org/docs/latest",
+        "homepage": "https://mlflow.org",
+        "issues": "https://github.com/mlflow/mlflow/issues",
+        "repository": "https://github.com/mlflow/mlflow"
+      },
+      "summary": "MLflow is an open source platform for the complete machine learning lifecycle",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "mlflow_skinny-3.17.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/c7/b3/a72208dd21b7b8345d3d15eafa8d5d2897d36e21420e22d290fad5775aa4/mlflow_skinny-3.17.1.tar.gz",
+          "digests": {
+            "blake2b_256": "c7b3a72208dd21b7b8345d3d15eafa8d5d2897d36e21420e22d290fad5775aa4",
+            "md5": "c4bdd966eb870dce18eeb265561437df",
+            "sha256": "c4587083811f638d9c2e6e8ab7caabbccc51ccc09de2c87a503913b32bbfd7bf"
+          },
+          "upload_time_iso_8601": "2026-10-13T08:58:49.651065Z",
+          "size": 3483742,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "mlflow_skinny-3.17.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/0f/54/d0e5e2588013d7655f9cfb3d17fff4760c22652ce628b57ae4ac0fa913e6/mlflow_skinny-3.17.1-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "0f54d0e5e2588013d7655f9cfb3d17fff4760c22652ce628b57ae4ac0fa913e6",
+            "md5": "bea8ac73e91e93202e66030e4da2c75a",
+            "sha256": "7374adf971e06f77f861dd8196c50e344557728b643192c665f0603c19a8d146"
+          },
+          "upload_time_iso_8601": "2026-10-13T08:58:47.785806Z",
+          "size": 4105632,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "7cfdeab2846256c82c6e4b3f53b882cd71cc17bfd0778d0b9fd671357d6f212b",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B025",
+        "B026"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Required same-version dependency of the full service; skinny alone is not a substitute for the selected server.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "mlflow-skinny",
+        "version": "3.17.1",
+        "artifact_filename": "mlflow_skinny-3.17.1-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/0f/54/d0e5e2588013d7655f9cfb3d17fff4760c22652ce628b57ae4ac0fa913e6/mlflow_skinny-3.17.1-py3-none-any.whl",
+        "artifact_sha256": "7374adf971e06f77f861dd8196c50e344557728b643192c665f0603c19a8d146",
+        "bytes_downloaded": 4105632,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "mlflow/assistant/skills/LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "bytes": 11357
+          },
+          {
+            "path": "mlflow_skinny-3.17.1.dist-info/licenses/LICENSE.txt",
+            "sha256": "6395355de6f391afff35996a30fb41b189b4991a4cb54993ace35ab69a0bfa28",
+            "bytes": 11382
+          },
+          {
+            "path": "mlflow_skinny-3.17.1.dist-info/METADATA",
+            "sha256": "218afa739a44c36546a879ce59897f9e04a91b0b66904b21566eb7e4107c82f3",
+            "bytes": 51067
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "mlflow-tracing",
+      "version": "3.17.1",
+      "selection": "transitive_research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/mlflow-tracing/3.17.1/json",
+      "metadata_json_sha256": "986d329d420bb9f2e5b53272234a7bfa1578b1537b6e3b4e01dccda3f32ce88b",
+      "license_expression": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "cachetools<8,>=5.0.0",
+        "databricks-sdk<1,>=0.20.0",
+        "opentelemetry-api<3,>=1.9.0",
+        "opentelemetry-proto<3,>=1.9.0",
+        "opentelemetry-sdk<3,>=1.9.0",
+        "packaging<27",
+        "protobuf<8,>=3.12.0",
+        "pydantic<3,>=2.0.0"
+      ],
+      "project_urls": {
+        "documentation": "https://mlflow.org/docs/latest",
+        "homepage": "https://mlflow.org",
+        "issues": "https://github.com/mlflow/mlflow/issues",
+        "repository": "https://github.com/mlflow/mlflow"
+      },
+      "summary": "MLflow Tracing SDK is an open-source, lightweight Python package that only includes the minimum set of dependencies and functionality to instrument your code/models/agents with MLflow Tracing.",
+      "source_and_sample_artifacts": [
+        {
+          "filename": "mlflow_tracing-3.17.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/4c/da/e226d475789bbb8caf68aafa3cbf2b715e5f6eda00f7f659b7eda6fba1ef/mlflow_tracing-3.17.1.tar.gz",
+          "digests": {
+            "blake2b_256": "4cdae226d475789bbb8caf68aafa3cbf2b715e5f6eda00f7f659b7eda6fba1ef",
+            "md5": "57e25f32754bb3e20298edfce0525db1",
+            "sha256": "c154492045b5f3544ab07fd9ab9d7c07febfb53065d43f1a07f33a31c46b3505"
+          },
+          "upload_time_iso_8601": "2026-10-13T08:59:23.980264Z",
+          "size": 1688196,
+          "requires_python": ">=3.10",
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "mlflow_tracing-3.17.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/ce/19/2ba5a327efa9a45ea46c927103a7c57b24441375d8b3435f6b27d187ac91/mlflow_tracing-3.17.1-py3-none-any.whl",
+          "digests": {
+            "blake2b_256": "ce192ba5a327efa9a45ea46c927103a7c57b24441375d8b3435f6b27d187ac91",
+            "md5": "dd761dbe0e5f736925fd3a8044a7e9b3",
+            "sha256": "4f6405e48efdf9330101aa059383103e1e15559664ec792290b9b95556f9e851"
+          },
+          "upload_time_iso_8601": "2026-10-13T08:59:22.314305Z",
+          "size": 1981200,
+          "requires_python": ">=3.10",
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 1,
+      "wheel_tags": [
+        "py3-none-any.whl"
+      ],
+      "license_metadata_sha256": "7cfdeab2846256c82c6e4b3f53b882cd71cc17bfd0778d0b9fd671357d6f212b",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B025",
+        "B026"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Required same-version dependency; keep SDK/autologging/trace export explicitly local and scoped.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "mlflow-tracing",
+        "version": "3.17.1",
+        "artifact_filename": "mlflow_tracing-3.17.1-py3-none-any.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/ce/19/2ba5a327efa9a45ea46c927103a7c57b24441375d8b3435f6b27d187ac91/mlflow_tracing-3.17.1-py3-none-any.whl",
+        "artifact_sha256": "4f6405e48efdf9330101aa059383103e1e15559664ec792290b9b95556f9e851",
+        "bytes_downloaded": 1981200,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "mlflow_tracing-3.17.1.dist-info/licenses/LICENSE.txt",
+            "sha256": "6395355de6f391afff35996a30fb41b189b4991a4cb54993ace35ab69a0bfa28",
+            "bytes": 11382
+          },
+          {
+            "path": "mlflow_tracing-3.17.1.dist-info/METADATA",
+            "sha256": "bf2e0ecd71e32faa51d1ec514fa8ba5ae3c2ffa17f51ed923e2df3ba3a150987",
+            "bytes": 19873
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      }
+    },
+    {
+      "package": "delta-kernel-rust-sharing-wrapper",
+      "version": "0.3.3",
+      "selection": "transitive_research_candidate_not_adopted",
+      "pypi_json_url": "https://pypi.org/pypi/delta-kernel-rust-sharing-wrapper/0.3.3/json",
+      "metadata_json_sha256": "e0fe0b9e1ba1d40fcffa72f586aea06f00792a716a20fbf420af82301d8dbfaa",
+      "license_expression": null,
+      "license_classifiers": [],
+      "requires_python": null,
+      "requires_dist": null,
+      "project_urls": null,
+      "summary": null,
+      "source_and_sample_artifacts": [
+        {
+          "filename": "delta_kernel_rust_sharing_wrapper-0.3.3.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/cf/ab/17290eb079b23b0f80da3ed6d7e8ac406768d3dab74abaa4275a4918c9c4/delta_kernel_rust_sharing_wrapper-0.3.3.tar.gz",
+          "digests": {
+            "blake2b_256": "cfab17290eb079b23b0f80da3ed6d7e8ac406768d3dab74abaa4275a4918c9c4",
+            "md5": "abf7e3043955528ecba445065ba63153",
+            "sha256": "1ce82f9d18c66faaacca7f7a9a77b5210255a4d5bc6d61b8410f6bd5a9f37623"
+          },
+          "upload_time_iso_8601": "2026-08-10T20:10:56.149619Z",
+          "size": 23525,
+          "requires_python": null,
+          "packagetype": "sdist"
+        },
+        {
+          "filename": "delta_kernel_rust_sharing_wrapper-0.3.3-cp310-abi3-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/e0/23/64946742c495c68b2a62a42f2c2b9a1475284d11a554bed81566319ccb6b/delta_kernel_rust_sharing_wrapper-0.3.3-cp310-abi3-macosx_10_12_x86_64.whl",
+          "digests": {
+            "blake2b_256": "e02364946742c495c68b2a62a42f2c2b9a1475284d11a554bed81566319ccb6b",
+            "md5": "94b6b4e32a2268fa2741e982e0810584",
+            "sha256": "059b5d38832995d32eb49945e80492fde84a9146f7e49e57b753346d85d642f3"
+          },
+          "upload_time_iso_8601": "2026-08-12T00:13:41.818973Z",
+          "size": 11576970,
+          "requires_python": null,
+          "packagetype": "bdist_wheel"
+        }
+      ],
+      "wheel_count": 4,
+      "wheel_tags": [
+        "cp310-abi3-macosx_10_12_x86_64.whl",
+        "cp310-abi3-macosx_11_0_arm64.whl",
+        "cp310-abi3-manylinux_2_28_x86_64.whl",
+        "cp310-abi3-win_amd64.whl"
+      ],
+      "license_metadata_sha256": "2af71558e438db0b73a20beab92dc278a94e1bbe974c00c1a33e3ab62d53a608",
+      "declared_license": "Apache-2.0",
+      "owner_task_ids": [
+        "B039"
+      ],
+      "decision": "qualify_optional_candidate",
+      "decision_rationale": "Transitive native client component: qualify its actual wheels, embedded Kernel/Arrow versions and supported snapshot/features.",
+      "runtime_qualification": "research_only",
+      "inspection": {
+        "package": "delta-kernel-rust-sharing-wrapper",
+        "version": "0.3.3",
+        "artifact_filename": "delta_kernel_rust_sharing_wrapper-0.3.3-cp310-abi3-macosx_10_12_x86_64.whl",
+        "artifact_url": "https://files.pythonhosted.org/packages/e0/23/64946742c495c68b2a62a42f2c2b9a1475284d11a554bed81566319ccb6b/delta_kernel_rust_sharing_wrapper-0.3.3-cp310-abi3-macosx_10_12_x86_64.whl",
+        "artifact_sha256": "059b5d38832995d32eb49945e80492fde84a9146f7e49e57b753346d85d642f3",
+        "bytes_downloaded": 11576970,
+        "inspected_license_and_metadata_files": [
+          {
+            "path": "delta_kernel_rust_sharing_wrapper-0.3.3.dist-info/METADATA",
+            "sha256": "310b6ad68b8e51f6e6cdc06c24ec57121c21240da24a4ec8feb66eae748e650b",
+            "bytes": 708
+          }
+        ],
+        "inspected_source_files": [],
+        "jar_or_class_files_found": [],
+        "jar_or_class_file_count": 0,
+        "inspection": "static archive inspection only; not installed, imported or executed; no transitive-runtime qualification"
+      },
+      "additional_source_inspection": {
+        "package": "delta-kernel-rust-sharing-wrapper",
+        "version": "0.3.3",
+        "artifact_filename": "delta_kernel_rust_sharing_wrapper-0.3.3.tar.gz",
+        "artifact_url": "https://files.pythonhosted.org/packages/cf/ab/17290eb079b23b0f80da3ed6d7e8ac406768d3dab74abaa4275a4918c9c4/delta_kernel_rust_sharing_wrapper-0.3.3.tar.gz",
+        "artifact_sha256": "1ce82f9d18c66faaacca7f7a9a77b5210255a4d5bc6d61b8410f6bd5a9f37623",
+        "inspected_files": [
+          {
+            "path": "delta_kernel_rust_sharing_wrapper-0.3.3/Cargo.toml",
+            "sha256": "bae7344e5ba3bca50d44b2e755e1242d905d1260c3822cdca836d859a8ac9513",
+            "bytes": 642
+          },
+          {
+            "path": "delta_kernel_rust_sharing_wrapper-0.3.3/pyproject.toml",
+            "sha256": "99463e2d0e069b5a7cb620ff084c5b8e1fcba5ffc5bf1b172e277988b9fb882d",
+            "bytes": 233
+          }
+        ]
+      },
+      "embedded_native_constraints": {
+        "delta_kernel": "0.22.0",
+        "arrow": "57",
+        "object_store": "0.12.4",
+        "pyo3": "0.26.0",
+        "minimum_python_abi": "3.10"
+      }
+    }
+  ],
+  "native_source_candidates": [
+    {
+      "crate": "delta_kernel",
+      "version": "0.30.0",
+      "license": "Apache-2.0",
+      "rust_version": "1.88",
+      "created_at": "2026-10-18T10:46:59.382076Z",
+      "repository": "https://github.com/delta-io/delta-kernel-rs",
+      "artifact_url": "https://crates.io/api/v1/crates/delta_kernel/0.30.0/download",
+      "artifact_sha256": "2b9ffb54dab8d7755a54150c7170a96afe2faeb39676d1cf0d5a98050887c4ab",
+      "registry_checksum": "2b9ffb54dab8d7755a54150c7170a96afe2faeb39676d1cf0d5a98050887c4ab",
+      "inspected_files": [
+        {
+          "path": "delta_kernel-0.30.0/Cargo.toml",
+          "sha256": "a6a7cb7ba67d5e6f1ba576b4b3d20414679dd13d4a91f8058e576b78b64c17a9",
+          "bytes": 6403
+        },
+        {
+          "path": "delta_kernel-0.30.0/Cargo.toml.orig",
+          "sha256": "fa1164439fc8d8601280c28f3ff25b59936635a08f9ef7ef3ab723983cdc3c65",
+          "bytes": 8039
+        },
+        {
+          "path": "delta_kernel-0.30.0/LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357
+        },
+        {
+          "path": "delta_kernel-0.30.0/NOTICE",
+          "sha256": "5939690f74b26ce550e4c6d40f2944a0103760c8ecc76efd3a7521f779e19a11",
+          "bytes": 2728
+        },
+        {
+          "path": "delta_kernel-0.30.0/README.md",
+          "sha256": "5ecba1a048a64fafcece03cfa502583ed3d86c81460a4e29cd346258a0ea6ecf",
+          "bytes": 9944
+        }
+      ],
+      "status": "research_only_not_installed_built_or_qualified",
+      "decision": "defer_native_research",
+      "owner_task_ids": [
+        "B040",
+        "B041",
+        "B057",
+        "B060"
+      ],
+      "decision_rationale": "Read/feature integration research only; do not replace the existing mutation provider or equate it with the wrapper embedded Kernel version.",
+      "runtime_qualification": "research_only"
+    },
+    {
+      "crate": "ballista",
+      "version": "55.0.0",
+      "license": "Apache-2.0",
+      "rust_version": "1.94.0",
+      "created_at": "2026-10-06T23:13:57.288078Z",
+      "repository": "https://github.com/apache/datafusion-ballista",
+      "artifact_url": "https://crates.io/api/v1/crates/ballista/55.0.0/download",
+      "artifact_sha256": "2fe31e72b2eea5984249924d00c76ab6d1482d390aed65b830fc2e1ba751424d",
+      "registry_checksum": "2fe31e72b2eea5984249924d00c76ab6d1482d390aed65b830fc2e1ba751424d",
+      "inspected_files": [
+        {
+          "path": "ballista-55.0.0/Cargo.toml",
+          "sha256": "53da83a6a1eaa25636b2d3ab3e70011d7c0289a99bf87f282a9631cc144e6a32",
+          "bytes": 2700
+        },
+        {
+          "path": "ballista-55.0.0/Cargo.toml.orig",
+          "sha256": "78d183e3653f8d9d71c068d84a3d166b1cedca8f1ac61245f1e1bd324165d210",
+          "bytes": 2095
+        },
+        {
+          "path": "ballista-55.0.0/README.md",
+          "sha256": "c84c3cc440102952aee158878460ad99d7aa3c1f33f04afd4b3f2e9baedf82b5",
+          "bytes": 6794
+        }
+      ],
+      "status": "research_only_not_installed_built_or_qualified",
+      "decision": "qualify_native_cluster_option",
+      "owner_task_ids": [
+        "B057"
+      ],
+      "decision_rationale": "Mandatory SC.0 comparison before writing equivalent scheduler/exchange infrastructure; no automatic semantic backend switch.",
+      "runtime_qualification": "research_only"
+    },
+    {
+      "repository": "unitycatalog/unitycatalog",
+      "commit": "ccd5ca4cf7026abdc43b42556224f13b78235ed0",
+      "license": "Apache-2.0",
+      "license_basis": "LICENSE file inspected",
+      "inspected_files": [
+        {
+          "path": "LICENSE",
+          "url": "https://raw.githubusercontent.com/unitycatalog/unitycatalog/ccd5ca4cf7026abdc43b42556224f13b78235ed0/LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357
+        },
+        {
+          "path": "README.md",
+          "url": "https://raw.githubusercontent.com/unitycatalog/unitycatalog/ccd5ca4cf7026abdc43b42556224f13b78235ed0/README.md",
+          "sha256": "1c69503fef01d8c43b1cb0ba08e0faf0cf12d9fbbb19e138c31b663efe3722af",
+          "bytes": 10502
+        },
+        {
+          "path": "api/all.yaml",
+          "url": "https://raw.githubusercontent.com/unitycatalog/unitycatalog/ccd5ca4cf7026abdc43b42556224f13b78235ed0/api/all.yaml",
+          "sha256": "73ada80e1f766b67bff4ea3eb6615f89e12f3b2a811266d1bc21006e32eb535a",
+          "bytes": 113928
+        },
+        {
+          "path": "build.sbt",
+          "url": "https://raw.githubusercontent.com/unitycatalog/unitycatalog/ccd5ca4cf7026abdc43b42556224f13b78235ed0/build.sbt",
+          "sha256": "622e1988df1d279b85f5512bb1401af4d2c2ca9545e38e1936147f7f0fd86df9",
+          "bytes": 40429
+        },
+        {
+          "path": "bin/start-uc-server",
+          "url": "https://raw.githubusercontent.com/unitycatalog/unitycatalog/ccd5ca4cf7026abdc43b42556224f13b78235ed0/bin/start-uc-server",
+          "sha256": "c7b063edc1bc9e87185ee684063438d5064375352487ee1557d3f64d8dc0b260",
+          "bytes": 1892
+        }
+      ],
+      "status": "contract_and_runtime_source_inspection_only; no server deployment",
+      "decision": "contract_reference_only",
+      "owner_task_ids": [
+        "B028",
+        "B040"
+      ],
+      "decision_rationale": "Pinned OpenAPI and generated clients are contract inputs; the Java server is excluded from every JVM-free execution path.",
+      "runtime_qualification": "research_only"
+    }
+  ],
+  "constraint_comparisons": [
+    {
+      "candidate": "dbt-databricks",
+      "dependency": "databricks-sdk",
+      "requires_dist": "databricks-sdk<0.118.0,>=0.68.0",
+      "compared_version": "0.153.0",
+      "specifier_satisfied": false,
+      "environment_strategy": "separate_client_environment",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "dbt-databricks",
+      "dependency": "databricks-sql-connector",
+      "requires_dist": "databricks-sql-connector[pyarrow]<4.4.1,>=4.1.1",
+      "compared_version": "4.6.0",
+      "specifier_satisfied": false,
+      "environment_strategy": "separate_client_environment",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "delta-sharing",
+      "dependency": "pyarrow",
+      "requires_dist": "pyarrow<=23.0.1,>=16.1.0",
+      "compared_version": "23.0.1",
+      "specifier_satisfied": true,
+      "environment_strategy": "metadata_compatible_requires_runtime_qualification",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "mlflow",
+      "dependency": "pyarrow",
+      "requires_dist": "pyarrow<26,>=4.0.0",
+      "compared_version": "23.0.1",
+      "specifier_satisfied": true,
+      "environment_strategy": "metadata_compatible_requires_runtime_qualification",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "mlflow-skinny",
+      "dependency": "databricks-sdk",
+      "requires_dist": "databricks-sdk<1,>=0.20.0",
+      "compared_version": "0.153.0",
+      "specifier_satisfied": true,
+      "environment_strategy": "metadata_compatible_requires_runtime_qualification",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "pyspark-client",
+      "dependency": "pyarrow",
+      "requires_dist": "pyarrow>=18.0.0",
+      "compared_version": "23.0.1",
+      "specifier_satisfied": true,
+      "environment_strategy": "metadata_compatible_requires_runtime_qualification",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "datafusion",
+      "dependency": "pyarrow",
+      "requires_dist": "pyarrow>=16.0.0; python_full_version < \"3.14\"",
+      "compared_version": "23.0.1",
+      "specifier_satisfied": true,
+      "environment_strategy": "metadata_compatible_requires_runtime_qualification",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    },
+    {
+      "candidate": "delta-sharing",
+      "dependency": "delta-kernel-rust-sharing-wrapper",
+      "requires_dist": "delta-kernel-rust-sharing-wrapper<1.0,>=0.3.2",
+      "compared_version": "0.3.3",
+      "specifier_satisfied": true,
+      "environment_strategy": "metadata_compatible_requires_runtime_qualification",
+      "evidence_level": "static_metadata_comparison_not_a_resolved_or_tested_environment"
+    }
+  ],
+  "primary_documentation": [
+    "https://delta-io.github.io/delta-rs/latest/feature-table/",
+    "https://arrow.apache.org/docs/python/parquet/",
+    "https://mlflow.org/docs/latest/self-hosting/architecture/tracking-server/",
+    "https://mlflow.org/docs/latest/ml/model-registry/workflow/",
+    "https://nbclient.readthedocs.io/en/latest/client.html",
+    "https://docs.unitycatalog.io/server/configuration/",
+    "https://spark.apache.org/docs/latest/api/python/getting_started/install.html",
+    "https://github.com/delta-io/delta-sharing",
+    "https://py.iceberg.apache.org/",
+    "https://datafusion.apache.org/ballista/user-guide/introduction.html"
+  ],
+  "limitations": [
+    "Static archive/source inspection does not establish transitive dependency safety, platform support, behavior or no-JVM execution. Only sampled artifacts were downloaded and hash-verified; complete wheel filenames were inventoried from the index.",
+    "No candidate was installed, imported, executed or built; public package/source endpoints were read without personal credentials or Databricks workspace requests.",
+    "PyPI metadata and latest documentation can change; exact artifact/source hashes and inspection paths are retained. Pin and qualify actual runtime graphs in owning tasks before adoption."
+  ]
+}

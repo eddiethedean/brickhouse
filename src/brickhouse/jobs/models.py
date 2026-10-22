@@ -88,7 +88,7 @@ class JobAttemptState(StrEnum):
 
 @dataclass(frozen=True, slots=True, init=False)
 class JobTaskDefinition:
-    """A supported script task with immutable dependencies and JSON settings."""
+    """A supported Python script or notebook task with immutable settings."""
 
     task_key: str
     task_type: str
@@ -105,7 +105,7 @@ class JobTaskDefinition:
     ) -> None:
         if not isinstance(task_key, str) or _KEY_RE.fullmatch(task_key) is None:
             raise InvalidJobDefinitionError("task_key must be a simple identifier")
-        if task_type != "python_script":
+        if task_type not in {"python_script", "notebook"}:
             raise InvalidJobDefinitionError(f"unsupported job task type: {task_type!r}")
         if isinstance(depends_on, (str, bytes, bytearray)):
             raise InvalidJobDefinitionError("depends_on must be a sequence of task identifiers")
@@ -157,6 +157,8 @@ class JobRunRecord:
     started_at: str | None
     finished_at: str | None
     error_code: str | None
+    admission_key: str
+    dispatched_at: str | None
 
     @property
     def submitted_settings(self) -> dict[str, object]:
@@ -209,6 +211,7 @@ class JobTaskAttemptOutput:
     stderr: str = field(repr=False)
     stdout_truncated: bool
     stderr_truncated: bool
+    expired_at: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

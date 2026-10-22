@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from email import policy
 from email.parser import BytesParser
 from http import HTTPStatus
+from pathlib import PurePosixPath
 from typing import cast
 from urllib.parse import parse_qs, urlsplit
 
@@ -218,6 +219,12 @@ class WorkspaceFileHttpApi:
                     values.content,
                     overwrite=values.overwrite,
                 )
+            elif values.path.endswith(".ipynb"):
+                file_record = self._files.import_notebook(
+                    values.path,
+                    values.content,
+                    overwrite=values.overwrite,
+                )
             else:
                 file_record = self._files.import_bundle_json(
                     values.path,
@@ -311,8 +318,8 @@ def _validate_import_fields(body: dict[str, object], content: bytes) -> _Workspa
     if not isinstance(path, str) or not path:
         raise _ImportInputError("path must be a non-empty string")
     format_value = body.get("format")
-    if format_value not in (None, "SOURCE", "RAW"):
-        raise _ImportInputError("only SOURCE and RAW workspace imports are supported")
+    if format_value not in (None, "SOURCE", "RAW", "JUPYTER"):
+        raise _ImportInputError("only SOURCE, RAW and JUPYTER workspace imports are supported")
     language = body.get("language")
     if language not in (None, "PYTHON"):
         raise _ImportInputError("only PYTHON workspace source imports are supported")
@@ -330,6 +337,12 @@ def _validate_import_fields(body: dict[str, object], content: bytes) -> _Workspa
         raise _ImportInputError("RAW workspace imports support Python source and bundle JSON files")
     if format_value == "SOURCE" and not internal_path.endswith(".py"):
         raise _ImportInputError("SOURCE workspace imports are supported only for Python files")
+    if format_value == "JUPYTER" and not internal_path.endswith(".ipynb"):
+        if PurePosixPath(internal_path).suffix:
+            raise _ImportInputError("JUPYTER workspace imports are supported only for notebooks")
+        internal_path = f"{internal_path}.ipynb"
+    if internal_path.endswith(".ipynb") and format_value not in ("JUPYTER", "RAW"):
+        raise _ImportInputError("Jupyter notebooks must be imported with JUPYTER or RAW format")
     return _WorkspacePythonImport(internal_path, content, overwrite)
 
 

@@ -394,7 +394,7 @@ class TableRepository(_Repository):
                 raise TableNotFoundError(f"table ID does not exist: {table_id}")
             pending = connection.execute(
                 "SELECT operation_id FROM table_operation_journal "
-                "WHERE table_id = ? AND state != 'committed' LIMIT 1",
+                "WHERE table_id = ? AND state NOT IN ('committed', 'no_op', 'failed') LIMIT 1",
                 (table_id,),
             ).fetchone()
             if pending is not None:

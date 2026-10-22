@@ -16,7 +16,14 @@ from brickhouse.runtime.secrets import (
 )
 from brickhouse.runtime.worker import CONTEXT_ENV
 from brickhouse.runtime.worker_auth import WORKER_TOKEN_ENV
+from brickhouse.runtime.worker_imports import install_worker_imports
 from brickhouse.runtime.worker_services import WORKER_SOCKET_ENV, WorkerServiceClient
+from brickhouse.runtime.worker_session import (
+    WorkerSparkSession,
+    WorkerSparkSessionBuilder,
+    close_worker_spark_session,
+    configure_worker_spark_session,
+)
 
 
 def main(arguments: list[str] | None = None) -> None:
@@ -75,6 +82,11 @@ def main(arguments: list[str] | None = None) -> None:
         else:
             os.environ.pop(WORKER_TOKEN_ENV, None)
             os.environ.pop(WORKER_SOCKET_ENV, None)
+        configure_worker_spark_session(context, worker_services)
+        install_worker_imports(
+            spark_session_class=WorkerSparkSession,
+            spark_session_builder_class=WorkerSparkSessionBuilder,
+        )
         runpy.run_path(
             script,
             init_globals={
@@ -88,8 +100,11 @@ def main(arguments: list[str] | None = None) -> None:
             run_name="__main__",
         )
     finally:
-        if worker_services is not None:
-            worker_services.close()
+        try:
+            close_worker_spark_session()
+        finally:
+            if worker_services is not None:
+                worker_services.close()
 
 
 if __name__ == "__main__":

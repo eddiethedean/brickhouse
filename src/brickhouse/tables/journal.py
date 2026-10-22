@@ -31,6 +31,8 @@ class TableOperationState(StrEnum):
     COMMITTING = "committing"
     COMMITTED = "committed"
     UNCERTAIN = "uncertain"
+    NO_OP = "no_op"
+    FAILED = "failed"
 
 
 @dataclass(frozen=True, slots=True)
@@ -41,7 +43,7 @@ class TableOperationRecord:
     mode: str
     schema_fingerprint: str
     input_sha256: str
-    transaction_version: int
+    transaction_version: int | None
     base_version: int
     row_count: int
     state: TableOperationState
@@ -85,12 +87,28 @@ class TableOperationJournal:
             with self._connection() as connection:
                 row = connection.execute(
                     "SELECT * FROM table_operation_journal WHERE table_id = ? "
-                    "AND state != 'committed' ORDER BY transaction_version DESC LIMIT 1",
+                    "AND state NOT IN ('committed', 'no_op', 'failed') "
+                    "ORDER BY transaction_version DESC LIMIT 1",
                     (table_id,),
                 ).fetchone()
             return None if row is None else self._record(row)
         except sqlite3.Error as error:
             raise OperationJournalError("could not inspect unfinished table operations") from error
+
+    def has_unfinished_operation_id(self, operation_id: str) -> bool:
+        """Check whether any table still needs this operation's staged input."""
+        if not isinstance(operation_id, str) or not operation_id:
+            raise ValueError("operation_id must be a non-empty string")
+        try:
+            with self._connection() as connection:
+                row = connection.execute(
+                    "SELECT 1 FROM table_operation_journal WHERE operation_id = ? "
+                    "AND state IN ('prepared', 'committing', 'uncertain') LIMIT 1",
+                    (operation_id,),
+                ).fetchone()
+            return row is not None
+        except sqlite3.Error as error:
+            raise OperationJournalError("could not inspect staged operation references") from error
 
     def prepare(
         self,
@@ -203,16 +221,29 @@ class TableOperationJournal:
         table_id: str,
         operation_id: str,
         commit_version: int,
+        *,
+        row_count: int | None = None,
     ) -> TableOperationRecord:
         if commit_version < 0:
             raise ValueError("commit_version must be zero or greater")
+        if row_count is not None and row_count < 0:
+            raise ValueError("row_count must be zero or greater")
         try:
             with self._connection(write=True) as connection:
+                row_count_sql = "row_count = ?, " if row_count is not None else ""
+                parameters: tuple[object, ...] = ((row_count,) if row_count is not None else ()) + (
+                    commit_version,
+                    datetime.now(UTC).isoformat(),
+                    table_id,
+                    operation_id,
+                )
                 cursor = connection.execute(
-                    "UPDATE table_operation_journal SET state = 'committed', commit_version = ?, "
+                    "UPDATE table_operation_journal SET state = 'committed', "
+                    + row_count_sql
+                    + "commit_version = ?, "
                     "error_code = NULL, updated_at = ? WHERE table_id = ? AND operation_id = ? "
                     "AND state IN ('committing', 'uncertain')",
-                    (commit_version, datetime.now(UTC).isoformat(), table_id, operation_id),
+                    parameters,
                 )
                 row = connection.execute(
                     "SELECT * FROM table_operation_journal WHERE table_id = ? AND operation_id = ?",
@@ -226,6 +257,10 @@ class TableOperationJournal:
                         raise OperationStateConflictError(
                             f"operation {operation_id!r} has conflicting committed versions"
                         )
+                    if row_count is not None and record.row_count != row_count:
+                        raise OperationStateConflictError(
+                            f"operation {operation_id!r} has conflicting row counts"
+                        )
                     return record
                 if cursor.rowcount == 0:
                     raise OperationStateConflictError(
@@ -236,6 +271,77 @@ class TableOperationJournal:
             raise
         except sqlite3.Error as error:
             raise OperationJournalError("could not finalize a table operation") from error
+
+    def finalize_no_op(self, table_id: str, operation_id: str) -> TableOperationRecord:
+        """Persist a successful zero-row mutation without reserving a Delta txn version."""
+        try:
+            with self._connection(write=True) as connection:
+                cursor = connection.execute(
+                    "UPDATE table_operation_journal SET state = 'no_op', "
+                    "transaction_version = NULL, row_count = 0, error_code = NULL, updated_at = ? "
+                    "WHERE table_id = ? AND operation_id = ? AND state = 'committing'",
+                    (datetime.now(UTC).isoformat(), table_id, operation_id),
+                )
+                row = connection.execute(
+                    "SELECT * FROM table_operation_journal WHERE table_id = ? AND operation_id = ?",
+                    (table_id, operation_id),
+                ).fetchone()
+                if row is None:
+                    raise OperationStateConflictError("cannot finalize an unknown operation")
+                record = self._record(row)
+                if record.state is TableOperationState.NO_OP:
+                    return record
+                if cursor.rowcount == 0:
+                    raise OperationStateConflictError(
+                        f"operation {operation_id!r} cannot become a no-op from "
+                        f"{record.state.value}"
+                    )
+                return record
+        except OperationJournalError:
+            raise
+        except sqlite3.Error as error:
+            raise OperationJournalError("could not finalize a no-op table operation") from error
+
+    def finalize_failed(
+        self,
+        table_id: str,
+        operation_id: str,
+        *,
+        error_code: str,
+    ) -> TableOperationRecord:
+        """Record a provider rejection proven to have left Delta unchanged."""
+        if not error_code or len(error_code) > 64:
+            raise ValueError("error_code must contain 1 to 64 characters")
+        try:
+            with self._connection(write=True) as connection:
+                cursor = connection.execute(
+                    "UPDATE table_operation_journal SET state = 'failed', "
+                    "transaction_version = NULL, row_count = 0, error_code = ?, updated_at = ? "
+                    "WHERE table_id = ? AND operation_id = ? AND state = 'committing'",
+                    (error_code, datetime.now(UTC).isoformat(), table_id, operation_id),
+                )
+                row = connection.execute(
+                    "SELECT * FROM table_operation_journal WHERE table_id = ? AND operation_id = ?",
+                    (table_id, operation_id),
+                ).fetchone()
+                if row is None:
+                    raise OperationStateConflictError("cannot finalize an unknown operation")
+                record = self._record(row)
+                if record.state is TableOperationState.FAILED:
+                    if record.error_code != error_code:
+                        raise OperationStateConflictError(
+                            f"operation {operation_id!r} has a different recorded failure"
+                        )
+                    return record
+                if cursor.rowcount == 0:
+                    raise OperationStateConflictError(
+                        f"operation {operation_id!r} cannot fail from {record.state.value}"
+                    )
+                return record
+        except OperationJournalError:
+            raise
+        except sqlite3.Error as error:
+            raise OperationJournalError("could not finalize a failed table operation") from error
 
     def _transition(
         self,

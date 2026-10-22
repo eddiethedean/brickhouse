@@ -52,11 +52,11 @@ def test_help_exits_without_starting_service() -> None:
     assert result.stderr == ""
 
 
-def test_version_reports_development_build() -> None:
+def test_version_reports_release_version() -> None:
     result = run_module("--version")
 
     assert result.returncode == 0
-    assert result.stdout == "brickhouse 0.1.0.dev0\n"
+    assert result.stdout == "brickhouse 0.1.0\n"
     assert result.stderr == ""
 
 
@@ -72,7 +72,7 @@ def guarded_import(name, *args, **kwargs):
 builtins.__import__ = guarded_import
 import brickhouse
 import brickhouse.tables
-assert brickhouse.__version__ == "0.1.0.dev0"
+assert brickhouse.__version__ == "0.1.0"
 assert brickhouse.Workspace is not None
 assert brickhouse.tables.DeltaRsTableService is not None
 """
@@ -135,7 +135,7 @@ def test_init_creates_workspace_and_cli_capabilities_are_truthful(tmp_path: Path
     diagnostics = json.loads(doctor.stdout)
     assert diagnostics["doctor"]["workspace_validated"] is True
     assert diagnostics["workspace"]["default_catalog"] == "main"
-    assert diagnostics["workspace"]["metadata_schema_version"] == 12
+    assert diagnostics["workspace"]["metadata_schema_version"] == 21
 
 
 def test_run_fails_explicitly_without_starting_script(tmp_path: Path) -> None:

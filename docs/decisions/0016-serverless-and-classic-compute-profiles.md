@@ -1,6 +1,6 @@
 # ADR 0016: Explicit serverless and classic compute profiles
 
-- Status: accepted; bounded simulated classic lifecycle metadata and pre-dispatch context resolution implemented, workload implementation pending
+- Status: accepted; bounded simulated classic and SQL warehouse lifecycle metadata, warehouse-bound local statement execution, and pre-dispatch context resolution implemented; broader workload implementation pending
 - Date: 2026-10-20
 - Research task: B043
 - Implementation owners: B010–B024, B028, B030–B036, B040, B042 as mapped in document 17
@@ -26,3 +26,7 @@ Metadata-only emulation is insufficient for the requested workload behavior. Tre
 Classic shared driver/singleton state is intentionally excluded by the fresh-process-per-attempt contract; this requires a partial claim even when shared compute IDs/lifetimes work. Access-mode labels do not promise a sandbox or production security. Full Connect protocol compatibility is independent of the initial local serverless subset.
 
 This is an explicit addition to the 0.1 release acceptance contract. Failure to implement either required subset must remain visible as blocked work or a recorded scope revision. No runtime migration, dependency upgrade, account provisioning, release publication, or cloud expenditure is performed by this planning change.
+
+## Evidence update — 2026-10-21
+
+The initial planned states above were retained until worker-level evidence existed. B018.1.3 and B020.5 now make C053 and C054 partial for the tested local SDK jobs and serverless Python/classic notebook bundle subsets; B018.1.4 and B020.5 make C055 partial for selected local warehouse lifecycle and query behavior. C056 remains planned. These updates do not alter the local-only, simulated-infrastructure, or remote-compatibility limits. See [B020.5 conformance](../../artifacts/conformance/B020.5-cli-serverless-classic-bundles.md) and the corresponding registry entries.

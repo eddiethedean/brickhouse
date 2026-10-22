@@ -215,6 +215,16 @@ class WorkerServiceClient:
             raise ValueError(text)
         raise WorkerServiceError(text)
 
+    def duplicate_environment_for_child(self) -> tuple[dict[str, str], int]:
+        """Duplicate this attempt's private channel for one synchronous child kernel."""
+        if self._socket.fileno() < 0 or not self._token:
+            raise WorkerServiceError("private worker service session is closed")
+        descriptor = os.dup(self._socket.fileno())
+        return (
+            {WORKER_TOKEN_ENV: self._token, WORKER_SOCKET_ENV: str(descriptor)},
+            descriptor,
+        )
+
     def close(self) -> None:
         """Close the local child endpoint after the user script returns."""
         self._socket.close()

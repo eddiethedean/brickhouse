@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import sqlite3
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
 
+from brickhouse.api.jobs import _output_payload
 from brickhouse.jobs import (
     InvalidJobDefinitionError,
     JobAttemptState,
@@ -138,8 +140,9 @@ def test_invalid_task_graphs_and_secret_settings_are_rejected(tmp_path: Path) ->
         too_many = [JobTaskDefinition(f"task-{index}") for index in range(11)]
         with pytest.raises(InvalidJobDefinitionError, match="more than 10"):
             repo.create_job("too-many", too_many)
+        assert JobTaskDefinition("notebook", task_type="notebook").task_type == "notebook"
         with pytest.raises(InvalidJobDefinitionError, match="unsupported job task type"):
-            JobTaskDefinition("notebook", task_type="notebook")
+            JobTaskDefinition("unsupported", task_type="jar")
         with pytest.raises(InvalidJobDefinitionError, match="credential field"):
             JobTaskDefinition("credential", settings={"nested": {"clientSecret": "never-store"}})
         with pytest.raises(InvalidJobDefinitionError, match="credential field"):
@@ -445,13 +448,140 @@ def test_attempt_output_is_bounded_persisted_and_immutable(tmp_path: Path) -> No
                 )
 
 
-def test_schema_seven_migrates_without_losing_jobs_or_runs(tmp_path: Path) -> None:
+def test_attempt_log_payload_expires_after_24_hours_but_history_remains(
+    tmp_path: Path,
+) -> None:
+    initialized = initialize_workspace(tmp_path / "workspace")
+    with WorkspaceContext.local(initialized.path) as context:
+        repo = context.jobs
+        job = repo.create_job("retained-history", [JobTaskDefinition("task")])
+        run = repo.submit_run(job.job_id).run
+        attempt = repo.queue_attempt(run.run_id, "task")
+        repo.start_attempt(run.run_id, "task", attempt.attempt_number)
+        repo.finish_attempt(
+            run.run_id,
+            "task",
+            attempt.attempt_number,
+            exit_code=0,
+            termination_reason="completed",
+            output=JobTaskAttemptOutput(
+                run.run_id,
+                "task",
+                attempt.attempt_number,
+                "retained stdout",
+                "retained stderr",
+                False,
+                False,
+            ),
+        )
+        repo.finish_run(run.run_id, JobRunState.SUCCEEDED)
+        finished = repo.get_attempt(run.run_id, "task", attempt.attempt_number)
+        assert finished.finished_at is not None
+        finished_at = datetime.fromisoformat(finished.finished_at).astimezone(UTC)
+        expiration_clock = finished_at + timedelta(hours=24, seconds=1)
+
+        assert repo.expire_attempt_outputs(now=expiration_clock) == 1
+        expired = repo.get_attempt_output(run.run_id, "task", attempt.attempt_number)
+        assert expired is not None
+        assert expired.stdout == expired.stderr == ""
+        assert expired.expired_at == expiration_clock.isoformat(timespec="microseconds")
+        assert _output_payload({"attempt_number": 1}, expired) == {
+            "metadata": {"attempt_number": 1},
+            "logs": "",
+            "logs_truncated": False,
+            "logs_expired": True,
+        }
+        assert repo.expire_attempt_outputs(now=expiration_clock) == 0
+
+        retained_attempt = repo.get_attempt(run.run_id, "task", attempt.attempt_number)
+        assert retained_attempt.state is JobAttemptState.SUCCEEDED
+        assert retained_attempt.exit_code == 0
+        assert repo.get_run(run.run_id).state is JobRunState.SUCCEEDED
+        assert repo.get_job(job.job_id).name == "retained-history"
+
+
+def test_schema_19_migrates_queue_and_worker_output_metadata_without_losing_logs(
+    tmp_path: Path,
+    downgrade_from_v21,
+) -> None:
+    initialized = initialize_workspace(tmp_path / "workspace")
+    with WorkspaceContext.local(initialized.path) as context:
+        job = context.jobs.create_job("schema-upgrade", [JobTaskDefinition("task")])
+        run = context.jobs.submit_run(job.job_id).run
+        attempt = context.jobs.queue_attempt(run.run_id, "task")
+        context.jobs.start_attempt(run.run_id, "task", attempt.attempt_number)
+        context.jobs.finish_attempt(
+            run.run_id,
+            "task",
+            attempt.attempt_number,
+            exit_code=0,
+            termination_reason="completed",
+            output=JobTaskAttemptOutput(
+                run.run_id,
+                "task",
+                attempt.attempt_number,
+                "preserved before migration",
+                "",
+                False,
+                False,
+            ),
+        )
+
+    with sqlite3.connect(initialized.metadata_path) as connection:
+        downgrade_from_v21(connection)
+        connection.execute("PRAGMA user_version = 19")
+
+    with WorkspaceContext.local(initialized.path) as upgraded:
+        assert upgraded.workspace.metadata_schema_version == 21
+        migrated = upgraded.jobs.get_attempt_output(run.run_id, "task", 1)
+        assert migrated is not None
+        assert migrated.stdout == "preserved before migration"
+        assert migrated.expired_at is None
+
+
+def test_schema_20_migration_preserves_terminal_run_immutability(tmp_path: Path) -> None:
+    initialized = initialize_workspace(tmp_path / "workspace")
+    with WorkspaceContext.local(initialized.path) as context:
+        job = context.jobs.create_job(
+            "terminal-before-queue-migration", [JobTaskDefinition("task")]
+        )
+        run = context.jobs.submit_run(job.job_id).run
+        attempt = context.jobs.queue_attempt(run.run_id, "task")
+        context.jobs.start_attempt(run.run_id, "task", attempt.attempt_number)
+        context.jobs.finish_attempt(
+            run.run_id,
+            "task",
+            attempt.attempt_number,
+            exit_code=0,
+            termination_reason="completed",
+            output=None,
+        )
+        context.jobs.finish_run(run.run_id, JobRunState.SUCCEEDED)
+
+    with sqlite3.connect(initialized.metadata_path) as connection:
+        connection.execute("DROP INDEX job_runs_admission_state_idx")
+        connection.execute("ALTER TABLE job_runs DROP COLUMN dispatched_at")
+        connection.execute("ALTER TABLE job_runs DROP COLUMN admission_key")
+        connection.execute("DELETE FROM schema_migrations WHERE version = 21")
+        connection.execute("PRAGMA user_version = 20")
+
+    with WorkspaceContext.local(initialized.path) as upgraded:
+        assert upgraded.workspace.metadata_schema_version == 21
+        assert upgraded.jobs.get_run(run.run_id).state is JobRunState.SUCCEEDED
+        assert upgraded.jobs.get_run(run.run_id).admission_key == ""
+
+
+def test_schema_seven_migrates_without_losing_jobs_or_runs(
+    tmp_path: Path,
+    downgrade_workspace_from_v13,
+) -> None:
     initialized = initialize_workspace(tmp_path / "workspace")
     with WorkspaceContext.local(initialized.path) as context:
         job = context.jobs.create_job("before-upgrade", [JobTaskDefinition("task")])
         run = context.jobs.submit_run(job.job_id).run
 
     with sqlite3.connect(initialized.metadata_path) as connection:
+        downgrade_workspace_from_v13(connection)
         for trigger in (
             "job_deletions_are_immutable",
             "job_deletions_cannot_be_deleted",
@@ -490,12 +620,18 @@ def test_schema_seven_migrates_without_losing_jobs_or_runs(tmp_path: Path) -> No
         connection.execute("PRAGMA user_version = 7")
 
     with WorkspaceContext.local(initialized.path) as upgraded:
-        assert upgraded.workspace.metadata_schema_version == 12
+        assert upgraded.workspace.metadata_schema_version == 21
         assert upgraded.jobs.get_job(job.job_id).name == "before-upgrade"
         assert upgraded.jobs.get_run(run.run_id).state is JobRunState.QUEUED
+        notebook_job = upgraded.jobs.create_job(
+            "notebook-after-upgrade",
+            [JobTaskDefinition("notebook", task_type="notebook")],
+        )
+        assert notebook_job.tasks[0].task_type == "notebook"
         with sqlite3.connect(upgraded.workspace.metadata_path) as connection:
-            assert connection.execute("PRAGMA user_version").fetchone() == (12,)
+            assert connection.execute("PRAGMA user_version").fetchone() == (21,)
             assert connection.execute(
                 "SELECT count(*) FROM sqlite_master WHERE type = 'table' "
                 "AND name = 'job_task_attempt_outputs'"
             ).fetchone() == (1,)
+            assert connection.execute("PRAGMA foreign_key_check").fetchall() == []

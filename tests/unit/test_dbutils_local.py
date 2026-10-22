@@ -10,8 +10,10 @@ from brickhouse.runtime.dbutils_local import (
     DbutilsPathError,
     LocalDbutils,
     LocalDbutilsFs,
+    LocalDbutilsNotebook,
     LocalDbutilsSecrets,
     LocalDbutilsWidgets,
+    NotebookExitSignal,
 )
 
 
@@ -108,6 +110,26 @@ def test_widgets_apply_parameters_after_defaults_and_are_attempt_local() -> None
     assert second.get("mode") == "safe"
     first.removeAll()
     assert first.getAll() == {}
+
+
+def test_dbutils_notebook_validates_child_arguments_and_exposes_exit_value() -> None:
+    calls: list[tuple[str, int, dict[str, str]]] = []
+
+    def run_callback(path: str, timeout: int, arguments: dict[str, str]) -> str:
+        calls.append((path, timeout, arguments))
+        return "completed"
+
+    notebook = LocalDbutilsNotebook(run_callback, "private-token")
+
+    assert notebook.run("child", timeout_seconds=7, arguments={"name": "child"}) == "completed"
+    assert calls == [("child", 7, {"name": "child"})]
+    with pytest.raises(ValueError, match="ASCII strings"):
+        notebook.run("child", arguments={"name": "café"})
+    with pytest.raises(ValueError, match="timeout_seconds"):
+        notebook.run("child", timeout_seconds=True)
+    with pytest.raises(NotebookExitSignal) as raised:
+        notebook.exit("finished 🌍")
+    assert raised.value.value == "finished 🌍"
 
 
 def test_widgets_reject_invalid_choice_values_and_unknown_dbutils_methods() -> None:

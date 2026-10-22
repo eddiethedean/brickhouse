@@ -7,6 +7,7 @@ import sys
 import time
 from pathlib import Path
 
+import pyarrow as pa
 import pytest
 
 from brickhouse.catalog import (
@@ -18,6 +19,8 @@ from brickhouse.tables import (
     DeltaRsTableService,
     PendingTableOperationError,
     TableHandle,
+    TableMissingError,
+    WriteMode,
 )
 from brickhouse.workspace.context import WorkspaceContext
 from brickhouse.workspace.lifecycle import initialize_workspace
@@ -38,10 +41,20 @@ def test_drop_external_table_removes_metadata_and_preserves_files(tmp_path: Path
         )
         assert registration.ownership is TableOwnership.EXTERNAL
         service = DeltaRsTableService(context)
-        service.drop_table(TableHandle.from_registration(registration))
+        stale_handle = TableHandle.from_registration(registration)
+        service.drop_table(stale_handle)
 
         with pytest.raises(TableNotFoundError):
             context.tables.get("main", "default", "source")
+        with pytest.raises(TableMissingError, match="registration does not exist"):
+            service.read_table(stale_handle)
+        with pytest.raises(TableMissingError, match="registration does not exist"):
+            service.write_arrow(
+                stale_handle,
+                pa.table({"id": pa.array([1], type=pa.int64())}),
+                WriteMode.APPEND,
+                operation_id="stale-external-append",
+            )
 
     assert sentinel.read_text(encoding="utf-8") == "user data"
     assert external_location.is_dir()

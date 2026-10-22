@@ -3,7 +3,8 @@
 This explicit local probe is outside test discovery. It is not the production
 engine adapter and does not load .env or contact a Databricks workspace.
 It exercises structs with null fields; parent-null structs are checked by the
-separate B046.3-null-struct-repro.py and currently fail in Sparkless 4.14.0.
+separate B046.3-null-struct-repro.py, which records the upstream fix across
+published Sparkless versions.
 """
 
 from __future__ import annotations

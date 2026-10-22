@@ -64,6 +64,7 @@ def capability_report(workspace: Workspace | None = None) -> dict[str, object]:
             "catalog_api": "partial_local_rest_profile",
             "classic_cluster_lifecycle": "simulated_all_purpose_metadata",
             "job_compute_lifecycle": "simulated_run_scoped_metadata",
+            "sql_warehouse_lifecycle": "simulated_persistent_metadata",
             "workspace_python_source_import": "partial_local_workspace_files",
             "sql_api": "planned",
             "table_provider_integration": "partial_local_delta",

@@ -17,6 +17,10 @@ The durable repository supports workspace-wide submission tokens, including term
 4. Map capacity and token conflicts to HTTP 409 `RESOURCE_CONFLICT`. The pinned SDK surfaces `ResourceConflict` without retrying the submission as transient overload.
 5. Reject instead of queueing when capacity is full. Persisted active-run recovery after process restart is handled separately by B014.3.3.
 
+## Superseded policy
+
+B064 supersedes the four-active-run/no-queue policy above. The current local service dispatches at most two worker attempts concurrently and admits up to eight additional FIFO queued runs; stable admission identity spans Terraform job reset revisions. The original decision remains here as historical B014.3.2.2 context. Current behavior and evidence are recorded in [B064](../../artifacts/conformance/B064-phase-0.1-review-fixes.md).
+
 ## Consequences
 
-The local service can execute up to four job runs at once, with each job honoring its declared limit. Admission is scoped to the single owner-locked service process; this does not claim cross-process scheduling or Databricks concurrency parity. Full-process and per-job capacity, active and terminal idempotency replay, changed-token conflict, and run-count stability are covered through the pinned SDK loopback integration. See [B014.3.2.2 evidence](../../artifacts/conformance/B014.3.2.2-run-admission.md).
+At the time of this decision, the local service executed up to four job runs at once and each job honored its declared limit. B064 supersedes that policy with two active attempts and eight persisted queued runs. Admission remains scoped to the single owner-locked service process; this does not claim cross-process scheduling or Databricks concurrency parity. The earlier four-run behavior was covered through the pinned SDK loopback integration. See [B014.3.2.2 evidence](../../artifacts/conformance/B014.3.2.2-run-admission.md).

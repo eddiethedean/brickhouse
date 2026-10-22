@@ -5,12 +5,18 @@ from __future__ import annotations
 import hashlib
 import os
 import shutil
+import threading
 import uuid
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
 from brickhouse.tables.contracts import InputFormat, SchemaDescriptor, StagedInput
 from brickhouse.workspace.context import WorkspaceContext
+
+_STAGING_LOCKS: dict[tuple[str, str], threading.RLock] = {}
+_STAGING_LOCKS_GUARD = threading.Lock()
 
 
 class StagingError(RuntimeError):
@@ -19,6 +25,10 @@ class StagingError(RuntimeError):
 
 class StagingOwnershipError(StagingError):
     """A staged file is outside this workspace's private staging area."""
+
+
+class StagingPendingOperationError(StagingError):
+    """A staged input is still needed to reconcile a table operation."""
 
 
 class StagingArea:
@@ -98,14 +108,33 @@ class StagingArea:
         )
 
     def cleanup(self, staged: StagedInput) -> None:
-        """Remove only the artifact named by this staged-input manifest."""
-        resolved = self.resolve_owned_path(staged)
-        resolved.unlink()
-        try:
-            resolved.parent.rmdir()
-        except OSError:
-            # Preserve sibling data if an artifact directory was unexpectedly populated.
-            pass
+        """Remove a terminal operation's owned artifact, preserving unresolved inputs."""
+        with self.protect(staged):
+            resolved = self.resolve_owned_path(staged)
+            if self._context.table_operations.has_unfinished_operation_id(staged.operation_id):
+                raise StagingPendingOperationError(
+                    f"staged input for operation {staged.operation_id!r} is still needed "
+                    "for commit reconciliation"
+                )
+            resolved.unlink()
+            try:
+                resolved.parent.rmdir()
+            except OSError:
+                # Preserve sibling data if an artifact directory was unexpectedly populated.
+                pass
+
+    @contextmanager
+    def protect(self, staged: StagedInput) -> Iterator[None]:
+        """Serialize use and cleanup of one staged artifact inside this process."""
+        workspace = self._context.workspace
+        key = (str(workspace.path), staged.staging_id)
+        with _STAGING_LOCKS_GUARD:
+            lock = _STAGING_LOCKS.get(key)
+            if lock is None:
+                lock = threading.RLock()
+                _STAGING_LOCKS[key] = lock
+        with lock:
+            yield
 
     def resolve_owned_path(self, staged: StagedInput) -> Path:
         """Validate a manifest and return its regular file inside this workspace staging root."""

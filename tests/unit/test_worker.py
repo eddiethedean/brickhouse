@@ -23,8 +23,9 @@ def test_worker_runs_absolute_interpreter_with_snapshot_context_and_explicit_cwd
     working_directory.mkdir()
     script = tmp_path / "worker.py"
     script.write_text(
-        "import json, os, pathlib\n"
+        "import json, os, pathlib, sys\n"
         f"print(json.dumps({{'cwd': str(pathlib.Path.cwd()), "
+        f"'prefix': sys.prefix, "
         f"'context': json.loads(os.environ[{CONTEXT_ENV!r}])}}))\n",
         encoding="utf-8",
     )
@@ -37,11 +38,12 @@ def test_worker_runs_absolute_interpreter_with_snapshot_context_and_explicit_cwd
     result = run_python_worker(script, cwd=working_directory, context=context)
 
     assert result.exit_code == 0
-    assert result.interpreter == Path(sys.executable).resolve()
+    assert result.interpreter == Path(sys.executable).absolute()
     assert result.script == script.resolve()
     assert result.cwd == working_directory.resolve()
     assert json.loads(result.stdout) == {
         "cwd": str(working_directory.resolve()),
+        "prefix": sys.prefix,
         "context": {
             "attempt_id": "attempt-1",
             "parameters": {"amount": 12.5, "nested": [1, 2]},

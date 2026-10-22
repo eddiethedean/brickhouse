@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "project": "BrickHouse",
+  "target_release": "0.1.0",
+  "candidate_version": "0.1.0.dev0",
+  "date": "2026-10-22",
+  "hash_algorithm": "SHA-256",
+  "artifact_hashes": {
+    "wheel_sha256": "b8ce3f90fa5956f5e1baae1cfb31c7ccd3279a93ef7fdbfb6c5785319d464d51",
+    "sdist_sha256": "0499ac91f729f3885711c9a0c598cb3234a7502ed1cae556b2760209db3b91c7"
+  },
+  "previous_qualified_candidate": {
+    "wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
+    "sdist_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
+    "archive_path": "evidence/prior-qualified-candidate/",
+    "full_g1_g4_qualification_applies_to_current_candidate": false
+  },
+  "build_command": "uv build --offline --clear --out-dir artifacts/releases/0.1.0/candidate",
+  "source_base_commit": "e767437726b96be91f1d1b1291780736ab913483",
+  "source_worktree_dirty": true,
+  "published": false,
+  "current_candidate_qualification": {
+    "offline_installed_wheel_b064_cases": 99,
+    "python": "3.11.15",
+    "platform": "macOS 26.5.2 arm64",
+    "full_g1_g4_matrix_requalified": false
+  },
+  "wheel_matches_qualified_b023_2_candidate": false,
+  "hashed_bundle_files_excluding_manifest": [
+    {
+      "path": "ARCHIVE-NOTE.md",
+      "sha256": "f563f423a657b3a36a102435744e7d4d3fcf15b7df51aa250f8a325f7e05f9a1",
+      "size_bytes": 364
+    },
+    {
+      "path": "README.md",
+      "sha256": "0eea3c6007b65684e4ec01a2bae5ba63b2aa946d401b2aec2d55558a87ef95df",
+      "size_bytes": 4393
+    },
+    {
+      "path": "candidate/.gitignore",
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "size_bytes": 1
+    },
+    {
+      "path": "candidate/brickhouse-0.1.0.dev0-py3-none-any.whl",
+      "sha256": "b8ce3f90fa5956f5e1baae1cfb31c7ccd3279a93ef7fdbfb6c5785319d464d51",
+      "size_bytes": 288931
+    },
+    {
+      "path": "candidate/brickhouse-0.1.0.dev0.tar.gz",
+      "sha256": "0499ac91f729f3885711c9a0c598cb3234a7502ed1cae556b2760209db3b91c7",
+      "size_bytes": 1148496
+    },
+    {
+      "path": "capabilities.json",
+      "sha256": "3644614e61b3e6482aa41db512daf3df0559cbc49508a59e595a8f8cbf145729",
+      "size_bytes": 247552
+    },
+    {
+      "path": "capabilities.md",
+      "sha256": "7da5ba726ca972b4c25cebe6a8648e6b98a1868753399a785bcdf027aab56460",
+      "size_bytes": 44541
+    },
+    {
+      "path": "cases.json",
+      "sha256": "bcea8803a7ed0f59b0eeaaeea2d345ef784778861ad1c3e3e0a69e539a090ab6",
+      "size_bytes": 37352
+    },
+    {
+      "path": "distribution-audit.json",
+      "sha256": "a44458095aedab95b06d1ee8ea7384e5d5428f25dad8bdeaa5cda71bc9ef99d0",
+      "size_bytes": 1851
+    },
+    {
+      "path": "evidence/conformance/B011.3.3-sparkless-4.15.0-cancellation.md",
+      "sha256": "9c32e5870cd1ad35bced8fc3a7ea7ed2047664e1c0fc19ded53dee3151ef5979",
+      "size_bytes": 3466
+    },
+    {
+      "path": "evidence/conformance/B017.3-child-notebook-outcomes.md",
+      "sha256": "73036add41ebee576eeb24e8264fc22c78cdab656f083da81c07182fd3e848bf",
+      "size_bytes": 2998
+    },
+    {
+      "path": "evidence/conformance/B017.5-notebook-compute-interruption.md",
+      "sha256": "b1f6693c93612812ffb08416168d918dd0e872e170bf1712fe4dc1814f8f3cee",
+      "size_bytes": 3279
+    },
+    {
+      "path": "evidence/conformance/B018.1.1-job-to-delta-data-flow.md",
+      "sha256": "c8ec05c4457a66606fe3f0b22929d88d87e3e6681745600f79a8b4ab1b93b4a1",
+      "size_bytes": 2793
+    },
+    {
+      "path": "evidence/conformance/B018.1.2-job-lifecycle-isolation.md",
+      "sha256": "844143447d5373b57368b329707aa04ee2c5e8171825f367d8df44f1670681e8",
+      "size_bytes": 2664
+    },
+    {
+      "path": "evidence/conformance/B018.1.3-g2-compute-profiles.md",
+      "sha256": "b9ad93a096a1513a88817b44bbf16cbd56af06a3d8dcc81a0cd24e5ac4ec4d3e",
+      "size_bytes": 2715
+    },
+    {
+      "path": "evidence/conformance/B018.1.4-g2-warehouse-profiles.md",
+      "sha256": "665a351d8d55f96d85aa62f61f1f481564e89f462299697a844aa9f01be6926e",
+      "size_bytes": 2196
+    },
+    {
+      "path": "evidence/conformance/B020.5-cli-serverless-classic-bundles.md",
+      "sha256": "fb26a5399244313e78e53b91956376138f4766808aae1fef67a5713fb5dbfa99",
+      "size_bytes": 4975
+    },
+    {
+      "path": "evidence/conformance/B022.1-commit-boundary-crashes.md",
+      "sha256": "90717383729054a85a218b02103f49c47db28d414c63105db420251238aee2ca",
+      "size_bytes": 2601
+    },
+    {
+      "path": "evidence/conformance/B022.2-concurrent-alias-writes.md",
+      "sha256": "ea9e6732035d6a36d3bf58c50e12da6e6b597f77130c00cc143f97529a10dc13",
+      "size_bytes": 2987
+    },
+    {
+      "path": "evidence/conformance/B022.3.1-restart-retention.md",
+      "sha256": "76a32e109f1536573182f13fac468455b1cde61602196c50b0ffc026bdba8be1",
+      "size_bytes": 3340
+    },
+    {
+      "path": "evidence/conformance/B022.3.2-coordinated-workspace-restore.md",
+      "sha256": "37f87fc7ee618ce65ef15f95beac9ba9eb9028575e810791f7798d8be35ffa25",
+      "size_bytes": 2927
+    },
+    {
+      "path": "evidence/conformance/B022.4-serverless-timeout-commit.md",
+      "sha256": "cd8af7a590c203c99bebcb966c9e0ee14784504d98a1d75160ef2a4af5d33a15",
+      "size_bytes": 2798
+    },
+    {
+      "path": "evidence/conformance/B023.1-alpha-scope.md",
+      "sha256": "81cce5d94828eb5e9dd504e00d96a4ad6a60de112ec956552ac0103c38540e39",
+      "size_bytes": 7434
+    },
+    {
+      "path": "evidence/conformance/B023.1-capabilities-2026-10-21.json",
+      "sha256": "861e564d062623430a7b1eece83ebe6599e9c4e87907620ee3c092b2e1961014",
+      "size_bytes": 225123
+    },
+    {
+      "path": "evidence/conformance/B023.2.1-candidate-wheel-platform.md",
+      "sha256": "429db79ddb212ac283466d612ab8b2f0daac4afa2a0795556e9f68de4f846841",
+      "size_bytes": 3294
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g1-g2-python-3.12.json",
+      "sha256": "806029906d3826de04d3663b22d62bd570df234f7553fd6b9291a39a227e202e",
+      "size_bytes": 2904
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g1-offline.json",
+      "sha256": "53196fa98b6e9b1f67ef952e3922721139efe5c5ab7f9b44cb78532921860acc",
+      "size_bytes": 1941
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g2-offline.json",
+      "sha256": "4677008d2fc3d283af646c5b98887df1aaac5761c8651e3491211c640c40c49f",
+      "size_bytes": 2836
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g3-offline.json",
+      "sha256": "72b5b1b21e4a868de91c0ef1572cbf37af988d0f126fd01ca47c62814f5767ec",
+      "size_bytes": 2719
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g3-python-3.12.json",
+      "sha256": "15430fb76b90e6d2e5ce418fc40e412e09ccbb152845560891b5e315a557e9ea",
+      "size_bytes": 2737
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g4-offline.json",
+      "sha256": "81d5e98016aef4a4184a7c364dd7e72bea740921c543ea83258ac844ae218b65",
+      "size_bytes": 2191
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-g4-python-3.12.json",
+      "sha256": "eced515daa884253c8ecb48ebd970ae40b92d1a11480a4fc94abfd7968b0cc58",
+      "size_bytes": 2209
+    },
+    {
+      "path": "evidence/conformance/B023.2.2-base-wheel-offline.md",
+      "sha256": "e981d13f0e7f83a7a45520e461a4500b2e3fecfb8179c0643da6a87e67770418",
+      "size_bytes": 4345
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-extra-offline.md",
+      "sha256": "8439f3d52500f9cabc4c24f18c9cd6ef1646d24c0424ffe8968da13cad51ce5d",
+      "size_bytes": 3826
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-g1-g2-python-3.11.json",
+      "sha256": "5ada0f5ff479c835d13da016b08b29f2f403c8b776803fa9544592b9e4338ed7",
+      "size_bytes": 3024
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-g1-g2-python-3.12.json",
+      "sha256": "3f268f00065bfa3b3383e60a7435d9a76dc22ce48c61b6c670c4af27959cfe7a",
+      "size_bytes": 3024
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-g3-python-3.11.json",
+      "sha256": "17ff4ff3ce7c1b3160806787bdf84d7eb96771a0a146ea2e587b2938ec94c504",
+      "size_bytes": 2857
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-g3-python-3.12.json",
+      "sha256": "da068ffe5eb941fb305060a83b5df579778dd63e6065f8f21f0323536d618d34",
+      "size_bytes": 2857
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-g4-python-3.11.json",
+      "sha256": "12b7ba6fbcb3675f3c096564ece2f3501a1b54c6dc999ea5610af07c1dc6693d",
+      "size_bytes": 2394
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-g4-python-3.12.json",
+      "sha256": "70cffe5669bc93eb26b94e5672f8a737b93b9cd2b46f2d34d1ddf8514e82b85a",
+      "size_bytes": 2394
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-python-3.11.json",
+      "sha256": "083d4dd016a974b6ee1c82d035e1fca13d11a0f6ece8aecca7e519336d6019d8",
+      "size_bytes": 2564
+    },
+    {
+      "path": "evidence/conformance/B023.2.3-notebook-python-3.12.json",
+      "sha256": "e87cc678fb34fba714241a9700dbbf3ecdb7c2eeffe979b256a160442e39a76a",
+      "size_bytes": 2564
+    },
+    {
+      "path": "evidence/conformance/B048-local-core-boundaries.md",
+      "sha256": "679532b0f746fee60ee7ed53dae1d301b9619c1ff60c176b41f869731735bfb2",
+      "size_bytes": 11752
+    },
+    {
+      "path": "evidence/conformance/B048.1-loopback-bind-boundary.md",
+      "sha256": "8d0821f741c83a261892cc4d75f6f42d64783ebecfaebbd27ed6e3c5789b9fbe",
+      "size_bytes": 2074
+    },
+    {
+      "path": "evidence/conformance/B064-current-wheel-offline.json",
+      "sha256": "e3702978ec51f66fd8376aa4a335eb9ceaca0a1411874c1c0c8b758b0ff1ad09",
+      "size_bytes": 2699
+    },
+    {
+      "path": "evidence/pre-B064.11-candidate/brickhouse-0.1.0.dev0-py3-none-any.whl",
+      "sha256": "858ce107f49683b09773eb77230ca95ec853c8b7b2bf208ee8e3cd5be5b46ab8",
+      "size_bytes": 288152
+    },
+    {
+      "path": "evidence/pre-B064.11-candidate/brickhouse-0.1.0.dev0.tar.gz",
+      "sha256": "50e619fe3d4c1be8b10fb3ed2c55313d8dfa84acd7477412ff6121a555396252",
+      "size_bytes": 1137160
+    },
+    {
+      "path": "evidence/pre-sparkless-4.15.1-candidate/B064-current-wheel-offline-sparkless-4.15.0.json",
+      "sha256": "d0dc246887f83660e6f4d3b08ca33044d8a2dd39ed6a01d34bcc48b8fcf8aa73",
+      "size_bytes": 2699
+    },
+    {
+      "path": "evidence/pre-sparkless-4.15.1-candidate/brickhouse-0.1.0.dev0-py3-none-any.whl",
+      "sha256": "ba3b0a442c034be57670cef765546b9aa4fc7f8823a1d7cbcd1a4f9f58cc8487",
+      "size_bytes": 288934
+    },
+    {
+      "path": "evidence/pre-sparkless-4.15.1-candidate/brickhouse-0.1.0.dev0.tar.gz",
+      "sha256": "a7588d77a0a28515b211537fb4bf84a131f28b882e92156fae37977ef70d9845",
+      "size_bytes": 1145825
+    },
+    {
+      "path": "evidence/prior-qualified-candidate/brickhouse-0.1.0.dev0-py3-none-any.whl",
+      "sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
+      "size_bytes": 281679
+    },
+    {
+      "path": "evidence/prior-qualified-candidate/brickhouse-0.1.0.dev0.tar.gz",
+      "sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63",
+      "size_bytes": 1113858
+    },
+    {
+      "path": "evidence/recovery/B017.3-child-notebook-outcomes.md",
+      "sha256": "73036add41ebee576eeb24e8264fc22c78cdab656f083da81c07182fd3e848bf",
+      "size_bytes": 2998
+    },
+    {
+      "path": "evidence/recovery/B017.5-notebook-compute-interruption.md",
+      "sha256": "b1f6693c93612812ffb08416168d918dd0e872e170bf1712fe4dc1814f8f3cee",
+      "size_bytes": 3279
+    },
+    {
+      "path": "evidence/recovery/B018.1.2-job-lifecycle-isolation.md",
+      "sha256": "844143447d5373b57368b329707aa04ee2c5e8171825f367d8df44f1670681e8",
+      "size_bytes": 2664
+    },
+    {
+      "path": "evidence/recovery/B022.1-commit-boundary-crashes.md",
+      "sha256": "90717383729054a85a218b02103f49c47db28d414c63105db420251238aee2ca",
+      "size_bytes": 2601
+    },
+    {
+      "path": "evidence/recovery/B022.2-concurrent-alias-writes.md",
+      "sha256": "ea9e6732035d6a36d3bf58c50e12da6e6b597f77130c00cc143f97529a10dc13",
+      "size_bytes": 2987
+    },
+    {
+      "path": "evidence/recovery/B022.3.1-restart-retention.md",
+      "sha256": "76a32e109f1536573182f13fac468455b1cde61602196c50b0ffc026bdba8be1",
+      "size_bytes": 3340
+    },
+    {
+      "path": "evidence/recovery/B022.3.2-coordinated-workspace-restore.md",
+      "sha256": "37f87fc7ee618ce65ef15f95beac9ba9eb9028575e810791f7798d8be35ffa25",
+      "size_bytes": 2927
+    },
+    {
+      "path": "evidence/recovery/B022.4-serverless-timeout-commit.md",
+      "sha256": "cd8af7a590c203c99bebcb966c9e0ee14784504d98a1d75160ef2a4af5d33a15",
+      "size_bytes": 2798
+    },
+    {
+      "path": "release-checklist.md",
+      "sha256": "f6f9983fdea2388e926cc97ff25cc96d714300be5eda79045e6aa82488e1665f",
+      "size_bytes": 2731
+    },
+    {
+      "path": "release-notes-draft.md",
+      "sha256": "55565f3c58815a2ed4d91f61d58d1c6a3d3ff7a9d6b348c7e07440f0035d1751",
+      "size_bytes": 3071
+    },
+    {
+      "path": "scope.json",
+      "sha256": "7faa886e11d63d8a4199cf39a79df7fe96ec474f538f1011eebe627c0ba7a98f",
+      "size_bytes": 4454
+    },
+    {
+      "path": "versions.json",
+      "sha256": "4645cd90f8c683b6f046f682eb0ab6e15a5f06806da467d37a7687fe0a5fefac",
+      "size_bytes": 2911
+    }
+  ]
+}

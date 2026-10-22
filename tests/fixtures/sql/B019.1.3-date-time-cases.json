@@ -1,0 +1,147 @@
+{
+  "fixture_id": "B019.1.3-date-time-cases",
+  "fixture_version": 1,
+  "engine_profile": "spark35-local-v1",
+  "input_fixture": "B019.1.1-orders-scalar-query",
+  "runtime_versions": {
+    "sparkless": "4.15.2",
+    "deltalake": "1.2.1",
+    "pyarrow": "23.0.1"
+  },
+  "projection_and_date_predicate": {
+    "sql": "SELECT order_id, event_date, event_ts, event_date = DATE '2026-10-17' AS on_oct_17 FROM orders WHERE order_id <= 3 ORDER BY order_id",
+    "expected_schema": [
+      {
+        "name": "order_id",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "event_date",
+        "type": "date32",
+        "nullable": true
+      },
+      {
+        "name": "event_ts",
+        "type": "timestamp[us]",
+        "nullable": true
+      },
+      {
+        "name": "on_oct_17",
+        "type": "bool",
+        "nullable": true
+      }
+    ],
+    "expected_rows": [
+      {
+        "order_id": 1,
+        "event_date": "2026-10-16",
+        "event_ts": "2026-10-16T12:34:56",
+        "on_oct_17": false
+      },
+      {
+        "order_id": 2,
+        "event_date": "2026-10-17",
+        "event_ts": "2026-10-18T03:30:00",
+        "on_oct_17": true
+      },
+      {
+        "order_id": 3,
+        "event_date": null,
+        "event_ts": null,
+        "on_oct_17": null
+      }
+    ],
+    "ordering": "ORDER BY order_id is explicit; no other row ordering is assumed.",
+    "observed_timestamp_projection": "The input Arrow field is timestamp[us, tz=UTC]; Sparkless 4.15.2 SQL output is timestamp[us] with naive UTC-valued Python datetimes. The output type difference is retained explicitly."
+  },
+  "date_timestamp_literals": {
+    "sql": "SELECT DATE '2026-10-17' AS day, TIMESTAMP '2026-10-18 03:30:00' AS instant",
+    "expected_schema": [
+      {
+        "name": "day",
+        "type": "date32",
+        "nullable": true
+      },
+      {
+        "name": "instant",
+        "type": "timestamp[us]",
+        "nullable": true
+      }
+    ],
+    "expected_rows": [
+      {
+        "day": "2026-10-17",
+        "instant": "2026-10-18T03:30:00"
+      }
+    ],
+    "timezone_interpretation": "The local profile sets spark.sql.session.timeZone=UTC; the timestamp literal is represented as a naive Arrow timestamp by Sparkless. The prior Databricks literal oracle reported Etc/UTC and a UTC-Z wire value for its timestamp literal."
+  },
+  "timestamp_boundary": {
+    "sql": "SELECT order_id, CAST(event_ts AS TIMESTAMP) >= TIMESTAMP '2026-10-18 03:30:00' AS at_or_after, CAST(event_ts AS TIMESTAMP) < TIMESTAMP '2026-10-18 03:30:00' AS before_boundary FROM orders WHERE order_id = 2",
+    "expected_schema": [
+      {
+        "name": "order_id",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "at_or_after",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "before_boundary",
+        "type": "bool",
+        "nullable": true
+      }
+    ],
+    "expected_rows": [
+      {
+        "order_id": 2,
+        "at_or_after": true,
+        "before_boundary": false
+      }
+    ],
+    "boundary_rule": "Input event_ts 2026-10-17T23:30:00-04:00 is normalized to 2026-10-18T03:30:00Z. The explicitly cast local comparison is equal to the UTC boundary; >= is true and < is false."
+  },
+  "invalid_conversions": [
+    {
+      "sql": "SELECT CAST('not-a-date' AS DATE) AS invalid_date FROM orders WHERE order_id = 1",
+      "expected_error_type": "ValueError",
+      "expected_message_fragment": "conversion from `str` to `date` failed"
+    },
+    {
+      "sql": "SELECT CAST('not-a-timestamp' AS TIMESTAMP) AS invalid_ts FROM orders WHERE order_id = 1",
+      "expected_error_type": "ValueError",
+      "expected_message_fragment": "conversion from `str` to `datetime` failed"
+    }
+  ],
+  "databricks_reference": {
+    "fixture": "tests/fixtures/oracles/databricks/B005.3-sql-literals.json",
+    "reused_capture_scope": "Literal-only SQL verified session_timezone=Etc/UTC and a TIMESTAMP wire value ending in Z.",
+    "not_captured": [
+      "Timestamp-column predicate against an inline literal",
+      "UTC boundary comparison over the orders Delta fixture"
+    ],
+    "remote_compatibility_claim": false
+  },
+  "direct_timestamp_predicate": {
+    "sql": "SELECT order_id FROM orders WHERE event_ts >= TIMESTAMP '2026-10-18 03:30:00'",
+    "expected_schema": [
+      {
+        "name": "order_id",
+        "type": "int64",
+        "nullable": true
+      }
+    ],
+    "expected_rows": [
+      {
+        "order_id": 2
+      }
+    ],
+    "upstream_issue": "https://github.com/eddiethedean/robin-sparkless/issues/1720",
+    "upstream_fix": "https://github.com/eddiethedean/robin-sparkless/pull/1721",
+    "observed_result": "Sparkless 4.15.2 correctly compares the UTC-aware Delta timestamp column to the naive UTC literal and selects order_id 2."
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-22",
+  "development_lock": {
+    "file": "uv.lock",
+    "sha256": "48663f63a2e2b70fa6783724b8056f6373cf98e74683c5317e99b5fc920d1023"
+  },
+  "direct_runtime_dependencies": [
+    "deltalake==1.2.1",
+    "pyarrow==23.0.1",
+    "sparkless==4.15.1",
+    "sqlglot==30.24.0"
+  ],
+  "distribution": {
+    "build_backend": "hatchling==1.32.4",
+    "candidate_version": "0.1.0.dev0",
+    "name": "brickhouse",
+    "project_license_selected": false,
+    "requires_python": ">=3.11",
+    "target_release": "0.1.0",
+    "wheel_tag": "py3-none-any"
+  },
+  "optional_dependencies": {
+    "notebooks": [
+      "ipykernel==7.4.0",
+      "jupyter-client==8.10.0",
+      "nbclient==0.11.0",
+      "nbformat==5.11.1"
+    ]
+  },
+  "public_sparkless_artifact": {
+    "qualified_macos_arm64_wheel": "sparkless-4.15.1-cp38-abi3-macosx_11_0_arm64.whl",
+    "sha256": "8cd2b24d10b064870276f8c11b2b285d20f1f1c09c741c62d6b4814bbab71f9a",
+    "version": "4.15.1"
+  },
+  "qualification_boundary": "The previous candidate hash passed the recorded full offline G1-G4 matrix. The current 0.1.0.dev0 wheel passed 99 focused installed-wheel B064 cases against Sparkless 4.15.1 under the macOS arm64 CPython 3.11.15 loopback-only offline guard; the SQL statement-service module passed 35 source-tree cases. Full G1-G4 qualification is not repeated for the current candidate. All current tests were local with Databricks credentials unset; no JVM, Spark driver, Docker, cloud compute, real workspace, or personal credential was used.",
+  "runtime_and_native_versions": {
+    "deltalake": "1.2.1",
+    "metadata_schema": "21",
+    "pyarrow": "23.0.1",
+    "sparkless": "4.15.1",
+    "sqlglot": "30.24.0",
+    "workspace_format": "1"
+  },
+  "schema_version": 1,
+  "test_and_reference_clients": {
+    "databricks_cli": "1.21.0",
+    "databricks_sdk": "0.153.0",
+    "databricks_sql_connector": "4.6.0",
+    "databricks_sql_kernel": "1.1.0",
+    "notebook_extra": {
+      "ipykernel": "7.4.0",
+      "jupyter-client": "8.10.0",
+      "nbclient": "0.11.0",
+      "nbformat": "5.11.1"
+    },
+    "pytest": "9.1.1",
+    "terraform": "1.16.6",
+    "terraform_databricks_provider": "1.137.0"
+  },
+  "previous_candidate_local_qualification_environments": [
+    {
+      "base_cases": 132,
+      "notebook_extra_cases": 169,
+      "platform": "macOS 26.5.2 arm64",
+      "python": "3.11.15"
+    },
+    {
+      "base_cases": 132,
+      "notebook_extra_cases": 169,
+      "platform": "macOS 26.5.2 arm64",
+      "python": "3.12.13"
+    }
+  ],
+  "current_candidate_installed_wheel_review": {
+    "wheel_sha256": "b8ce3f90fa5956f5e1baae1cfb31c7ccd3279a93ef7fdbfb6c5785319d464d51",
+    "python": "3.11.15",
+    "lane": "base",
+    "passed_cases": 99,
+    "network": "offline except loopback",
+    "full_g1_g4_matrix_requalified": false,
+    "source_distribution_sha256": "0499ac91f729f3885711c9a0c598cb3234a7502ed1cae556b2760209db3b91c7"
+  }
+}

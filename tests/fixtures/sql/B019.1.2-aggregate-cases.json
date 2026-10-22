@@ -1,0 +1,51 @@
+{
+  "fixture_id": "B019.1.2-aggregate-cases",
+  "fixture_version": 1,
+  "engine_profile": "spark35-local-v1",
+  "input_fixture": "B019.1.1-orders-scalar-query",
+  "runtime_versions": {
+    "sparkless": "4.15.0",
+    "deltalake": "1.2.1",
+    "pyarrow": "23.0.1"
+  },
+  "aggregate_queries": {
+    "grouped": {
+      "sql": "SELECT customer, COUNT(*) AS order_count, COUNT(amount) AS amount_count, SUM(amount) AS total_amount FROM orders WHERE active = true GROUP BY customer ORDER BY customer",
+      "expected_schema": [
+        {"name": "customer", "type": "string", "nullable": true},
+        {"name": "order_count", "type": "int32", "nullable": true},
+        {"name": "amount_count", "type": "int32", "nullable": true},
+        {"name": "total_amount", "type": "decimal128(22,2)", "nullable": true}
+      ],
+      "expected_rows": [
+        {"customer": "alice", "order_count": 2, "amount_count": 2, "total_amount": "15.75"},
+        {"customer": "bob", "order_count": 1, "amount_count": 0, "total_amount": null}
+      ],
+      "ordering": "ORDER BY customer is explicit; no other row ordering is assumed."
+    },
+    "empty_input": {
+      "sql": "SELECT COUNT(*) AS order_count, SUM(amount) AS total_amount FROM orders WHERE order_id < 0",
+      "expected_schema": [
+        {"name": "order_count", "type": "int32", "nullable": true},
+        {"name": "total_amount", "type": "decimal128(22,2)", "nullable": true}
+      ],
+      "expected_rows": [
+        {"order_count": 0, "total_amount": null}
+      ]
+    }
+  },
+  "invalid_cast": {
+    "sql": "SELECT CAST('not-a-number' AS BIGINT) AS invalid_value FROM orders WHERE order_id = 1",
+    "expected_error_type": "ValueError",
+    "expected_message_fragment": "conversion from"
+  },
+  "databricks_reference": {
+    "expanded_probe_case": "aggregate-literals",
+    "outcome": "not_accepted",
+    "http_status": 400,
+    "error_code": "BAD_REQUEST",
+    "warehouse_restored_to_stopped": true,
+    "objects_created": false,
+    "expected_result_source": "Expected aggregate results are frozen from local Sparkless 4.15.0 behavior. The rejected statement produced no Databricks schema or rows, so this is not a remote behavior claim."
+  }
+}

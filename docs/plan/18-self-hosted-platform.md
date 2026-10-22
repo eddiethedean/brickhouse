@@ -10,6 +10,8 @@ After the emulator is stable, a separate deployment track may turn that same cor
 
 Completing phase 0.9 does not automatically declare the emulator stable, release 1.0, or start deployment implementation. **B049 / SH.0** establishes a recorded stability baseline after B042. All deployment implementation depends transitively on that gate. Deployment stages have no assigned package versions or calendar dates. Independent emulator work remains selectable by its existing prerequisites; these stages do not authorize cloud provisioning, publication, spending or reference-account use beyond document 15.
 
+B056 is planning-only source research for a future native Sparkless cluster executor. Its design work can precede B049, but it adds no current implementation, emulator acceptance criteria, required child or release dependency. Any implementation remains post-B049 and additionally requires qualified Sparkless artifacts and the remote-worker foundation.
+
 ## What each emulator phase contributes
 
 These are reviews of the existing phase's contracts, not requirements to build deployment infrastructure during that phase. Preserve the concrete local implementations until an actual second implementation warrants an abstraction. B048 owns the bounded initial architecture review; later epics record relevant findings when decomposed.
@@ -94,3 +96,11 @@ S1–S6 are future release gates, not passing test IDs. Each epic freezes exact 
 Record a deployment version/profile matrix alongside the existing semantic/compute/client matrix. C059–C064 start **planned** with no tested versions or evidence. Existing C001–C058 keep their states, versions and evidence. Neither planning completion, a reachable UI nor an HTTP 200 establishes deployed security, operational readiness or Databricks parity.
 
 The [testing plan](07-compatibility-and-testing.md) owns the gate summary and [operations plan](12-delivery-and-operations.md) distinguishes current local behavior from these future contracts. Keep roadmap, ledger/backlog, capability inventory and status synchronized when scope or stage readiness changes.
+
+## Optional distributed-query engine
+
+[Document 19](19-sparkless-cluster-execution.md) now supplies the separate Sparkless cluster research/implementation track anticipated above. SC.0–SC.4 qualify generic native partition execution after emulator stability; SC.5/B062 integrates it after both B061 and B053. SH.4 still distributes independent jobs and can finish without a distributed query engine; SH.6/B055 retains its existing scope and no SC dependency. C065–C067 are additional planned engine capabilities, not promotions of C059–C064 or simulated compute metadata.
+
+## Qualified provider reuse
+
+[Document 20](20-open-source-reuse.md) upgrades component selection without changing SH outcomes or the B049 barrier. Reuse a real optional MLflow service and notebook machinery after exact environment qualification; preserve provider-owned DB/artifacts and apply shared deployed principal policy to their exposed APIs/UIs. Native sharing/UC clients and separate dbt environments do not establish deployed security. SH.1/SH.2 must prove exact dependency/platform graphs, explicit endpoints, credentials, bounded lifetimes and coordinated restore before claiming those integrations.

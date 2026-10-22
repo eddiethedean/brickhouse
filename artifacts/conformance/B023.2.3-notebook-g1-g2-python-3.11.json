@@ -1,0 +1,61 @@
+{
+  "result": "passed",
+  "lane": "notebooks",
+  "command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
+  "return_code": 0,
+  "databricks_credentials_present": false,
+  "inherited_databricks_environment_key_count": 0,
+  "dotenv_loads": [],
+  "candidate_python": "3.11.15 (main, Mar 25 2026, 02:58:47) [Clang 22.1.1 ]",
+  "candidate_version": "0.1.0.dev0",
+  "candidate_import": "/tmp/brickhouse-02323-nb-py311/lib/python3.11/site-packages/brickhouse/__init__.py",
+  "candidate_wheel_installed": true,
+  "forbidden_distributions_installed": [],
+  "notebook_distributions_installed": {
+    "nbformat": "5.11.1",
+    "ipykernel": "7.4.0",
+    "jupyter-client": "8.10.0",
+    "nbclient": "0.11.0"
+  },
+  "forbidden_importable_modules": [],
+  "java_spark_environment_keys_removed": [
+    "JAVA_HOME",
+    "SPARK_HOME"
+  ],
+  "forbidden_events": [],
+  "network_policy": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections",
+  "sandbox_profile": "deny network-outbound; permit localhost IP sockets and Unix-domain sockets under the unique per-run temporary directory",
+  "process_policy": "test PATH exposes only the candidate wheel environment and whitelisted local utilities; Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports",
+  "loopback_connections": {
+    "count": 140,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "loopback_resolutions": {
+    "count": 140,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "subprocesses": {
+    "count": 33,
+    "executables": [
+      "python"
+    ]
+  },
+  "forbidden_processes": [],
+  "blocked_process_names": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": "...........                                                              [100%]\n11 passed in 30.13s",
+  "stderr": ""
+}

@@ -219,6 +219,72 @@ class CommitResult:
 
 
 @dataclass(frozen=True, slots=True)
+class TableMutationResult:
+    """One journaled SQL row mutation and its exact Delta outcome."""
+
+    snapshot: TableSnapshot
+    mode: str
+    operation_id: str
+    rows_affected: int
+    commit_version: int | None
+    no_op: bool = False
+
+    def __post_init__(self) -> None:
+        if self.mode not in {"sql_update", "sql_delete", "sql_merge"}:
+            raise ValueError("table mutation mode must be sql_update, sql_delete, or sql_merge")
+        if not self.operation_id:
+            raise ValueError("operation_id must be non-empty")
+        if self.rows_affected < 0:
+            raise ValueError("rows_affected must be zero or greater")
+        if self.no_op:
+            if self.rows_affected != 0 or self.commit_version is not None:
+                raise ValueError("a no-op mutation has no affected rows or commit version")
+        elif self.commit_version != self.snapshot.version:
+            raise ValueError("mutation commit version must match its returned snapshot")
+
+    @property
+    def table(self) -> TableHandle:
+        return self.snapshot.table
+
+    @property
+    def version(self) -> int:
+        return self.snapshot.version
+
+    @property
+    def schema(self) -> SchemaDescriptor:
+        return self.snapshot.schema
+
+
+@dataclass(frozen=True, slots=True)
+class TableHistoryEntry:
+    """One committed version reported by the selected Delta provider."""
+
+    version: int
+    timestamp: datetime
+    operation: str
+    operation_parameters: tuple[tuple[str, str], ...] | None
+    read_version: int | None
+    operation_metrics: tuple[tuple[str, str], ...] | None
+    engine_info: str | None
+
+    def __post_init__(self) -> None:
+        if self.version < 0:
+            raise ValueError("history version must be zero or greater")
+        if self.timestamp.tzinfo is None:
+            raise ValueError("history timestamp must include a timezone")
+        if not self.operation:
+            raise ValueError("history operation must be non-empty")
+        if self.read_version is not None and self.read_version < 0:
+            raise ValueError("history read version must be zero or greater")
+        object.__setattr__(self, "timestamp", self.timestamp.astimezone(UTC))
+        for field_name in ("operation_parameters", "operation_metrics"):
+            pairs = getattr(self, field_name)
+            if pairs is not None:
+                normalized = tuple(sorted((str(key), str(value)) for key, value in pairs))
+                object.__setattr__(self, field_name, normalized)
+
+
+@dataclass(frozen=True, slots=True)
 class StagedInput:
     """Immutable manifest for one copied, workspace-owned input artifact."""
 
@@ -313,6 +379,8 @@ class TableServicePort(Protocol):
         selector: SnapshotSelector | None = None,
     ) -> TableReadResult: ...
 
+    def history(self, table: TableHandle) -> tuple[TableHistoryEntry, ...]: ...
+
     def stage_input(
         self,
         source: Path,
@@ -336,6 +404,41 @@ class TableServicePort(Protocol):
         staged: StagedInput,
         mode: WriteMode | str,
     ) -> CommitResult: ...
+
+    def update_rows(
+        self,
+        table: TableHandle,
+        updates: dict[str, str],
+        predicate: str,
+        *,
+        operation_id: str,
+        expected_version: int | None = None,
+    ) -> TableMutationResult: ...
+
+    def delete_rows(
+        self,
+        table: TableHandle,
+        predicate: str,
+        *,
+        operation_id: str,
+        expected_version: int | None = None,
+    ) -> TableMutationResult: ...
+
+    def merge_rows(
+        self,
+        table: TableHandle,
+        source: Any,
+        predicate: str,
+        *,
+        source_alias: str,
+        target_alias: str,
+        source_key_column: str,
+        matched_updates: dict[str, str],
+        not_matched_inserts: dict[str, str],
+        source_identity: str,
+        operation_id: str,
+        expected_version: int | None = None,
+    ) -> TableMutationResult: ...
 
 
 def validate_write_request(

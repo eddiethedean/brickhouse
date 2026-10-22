@@ -84,6 +84,24 @@ class WorkspaceFileService:
             raise InvalidWorkspaceFileError("Python source must be UTF-8 encoded") from error
         return self._import_managed_file(workspace_path, content, overwrite, ".py")
 
+    def import_notebook(
+        self,
+        workspace_path: str,
+        content: bytes,
+        *,
+        overwrite: bool = False,
+    ) -> WorkspaceFileRecord:
+        """Atomically import a bounded Jupyter notebook JSON document."""
+        if not isinstance(content, bytes):
+            raise InvalidWorkspaceFileError("notebook content must be bytes")
+        try:
+            decoded = json.loads(content)
+        except (UnicodeDecodeError, json.JSONDecodeError) as error:
+            raise InvalidWorkspaceFileError("notebook content must be valid JSON") from error
+        if not isinstance(decoded, dict):
+            raise InvalidWorkspaceFileError("notebook content must be a JSON object")
+        return self._import_managed_file(workspace_path, content, overwrite, ".ipynb")
+
     def import_bundle_json(
         self,
         workspace_path: str,
@@ -197,6 +215,12 @@ class WorkspaceFileService:
         relative = _relative_workspace_path(workspace_path)
         root = self.root
         target = root.joinpath(*relative.parts)
+        if not target.exists() and not relative.suffix:
+            notebook_relative = relative.with_name(f"{relative.name}.ipynb")
+            notebook_target = root.joinpath(*notebook_relative.parts)
+            if notebook_target.exists():
+                relative = notebook_relative
+                target = notebook_target
         current = root
         for part in relative.parts:
             current = current / part

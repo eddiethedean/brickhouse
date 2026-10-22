@@ -133,6 +133,7 @@ class ResolvedTaskContext:
     autostart: bool
     cluster_configuration_json: str | None = field(repr=False)
     environment_key: str | None
+    environment_source: str | None
     environment_profile: str | None
     environment_version: str | None
     dependencies: tuple[str, ...]
@@ -172,6 +173,7 @@ class ExecutionContextResolver:
         run_id: int | None = None,
         job_clusters: Sequence[Mapping[str, object]] = (),
         environments: Sequence[Mapping[str, object]] = (),
+        notebook_environments: Mapping[str, Mapping[str, object]] | None = None,
         performance_target: str | None = None,
     ) -> tuple[ResolvedTaskContext, ...]:
         """Resolve a job's supported task selectors without provisioning or dispatching."""
@@ -183,6 +185,19 @@ class ExecutionContextResolver:
         task_keys = [_required_identifier(task, "task_key") for task in task_list]
         if len(set(task_keys)) != len(task_keys):
             raise InvalidExecutionContextError("task_key values must be unique")
+        notebook_environment_definitions: dict[str, tuple[str, tuple[str, ...]]] = {}
+        if notebook_environments is not None:
+            if not isinstance(notebook_environments, Mapping):
+                raise InvalidExecutionContextError("notebook environments must be a mapping")
+            for task_key, specification in notebook_environments.items():
+                if task_key not in task_keys or not isinstance(specification, Mapping):
+                    raise InvalidExecutionContextError(
+                        "notebook environment metadata must belong to a submitted task"
+                    )
+                mapped = _environment_definitions(
+                    [{"environment_key": "notebook_environment", "spec": specification}]
+                )
+                notebook_environment_definitions[task_key] = mapped["notebook_environment"]
         shared_usage: dict[str, int] = {}
         for task in task_list:
             key = task.get("job_cluster_key")
@@ -202,6 +217,7 @@ class ExecutionContextResolver:
                     run_id=run_id,
                     cluster_definitions=cluster_definitions,
                     environment_definitions=environment_definitions,
+                    notebook_environment_definitions=notebook_environment_definitions,
                     shared_usage=shared_usage,
                     performance_target=performance_target,
                 )
@@ -216,6 +232,7 @@ class ExecutionContextResolver:
         run_id: int | None,
         cluster_definitions: dict[str, ClusterConfiguration],
         environment_definitions: dict[str, tuple[str, tuple[str, ...]]],
+        notebook_environment_definitions: dict[str, tuple[str, tuple[str, ...]]],
         shared_usage: dict[str, int],
         performance_target: str | None,
     ) -> ResolvedTaskContext:
@@ -266,10 +283,6 @@ class ExecutionContextResolver:
             raise InvalidExecutionContextError("a task may select only one compute resource")
 
         if environment_key is not None and not selectors:
-            if task_type == "notebook":
-                # Notebook-level inheritance is a later B017.4 contract; require an explicit
-                # mapped job environment until that precedence resolver exists.
-                pass
             return self._resolve_serverless(
                 task,
                 task_key,
@@ -279,7 +292,23 @@ class ExecutionContextResolver:
                 environment_key,
                 environment_definitions,
                 performance_target,
+                environment_source="job",
             )
+        if environment_key is None and not selectors and task_type == "notebook":
+            notebook_environment = notebook_environment_definitions.get(task_key)
+            if notebook_environment is not None:
+                return self._resolve_serverless(
+                    task,
+                    task_key,
+                    run_id,
+                    task_type,
+                    arguments,
+                    None,
+                    {},
+                    performance_target,
+                    environment_source="notebook",
+                    selected_environment=notebook_environment,
+                )
         if not selectors:
             raise InvalidExecutionContextError(
                 "task must select a classic cluster or a mapped serverless environment"
@@ -311,17 +340,25 @@ class ExecutionContextResolver:
         run_id: int | None,
         task_type: str,
         arguments: dict[str, object],
-        environment_key: str,
+        environment_key: str | None,
         environment_definitions: dict[str, tuple[str, tuple[str, ...]]],
         performance_target: str | None,
+        *,
+        environment_source: str,
+        selected_environment: tuple[str, tuple[str, ...]] | None = None,
     ) -> ResolvedTaskContext:
         if task.get("disable_auto_optimization") is not True:
             raise UnsupportedExecutionContextError(
                 "serverless tasks must set disable_auto_optimization=true until its retry "
                 "behavior is implemented"
             )
-        selected_environment = environment_definitions.get(environment_key)
+        if selected_environment is None and environment_key is not None:
+            selected_environment = environment_definitions.get(environment_key)
         if selected_environment is None:
+            if environment_source == "notebook":
+                raise UnsupportedExecutionContextError(
+                    "serverless notebook has no mapped notebook or job environment"
+                )
             raise ExecutionContextNotFoundError(
                 "serverless environment_key is not defined in the job"
             )
@@ -348,6 +385,7 @@ class ExecutionContextResolver:
             autostart=False,
             cluster_configuration_json=None,
             environment_key=environment_key,
+            environment_source=environment_source,
             environment_profile=f"serverless-python{sys.version_info.major}{sys.version_info.minor}-local-v1",
             environment_version=version,
             dependencies=dependencies,
@@ -406,6 +444,7 @@ class ExecutionContextResolver:
                 autostart=record.state is ComputeState.TERMINATED,
                 cluster_configuration_json=configuration_json,
                 environment_key=None,
+                environment_source=None,
                 environment_profile=None,
                 environment_version=None,
                 dependencies=(),
@@ -455,6 +494,7 @@ class ExecutionContextResolver:
             autostart=False,
             cluster_configuration_json=_configuration_json(configuration),
             environment_key=None,
+            environment_source=None,
             environment_profile=None,
             environment_version=None,
             dependencies=(),
@@ -631,26 +671,33 @@ def _task_arguments(task: Mapping[str, object]) -> tuple[str, dict[str, object]]
         raise UnsupportedExecutionContextError(
             "Git-based notebook source is not provisioned locally"
         )
-    parameters = data.get("base_parameters", {})
-    if not isinstance(parameters, Mapping) or len(parameters) > 100:
-        raise InvalidExecutionContextError("base_parameters must be a bounded string map")
+    parameters = validate_notebook_parameters(data.get("base_parameters", {}))
+    result = {"notebook_path": path, "base_parameters": parameters}
+    if data.get("source") is not None:
+        result["source"] = data["source"]
+    return "notebook", result
+
+
+def validate_notebook_parameters(value: object) -> dict[str, str]:
+    """Validate the selected task/run-now notebook key-value parameter shape."""
+    if not isinstance(value, Mapping) or len(value) > 100:
+        raise InvalidExecutionContextError("notebook parameters must be a bounded string map")
     normalized: dict[str, str] = {}
-    for key, value in parameters.items():
+    for key, item in value.items():
         if (
             not isinstance(key, str)
             or not key
             or len(key) > 256
-            or not isinstance(value, str)
-            or len(value) > 4096
+            or not isinstance(item, str)
+            or len(item) > 4096
         ):
-            raise InvalidExecutionContextError("base_parameters must contain bounded string pairs")
-        if _CREDENTIAL_VALUE_RE.search(key) or _CREDENTIAL_VALUE_RE.search(value):
-            raise InvalidExecutionContextError("base_parameters cannot carry credential values")
-        normalized[key] = value
-    result = {"notebook_path": path, "base_parameters": normalized}
-    if data.get("source") is not None:
-        result["source"] = data["source"]
-    return "notebook", result
+            raise InvalidExecutionContextError(
+                "notebook parameters must contain bounded string pairs"
+            )
+        if _CREDENTIAL_VALUE_RE.search(key) or _CREDENTIAL_VALUE_RE.search(item):
+            raise InvalidExecutionContextError("notebook parameters cannot carry credential values")
+        normalized[key] = item
+    return normalized
 
 
 def validate_python_parameters(value: object) -> list[str]:

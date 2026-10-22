@@ -120,8 +120,11 @@ def _canonical_json(value: object) -> str:
 
 
 def _resolve_file(path: str | Path, label: str, *, executable: bool = False) -> Path:
+    candidate = Path(path).expanduser()
     try:
-        resolved = Path(path).expanduser().resolve(strict=True)
+        # Keep a venv's interpreter symlink intact: resolving it jumps to the base
+        # Python executable and causes the child to ignore that venv's pyvenv.cfg.
+        resolved = candidate.absolute() if executable else candidate.resolve(strict=True)
     except (OSError, RuntimeError) as error:
         raise WorkerConfigurationError(
             f"worker {label} does not resolve to an existing path"
@@ -174,7 +177,7 @@ def _worker_environment(
         "PYTHONUNBUFFERED": "1",
     }
     values = context.to_mapping()
-    if "dbutils" in values:
+    if "dbutils" in values or "notebook_parameters" in values:
         # The entry module is part of the installed BrickHouse package. Use its
         # resolved package root rather than inheriting a caller-controlled path.
         environment["PYTHONPATH"] = str(Path(__file__).resolve().parents[2])
@@ -240,8 +243,10 @@ def run_python_worker(
     redactions = _validate_secret_redactions(secret_redactions)
     if secret_payload is not None:
         scope = context.to_mapping()
-        if "dbutils" not in scope:
-            raise WorkerConfigurationError("secret payload requires the dbutils worker entry")
+        if "dbutils" not in scope and "notebook_parameters" not in scope:
+            raise WorkerConfigurationError(
+                "secret payload requires a dbutils or notebook worker entry"
+            )
         from brickhouse.runtime.secrets import MAX_SECRET_SNAPSHOT_BYTES
 
         if (
@@ -436,15 +441,18 @@ def run_python_worker(
     stdout_reader = threading.Thread(
         target=lambda: stdout_capture.append(_capture_bounded(stdout_pipe, stdout_limit)),
         name="brickhouse-worker-stdout",
+        daemon=True,
     )
     stderr_reader = threading.Thread(
         target=lambda: stderr_capture.append(_capture_bounded(stderr_pipe, stderr_limit)),
         name="brickhouse-worker-stderr",
+        daemon=True,
     )
     stdout_reader.start()
     stderr_reader.start()
     termination_reason = "completed"
     interrupted: BaseException | None = None
+    timeout_deadline = None if timeout_seconds is None else time.monotonic() + timeout_seconds
     try:
         termination_reason = _wait_for_worker(
             process,
@@ -452,6 +460,15 @@ def run_python_worker(
             cancel_event=cancel_event,
             termination_grace_seconds=termination_grace_seconds,
         )
+        if termination_reason == "completed":
+            termination_reason = _wait_for_output_capture(
+                process,
+                stdout_reader,
+                stderr_reader,
+                timeout_deadline=timeout_deadline,
+                cancel_event=cancel_event,
+                termination_grace_seconds=termination_grace_seconds,
+            )
     except BaseException as error:
         interrupted = error
         termination_reason = "cancelled"
@@ -459,18 +476,23 @@ def run_python_worker(
     finally:
         if process.poll() is None:
             _terminate_worker(process, termination_grace_seconds)
+        elif _process_group_exists(process):
+            # The worker leader may finish while a child still belongs to its
+            # session. Reap that session before reporting completion.
+            _terminate_worker(process, termination_grace_seconds)
         exit_code = process.wait()
         if service_session is not None:
             service_session.close()
         else:
             _revoke_attempt(authenticator, run_id, attempt_id)
-        stdout_reader.join()
-        stderr_reader.join()
+        stdout_reader.join(timeout=max(1.0, termination_grace_seconds + 0.5))
+        stderr_reader.join(timeout=max(1.0, termination_grace_seconds + 0.5))
 
-    if not stdout_capture or not stderr_capture:  # pragma: no cover - reader invariant.
-        raise WorkerLaunchError("worker output capture did not complete")
-    stdout_bytes, stdout_truncated = stdout_capture[0]
-    stderr_bytes, stderr_truncated = stderr_capture[0]
+    # A process which deliberately detached from the worker session can retain
+    # a pipe after the deadline. The daemon reader is bounded by the caller's
+    # timeout; keep its captured prefix and mark the stream incomplete.
+    stdout_bytes, stdout_truncated = stdout_capture[0] if stdout_capture else (b"", True)
+    stderr_bytes, stderr_truncated = stderr_capture[0] if stderr_capture else (b"", True)
     if credential is not None:
         stdout_bytes = _redact_worker_token(stdout_bytes, credential._token)
         stderr_bytes = _redact_worker_token(stderr_bytes, credential._token)
@@ -598,12 +620,43 @@ def _wait_for_worker(
     return "completed"
 
 
+def _wait_for_output_capture(
+    process: subprocess.Popen[bytes],
+    stdout_reader: threading.Thread,
+    stderr_reader: threading.Thread,
+    *,
+    timeout_deadline: float | None,
+    cancel_event: threading.Event | None,
+    termination_grace_seconds: float,
+) -> str:
+    """Keep the worker deadline active while descendants retain inherited pipes."""
+    while stdout_reader.is_alive() or stderr_reader.is_alive():
+        if cancel_event is not None and cancel_event.is_set():
+            _terminate_worker(process, termination_grace_seconds)
+            return "cancelled"
+        if timeout_deadline is not None and time.monotonic() >= timeout_deadline:
+            _terminate_worker(process, termination_grace_seconds)
+            return "timeout"
+        stdout_reader.join(timeout=0.01)
+        stderr_reader.join(timeout=0.01)
+    return "completed"
+
+
 def _signal_worker_group(process: subprocess.Popen[bytes], selected_signal: int) -> None:
     if os.name == "posix":
         try:
             os.killpg(process.pid, selected_signal)
         except ProcessLookupError:
             pass
+        except PermissionError:
+            # A session can outlive its leader. If the platform refuses a
+            # group signal after leader exit, still terminate the direct worker
+            # when it remains live and keep cleanup from masking its outcome.
+            if process.poll() is None:
+                if selected_signal == signal.SIGTERM:
+                    process.terminate()
+                else:
+                    process.kill()
     elif process.poll() is None:
         if selected_signal == signal.SIGTERM:
             process.terminate()

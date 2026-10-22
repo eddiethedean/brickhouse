@@ -16,6 +16,11 @@ from typing import Any, cast
 WORKER_TOKEN_ENV = "BRICKHOUSE_WORKER_TOKEN"
 WORKER_PROTOCOL_VERSION = 1
 MAX_WORKER_MESSAGE_BYTES = 64 * 1024
+# Worker Arrow writes use base64 inside the authenticated JSON envelope. Keep
+# their raw payload well below the frame limit so identity and protocol fields
+# still fit in the same bounded request.
+MAX_WORKER_ARROW_BYTES = 32 * 1024
+MAX_WORKER_ARROW_ROWS = 100_000
 MAX_WORKER_TOKEN_TTL_SECONDS = 24 * 60 * 60 + 60
 _IDENTIFIER_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}\Z")
 _BEARER_PREFIX = "Bearer "

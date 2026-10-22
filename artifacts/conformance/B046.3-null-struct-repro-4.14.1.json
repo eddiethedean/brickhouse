@@ -1,0 +1,214 @@
+{
+  "versions": {
+    "sparkless": "4.14.1",
+    "pyarrow": "23.0.1",
+    "deltalake": "1.2.1"
+  },
+  "result": "passed",
+  "cases": [
+    {
+      "contract": "python_rows: collect distinguishes null struct and null field",
+      "passed": true,
+      "expected": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ],
+      "actual": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ]
+    },
+    {
+      "contract": "python_rows: provider IPC preserves parent struct validity",
+      "passed": true,
+      "expected": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ],
+      "actual": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ]
+    },
+    {
+      "contract": "arrow: collect distinguishes null struct and null field",
+      "passed": true,
+      "expected": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ],
+      "actual": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ]
+    },
+    {
+      "contract": "arrow: provider IPC preserves parent struct validity",
+      "passed": true,
+      "expected": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ],
+      "actual": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ]
+    },
+    {
+      "contract": "native_delta: collect distinguishes null struct and null field",
+      "passed": true,
+      "expected": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ],
+      "actual": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ]
+    },
+    {
+      "contract": "native_delta: provider IPC preserves parent struct validity",
+      "passed": true,
+      "expected": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ],
+      "actual": [
+        {
+          "details": {
+            "label": "present"
+          }
+        },
+        {
+          "details": null
+        },
+        {
+          "details": {
+            "label": null
+          }
+        }
+      ]
+    }
+  ]
+}

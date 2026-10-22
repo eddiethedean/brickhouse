@@ -1,0 +1,98 @@
+{
+  "fixture_id": "B019.1.7-profile-cases",
+  "fixture_version": 1,
+  "engine_profiles": {
+    "serverless": {
+      "profile": "serverless-local-v1",
+      "runtime_profile": null,
+      "settings": {
+        "spark.sql.ansi.enabled": "true",
+        "spark.sql.session.timeZone": "UTC"
+      }
+    },
+    "classic_standard": {
+      "profile": "classic-standard-local-v1",
+      "runtime_profile": "spark35-local-v1",
+      "settings": {
+        "spark.sql.ansi.enabled": "false",
+        "spark.sql.session.timeZone": "America/Los_Angeles"
+      }
+    },
+    "classic_dedicated": {
+      "profile": "classic-dedicated-local-v1",
+      "runtime_profile": "spark35-local-v1",
+      "settings": {
+        "spark.sql.ansi.enabled": "true",
+        "spark.sql.session.timeZone": "Asia/Tokyo"
+      }
+    }
+  },
+  "temporary_view_scope": {
+    "view_name": "profile_value",
+    "values": {
+      "serverless": "serverless",
+      "classic_standard": "classic-standard",
+      "classic_dedicated": "classic-dedicated"
+    },
+    "cross_session_visibility": false
+  },
+  "unsupported_operations": [
+    {
+      "name": "global_temporary_view",
+      "profile": "serverless",
+      "operation": "CREATE GLOBAL TEMP VIEW global_value AS SELECT 1 AS value",
+      "expected_error_type": "UnsupportedSparklessSessionOperationError",
+      "message_fragment": "global temporary views are unsupported"
+    },
+    {
+      "name": "sql_cache",
+      "profile": "classic-standard",
+      "operation": "CACHE TABLE profile_value",
+      "expected_error_type": "UnsupportedSparklessSessionOperationError",
+      "message_fragment": "SQL table caching is unsupported"
+    },
+    {
+      "name": "dataframe_cache",
+      "profile": "classic-dedicated",
+      "operation": "cache",
+      "expected_error_type": "UnsupportedSparklessSessionOperationError",
+      "message_fragment": "DataFrame.cache() is unsupported"
+    }
+  ],
+  "profile_errors": {
+    "serverless_with_classic_runtime": {
+      "expected_error_type": "UnsupportedSparklessConfigurationError",
+      "message_fragment": "serverless execution must not select a classic runtime profile"
+    },
+    "classic_without_explicit_settings": {
+      "expected_error_type": "UnsupportedSparklessConfigurationError",
+      "message_fragment": "defaults are not inferred"
+    },
+    "unsupported_setting": {
+      "expected_error_type": "UnsupportedSparklessConfigurationError",
+      "message_fragment": "unsupported Sparkless session setting"
+    }
+  },
+  "deferred_analysis": {
+    "sql": "SELECT missing_column FROM profile_value",
+    "observed_timing": "eager query-construction error",
+    "error_type": "SparklessError",
+    "connect_parity_claim": false
+  },
+  "connect": {
+    "engine_profile_request": "spark-connect-local-v1",
+    "status": "explicitly unsupported pending B036",
+    "remote_execution": false
+  },
+  "databricks_reference": {
+    "fixture": "tests/fixtures/oracles/databricks/B005.3-sql-literals.json",
+    "scope": "A previously captured serverless SQL literal confirms Etc/UTC only.",
+    "classic_reference": "unavailable; no classic cluster was provisioned",
+    "remote_compatibility_claim": false
+  },
+  "runtime_versions": {
+    "sparkless": "4.15.0",
+    "databricks_sdk": "0.153.0",
+    "python": "3.11.15"
+  }
+}

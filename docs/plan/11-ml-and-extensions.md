@@ -12,11 +12,19 @@ Start with Python model flavors that execute without Java. Test create experimen
 
 Databricks registry URIs, three-part UC model names, aliases, permissions, lineage, and serving endpoint routes need adapters and separate evidence. An MLflow registry does not implement these automatically. Serving must manage model version, environment, request schema, output encoding, load errors, lifecycle, and resource limits. Begin with a local Python prediction worker; record throughput and cancellation limitations. Remote foundation-model endpoints require explicit external configuration and are not part of the cloud-independent profile.
 
+### Concrete MLflow qualification
+
+B063 statically inspected MLflow **3.17.1** and matching skinny/tracing candidates. B025 qualifies an actual optional local service with explicitly configured DB-backed registry/artifact/endpoints and restart/restore; B026 qualifies selected provisioned native Python model environments. These versions are research candidates, not added dependencies. Do not substitute skinny for a full server, expose provider paths outside shared policy, allow implicit cloud SDK credential discovery, or launch Spark/Docker backends from the native profile. See [document 20](20-open-source-reuse.md) and [source hashes/constraints](../../planning/oss-reuse.json).
+
 ## dbt
 
 Offer a separate local `dbt-duckdb` profile first. Ensure its models resolve the same catalog and storage contract: default dbt materializations must not create a second authoritative DuckDB managed-table world. Prototype views/read-only queries first; native Delta materializations must call the table service or a reviewed equivalent transaction path.
 
 Validate sources, refs, incremental models, tests, schema changes, and artifacts on an actual dbt project. `dbt-databricks` support is a separate protocol/macro/materialization target. Do not advertise that existing Databricks dbt projects run unchanged because dbt-duckdb is installed.
+
+### Independent dbt profiles
+
+The inspected **dbt-databricks 1.12.7** requires SDK `<0.118.0` and connector `<4.4.1`, conflicting with current pins **0.153.0/4.6.0**. B027 must use an independent exact lock if it selects that future client workflow, and prove its actual SQL/macros/transport instead of inferring compatibility from B021 or dbt-duckdb. Keep dbt-duckdb as the first profile and route registered materializations through the table service. Reject unselected Python-model/Spark/session routes rather than provisioning remote execution or bypassing commits.
 
 ## Vector Search
 
@@ -51,3 +59,9 @@ OSS Unity Catalog's Java server is unsuitable for the base native-only runtime. 
 Emulator phases 0.2–0.4 retain local policy, provider and feature behavior as their primary work. Record principal provenance, provider-owned authoritative state, artifact references, credentials and backup/lifecycle responsibilities while decomposing the existing epics. Direct Python access on the trusted host remains a documented limit.
 
 Actual authenticated service deployment, browser workflows and provider state restore belong to B050–B051/SH.1–SH.2 after emulator stability; hostile-code boundaries for serving and notebook workers belong to B052/SH.3. Optional provider endpoints cannot bypass workspace policy merely because the BrickHouse HTTP API authenticates users. [Document 18](18-self-hosted-platform.md) defines this later track; none of these deployment guarantees follows from passing a local G6 workflow.
+
+## Selective catalog, sharing and native-format reuse
+
+[Document 20](20-open-source-reuse.md) records explicit contract/client reuse for UC and Delta Sharing. B028 maps selected pinned UC APIs through the existing policy/catalog; no OSS Java server or second catalog is adopted. B039 qualifies a real native sharing service against an independently locked non-Spark client, including its Rust wrapper wheel/features, pinned snapshots, authorization, expiry and revocation. Source/model availability never substitutes for governance or managed Databricks parity.
+
+B040/B041 may select bounded PyIceberg/Delta Kernel feasibility slices with distinct format identity, native IO and operation-level feature/recovery evidence. No automatic Delta/Iceberg dual-write, source-built fallback for missing user wheels or mutation-provider replacement is implied. Artifact-specific licensing/notices and ordinary local credential/offline boundaries remain required.

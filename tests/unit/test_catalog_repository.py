@@ -105,9 +105,11 @@ def test_repository_rejects_remote_and_managed_root_external_locations(
 
 def test_owner_upgrade_migrates_schema_v1_before_repositories_open(
     tmp_path: Path,
+    downgrade_workspace_from_v13,
 ) -> None:
     descriptor = initialize_workspace(tmp_path / "workspace")
     with sqlite3.connect(descriptor.metadata_path) as connection:
+        downgrade_workspace_from_v13(connection)
         for trigger in (
             "job_deletions_are_immutable",
             "job_deletions_cannot_be_deleted",
@@ -182,31 +184,19 @@ def test_owner_upgrade_migrates_schema_v1_before_repositories_open(
         connection.execute("DELETE FROM schema_migrations WHERE version = 4")
         connection.execute("DELETE FROM schema_migrations WHERE version = 3")
         connection.execute("DELETE FROM schema_migrations WHERE version = 2")
+        connection.execute("DELETE FROM schema_migrations WHERE version > 1")
         connection.execute("PRAGMA user_version = 1")
 
     legacy = open_workspace(descriptor.path)
     assert legacy.metadata_schema_version == 1
 
     with acquire_workspace_owner(descriptor.path) as owner:
-        assert owner.workspace.metadata_schema_version == 12
+        assert owner.workspace.metadata_schema_version == 21
         with sqlite3.connect(owner.workspace.metadata_path) as connection:
-            assert connection.execute("PRAGMA user_version").fetchone() == (12,)
+            assert connection.execute("PRAGMA user_version").fetchone() == (21,)
             assert connection.execute(
                 "SELECT version FROM schema_migrations ORDER BY version"
-            ).fetchall() == [
-                (1,),
-                (2,),
-                (3,),
-                (4,),
-                (5,),
-                (6,),
-                (7,),
-                (8,),
-                (9,),
-                (10,),
-                (11,),
-                (12,),
-            ]
+            ).fetchall() == [(version,) for version in range(1, 22)]
             assert connection.execute(
                 "SELECT name FROM sqlite_master WHERE type = 'table' "
                 "AND name = 'table_registrations'"

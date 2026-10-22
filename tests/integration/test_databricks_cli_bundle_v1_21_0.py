@@ -173,7 +173,7 @@ resources:
                     "tasks": [
                         {
                             "task_key": "unsupported",
-                            "notebook_task": {"notebook_path": "/Workspace/Shared/notebook.py"},
+                            "spark_jar_task": {"main_class_name": "example.Main"},
                             "new_cluster": {
                                 "spark_version": "spark35-local-v1",
                                 "data_security_mode": "DATA_SECURITY_MODE_STANDARD",
@@ -184,7 +184,7 @@ resources:
                 },
             )
             assert unsupported_task[0] == 400
-            assert "Python script tasks" in unsupported_task[1]["message"]
+            assert unsupported_task[1]["message"] == "task type spark_jar_task is unsupported"
 
             unsupported_resource = _post_json(host, "/api/2.0/pipelines", {})
             assert unsupported_resource[0] == 400

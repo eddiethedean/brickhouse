@@ -10,7 +10,7 @@ import sqlite3
 import uuid
 from collections.abc import Iterator, Mapping, Sequence
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING
 
 from brickhouse.jobs.models import (
@@ -34,9 +34,11 @@ if TYPE_CHECKING:
     from brickhouse.workspace.context import WorkspaceContext
 
 _TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}\Z")
+_ADMISSION_KEY_RE = re.compile(r"(?:job|terraform):[1-9][0-9]{0,19}\Z")
 _ERROR_CODE_RE = re.compile(r"[A-Z][A-Z0-9_.-]{0,63}\Z")
 MAX_TASK_VALUE_JSON_BYTES = 48 * 1024
 MAX_TASK_VALUES_PER_RUN = 250
+JOB_OUTPUT_RETENTION = timedelta(hours=24)
 
 
 class JobRepositoryError(RuntimeError):
@@ -233,6 +235,7 @@ class JobRepository:
         *,
         submitted_settings: Mapping[str, object] | None = None,
         submission_token: str | None = None,
+        admission_key: str | None = None,
     ) -> JobSubmission:
         """Persist an immutable submission; replay a token only for identical input."""
         _validate_id(job_id, "job_id")
@@ -246,6 +249,12 @@ class JobRepository:
             raise InvalidJobDefinitionError(
                 "submission_token must be a simple token of at most 64 characters"
             )
+        selected_admission_key = f"job:{job_id}" if admission_key is None else admission_key
+        if (
+            not isinstance(selected_admission_key, str)
+            or _ADMISSION_KEY_RE.fullmatch(selected_admission_key) is None
+        ):
+            raise InvalidJobDefinitionError("admission_key must identify a local or Terraform job")
         fingerprint_document = {"job_id": job_id, "settings": json.loads(settings_json)}
         fingerprint = hashlib.sha256(_json(fingerprint_document).encode("utf-8")).hexdigest()
         created_at = _now()
@@ -275,9 +284,16 @@ class JobRepository:
                     cursor = connection.execute(
                         "INSERT INTO job_runs "
                         "(job_id, state, submission_token, request_fingerprint, "
-                        "submitted_settings_json, created_at) "
-                        "VALUES (?, 'queued', ?, ?, ?, ?)",
-                        (job_id, submission_token, fingerprint, settings_json, created_at),
+                        "submitted_settings_json, created_at, admission_key) "
+                        "VALUES (?, 'queued', ?, ?, ?, ?, ?)",
+                        (
+                            job_id,
+                            submission_token,
+                            fingerprint,
+                            settings_json,
+                            created_at,
+                            selected_admission_key,
+                        ),
                     )
                     run_id = cursor.lastrowid
                     if run_id is None:
@@ -372,6 +388,81 @@ class JobRepository:
             return [_run_record(row) for row in rows]
         except sqlite3.Error as error:
             raise JobRepositoryError("could not list job runs") from error
+
+    def list_active_runs(self) -> list[JobRunRecord]:
+        """List runs occupying one of the two local worker slots."""
+        try:
+            with self._connection() as connection:
+                rows = connection.execute(
+                    "SELECT * FROM job_runs WHERE state = 'running' OR "
+                    "(state = 'queued' AND dispatched_at IS NOT NULL) ORDER BY run_id"
+                ).fetchall()
+            return [_run_record(row) for row in rows]
+        except sqlite3.Error as error:
+            raise JobRepositoryError("could not list active job runs") from error
+
+    def list_queued_runs(self) -> list[JobRunRecord]:
+        """List FIFO runs persisted but not yet dispatched to a worker slot."""
+        try:
+            with self._connection() as connection:
+                rows = connection.execute(
+                    "SELECT * FROM job_runs WHERE state = 'queued' AND dispatched_at IS NULL "
+                    "ORDER BY run_id"
+                ).fetchall()
+            return [_run_record(row) for row in rows]
+        except sqlite3.Error as error:
+            raise JobRepositoryError("could not list queued job runs") from error
+
+    def rekey_admission_identity(self, previous_key: str, stable_key: str) -> int:
+        """Promote active SDK runs to the stable public concurrency identity."""
+        if (
+            _ADMISSION_KEY_RE.fullmatch(previous_key) is None
+            or _ADMISSION_KEY_RE.fullmatch(stable_key) is None
+        ):
+            raise InvalidJobDefinitionError("admission identity is invalid")
+        try:
+            with self._connection(write=True) as connection:
+                cursor = connection.execute(
+                    "UPDATE job_runs SET admission_key = ? WHERE admission_key = ? "
+                    "AND state IN ('queued', 'running')",
+                    (stable_key, previous_key),
+                )
+            return cursor.rowcount
+        except sqlite3.Error as error:
+            raise JobRepositoryError("could not promote job admission identity") from error
+
+    def mark_run_dispatched(self, run_id: int) -> JobRunRecord:
+        """Claim a queued run for a worker slot before reserving its resources."""
+        _validate_id(run_id, "run_id")
+        try:
+            with self._connection(write=True) as connection:
+                cursor = connection.execute(
+                    "UPDATE job_runs SET dispatched_at = ? WHERE run_id = ? "
+                    "AND state = 'queued' AND dispatched_at IS NULL",
+                    (_now(), run_id),
+                )
+                if cursor.rowcount != 1:
+                    raise JobStateTransitionError("job run is not waiting for dispatch")
+            return self.get_run(run_id)
+        except JobStateTransitionError:
+            raise
+        except sqlite3.Error as error:
+            raise JobRepositoryError("could not dispatch the queued run") from error
+
+    def reset_unstarted_dispatch(self, run_id: int) -> bool:
+        """Return a crash-interrupted, attempt-free dispatch claim to the FIFO queue."""
+        _validate_id(run_id, "run_id")
+        try:
+            with self._connection(write=True) as connection:
+                cursor = connection.execute(
+                    "UPDATE job_runs SET dispatched_at = NULL WHERE run_id = ? "
+                    "AND state = 'queued' AND dispatched_at IS NOT NULL AND NOT EXISTS ("
+                    "SELECT 1 FROM job_task_attempts WHERE run_id = job_runs.run_id)",
+                    (run_id,),
+                )
+            return cursor.rowcount == 1
+        except sqlite3.Error as error:
+            raise JobRepositoryError("could not recover a queued job dispatch") from error
 
     def list_task_runs(self, run_id: int) -> list[JobTaskRunRecord]:
         _validate_id(run_id, "run_id")
@@ -924,15 +1015,17 @@ class JobRepository:
     def get_attempt_output(
         self, run_id: int, task_key: str, attempt_number: int
     ) -> JobTaskAttemptOutput | None:
-        """Return bounded output for one terminal attempt, if it has been captured."""
+        """Return retained output for one terminal attempt, if it has been captured."""
         _validate_id(run_id, "run_id")
         _validate_task_key(task_key)
         _validate_attempt_number(attempt_number)
+        self.expire_attempt_outputs()
         try:
             with self._connection() as connection:
                 row = connection.execute(
                     "SELECT run_id, task_key, attempt_number, stdout, stderr, "
-                    "stdout_truncated, stderr_truncated FROM job_task_attempt_outputs "
+                    "stdout_truncated, stderr_truncated, expired_at "
+                    "FROM job_task_attempt_outputs "
                     "WHERE run_id = ? AND task_key = ? AND attempt_number = ?",
                     (run_id, task_key, attempt_number),
                 ).fetchone()
@@ -947,9 +1040,35 @@ class JobRepository:
                 row["stderr"],
                 bool(row["stdout_truncated"]),
                 bool(row["stderr_truncated"]),
+                row["expired_at"],
             )
         except sqlite3.Error as error:
             raise JobRepositoryError("could not read task attempt output") from error
+
+    def expire_attempt_outputs(self, *, now: datetime | None = None) -> int:
+        """Release worker log bytes after 24 hours while preserving attempt history."""
+        selected_now = datetime.now(UTC) if now is None else now
+        if not isinstance(selected_now, datetime) or selected_now.tzinfo is None:
+            raise JobRepositoryError("output retention time must be timezone-aware")
+        selected_now = selected_now.astimezone(UTC)
+        cutoff = (selected_now - JOB_OUTPUT_RETENTION).isoformat(timespec="microseconds")
+        expired_at = selected_now.isoformat(timespec="microseconds")
+        self._context._require_active()
+        try:
+            with self._connection(write=True) as connection:
+                cursor = connection.execute(
+                    "UPDATE job_task_attempt_outputs SET stdout = '', stderr = '', expired_at = ? "
+                    "WHERE expired_at IS NULL AND EXISTS ("
+                    "SELECT 1 FROM job_task_attempts a WHERE "
+                    "a.run_id = job_task_attempt_outputs.run_id AND "
+                    "a.task_key = job_task_attempt_outputs.task_key AND "
+                    "a.attempt_number = job_task_attempt_outputs.attempt_number AND "
+                    "a.finished_at IS NOT NULL AND a.finished_at <= ?) ",
+                    (expired_at, cutoff),
+                )
+            return cursor.rowcount
+        except sqlite3.Error as error:
+            raise JobRepositoryError("could not expire retained job attempt output") from error
 
     def list_attempts(self, run_id: int, task_key: str | None = None) -> list[JobTaskAttemptRecord]:
         _validate_id(run_id, "run_id")
@@ -1007,6 +1126,8 @@ def _run_record(row: sqlite3.Row) -> JobRunRecord:
         row["started_at"],
         row["finished_at"],
         row["error_code"],
+        row["admission_key"],
+        row["dispatched_at"],
     )
 
 

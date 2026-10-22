@@ -1,0 +1,110 @@
+{
+  "result": "passed",
+  "command": "sandbox-exec [loopback-only] python -m pytest -q tests/integration/test_g1_shared_table_restart.py",
+  "return_code": 0,
+  "databricks_credentials_present": false,
+  "forbidden_distributions_installed": [],
+  "forbidden_events": [],
+  "network_policy": "macOS sandbox denies outbound networking except localhost on any port; Python audit hook also rejects non-loopback resolution/connections",
+  "sandbox_profile": "(version 1) (allow default) (deny network-outbound) (allow network-outbound (remote ip \"localhost:*\"))",
+  "process_policy": "Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports; none were observed",
+  "loopback_connections": [
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 55997
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 55997
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 55997
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 55997
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 56002
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 56002
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 56002
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 56002
+    },
+    {
+      "event": "loopback_connection",
+      "host": "127.0.0.1",
+      "port": 56002
+    }
+  ],
+  "loopback_resolutions": [
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    },
+    {
+      "event": "loopback_resolution",
+      "host": "127.0.0.1"
+    }
+  ],
+  "subprocesses": [],
+  "blocked_processes": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": ".                                                                        [100%]\n1 passed in 0.69s",
+  "stderr": ""
+}

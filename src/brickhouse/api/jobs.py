@@ -80,6 +80,26 @@ class JobsHttpApi:
                     raise _InputError("request body must be a JSON object")
                 job = self._execution.create_job(body)
                 return _ok({"job_id": job.job_id})
+            if route == "reset":
+                if method != "POST":
+                    return _method_not_allowed("POST")
+                _validate_query(query, set())
+                data = _require_object_body(body)
+                if set(data) != {"job_id", "new_settings"}:
+                    raise _InputError("job reset requires job_id and new_settings")
+                job_id = _required_body_int(data, "job_id")
+                current_definition_id = self._terraform_jobs.resolve_execution_id(job_id)
+                self._repository.get_active_job(current_definition_id or job_id)
+                if current_definition_id is not None:
+                    self._repository.get_active_job(job_id)
+                new_settings = _required_settings(data.get("new_settings"))
+                new_definition = self._execution.create_job(new_settings)
+                if current_definition_id is None:
+                    current = self._repository.get_active_job(job_id)
+                    self._terraform_jobs.create(job_id, current.settings)
+                    self._execution.promote_admission_identity(job_id, job_id)
+                self._terraform_jobs.advance(job_id, new_definition.job_id, new_settings)
+                return _ok({})
             if route == "get":
                 if method != "GET":
                     return _method_not_allowed("GET")
@@ -90,7 +110,12 @@ class JobsHttpApi:
                     self._repository.get_active_job(job_id)
                 else:
                     resolved_job_id = job_id
-                return _ok(_job_payload(self._repository.get_active_job(resolved_job_id)))
+                return _ok(
+                    _job_payload(
+                        self._repository.get_active_job(resolved_job_id),
+                        api_job_id=job_id,
+                    )
+                )
             if route == "run-now":
                 if method != "POST":
                     return _method_not_allowed("POST")
@@ -100,10 +125,15 @@ class JobsHttpApi:
                 run_request = dict(body)
                 job_id = _required_body_int(run_request, "job_id")
                 resolved_job_id = self._terraform_jobs.resolve_execution_id(job_id)
+                admission_key: str | None = None
                 if resolved_job_id is not None:
                     self._repository.get_active_job(job_id)
                     run_request["job_id"] = resolved_job_id
-                run, _ = self._execution.submit_run(run_request)
+                    admission_key = f"terraform:{job_id}"
+                run, _ = self._execution.submit_run(
+                    run_request,
+                    admission_key=admission_key,
+                )
                 number_in_job = len(self._repository.list_runs(run.job_id))
                 return _ok({"run_id": run.run_id, "number_in_job": number_in_job})
             if route == "delete":
@@ -321,7 +351,7 @@ class JobsHttpApi:
             run_state["result_state"] = result_state
         payload: dict[str, object] = {
             "run_id": run.run_id,
-            "job_id": run.job_id,
+            "job_id": self._terraform_jobs.resolve_resource_id(run.job_id) or run.job_id,
             "run_name": job.name,
             "number_in_job": number_in_job,
             "attempt_number": 0,
@@ -348,15 +378,17 @@ def _output_payload(
     if output is None:
         payload["logs"] = ""
         payload["logs_truncated"] = False
+        payload["logs_expired"] = False
         return payload
     payload["logs"] = output.stdout
     payload["logs_truncated"] = output.stdout_truncated or output.stderr_truncated
+    payload["logs_expired"] = output.expired_at is not None
     if output.stderr:
         payload["error"] = output.stderr
     return payload
 
 
-def _job_payload(job: JobRecord) -> dict[str, object]:
+def _job_payload(job: JobRecord, *, api_job_id: int | None = None) -> dict[str, object]:
     """Project the stored Python job subset back to the pinned Jobs API shape."""
     settings: dict[str, object] = {"name": job.name}
     for key, value in job.settings.items():
@@ -402,9 +434,11 @@ def _job_payload(job: JobRecord) -> dict[str, object]:
                 task_payload["new_cluster"] = _cluster_payload(cluster_configuration)
         elif compute_kind is None and execution.get("compute_mode") == "serverless":
             environment_key = execution.get("environment_key")
-            if not isinstance(environment_key, str):
+            environment_source = execution.get("environment_source")
+            if environment_source == "job" and not isinstance(environment_key, str):
                 raise JobRepositoryError("persisted serverless task has no environment selector")
-            task_payload["environment_key"] = environment_key
+            if environment_key is not None:
+                task_payload["environment_key"] = environment_key
             task_payload["disable_auto_optimization"] = True
         else:
             raise JobRepositoryError("persisted task compute selector is invalid")
@@ -430,7 +464,7 @@ def _job_payload(job: JobRecord) -> dict[str, object]:
     settings["tasks"] = task_payloads
     if job_clusters:
         settings["job_clusters"] = list(job_clusters.values())
-    return {"job_id": job.job_id, "settings": settings}
+    return {"job_id": job.job_id if api_job_id is None else api_job_id, "settings": settings}
 
 
 def _cluster_payload(configuration: dict[str, object]) -> dict[str, object]:

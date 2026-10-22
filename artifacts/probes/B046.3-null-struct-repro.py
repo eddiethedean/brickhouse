@@ -1,4 +1,4 @@
-"""Reproduce distinct nullable-struct failures in the published Sparkless wheel.
+"""Recheck distinct nullable-struct contracts in the published Sparkless wheel.
 
 No credentials, network, JVM, or fabricated write receipt is used. The callback
 captures actual IPC bytes and deliberately raises before any mutation.

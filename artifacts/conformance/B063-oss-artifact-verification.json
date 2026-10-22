@@ -1,0 +1,189 @@
+{
+  "research_task": "B063",
+  "result": "passed",
+  "qualified_for_runtime": false,
+  "artifact_or_source_checks": [
+    {
+      "artifact": "sparkless-4.14.1-cp38-abi3-macosx_10_12_x86_64.whl",
+      "sha256": "e1cdb1b8e0c9e027d8a673e3b804554dc4b004177f76002ac89e897b605bbb57",
+      "bytes": 39852848,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "deltalake-1.2.1-cp39-abi3-macosx_10_12_x86_64.whl",
+      "sha256": "fc0951859963ee294a7afa11fdd7168c35e5062139949c6d00f6fadae386cf0e",
+      "bytes": 47045602,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "pyarrow-23.0.1-cp310-cp310-macosx_12_0_arm64.whl",
+      "sha256": "3fab8f82571844eb3c460f90a75583801d14ca0cc32b1acc8c361650e006fd56",
+      "bytes": 34307390,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "databricks_sdk-0.153.0-py3-none-any.whl",
+      "sha256": "5f813d98cf704c20371f940a22ee00975e61e9d255bc02ca0e6f46551e86723e",
+      "bytes": 1102624,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "databricks_sql_connector-4.6.0-py3-none-any.whl",
+      "sha256": "9f2128592052d3aadb7a3c46df0a8ef414402ec6ea7a0fdb8490da737fe43cdc",
+      "bytes": 270341,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "mlflow-3.17.1-py3-none-any.whl",
+      "sha256": "726bf7feac25dbdb5b3098bf20b86574393bb75468eef721902ec025e724752f",
+      "bytes": 12004276,
+      "inspected_members_verified": 5,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "nbclient-0.11.0-py3-none-any.whl",
+      "sha256": "ef7fa0d59d6e1d41103933d8a445a18d5de860ca6b613b87b8574accdb3c2895",
+      "bytes": 25288,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "nbformat-5.11.1-py3-none-any.whl",
+      "sha256": "cc6698fa75f4fab8755ead786317815f13a6fee3b53311c0abb1a8b51d52f7ec",
+      "bytes": 79849,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "ipykernel-7.4.0-py3-none-any.whl",
+      "sha256": "a6757f790ddc5a6006b813d82da1a9dbb65b3a00f2b6607df776418c6566ec1c",
+      "bytes": 123184,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "papermill-2.7.0-py3-none-any.whl",
+      "sha256": "e1855e6670100a02bb4f8a6870484a5c10b84a8d2e49c49921c90209940c7514",
+      "bytes": 88858,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "pyspark_client-4.2.0.tar.gz",
+      "sha256": "4008fe5e537bf0e57e7243d03abfaac089b7c87316bd07024784d8ea726f5d41",
+      "bytes": 1675557,
+      "inspected_members_verified": 5,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "delta_sharing-1.4.2-py3-none-any.whl",
+      "sha256": "6797d71d9f59236db6a38e3cb64e31f695a1a2f8059aceb9929c147155b4827a",
+      "bytes": 31352,
+      "inspected_members_verified": 4,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "unitycatalog_client-0.7.0-py3-none-any.whl",
+      "sha256": "3dbc6618be5623de68759adb9c44c2e848c927d43c8743ead299bbb0e340efcf",
+      "bytes": 285461,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "pyiceberg-0.12.0-cp310-cp310-macosx_10_9_x86_64.whl",
+      "sha256": "21f7462f4777bcda2af0a7c270a51525542a79ff37cf1334a82e0dd80717aa92",
+      "bytes": 567107,
+      "inspected_members_verified": 4,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "dbt_duckdb-1.11.0-py3-none-any.whl",
+      "sha256": "bac8c77771de890efa1af5b003af7c74de50c5ef67dba5891894e78348f7091b",
+      "bytes": 91227,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "dbt_databricks-1.12.7-py3-none-any.whl",
+      "sha256": "99fa4aa2af1b21215ca376e0b92515391697bfbdaf736aa07480c3dba06d2468",
+      "bytes": 181940,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "sqlglot-30.24.0-py3-none-any.whl",
+      "sha256": "9488828cc018453b7a3ba01e65d2749c9a731314c14583695163ca1f358203fe",
+      "bytes": 792162,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "duckdb-1.5.6-cp310-cp310-macosx_10_9_universal2.whl",
+      "sha256": "64db8a6700e81fe419fba130d8f1780686ad40fbf2eb69f78d2a1533728a0549",
+      "bytes": 32758341,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "datafusion-55.0.0-cp310-abi3-macosx_10_12_x86_64.whl",
+      "sha256": "dbb4d001a4151a1751654ea599a7c475985b0abe7b24721ed4436ac9cb5c0a2e",
+      "bytes": 41483433,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "mlflow_skinny-3.17.1-py3-none-any.whl",
+      "sha256": "7374adf971e06f77f861dd8196c50e344557728b643192c665f0603c19a8d146",
+      "bytes": 4105632,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "mlflow_tracing-3.17.1-py3-none-any.whl",
+      "sha256": "4f6405e48efdf9330101aa059383103e1e15559664ec792290b9b95556f9e851",
+      "bytes": 1981200,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "delta_kernel_rust_sharing_wrapper-0.3.3-cp310-abi3-macosx_10_12_x86_64.whl",
+      "sha256": "059b5d38832995d32eb49945e80492fde84a9146f7e49e57b753346d85d642f3",
+      "bytes": 11576970,
+      "inspected_members_verified": 1,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "delta_kernel_rust_sharing_wrapper-0.3.3.tar.gz",
+      "sha256": "1ce82f9d18c66faaacca7f7a9a77b5210255a4d5bc6d61b8410f6bd5a9f37623",
+      "bytes": 23525,
+      "inspected_members_verified": 2,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "delta_kernel",
+      "sha256": "2b9ffb54dab8d7755a54150c7170a96afe2faeb39676d1cf0d5a98050887c4ab",
+      "bytes": 1769801,
+      "inspected_members_verified": 5,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "artifact": "ballista",
+      "sha256": "2fe31e72b2eea5984249924d00c76ab6d1482d390aed65b830fc2e1ba751424d",
+      "bytes": 62480,
+      "inspected_members_verified": 3,
+      "result": "hashes_verified_static_only"
+    },
+    {
+      "repository": "unitycatalog/unitycatalog",
+      "commit": "ccd5ca4cf7026abdc43b42556224f13b78235ed0",
+      "inspected_members_verified": 5,
+      "result": "hashes_verified_static_only"
+    }
+  ],
+  "limitations": "Static hash/source checks only; no install, import, build or runtime test"
+}

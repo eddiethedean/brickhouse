@@ -42,7 +42,7 @@ class TerraformJobRecord:
 
 
 class TerraformJobRegistry:
-    """Map stable Terraform resource IDs to append-only job definition versions."""
+    """Map stable provider resource IDs to append-only job definition versions."""
 
     def __init__(self, context: WorkspaceContext) -> None:
         self._metadata_path = context.workspace.metadata_path
@@ -120,6 +120,18 @@ class TerraformJobRegistry:
         if revision is None:
             raise TerraformJobRegistryError("active Terraform job revision is missing")
         return cast(int, revision[0])
+
+    def resolve_resource_id(self, definition_job_id: int) -> int | None:
+        """Find the stable API identity that owns one immutable definition version."""
+        with self._connection() as connection:
+            row = connection.execute(
+                "SELECT resource.job_id FROM terraform_job_resources AS resource "
+                "JOIN terraform_job_revisions AS revision "
+                "ON revision.job_id = resource.job_id "
+                "WHERE revision.definition_job_id = ?",
+                (definition_job_id,),
+            ).fetchone()
+        return None if row is None else cast(int, row[0])
 
     def definition_job_ids(self, job_id: int) -> tuple[int, ...] | None:
         """Return every immutable definition ID for an active Terraform job identity."""

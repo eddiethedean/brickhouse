@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 import sqlite3
 import tempfile
 import uuid
 from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from brickhouse.workspace.config import (
@@ -26,7 +28,7 @@ _DIRECTORIES = (
     "checkpoints",
     "integrations",
 )
-SUPPORTED_METADATA_SCHEMA_VERSION = 12
+SUPPORTED_METADATA_SCHEMA_VERSION = 21
 
 
 class WorkspaceError(RuntimeError):
@@ -167,6 +169,19 @@ def _workspace_migrations(
         Migration(version=10, apply=_create_metadata_v10),
         Migration(version=11, apply=_create_metadata_v11),
         Migration(version=12, apply=_create_metadata_v12),
+        Migration(version=13, apply=_create_metadata_v13),
+        Migration(version=14, apply=_create_metadata_v14),
+        Migration(version=15, apply=_create_metadata_v15),
+        Migration(
+            version=16,
+            apply=_create_metadata_v16,
+            requires_foreign_keys_off=True,
+        ),
+        Migration(version=17, apply=_create_metadata_v17),
+        Migration(version=18, apply=_create_metadata_v18),
+        Migration(version=19, apply=_create_metadata_v19),
+        Migration(version=20, apply=_create_metadata_v20),
+        Migration(version=21, apply=_create_metadata_v21),
     )
 
 
@@ -909,6 +924,586 @@ def _create_metadata_v12(connection: sqlite3.Connection) -> None:
     )
 
 
+def _create_metadata_v13(connection: sqlite3.Connection) -> None:
+    """Persist local SQL warehouse identities, lifecycle, and statement leases."""
+    connection.execute(
+        "CREATE TABLE sql_warehouses ("
+        "warehouse_id TEXT PRIMARY KEY CHECK(length(warehouse_id) BETWEEN 1 AND 128), "
+        "name TEXT NOT NULL CHECK(length(name) BETWEEN 1 AND 99), "
+        "warehouse_type TEXT NOT NULL CHECK(warehouse_type IN ('PRO', 'CLASSIC')), "
+        "enable_serverless_compute INTEGER NOT NULL CHECK(enable_serverless_compute IN (0, 1)), "
+        "cluster_size TEXT NOT NULL CHECK(cluster_size IN "
+        "('2X-Small', 'X-Small', 'Small', 'Medium', 'Large', 'X-Large', '2X-Large', "
+        "'3X-Large', '4X-Large', '5X-Large')), "
+        "auto_stop_mins INTEGER NOT NULL CHECK(auto_stop_mins = 0 OR auto_stop_mins >= 10), "
+        "enable_photon INTEGER NOT NULL CHECK(enable_photon IN (0, 1)), "
+        "min_num_clusters INTEGER NOT NULL CHECK(min_num_clusters BETWEEN 1 AND 30), "
+        "max_num_clusters INTEGER NOT NULL CHECK(max_num_clusters BETWEEN 1 AND 40), "
+        "statement_timeout INTEGER CHECK(statement_timeout IS NULL OR statement_timeout >= 0), "
+        "state TEXT NOT NULL CHECK(state IN ('RUNNING', 'STOPPED', 'DELETED')), "
+        "created_at TEXT NOT NULL, updated_at TEXT NOT NULL, started_at TEXT, stopped_at TEXT, "
+        "last_activity_at TEXT NOT NULL, generation INTEGER NOT NULL CHECK(generation > 0), "
+        "deleted_at TEXT, "
+        "CHECK(max_num_clusters >= min_num_clusters), "
+        "CHECK(warehouse_type = 'PRO' OR enable_serverless_compute = 0), "
+        "CHECK((state = 'DELETED' AND deleted_at IS NOT NULL) OR "
+        "(state != 'DELETED' AND deleted_at IS NULL))"
+        ")"
+    )
+    connection.execute(
+        "CREATE UNIQUE INDEX sql_warehouses_active_name_unique "
+        "ON sql_warehouses(lower(name)) WHERE deleted_at IS NULL"
+    )
+    connection.execute(
+        "CREATE TABLE sql_warehouse_lifecycle_events ("
+        "event_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "warehouse_id TEXT NOT NULL, event_type TEXT NOT NULL, state TEXT NOT NULL "
+        "CHECK(state IN ('RUNNING', 'STOPPED', 'DELETED')), "
+        "generation INTEGER NOT NULL CHECK(generation > 0), "
+        "invalidates_statements INTEGER NOT NULL CHECK(invalidates_statements IN (0, 1)), "
+        "occurred_at TEXT NOT NULL, details_json TEXT NOT NULL, "
+        "FOREIGN KEY(warehouse_id) REFERENCES sql_warehouses(warehouse_id) ON DELETE RESTRICT"
+        ")"
+    )
+    connection.execute(
+        "CREATE INDEX sql_warehouse_events_resource_idx "
+        "ON sql_warehouse_lifecycle_events(warehouse_id, event_id)"
+    )
+    connection.execute(
+        "CREATE TABLE sql_statement_admission_leases ("
+        "statement_id TEXT PRIMARY KEY CHECK(length(statement_id) BETWEEN 1 AND 128), "
+        "warehouse_id TEXT NOT NULL, generation INTEGER NOT NULL CHECK(generation > 0), "
+        "state TEXT NOT NULL CHECK(state IN ('ACTIVE', 'QUEUED', 'RELEASED', 'INVALIDATED')), "
+        "admitted_at TEXT NOT NULL, released_at TEXT, invalidated_at TEXT, "
+        "FOREIGN KEY(warehouse_id) REFERENCES sql_warehouses(warehouse_id) ON DELETE RESTRICT, "
+        "CHECK((state IN ('ACTIVE', 'QUEUED') AND released_at IS NULL "
+        "AND invalidated_at IS NULL) OR "
+        "(state = 'RELEASED' AND released_at IS NOT NULL AND invalidated_at IS NULL) OR "
+        "(state = 'INVALIDATED' AND invalidated_at IS NOT NULL AND released_at IS NULL))"
+        ")"
+    )
+    connection.execute(
+        "CREATE INDEX sql_statement_admission_active_idx "
+        "ON sql_statement_admission_leases(warehouse_id, generation, state)"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_warehouse_identity_is_immutable "
+        "BEFORE UPDATE OF warehouse_id, created_at ON sql_warehouses "
+        "BEGIN SELECT RAISE(ABORT, 'SQL warehouse identity is immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_warehouse_delete_is_terminal "
+        "BEFORE UPDATE OF deleted_at ON sql_warehouses "
+        "WHEN OLD.deleted_at IS NOT NULL OR NEW.deleted_at IS NULL "
+        "BEGIN SELECT RAISE(ABORT, 'deleted SQL warehouses cannot be restored'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_warehouse_events_are_immutable "
+        "BEFORE UPDATE ON sql_warehouse_lifecycle_events "
+        "BEGIN SELECT RAISE(ABORT, 'SQL warehouse lifecycle events are immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_warehouse_events_cannot_be_deleted "
+        "BEFORE DELETE ON sql_warehouse_lifecycle_events "
+        "BEGIN SELECT RAISE(ABORT, 'SQL warehouse lifecycle events cannot be deleted'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_lease_identity_is_immutable "
+        "BEFORE UPDATE OF statement_id, warehouse_id, generation, admitted_at "
+        "ON sql_statement_admission_leases "
+        "BEGIN SELECT RAISE(ABORT, 'SQL admission lease identity is immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_lease_terminal_is_immutable "
+        "BEFORE UPDATE ON sql_statement_admission_leases "
+        "WHEN OLD.state IN ('RELEASED', 'INVALIDATED') OR NEW.state = 'QUEUED' "
+        "BEGIN SELECT RAISE(ABORT, 'SQL admission lease state transition is invalid'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_leases_cannot_be_deleted "
+        "BEFORE DELETE ON sql_statement_admission_leases "
+        "BEGIN SELECT RAISE(ABORT, 'SQL admission lease history cannot be deleted'); END"
+    )
+
+
+def _create_metadata_v14(connection: sqlite3.Connection) -> None:
+    """Persist SQL statement requests, terminal outcomes, and inline results."""
+    connection.execute(
+        "CREATE TABLE sql_statements ("
+        "statement_id TEXT PRIMARY KEY CHECK(length(statement_id) BETWEEN 1 AND 128), "
+        "warehouse_id TEXT NOT NULL, sql_text TEXT NOT NULL "
+        "CHECK(length(sql_text) BETWEEN 1 AND 1048576), "
+        "catalog_name TEXT NOT NULL, schema_name TEXT NOT NULL, "
+        "state TEXT NOT NULL CHECK(state IN "
+        "('PENDING', 'RUNNING', 'SUCCEEDED', 'FAILED', 'CANCELED')), "
+        "created_at TEXT NOT NULL, started_at TEXT, finished_at TEXT, "
+        "error_code TEXT, error_message TEXT, sql_state TEXT, "
+        "manifest_json TEXT, result_json TEXT, "
+        "result_row_count INTEGER CHECK(result_row_count IS NULL OR result_row_count >= 0), "
+        "result_byte_count INTEGER CHECK(result_byte_count IS NULL OR result_byte_count >= 0), "
+        "FOREIGN KEY(warehouse_id) REFERENCES sql_warehouses(warehouse_id) ON DELETE RESTRICT, "
+        "CHECK((state = 'PENDING' AND started_at IS NULL AND finished_at IS NULL "
+        "AND error_code IS NULL AND manifest_json IS NULL AND result_json IS NULL) OR "
+        "(state = 'RUNNING' AND started_at IS NOT NULL AND finished_at IS NULL "
+        "AND error_code IS NULL AND manifest_json IS NULL AND result_json IS NULL) OR "
+        "(state = 'SUCCEEDED' AND started_at IS NOT NULL AND finished_at IS NOT NULL "
+        "AND error_code IS NULL AND manifest_json IS NOT NULL AND result_json IS NOT NULL "
+        "AND result_row_count IS NOT NULL AND result_byte_count IS NOT NULL) OR "
+        "(state IN ('FAILED', 'CANCELED') AND finished_at IS NOT NULL "
+        "AND error_code IS NOT NULL AND error_message IS NOT NULL "
+        "AND manifest_json IS NULL AND result_json IS NULL))"
+        ")"
+    )
+    connection.execute(
+        "CREATE INDEX sql_statements_warehouse_created_idx "
+        "ON sql_statements(warehouse_id, created_at, statement_id)"
+    )
+    connection.execute(
+        "CREATE INDEX sql_statements_state_created_idx ON sql_statements(state, created_at)"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_identity_is_immutable "
+        "BEFORE UPDATE OF statement_id, warehouse_id, sql_text, catalog_name, schema_name, "
+        "created_at "
+        "ON sql_statements "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement identity is immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_state_transitions_are_valid "
+        "BEFORE UPDATE OF state ON sql_statements "
+        "WHEN NOT ((OLD.state = 'PENDING' AND NEW.state IN ('RUNNING', 'FAILED', 'CANCELED')) "
+        "OR (OLD.state = 'RUNNING' AND NEW.state IN ('SUCCEEDED', 'FAILED', 'CANCELED'))) "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement state transition is invalid'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_terminal_statements_are_immutable "
+        "BEFORE UPDATE ON sql_statements "
+        "WHEN OLD.state IN ('SUCCEEDED', 'FAILED', 'CANCELED') "
+        "BEGIN SELECT RAISE(ABORT, 'terminal SQL statements are immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statements_cannot_be_deleted "
+        "BEFORE DELETE ON sql_statements "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement history cannot be deleted'); END"
+    )
+
+
+def _create_metadata_v15(connection: sqlite3.Connection) -> None:
+    """Persist typed SQL parameter values independently from submitted SQL text."""
+    connection.execute("ALTER TABLE sql_statements ADD COLUMN parameters_json TEXT")
+    connection.execute("DROP TRIGGER sql_statement_identity_is_immutable")
+    connection.execute(
+        "CREATE TRIGGER sql_statement_identity_is_immutable "
+        "BEFORE UPDATE OF statement_id, warehouse_id, sql_text, parameters_json, "
+        "catalog_name, schema_name, created_at "
+        "ON sql_statements "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement identity is immutable'); END"
+    )
+
+
+def _create_metadata_v16(connection: sqlite3.Connection) -> None:
+    """Allow notebook task kinds in immutable SDK job and run-task records."""
+    dependent_triggers = tuple(
+        (name, sql)
+        for name, sql in connection.execute(
+            "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' "
+            "AND (instr(sql, 'job_tasks') > 0 OR instr(sql, 'job_run_tasks') > 0)"
+        ).fetchall()
+        if isinstance(name, str) and isinstance(sql, str)
+    )
+    for trigger_name, _ in dependent_triggers:
+        escaped_name = trigger_name.replace('"', '""')
+        connection.execute(f'DROP TRIGGER "{escaped_name}"')
+
+    connection.execute(
+        "CREATE TABLE job_tasks_v16 ("
+        "job_id INTEGER NOT NULL, task_key TEXT NOT NULL, "
+        "task_type TEXT NOT NULL CHECK(task_type IN ('python_script', 'notebook')), "
+        "task_order INTEGER NOT NULL CHECK(task_order >= 0), "
+        "depends_on_json TEXT NOT NULL, settings_json TEXT NOT NULL, "
+        "PRIMARY KEY(job_id, task_key), UNIQUE(job_id, task_order), "
+        "FOREIGN KEY(job_id) REFERENCES jobs(job_id) ON DELETE RESTRICT"
+        ")"
+    )
+    connection.execute(
+        "INSERT INTO job_tasks_v16(job_id, task_key, task_type, task_order, "
+        "depends_on_json, settings_json) "
+        "SELECT job_id, task_key, task_type, task_order, depends_on_json, settings_json "
+        "FROM job_tasks"
+    )
+    connection.execute("DROP TABLE job_tasks")
+    connection.execute("ALTER TABLE job_tasks_v16 RENAME TO job_tasks")
+    connection.execute(
+        "CREATE TABLE job_run_tasks_v16 ("
+        "run_id INTEGER NOT NULL, job_id INTEGER NOT NULL, task_key TEXT NOT NULL, "
+        "task_type TEXT NOT NULL CHECK(task_type IN ('python_script', 'notebook')), "
+        "task_order INTEGER NOT NULL CHECK(task_order >= 0), "
+        "depends_on_json TEXT NOT NULL, settings_json TEXT NOT NULL, "
+        "state TEXT NOT NULL CHECK(state IN "
+        "('pending', 'queued', 'running', 'succeeded', 'failed', 'cancelled', "
+        "'skipped', 'interrupted')), "
+        "attempt_count INTEGER NOT NULL DEFAULT 0 CHECK(attempt_count >= 0), "
+        "started_at TEXT, finished_at TEXT, error_code TEXT, "
+        "CHECK((state = 'pending' AND attempt_count = 0 AND started_at IS NULL "
+        "AND finished_at IS NULL) OR (state = 'queued' AND attempt_count > 0 "
+        "AND finished_at IS NULL) OR (state = 'running' AND attempt_count > 0 "
+        "AND started_at IS NOT NULL AND finished_at IS NULL) OR "
+        "(state = 'skipped' AND attempt_count = 0 AND finished_at IS NOT NULL) OR "
+        "(state IN ('succeeded', 'failed', 'cancelled', 'interrupted') "
+        "AND attempt_count > 0 AND finished_at IS NOT NULL)), "
+        "PRIMARY KEY(run_id, task_key), UNIQUE(run_id, job_id, task_key), "
+        "FOREIGN KEY(run_id, job_id) REFERENCES job_runs(run_id, job_id) "
+        "ON DELETE RESTRICT, "
+        "FOREIGN KEY(job_id, task_key) REFERENCES job_tasks(job_id, task_key) "
+        "ON DELETE RESTRICT"
+        ")"
+    )
+    connection.execute(
+        "INSERT INTO job_run_tasks_v16(run_id, job_id, task_key, task_type, task_order, "
+        "depends_on_json, settings_json, state, attempt_count, started_at, finished_at, "
+        "error_code) SELECT run_id, job_id, task_key, task_type, task_order, depends_on_json, "
+        "settings_json, state, attempt_count, started_at, finished_at, error_code "
+        "FROM job_run_tasks"
+    )
+    connection.execute("DROP TABLE job_run_tasks")
+    connection.execute("ALTER TABLE job_run_tasks_v16 RENAME TO job_run_tasks")
+    connection.execute(
+        "CREATE INDEX job_run_tasks_state_idx ON job_run_tasks(run_id, state, task_order)"
+    )
+    for _, trigger_sql in dependent_triggers:
+        connection.execute(trigger_sql)
+
+
+def _create_metadata_v17(connection: sqlite3.Connection) -> None:
+    """Bound and expire retained inline SQL statement results."""
+    connection.execute(
+        "ALTER TABLE sql_statements ADD COLUMN row_limit INTEGER "
+        "CHECK(row_limit IS NULL OR row_limit BETWEEN 1 AND 10000)"
+    )
+    connection.execute(
+        "ALTER TABLE sql_statements ADD COLUMN byte_limit INTEGER "
+        "CHECK(byte_limit IS NULL OR byte_limit BETWEEN 1 AND 8388608)"
+    )
+    connection.execute("DROP TRIGGER sql_statement_identity_is_immutable")
+    connection.execute(
+        "CREATE TRIGGER sql_statement_identity_is_immutable "
+        "BEFORE UPDATE OF statement_id, warehouse_id, sql_text, parameters_json, "
+        "catalog_name, schema_name, created_at, row_limit, byte_limit "
+        "ON sql_statements "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement identity is immutable'); END"
+    )
+
+    connection.execute(
+        "CREATE TABLE sql_statement_results ("
+        "statement_id TEXT PRIMARY KEY, has_result INTEGER NOT NULL CHECK(has_result IN (0, 1)), "
+        "manifest_json TEXT, expires_at TEXT, closed_at TEXT, "
+        "stored_bytes INTEGER NOT NULL CHECK(stored_bytes >= 0), "
+        "FOREIGN KEY(statement_id) REFERENCES sql_statements(statement_id) ON DELETE RESTRICT, "
+        "CHECK((has_result = 0 AND manifest_json IS NULL AND expires_at IS NULL "
+        "AND closed_at IS NULL AND stored_bytes = 0) OR "
+        "(has_result = 1 AND ((closed_at IS NULL AND manifest_json IS NOT NULL "
+        "AND expires_at IS NOT NULL AND stored_bytes > 0) OR "
+        "(closed_at IS NOT NULL AND manifest_json IS NULL AND stored_bytes = 0)))"
+        "))"
+    )
+    connection.execute(
+        "CREATE TABLE sql_statement_result_chunks ("
+        "statement_id TEXT NOT NULL, chunk_index INTEGER NOT NULL CHECK(chunk_index >= 0), "
+        "result_json TEXT NOT NULL, stored_bytes INTEGER NOT NULL CHECK(stored_bytes >= 0), "
+        "PRIMARY KEY(statement_id, chunk_index), "
+        "FOREIGN KEY(statement_id) REFERENCES sql_statement_results(statement_id) "
+        "ON DELETE RESTRICT"
+        ")"
+    )
+    connection.execute(
+        "CREATE INDEX sql_statement_results_expiry_idx "
+        "ON sql_statement_results(expires_at, closed_at)"
+    )
+    connection.execute("DROP TRIGGER sql_terminal_statements_are_immutable")
+
+    existing = connection.execute(
+        "SELECT statement_id, finished_at, manifest_json, result_json FROM sql_statements "
+        "WHERE state = 'SUCCEEDED'"
+    ).fetchall()
+    migration_now = datetime.now(UTC).isoformat(timespec="microseconds")
+    for statement_id, finished_at, manifest_json, result_json in existing:
+        if manifest_json is None or result_json is None:
+            connection.execute(
+                "INSERT INTO sql_statement_results "
+                "(statement_id, has_result, stored_bytes) VALUES (?, 0, 0)",
+                (statement_id,),
+            )
+            connection.execute(
+                "UPDATE sql_statements SET manifest_json = '{}', result_json = '{}' "
+                "WHERE statement_id = ?",
+                (statement_id,),
+            )
+            continue
+        finished = datetime.fromisoformat(str(finished_at))
+        if finished.tzinfo is None:
+            finished = finished.replace(tzinfo=UTC)
+        expires_at = (finished.astimezone(UTC) + timedelta(hours=12)).isoformat(
+            timespec="microseconds"
+        )
+        manifest = json.loads(str(manifest_json))
+        result = json.loads(str(result_json))
+        if not isinstance(manifest, dict) or not isinstance(result, dict):
+            raise sqlite3.IntegrityError("legacy SQL result payload is malformed")
+        rows = result.get("data_array")
+        if not isinstance(rows, list):
+            raise sqlite3.IntegrityError("legacy SQL result rows are malformed")
+        chunks: list[dict[str, object]] = []
+        descriptors: list[dict[str, int]] = []
+        for offset in range(0, len(rows), 1000):
+            chunk_rows = rows[offset : offset + 1000]
+            index = len(chunks)
+            chunks.append(
+                {
+                    "chunk_index": index,
+                    "data_array": chunk_rows,
+                    "row_count": len(chunk_rows),
+                    "row_offset": offset,
+                }
+            )
+            descriptors.append(
+                {"chunk_index": index, "row_count": len(chunk_rows), "row_offset": offset}
+            )
+        if not chunks:
+            chunks.append({"chunk_index": 0, "data_array": [], "row_count": 0, "row_offset": 0})
+            descriptors.append({"chunk_index": 0, "row_count": 0, "row_offset": 0})
+        manifest["chunks"] = descriptors
+        manifest["total_chunk_count"] = len(chunks)
+        migrated_manifest = json.dumps(
+            manifest,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        serialized_chunks = [
+            json.dumps(chunk, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+            for chunk in chunks
+        ]
+        stored_bytes = len(migrated_manifest.encode("utf-8")) + sum(
+            len(chunk.encode("utf-8")) for chunk in serialized_chunks
+        )
+        connection.execute(
+            "INSERT INTO sql_statement_results "
+            "(statement_id, has_result, manifest_json, expires_at, stored_bytes) "
+            "VALUES (?, 1, ?, ?, ?)",
+            (statement_id, migrated_manifest, expires_at, stored_bytes),
+        )
+        connection.executemany(
+            "INSERT INTO sql_statement_result_chunks "
+            "(statement_id, chunk_index, result_json, stored_bytes) VALUES (?, ?, ?, ?)",
+            [
+                (statement_id, index, chunk, len(chunk.encode("utf-8")))
+                for index, chunk in enumerate(serialized_chunks)
+            ],
+        )
+        connection.execute(
+            "UPDATE sql_statements SET manifest_json = '{}', result_json = '{}' "
+            "WHERE statement_id = ?",
+            (statement_id,),
+        )
+
+    # Apply the same 12-hour expiry, 8 MiB per-result ceiling, and 64 MiB workspace
+    # budget to the legacy payloads while the new close triggers are not installed yet.
+    active_results = connection.execute(
+        "SELECT statement_id, expires_at, stored_bytes FROM sql_statement_results "
+        "WHERE has_result = 1 AND closed_at IS NULL ORDER BY expires_at, statement_id"
+    ).fetchall()
+    retained_bytes = sum(int(row[2]) for row in active_results)
+    for statement_id, expires_at, stored_bytes in active_results:
+        should_close = (
+            str(expires_at) <= migration_now
+            or int(stored_bytes) > 8 * 1024 * 1024
+            or retained_bytes > 64 * 1024 * 1024
+        )
+        if not should_close:
+            continue
+        connection.execute(
+            "UPDATE sql_statement_results SET manifest_json = NULL, closed_at = ?, "
+            "stored_bytes = 0 WHERE statement_id = ?",
+            (migration_now, statement_id),
+        )
+        connection.execute(
+            "DELETE FROM sql_statement_result_chunks WHERE statement_id = ?",
+            (statement_id,),
+        )
+        retained_bytes -= int(stored_bytes)
+
+    connection.execute(
+        "CREATE TRIGGER sql_terminal_statements_are_immutable "
+        "BEFORE UPDATE ON sql_statements "
+        "WHEN OLD.state IN ('SUCCEEDED', 'FAILED', 'CANCELED') "
+        "BEGIN SELECT RAISE(ABORT, 'terminal SQL statements are immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_result_identity_is_immutable "
+        "BEFORE UPDATE OF statement_id, has_result, expires_at ON sql_statement_results "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement result identity is immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_result_close_is_one_way "
+        "BEFORE UPDATE ON sql_statement_results "
+        "WHEN OLD.closed_at IS NOT NULL OR NEW.closed_at IS NULL "
+        "OR NEW.manifest_json IS NOT NULL OR NEW.stored_bytes <> 0 "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement result close is invalid'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_result_chunk_update_is_forbidden "
+        "BEFORE UPDATE ON sql_statement_result_chunks "
+        "BEGIN SELECT RAISE(ABORT, 'SQL statement result chunks are immutable'); END"
+    )
+    connection.execute(
+        "CREATE TRIGGER sql_statement_result_chunk_delete_requires_close "
+        "BEFORE DELETE ON sql_statement_result_chunks "
+        "WHEN (SELECT closed_at FROM sql_statement_results "
+        "WHERE statement_id = OLD.statement_id) IS NULL "
+        "BEGIN SELECT RAISE(ABORT, 'active SQL statement result chunks cannot be deleted'); END"
+    )
+
+
+def _create_metadata_v18(connection: sqlite3.Connection) -> None:
+    """Journal native SQL row mutations and terminal non-commit outcomes."""
+    connection.execute("DROP INDEX table_operation_journal_pending_idx")
+    connection.execute("ALTER TABLE table_operation_journal RENAME TO table_operation_journal_v17")
+    connection.execute(
+        "CREATE TABLE table_operation_journal ("
+        "table_id TEXT NOT NULL, operation_id TEXT NOT NULL, "
+        "fingerprint TEXT NOT NULL CHECK(length(fingerprint) = 64), "
+        "mode TEXT NOT NULL CHECK(mode IN "
+        "('create', 'append', 'overwrite', 'sql_update', 'sql_delete')), "
+        "schema_fingerprint TEXT NOT NULL CHECK(length(schema_fingerprint) = 64), "
+        "input_sha256 TEXT NOT NULL CHECK(length(input_sha256) = 64), "
+        "transaction_version INTEGER CHECK(transaction_version IS NULL OR "
+        "transaction_version >= 0), "
+        "base_version INTEGER NOT NULL CHECK(base_version >= -1), "
+        "row_count INTEGER NOT NULL CHECK(row_count >= 0), "
+        "state TEXT NOT NULL CHECK(state IN "
+        "('prepared', 'committing', 'committed', 'uncertain', 'no_op', 'failed')), "
+        "commit_version INTEGER CHECK(commit_version IS NULL OR commit_version >= 0), "
+        "error_code TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, "
+        "PRIMARY KEY(table_id, operation_id), UNIQUE(table_id, transaction_version), "
+        "CHECK((state = 'committed' AND commit_version IS NOT NULL "
+        "AND transaction_version IS NOT NULL AND error_code IS NULL) OR "
+        "(state IN ('no_op', 'failed') AND commit_version IS NULL "
+        "AND transaction_version IS NULL) OR "
+        "(state IN ('prepared', 'committing', 'uncertain') "
+        "AND commit_version IS NULL AND transaction_version IS NOT NULL)), "
+        "CHECK((state = 'failed' AND error_code IS NOT NULL) OR "
+        "(state != 'failed' AND error_code IS NULL) OR state = 'uncertain'), "
+        "FOREIGN KEY (table_id) REFERENCES table_registrations(table_id) ON DELETE RESTRICT"
+        ")"
+    )
+    connection.execute(
+        "INSERT INTO table_operation_journal "
+        "(table_id, operation_id, fingerprint, mode, schema_fingerprint, input_sha256, "
+        "transaction_version, base_version, row_count, state, commit_version, error_code, "
+        "created_at, updated_at) "
+        "SELECT table_id, operation_id, fingerprint, mode, schema_fingerprint, input_sha256, "
+        "transaction_version, base_version, row_count, state, commit_version, error_code, "
+        "created_at, updated_at FROM table_operation_journal_v17"
+    )
+    connection.execute("DROP TABLE table_operation_journal_v17")
+    connection.execute(
+        "CREATE INDEX table_operation_journal_pending_idx "
+        "ON table_operation_journal(table_id, state, transaction_version)"
+    )
+
+
+def _create_metadata_v19(connection: sqlite3.Connection) -> None:
+    """Allow journaled native SQL MERGE operations without rewriting old records."""
+    connection.execute("DROP INDEX table_operation_journal_pending_idx")
+    connection.execute("ALTER TABLE table_operation_journal RENAME TO table_operation_journal_v18")
+    connection.execute(
+        "CREATE TABLE table_operation_journal ("
+        "table_id TEXT NOT NULL, operation_id TEXT NOT NULL, "
+        "fingerprint TEXT NOT NULL CHECK(length(fingerprint) = 64), "
+        "mode TEXT NOT NULL CHECK(mode IN "
+        "('create', 'append', 'overwrite', 'sql_update', 'sql_delete', 'sql_merge')), "
+        "schema_fingerprint TEXT NOT NULL CHECK(length(schema_fingerprint) = 64), "
+        "input_sha256 TEXT NOT NULL CHECK(length(input_sha256) = 64), "
+        "transaction_version INTEGER CHECK(transaction_version IS NULL OR "
+        "transaction_version >= 0), "
+        "base_version INTEGER NOT NULL CHECK(base_version >= -1), "
+        "row_count INTEGER NOT NULL CHECK(row_count >= 0), "
+        "state TEXT NOT NULL CHECK(state IN "
+        "('prepared', 'committing', 'committed', 'uncertain', 'no_op', 'failed')), "
+        "commit_version INTEGER CHECK(commit_version IS NULL OR commit_version >= 0), "
+        "error_code TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, "
+        "PRIMARY KEY(table_id, operation_id), UNIQUE(table_id, transaction_version), "
+        "CHECK((state = 'committed' AND commit_version IS NOT NULL "
+        "AND transaction_version IS NOT NULL AND error_code IS NULL) OR "
+        "(state IN ('no_op', 'failed') AND commit_version IS NULL "
+        "AND transaction_version IS NULL) OR "
+        "(state IN ('prepared', 'committing', 'uncertain') "
+        "AND commit_version IS NULL AND transaction_version IS NOT NULL)), "
+        "CHECK((state = 'failed' AND error_code IS NOT NULL) OR "
+        "(state != 'failed' AND error_code IS NULL) OR state = 'uncertain'), "
+        "FOREIGN KEY (table_id) REFERENCES table_registrations(table_id) ON DELETE RESTRICT"
+        ")"
+    )
+    connection.execute(
+        "INSERT INTO table_operation_journal "
+        "(table_id, operation_id, fingerprint, mode, schema_fingerprint, input_sha256, "
+        "transaction_version, base_version, row_count, state, commit_version, error_code, "
+        "created_at, updated_at) "
+        "SELECT table_id, operation_id, fingerprint, mode, schema_fingerprint, input_sha256, "
+        "transaction_version, base_version, row_count, state, commit_version, error_code, "
+        "created_at, updated_at FROM table_operation_journal_v18"
+    )
+    connection.execute("DROP TABLE table_operation_journal_v18")
+    connection.execute(
+        "CREATE INDEX table_operation_journal_pending_idx "
+        "ON table_operation_journal(table_id, state, transaction_version)"
+    )
+
+
+def _create_metadata_v20(connection: sqlite3.Connection) -> None:
+    """Expire bounded worker output after its retention window, preserving history."""
+    connection.execute("ALTER TABLE job_task_attempt_outputs ADD COLUMN expired_at TEXT")
+    connection.execute("DROP TRIGGER job_attempt_outputs_are_immutable")
+    connection.execute(
+        "CREATE TRIGGER job_attempt_outputs_are_immutable "
+        "BEFORE UPDATE ON job_task_attempt_outputs WHEN "
+        "NEW.run_id != OLD.run_id OR NEW.task_key != OLD.task_key OR "
+        "NEW.attempt_number != OLD.attempt_number OR "
+        "NEW.stdout_truncated != OLD.stdout_truncated OR "
+        "NEW.stderr_truncated != OLD.stderr_truncated OR "
+        "OLD.expired_at IS NOT NULL OR NEW.expired_at IS NULL OR "
+        "NEW.stdout != '' OR NEW.stderr != '' "
+        "BEGIN SELECT RAISE(ABORT, 'job task attempt output is immutable except for expiry'); END"
+    )
+
+
+def _create_metadata_v21(connection: sqlite3.Connection) -> None:
+    """Persist public concurrency identity and the durable run dispatch queue."""
+    connection.execute("ALTER TABLE job_runs ADD COLUMN admission_key TEXT NOT NULL DEFAULT ''")
+    connection.execute("ALTER TABLE job_runs ADD COLUMN dispatched_at TEXT")
+    connection.execute(
+        "UPDATE job_runs SET admission_key = 'job:' || job_id WHERE admission_key = '' "
+        "AND state IN ('queued', 'running')"
+    )
+    connection.execute(
+        "UPDATE job_runs SET admission_key = 'terraform:' || ("
+        "SELECT revision.job_id FROM terraform_job_revisions AS revision "
+        "WHERE revision.definition_job_id = job_runs.job_id "
+        "ORDER BY revision.revision DESC LIMIT 1) "
+        "WHERE EXISTS (SELECT 1 FROM terraform_job_revisions AS revision "
+        "WHERE revision.definition_job_id = job_runs.job_id) "
+        "AND state IN ('queued', 'running')"
+    )
+    connection.execute(
+        "UPDATE job_runs SET dispatched_at = coalesce(started_at, created_at) "
+        "WHERE state = 'running'"
+    )
+    connection.execute(
+        "CREATE INDEX job_runs_admission_state_idx "
+        "ON job_runs(admission_key, state, dispatched_at, run_id)"
+    )
+
+
 def _migrate_workspace_metadata(workspace: Workspace) -> Workspace:
     """Upgrade a validated workspace while its owner lock is held."""
     connection = sqlite3.connect(workspace.metadata_path, timeout=5.0)
@@ -1214,6 +1809,31 @@ def open_workspace(path: str | Path) -> Workspace:
             }
             if not required_new_triggers <= compute_triggers:
                 raise WorkspaceCorruptError("workspace output/lifecycle triggers are incomplete")
+        if user_version[0] >= 20:
+            output_columns = {
+                column[1]
+                for column in connection.execute(
+                    "PRAGMA table_info(job_task_attempt_outputs)"
+                ).fetchall()
+            }
+            if "expired_at" not in output_columns:
+                raise WorkspaceCorruptError("workspace job output retention schema is incomplete")
+        if user_version[0] >= 21:
+            run_columns = {
+                column[1] for column in connection.execute("PRAGMA table_info(job_runs)").fetchall()
+            }
+            if not {"admission_key", "dispatched_at"} <= run_columns:
+                raise WorkspaceCorruptError("workspace job admission queue schema is incomplete")
+            if connection.execute(
+                "SELECT count(*) FROM job_runs WHERE admission_key = '' "
+                "AND state IN ('queued', 'running')"
+            ).fetchone()[0]:
+                raise WorkspaceCorruptError("workspace job admission identity is incomplete")
+            if not connection.execute(
+                "SELECT 1 FROM sqlite_master WHERE type = 'index' "
+                "AND name = 'job_runs_admission_state_idx'"
+            ).fetchone():
+                raise WorkspaceCorruptError("workspace job admission queue index is missing")
         if user_version[0] >= 9:
             worker_columns = {
                 column[1]
@@ -1313,6 +1933,169 @@ def open_workspace(path: str | Path) -> Workspace:
                 <= deletion_triggers
             ):
                 raise WorkspaceCorruptError("workspace job deletion constraints are incomplete")
+        if user_version[0] >= 13:
+            required_warehouse_columns = {
+                "sql_warehouses": {
+                    "warehouse_id",
+                    "name",
+                    "warehouse_type",
+                    "enable_serverless_compute",
+                    "cluster_size",
+                    "auto_stop_mins",
+                    "enable_photon",
+                    "min_num_clusters",
+                    "max_num_clusters",
+                    "statement_timeout",
+                    "state",
+                    "generation",
+                    "deleted_at",
+                },
+                "sql_warehouse_lifecycle_events": {
+                    "event_id",
+                    "warehouse_id",
+                    "event_type",
+                    "state",
+                    "generation",
+                    "invalidates_statements",
+                    "occurred_at",
+                    "details_json",
+                },
+                "sql_statement_admission_leases": {
+                    "statement_id",
+                    "warehouse_id",
+                    "generation",
+                    "state",
+                    "admitted_at",
+                    "released_at",
+                    "invalidated_at",
+                },
+            }
+            for table, required in required_warehouse_columns.items():
+                columns = {
+                    column[1]
+                    for column in connection.execute(f"PRAGMA table_info({table})").fetchall()
+                }
+                if not required <= columns:
+                    raise WorkspaceCorruptError(f"workspace {table} schema is incomplete")
+            warehouse_objects = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type IN ('index', 'trigger')"
+                ).fetchall()
+            }
+            required_warehouse_objects = {
+                "sql_warehouses_active_name_unique",
+                "sql_warehouse_events_resource_idx",
+                "sql_statement_admission_active_idx",
+                "sql_warehouse_identity_is_immutable",
+                "sql_warehouse_delete_is_terminal",
+                "sql_warehouse_events_are_immutable",
+                "sql_warehouse_events_cannot_be_deleted",
+                "sql_statement_lease_identity_is_immutable",
+                "sql_statement_lease_terminal_is_immutable",
+                "sql_statement_leases_cannot_be_deleted",
+            }
+            if not required_warehouse_objects <= warehouse_objects:
+                raise WorkspaceCorruptError("workspace SQL warehouse constraints are incomplete")
+        if user_version[0] >= 14:
+            required_statement_columns = {
+                "statement_id",
+                "warehouse_id",
+                "sql_text",
+                "catalog_name",
+                "schema_name",
+                "state",
+                "created_at",
+                "started_at",
+                "finished_at",
+                "error_code",
+                "error_message",
+                "sql_state",
+                "manifest_json",
+                "result_json",
+                "result_row_count",
+                "result_byte_count",
+            }
+            statement_columns = {
+                column[1]
+                for column in connection.execute("PRAGMA table_info(sql_statements)").fetchall()
+            }
+            if not required_statement_columns <= statement_columns:
+                raise WorkspaceCorruptError("workspace SQL statement schema is incomplete")
+            statement_objects = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type IN ('index', 'trigger')"
+                ).fetchall()
+            }
+            required_statement_objects = {
+                "sql_statements_warehouse_created_idx",
+                "sql_statements_state_created_idx",
+                "sql_statement_identity_is_immutable",
+                "sql_statement_state_transitions_are_valid",
+                "sql_terminal_statements_are_immutable",
+                "sql_statements_cannot_be_deleted",
+            }
+            if not required_statement_objects <= statement_objects:
+                raise WorkspaceCorruptError("workspace SQL statement constraints are incomplete")
+        if user_version[0] >= 15:
+            statement_columns = {
+                column[1]
+                for column in connection.execute("PRAGMA table_info(sql_statements)").fetchall()
+            }
+            if "parameters_json" not in statement_columns:
+                raise WorkspaceCorruptError(
+                    "workspace SQL statement parameter schema is incomplete"
+                )
+        if user_version[0] >= 17:
+            statement_columns = {
+                column[1]
+                for column in connection.execute("PRAGMA table_info(sql_statements)").fetchall()
+            }
+            if not {"row_limit", "byte_limit"} <= statement_columns:
+                raise WorkspaceCorruptError("workspace SQL result limits are incomplete")
+            result_columns = {
+                "sql_statement_results": {
+                    "statement_id",
+                    "has_result",
+                    "manifest_json",
+                    "expires_at",
+                    "closed_at",
+                    "stored_bytes",
+                },
+                "sql_statement_result_chunks": {
+                    "statement_id",
+                    "chunk_index",
+                    "result_json",
+                    "stored_bytes",
+                },
+            }
+            for table, required in result_columns.items():
+                columns = {
+                    column[1]
+                    for column in connection.execute(f"PRAGMA table_info({table})").fetchall()
+                }
+                if not required <= columns:
+                    raise WorkspaceCorruptError(f"workspace {table} schema is incomplete")
+            result_objects = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type IN ('index', 'trigger')"
+                ).fetchall()
+            }
+            if (
+                not {
+                    "sql_statement_results_expiry_idx",
+                    "sql_statement_result_identity_is_immutable",
+                    "sql_statement_result_close_is_one_way",
+                    "sql_statement_result_chunk_update_is_forbidden",
+                    "sql_statement_result_chunk_delete_requires_close",
+                }
+                <= result_objects
+            ):
+                raise WorkspaceCorruptError(
+                    "workspace SQL result retention constraints are incomplete"
+                )
         rows = dict(connection.execute("SELECT key, value FROM workspace_metadata"))
         try:
             stored_format = int(rows["format_version"])

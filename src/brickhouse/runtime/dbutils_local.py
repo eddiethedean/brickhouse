@@ -6,13 +6,14 @@ constructed inside each job worker and do not alter the parent interpreter.
 
 from __future__ import annotations
 
+import base64
 import json
 import math
 import os
 import shutil
 import stat
 import tempfile
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -24,6 +25,10 @@ MAX_DBUTILS_PATH_BYTES = 4096
 MAX_DBUTILS_FILE_BYTES = 64 * 1024 * 1024
 MAX_DBUTILS_HEAD_BYTES = 1024 * 1024
 MAX_DBUTILS_TREE_ENTRIES = 10_000
+MAX_NOTEBOOK_RUN_ARGUMENTS = 16 * 1024
+MAX_NOTEBOOK_EXIT_VALUE_BYTES = 1024 * 1024
+MAX_NOTEBOOK_RUN_TIMEOUT_SECONDS = 24 * 60 * 60
+MAX_NOTEBOOK_PATH_BYTES = 4096
 
 
 class DbutilsOperationNotSupportedError(NotImplementedError):
@@ -32,6 +37,107 @@ class DbutilsOperationNotSupportedError(NotImplementedError):
 
 class DbutilsPathError(ValueError):
     """A path is outside the supported DBFS namespace or crosses its root."""
+
+
+class NotebookExitSignal(Exception):
+    """Private control signal used to stop a child notebook successfully."""
+
+    def __init__(self, token: str, value: str) -> None:
+        encoded = base64.urlsafe_b64encode(value.encode("utf-8")).decode("ascii")
+        super().__init__(f"{token}:{encoded}")
+        self.value = value
+
+
+class NotebookRunError(RuntimeError):
+    """A child notebook failed without exposing its temporary output path."""
+
+    def __init__(self, error_type: str) -> None:
+        super().__init__(f"child notebook execution failed ({error_type})")
+        self.error_type = error_type
+
+
+class NotebookRunTimeoutError(TimeoutError):
+    """A child notebook exceeded the caller's timeout."""
+
+
+class LocalDbutilsNotebook:
+    """The isolated local subset of ``dbutils.notebook``."""
+
+    def __init__(
+        self,
+        run_callback: Callable[[str, int, Mapping[str, str]], str],
+        exit_token: str,
+    ) -> None:
+        self._run_callback = run_callback
+        self._exit_token = exit_token
+
+    def run(
+        self,
+        path: str,
+        timeout_seconds: int = 0,
+        arguments: Mapping[str, str] | None = None,
+    ) -> str:
+        """Run one isolated local child notebook and return its string exit value."""
+        if not isinstance(path, str) or not path or "\x00" in path:
+            raise ValueError("notebook path must be a non-empty string")
+        if len(path.encode("utf-8")) > MAX_NOTEBOOK_PATH_BYTES:
+            raise ValueError(f"notebook path exceeds the {MAX_NOTEBOOK_PATH_BYTES}-byte limit")
+        if (
+            type(timeout_seconds) is not int
+            or timeout_seconds < 0
+            or timeout_seconds > MAX_NOTEBOOK_RUN_TIMEOUT_SECONDS
+        ):
+            raise ValueError(
+                f"timeout_seconds must be from 0 to {MAX_NOTEBOOK_RUN_TIMEOUT_SECONDS}"
+            )
+        if arguments is None:
+            selected_arguments: dict[str, str] = {}
+        elif isinstance(arguments, Mapping):
+            selected_arguments = dict(arguments)
+        else:
+            raise TypeError("notebook arguments must be a string-to-string mapping")
+        if any(
+            not isinstance(key, str)
+            or not isinstance(value, str)
+            or not key.isascii()
+            or not value.isascii()
+            or "\x00" in key
+            or "\x00" in value
+            for key, value in selected_arguments.items()
+        ):
+            raise ValueError("notebook argument names and values must be ASCII strings")
+        try:
+            encoded_size = len(
+                json.dumps(selected_arguments, separators=(",", ":"), sort_keys=True).encode(
+                    "ascii"
+                )
+            )
+        except (TypeError, UnicodeEncodeError) as error:
+            raise ValueError("notebook arguments must be an ASCII string mapping") from error
+        if encoded_size > MAX_NOTEBOOK_RUN_ARGUMENTS:
+            raise ValueError(
+                f"notebook arguments exceed the {MAX_NOTEBOOK_RUN_ARGUMENTS}-byte limit"
+            )
+        return self._run_callback(path, timeout_seconds, selected_arguments)
+
+    def exit(self, value: str = "") -> None:
+        """Stop the current notebook and return a string to its caller."""
+        if not isinstance(value, str):
+            raise TypeError("notebook exit value must be a string")
+        try:
+            encoded_size = len(value.encode("utf-8"))
+        except UnicodeEncodeError as error:
+            raise ValueError("notebook exit value must be valid UTF-8") from error
+        if encoded_size > MAX_NOTEBOOK_EXIT_VALUE_BYTES:
+            raise ValueError(
+                f"notebook exit value exceeds the {MAX_NOTEBOOK_EXIT_VALUE_BYTES}-byte limit"
+            )
+        raise NotebookExitSignal(self._exit_token, value)
+
+    def __getattr__(self, name: str) -> Any:
+        raise DbutilsOperationNotSupportedError(
+            f"dbutils.notebook.{name} is not implemented by the local worker profile"
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -555,10 +661,13 @@ class LocalDbutils:
         widget_parameters: Mapping[str, str],
         secret_scopes: Mapping[str, Mapping[str, bytes]] | None = None,
         worker_services: WorkerServiceClient | None = None,
+        notebook: LocalDbutilsNotebook | None = None,
     ) -> None:
         self.fs = LocalDbutilsFs(dbfs_root)
         self.widgets = LocalDbutilsWidgets(widget_parameters)
         self.secrets = LocalDbutilsSecrets(secret_scopes or {})
+        if notebook is not None:
+            self.notebook = notebook
         if worker_services is not None:
             self.jobs = LocalDbutilsJobs(worker_services)
 

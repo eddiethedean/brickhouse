@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import threading
 import time
 from collections.abc import Callable, Mapping, Sequence
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from typing import cast
 
 from brickhouse.compute.models import ComputeRecord, ComputeResourceKind, ComputeState
@@ -14,6 +15,7 @@ from brickhouse.jobs.execution_context import (
     ExecutionContextResolutionError,
     ExecutionContextResolver,
     ResolvedTaskContext,
+    validate_notebook_parameters,
     validate_python_parameters,
 )
 from brickhouse.jobs.models import (
@@ -31,6 +33,12 @@ from brickhouse.jobs.repository import (
     JobRepository,
     JobRepositoryError,
 )
+from brickhouse.jobs.terraform import TerraformJobRegistry
+from brickhouse.notebooks.source_format import (
+    NotebookSourceFormatError,
+    notebook_environment_spec,
+    parse_databricks_python_source,
+)
 from brickhouse.runtime import (
     WorkerCallMessage,
     WorkerConfigurationError,
@@ -41,11 +49,17 @@ from brickhouse.runtime import (
 from brickhouse.runtime.outcomes import WorkerAttemptOutcome, worker_process_exists
 from brickhouse.runtime.secrets import SecretProviderError
 from brickhouse.runtime.worker import run_python_worker
+from brickhouse.runtime.worker_auth import MAX_WORKER_MESSAGE_BYTES
 from brickhouse.runtime.worker_services import WorkerCallHandler, WorkerServiceError
 from brickhouse.workspace.context import WorkspaceContext
-from brickhouse.workspace.files import WorkspaceFileNotFoundError, WorkspaceFileService
+from brickhouse.workspace.files import (
+    WorkspaceFileError,
+    WorkspaceFileService,
+)
 
-MAX_ACTIVE_JOB_RUNS = 4
+MAX_ACTIVE_JOB_RUNS = 2
+MAX_QUEUED_JOB_RUNS = 8
+MAX_ADMITTED_JOB_RUNS = MAX_ACTIVE_JOB_RUNS + MAX_QUEUED_JOB_RUNS
 
 
 class UnsupportedJobRequestError(ValueError):
@@ -54,6 +68,9 @@ class UnsupportedJobRequestError(ValueError):
 
 class JobAdmissionError(RuntimeError):
     """The local job runner cannot admit another active run."""
+
+
+ParameterOverride = list[str] | dict[str, str] | None
 
 
 class JobExecutionService:
@@ -67,14 +84,14 @@ class JobExecutionService:
         self._active: dict[int, tuple[int, threading.Thread, threading.Event]] = {}
         self._closed = False
         self._recover_abandoned_runs()
+        with self._lock:
+            self._schedule_queued_runs()
 
     def _recover_abandoned_runs(self) -> None:
         """Reconcile runs left active by an earlier service process."""
         with self._lock:
-            for job in self._repository.list_jobs():
-                for run in self._repository.list_runs(job.job_id):
-                    if run.state in {JobRunState.QUEUED, JobRunState.RUNNING}:
-                        self._reconcile_run_if_abandoned(run.run_id)
+            for run in self._repository.list_active_runs():
+                self._reconcile_run_if_abandoned(run.run_id)
 
     def _reconcile_run_if_abandoned(self, run_id: int) -> None:
         """Preserve observed worker outcomes and interrupt work with no live owner."""
@@ -84,6 +101,13 @@ class JobExecutionService:
                 return
             current = self._active.get(run_id)
             if current is not None and current[1].is_alive():
+                return
+
+            attempts = self._repository.list_attempts(run_id)
+            if run.state is JobRunState.QUEUED and not attempts:
+                if run.dispatched_at is not None:
+                    self._context.compute.release_run_consumers(run_id)
+                    self._repository.reset_unstarted_dispatch(run_id)
                 return
 
             active_attempts = [
@@ -121,14 +145,7 @@ class JobExecutionService:
             self._context.compute.release_run_consumers(run_id)
 
     def _active_persisted_runs(self) -> list[JobRunRecord]:
-        active: list[JobRunRecord] = []
-        for job in self._repository.list_jobs():
-            active.extend(
-                run
-                for run in self._repository.list_runs(job.job_id)
-                if run.state in {JobRunState.QUEUED, JobRunState.RUNNING}
-            )
-        return active
+        return self._repository.list_active_runs()
 
     def create_job(self, body: Mapping[str, object]) -> JobRecord:
         """Validate supported SDK Python script tasks and store their immutable profile."""
@@ -164,15 +181,43 @@ class JobExecutionService:
         max_concurrent_runs = body.get("max_concurrent_runs", 1)
         if (
             type(max_concurrent_runs) is not int
-            or not 1 <= max_concurrent_runs <= MAX_ACTIVE_JOB_RUNS
+            or not 1 <= max_concurrent_runs <= MAX_ADMITTED_JOB_RUNS
         ):
             raise UnsupportedJobRequestError(
                 "max_concurrent_runs must be between 1 and the local process limit "
-                f"of {MAX_ACTIVE_JOB_RUNS}"
+                f"of {MAX_ADMITTED_JOB_RUNS}"
             )
         tasks = _object_sequence(body.get("tasks"), "tasks", minimum=1)
         job_clusters = _object_sequence(body.get("job_clusters", []), "job_clusters")
         environments = _object_sequence(body.get("environments", []), "environments")
+        notebook_environments: dict[str, Mapping[str, object]] = {}
+        for task in tasks:
+            notebook_task = task.get("notebook_task")
+            if not isinstance(notebook_task, Mapping):
+                continue
+            notebook_path = notebook_task.get("notebook_path")
+            if not isinstance(notebook_path, str):
+                continue
+            notebook = self._files.get_workspace_object(notebook_path)
+            if notebook.object_type != "FILE" or notebook.size_bytes is None:
+                raise InvalidJobDefinitionError("notebook_path must name a local notebook file")
+            if notebook.local_path.suffix.casefold() not in {".ipynb", ".py"}:
+                raise UnsupportedJobRequestError(
+                    "local notebook tasks support .ipynb files and marked Python .py exports"
+                )
+            try:
+                specification = notebook_environment_spec(notebook.local_path)
+                if notebook.local_path.suffix.casefold() == ".py":
+                    parse_databricks_python_source(notebook.local_path)
+            except NotebookSourceFormatError as error:
+                raise InvalidJobDefinitionError(str(error)) from error
+            selectors = ("new_cluster", "existing_cluster_id", "job_cluster_key")
+            if (
+                task.get("environment_key") is None
+                and not any(task.get(selector) is not None for selector in selectors)
+                and specification is not None
+            ):
+                notebook_environments[str(task.get("task_key"))] = specification
         performance_target = body.get("performance_target")
         if performance_target is not None and not isinstance(performance_target, str):
             raise InvalidJobDefinitionError("performance_target must be a string")
@@ -181,20 +226,31 @@ class JobExecutionService:
             tasks,
             job_clusters=job_clusters,
             environments=environments,
+            notebook_environments=notebook_environments,
             performance_target=performance_target,
         )
         task_definitions: list[JobTaskDefinition] = []
         for task, task_context in zip(tasks, resolved, strict=True):
-            if task_context.task_type != "python_script":
+            if task_context.task_type not in {"python_script", "notebook"}:
                 raise UnsupportedJobRequestError(
-                    "the SDK job route currently executes Python script tasks; notebook "
-                    "execution belongs to the notebook kernel profile"
+                    "the SDK job route supports only Python script and notebook tasks"
                 )
             arguments = task_context.task_arguments
-            script_path = arguments.get("python_file")
-            if not isinstance(script_path, str):
-                raise InvalidJobDefinitionError("resolved task is missing python_file")
-            self._files.get_python(script_path)
+            file_key = (
+                "python_file" if task_context.task_type == "python_script" else "notebook_path"
+            )
+            workspace_path = arguments.get(file_key)
+            if not isinstance(workspace_path, str):
+                raise InvalidJobDefinitionError(f"resolved task is missing {file_key}")
+            if task_context.task_type == "python_script":
+                self._files.get_python(workspace_path)
+            else:
+                notebook = self._files.get_workspace_object(workspace_path)
+                if notebook.object_type != "FILE" or notebook.local_path.suffix.casefold() not in {
+                    ".ipynb",
+                    ".py",
+                }:
+                    raise InvalidJobDefinitionError("notebook_path must name a supported file")
             settings = _resolved_context_settings(task_context)
             task_description = task.get("description")
             if task_description is not None and (
@@ -209,6 +265,7 @@ class JobExecutionService:
             task_definitions.append(
                 JobTaskDefinition(
                     task_context.task_key,
+                    task_type=task_context.task_type,
                     depends_on=_dependencies(task.get("depends_on", [])),
                     settings=settings,
                 )
@@ -248,9 +305,23 @@ class JobExecutionService:
                 on_delete()
             self._repository.delete_job(job_id)
 
-    def submit_run(self, body: Mapping[str, object]) -> tuple[JobRunRecord, bool]:
+    def promote_admission_identity(self, job_id: int, public_job_id: int) -> None:
+        """Rekey all prior run history when reset creates a stable public job ID."""
+        with self._lock:
+            self._repository.rekey_admission_identity(
+                f"job:{job_id}",
+                f"terraform:{public_job_id}",
+            )
+            self._schedule_queued_runs()
+
+    def submit_run(
+        self,
+        body: Mapping[str, object],
+        *,
+        admission_key: str | None = None,
+    ) -> tuple[JobRunRecord, bool]:
         """Create one idempotent run and start its background worker if it is new."""
-        allowed = {"job_id", "idempotency_token", "python_params"}
+        allowed = {"job_id", "idempotency_token", "python_params", "notebook_params"}
         unknown = set(body) - allowed
         if unknown:
             raise UnsupportedJobRequestError(
@@ -262,8 +333,22 @@ class JobExecutionService:
         token = body.get("idempotency_token")
         if token is not None and not isinstance(token, str):
             raise InvalidJobDefinitionError("idempotency_token must be a string")
-        parameters_value = body.get("python_params")
-        parameters = _python_parameters(parameters_value) if parameters_value is not None else None
+        python_parameters_value = body.get("python_params")
+        notebook_parameters_value = body.get("notebook_params")
+        if python_parameters_value is not None and notebook_parameters_value is not None:
+            raise UnsupportedJobRequestError(
+                "run-now cannot include both python_params and notebook_params"
+            )
+        parameters: ParameterOverride
+        if python_parameters_value is not None:
+            parameters = _python_parameters(python_parameters_value)
+        elif notebook_parameters_value is not None:
+            try:
+                parameters = validate_notebook_parameters(notebook_parameters_value)
+            except ExecutionContextResolutionError as error:
+                raise InvalidJobDefinitionError(str(error)) from error
+        else:
+            parameters = None
 
         with self._lock:
             if self._closed:
@@ -272,12 +357,23 @@ class JobExecutionService:
             job = self._repository.get_active_job(job_id)
             if parameters is not None and len(job.tasks) > 1:
                 raise UnsupportedJobRequestError(
-                    "python_params run-now overrides are supported only for single-task jobs; "
+                    "run-now parameter overrides are supported only for single-task jobs; "
                     "set parameters on each task"
+                )
+            if isinstance(parameters, list) and job.tasks[0].task_type != "python_script":
+                raise UnsupportedJobRequestError(
+                    "python_params run-now overrides require a Python script task"
+                )
+            if isinstance(parameters, dict) and job.tasks[0].task_type != "notebook":
+                raise UnsupportedJobRequestError(
+                    "notebook_params run-now overrides require a notebook task"
                 )
             submitted_settings: dict[str, object] = {}
             if parameters is not None:
-                submitted_settings["python_params"] = parameters
+                parameter_name = (
+                    "python_params" if isinstance(parameters, list) else "notebook_params"
+                )
+                submitted_settings[parameter_name] = parameters
             if token is not None:
                 replay = self._repository.find_submission_by_token(
                     job_id,
@@ -286,58 +382,100 @@ class JobExecutionService:
                 )
                 if replay is not None:
                     return replay.run, True
+            self._schedule_queued_runs()
             active_runs = self._active_persisted_runs()
-            job_active_count = sum(active_run.job_id == job_id for active_run in active_runs)
+            stable_job_id = (
+                TerraformJobRegistry(self._context).resolve_resource_id(job_id)
+                if admission_key is None
+                else None
+            )
+            selected_admission_key = (
+                admission_key
+                if admission_key is not None
+                else f"terraform:{stable_job_id}"
+                if stable_job_id is not None
+                else f"job:{job_id}"
+            )
             max_concurrent_runs = job.settings.get("max_concurrent_runs", 1)
             if (
                 type(max_concurrent_runs) is not int
-                or not 1 <= max_concurrent_runs <= MAX_ACTIVE_JOB_RUNS
+                or not 1 <= max_concurrent_runs <= MAX_ADMITTED_JOB_RUNS
             ):
                 raise JobRepositoryError("persisted job concurrency setting is invalid")
-            if len(active_runs) >= MAX_ACTIVE_JOB_RUNS:
+            active_for_key = sum(
+                active_run.admission_key == selected_admission_key for active_run in active_runs
+            )
+            waiting_runs = self._repository.list_queued_runs()
+            will_queue = (
+                len(active_runs) >= MAX_ACTIVE_JOB_RUNS
+                or active_for_key >= max_concurrent_runs
+                or bool(waiting_runs)
+            )
+            if will_queue and len(waiting_runs) >= MAX_QUEUED_JOB_RUNS:
                 raise JobAdmissionError(
-                    f"the local process limit of {MAX_ACTIVE_JOB_RUNS} active runs is reached"
-                )
-            if job_active_count >= max_concurrent_runs:
-                raise JobAdmissionError(
-                    f"job {job_id} reached max_concurrent_runs={max_concurrent_runs}"
+                    f"the local queue limit of {MAX_QUEUED_JOB_RUNS} waiting runs is reached"
                 )
             submission = self._repository.submit_run(
                 job_id,
                 submitted_settings=submitted_settings,
                 submission_token=token,
+                admission_key=selected_admission_key,
             )
             if not submission.replayed:
-                try:
-                    self._reserve_run_compute(submission.run.run_id, job)
-                except Exception as error:
-                    try:
-                        self._context.compute.release_run_consumers(submission.run.run_id)
-                    finally:
-                        self._repository.interrupt_run(
-                            submission.run.run_id, error_code="COMPUTE_ADMISSION_FAILED"
-                        )
-                    raise JobAdmissionError(
-                        "could not reserve the selected local compute resources"
-                    ) from error
+                self._schedule_queued_runs()
+            return submission.run, submission.replayed
+
+    def _schedule_queued_runs(self) -> None:
+        """Dispatch eligible FIFO runs while both global and public-job slots remain."""
+        if self._closed:
+            return
+        while True:
+            active = self._active_persisted_runs()
+            if len(active) >= MAX_ACTIVE_JOB_RUNS:
+                return
+            queued = self._repository.list_queued_runs()
+            if not queued:
+                return
+            selected: tuple[JobRunRecord, JobRecord] | None = None
+            for run in queued:
+                job = self._repository.get_job(run.job_id)
+                max_concurrent_runs = job.settings.get("max_concurrent_runs", 1)
+                if type(max_concurrent_runs) is not int or not 1 <= max_concurrent_runs <= (
+                    MAX_ADMITTED_JOB_RUNS
+                ):
+                    raise JobRepositoryError("persisted job concurrency setting is invalid")
+                active_for_key = sum(
+                    active_run.admission_key == run.admission_key for active_run in active
+                )
+                if active_for_key < max_concurrent_runs:
+                    selected = (run, job)
+                    break
+            if selected is None:
+                return
+            run, job = selected
+            try:
+                self._repository.mark_run_dispatched(run.run_id)
+                self._reserve_run_compute(run.run_id, job)
                 cancel_event = threading.Event()
                 thread = threading.Thread(
                     target=self._execute_run,
-                    args=(submission.run.run_id, job, parameters, cancel_event),
-                    name=f"brickhouse-job-{submission.run.run_id}",
+                    args=(run.run_id, job, _parameters_from_settings(run), cancel_event),
+                    name=f"brickhouse-job-{run.run_id}",
                     daemon=False,
                 )
-                self._active[submission.run.run_id] = (job_id, thread, cancel_event)
+                self._active[run.run_id] = (job.job_id, thread, cancel_event)
+                thread.start()
+            except Exception:
+                self._active.pop(run.run_id, None)
                 try:
-                    thread.start()
-                except RuntimeError as error:
-                    self._active.pop(submission.run.run_id, None)
-                    self._context.compute.release_run_consumers(submission.run.run_id)
-                    self._repository.interrupt_run(
-                        submission.run.run_id, error_code="WORKER_START_FAILED"
-                    )
-                    raise JobAdmissionError("could not start the local job worker") from error
-            return submission.run, submission.replayed
+                    self._context.compute.release_run_consumers(run.run_id)
+                finally:
+                    current = self._repository.get_run(run.run_id)
+                    if current.state in {JobRunState.QUEUED, JobRunState.RUNNING}:
+                        self._repository.interrupt_run(
+                            run.run_id, error_code="WORKER_DISPATCH_FAILED"
+                        )
+                continue
 
     def get_run(self, run_id: int) -> tuple[JobRunRecord, tuple[JobTaskRunRecord, ...]]:
         """Return durable run and task states for SDK polling."""
@@ -433,7 +571,7 @@ class JobExecutionService:
         self,
         run_id: int,
         job: JobRecord,
-        parameter_override: list[str] | None,
+        parameter_override: ParameterOverride,
         cancel_event: threading.Event,
     ) -> None:
         try:
@@ -521,13 +659,15 @@ class JobExecutionService:
         finally:
             with self._lock:
                 self._active.pop(run_id, None)
+                if not self._closed:
+                    self._schedule_queued_runs()
 
     def _execute_task_with_retries(
         self,
         run_id: int,
         task: JobTaskDefinition,
         *,
-        parameter_override: list[str] | None,
+        parameter_override: ParameterOverride,
         cancel_event: threading.Event,
     ) -> JobTaskState:
         """Retry observed worker failures within the task's immutable retry policy."""
@@ -632,7 +772,7 @@ class JobExecutionService:
         run_id: int,
         task: JobTaskDefinition,
         *,
-        parameter_override: list[str] | None,
+        parameter_override: ParameterOverride,
         cancel_event: threading.Event,
         compute_record: ComputeRecord | None,
     ) -> JobTaskState:
@@ -643,20 +783,51 @@ class JobExecutionService:
         task_arguments = context_settings.get("task_arguments")
         if not isinstance(task_arguments, Mapping):
             raise JobRepositoryError("submitted task arguments are malformed")
-        script_path = task_arguments.get("python_file")
-        if not isinstance(script_path, str):
-            raise JobRepositoryError("submitted Python task has no workspace path")
-        parameters_value = (
-            parameter_override
-            if parameter_override is not None
-            else task_arguments.get("parameters", [])
-        )
-        parameters = _python_parameters(parameters_value)
+        task_type = context_settings.get("task_type")
+        if task_type == "python_script":
+            workspace_path = task_arguments.get("python_file")
+            if not isinstance(workspace_path, str):
+                raise JobRepositoryError("submitted Python task has no workspace path")
+            parameters_value = (
+                parameter_override
+                if parameter_override is not None
+                else task_arguments.get("parameters", [])
+            )
+            if isinstance(parameters_value, dict):
+                raise JobRepositoryError("notebook parameters were submitted for a Python task")
+            python_parameters = _python_parameters(parameters_value)
+            notebook_parameters: dict[str, str] | None = None
+        elif task_type == "notebook":
+            workspace_path = task_arguments.get("notebook_path")
+            if not isinstance(workspace_path, str):
+                raise JobRepositoryError("submitted notebook task has no workspace path")
+            base_parameters = task_arguments.get("base_parameters", {})
+            try:
+                notebook_parameters = validate_notebook_parameters(base_parameters)
+            except ExecutionContextResolutionError as error:
+                raise JobRepositoryError("submitted notebook parameters are malformed") from error
+            if parameter_override is not None:
+                if not isinstance(parameter_override, dict):
+                    raise JobRepositoryError("Python parameters were submitted for a notebook task")
+                notebook_parameters.update(parameter_override)
+            python_parameters = None
+        else:
+            raise JobRepositoryError("submitted task type is unsupported")
         attempt = self._repository.queue_attempt(run_id, task.task_key)
         attempt_number = attempt.attempt_number
         attempt = self._repository.start_attempt(run_id, task.task_key, attempt_number)
         try:
-            source = self._files.get_python(script_path)
+            source_path: Path
+            if task_type == "python_script":
+                source_path = self._files.get_python(workspace_path).local_path
+            else:
+                notebook = self._files.get_workspace_object(workspace_path)
+                if notebook.object_type != "FILE" or notebook.local_path.suffix.casefold() not in {
+                    ".ipynb",
+                    ".py",
+                }:
+                    raise WorkspaceFileError("notebook task path is not a supported notebook file")
+                source_path = notebook.local_path
             run = self._repository.get_run(run_id)
             secret_snapshot = self._context.secret_provider.snapshot_for_job(run.job_id)
             worker_context = _build_worker_context(
@@ -664,33 +835,62 @@ class JobExecutionService:
                 run_id=run_id,
                 attempt_id=attempt.attempt_id,
                 compute_record=compute_record,
-                dbutils_configuration={
-                    "dbfs_root": str(self._context.workspace.path / "files" / "dbfs"),
-                    "widget_parameters": _widget_parameters(
-                        task_arguments.get("parameters", []),
-                        parameter_override,
-                    ),
-                    "task_values_enabled": True,
-                },
-            )
-            timeout_value = context_settings.get("timeout_seconds")
-            timeout_seconds = cast(int | None, timeout_value)
-            result = run_python_worker(
-                source.local_path,
-                cwd=self._context.workspace.path / "files",
-                context=worker_context,
-                arguments=parameters,
-                timeout_seconds=timeout_seconds,
-                cancel_event=cancel_event,
-                outcome_journal=self._context.worker_outcomes,
-                secret_payload=secret_snapshot.payload,
-                secret_redactions=secret_snapshot.redaction_values,
-                worker_call_handler=self._task_value_handler(
-                    run_id,
-                    task.task_key,
-                    attempt_number,
+                dbutils_configuration=(
+                    {
+                        "dbfs_root": str(self._context.workspace.path / "files" / "dbfs"),
+                        "widget_parameters": _widget_parameters(
+                            task_arguments.get("parameters", []),
+                            parameter_override if isinstance(parameter_override, list) else None,
+                        ),
+                        "task_values_enabled": True,
+                    }
+                    if task_type == "python_script"
+                    else None
                 ),
             )
+            if task_type == "notebook":
+                if notebook_parameters is None:
+                    raise JobRepositoryError("submitted notebook parameters are unavailable")
+                notebook_context = worker_context.to_mapping()
+                notebook_context["notebook_parameters"] = notebook_parameters
+                worker_context = WorkerContext.from_mapping(notebook_context)
+            timeout_value = context_settings.get("timeout_seconds")
+            timeout_seconds = cast(int | None, timeout_value)
+            worker_call_handler = self._worker_call_handler(
+                run_id,
+                task.task_key,
+                attempt_number,
+            )
+            if task_type == "notebook":
+                with tempfile.TemporaryDirectory(prefix="brickhouse-job-notebook-") as temporary:
+                    artifact_path = Path(temporary) / "executed.ipynb"
+                    result = run_python_worker(
+                        _notebook_worker_entry(),
+                        cwd=self._context.workspace.path / "files",
+                        context=worker_context,
+                        arguments=[str(artifact_path)],
+                        timeout_seconds=timeout_seconds,
+                        cancel_event=cancel_event,
+                        outcome_journal=self._context.worker_outcomes,
+                        secret_payload=secret_snapshot.payload,
+                        secret_redactions=secret_snapshot.redaction_values,
+                        worker_call_handler=worker_call_handler,
+                    )
+            else:
+                if python_parameters is None:
+                    raise JobRepositoryError("submitted Python task parameters are unavailable")
+                result = run_python_worker(
+                    source_path,
+                    cwd=self._context.workspace.path / "files",
+                    context=worker_context,
+                    arguments=python_parameters,
+                    timeout_seconds=timeout_seconds,
+                    cancel_event=cancel_event,
+                    outcome_journal=self._context.worker_outcomes,
+                    secret_payload=secret_snapshot.payload,
+                    secret_redactions=secret_snapshot.redaction_values,
+                    worker_call_handler=worker_call_handler,
+                )
             output = JobTaskAttemptOutput(
                 run_id,
                 task.task_key,
@@ -714,7 +914,7 @@ class JobExecutionService:
             WorkerConfigurationError,
             WorkerLaunchError,
             WorkerServiceError,
-            WorkspaceFileNotFoundError,
+            WorkspaceFileError,
         ):
             self._repository.finish_attempt(
                 run_id,
@@ -725,7 +925,7 @@ class JobExecutionService:
             )
             return self._repository.get_task_run(run_id, task.task_key).state
 
-    def _task_value_handler(
+    def _worker_call_handler(
         self,
         run_id: int,
         reader_task_key: str,
@@ -734,6 +934,190 @@ class JobExecutionService:
         """Bind private worker operations to one run/task/attempt identity."""
 
         def handle(message: WorkerCallMessage) -> object:
+            if message.service == "tables":
+                from brickhouse.catalog import (
+                    NamespaceNotFoundError,
+                    TableNotFoundError,
+                    parse_identifier,
+                )
+                from brickhouse.tables import DeltaRsTableService, TableHandle, WriteMode
+
+                if message.operation == "write":
+                    import base64
+                    import binascii
+                    import hashlib
+
+                    import pyarrow.ipc as ipc  # type: ignore[import-untyped]
+
+                    expected_fields = {
+                        "identifier",
+                        "table_id",
+                        "canonical_location",
+                        "expected_version",
+                        "format",
+                        "mode",
+                        "data_base64",
+                    }
+                    if set(message.payload) != expected_fields:
+                        raise WorkerProtocolError("worker table write payload has invalid fields")
+                    identifier = message.payload["identifier"]
+                    table_id = message.payload["table_id"]
+                    canonical_location = message.payload["canonical_location"]
+                    expected_version = message.payload["expected_version"]
+                    selected_format = message.payload["format"]
+                    selected_mode = message.payload["mode"]
+                    encoded_data = message.payload["data_base64"]
+                    if (
+                        not isinstance(identifier, str)
+                        or not identifier
+                        or not isinstance(table_id, str)
+                        or not table_id
+                        or not isinstance(canonical_location, str)
+                        or not canonical_location
+                        or type(expected_version) is not int
+                        or expected_version < 0
+                        or selected_format != "delta"
+                        or selected_mode != "append"
+                        or not isinstance(encoded_data, str)
+                    ):
+                        raise WorkerProtocolError("worker table write fields are invalid")
+                    from brickhouse.runtime.worker_auth import (
+                        MAX_WORKER_ARROW_BYTES,
+                        MAX_WORKER_ARROW_ROWS,
+                    )
+
+                    maximum_encoded_size = ((MAX_WORKER_ARROW_BYTES + 2) // 3) * 4
+                    if len(encoded_data) > maximum_encoded_size:
+                        raise WorkerProtocolError("worker Arrow write exceeds the byte limit")
+                    try:
+                        raw_data = base64.b64decode(encoded_data, validate=True)
+                    except (binascii.Error, ValueError) as error:
+                        raise WorkerProtocolError(
+                            "worker Arrow write encoding is invalid"
+                        ) from error
+                    if not raw_data or len(raw_data) > MAX_WORKER_ARROW_BYTES:
+                        raise WorkerProtocolError("worker Arrow write exceeds the byte limit")
+
+                    table_service = DeltaRsTableService(self._context)
+                    try:
+                        table = table_service.resolve(
+                            parse_identifier(identifier),
+                            self._context.new_namespace_state(),
+                        )
+                    except (NamespaceNotFoundError, TableNotFoundError) as error:
+                        raise KeyError(
+                            f"registered worker table does not exist: {identifier}"
+                        ) from error
+                    if table.table_id != table_id or str(table.location) != canonical_location:
+                        raise WorkerProtocolError(
+                            "worker write identity does not match the registered table"
+                        )
+                    current = table_service.read_snapshot(table)
+                    if current.version != expected_version:
+                        raise WorkerProtocolError(
+                            "registered table changed after the worker resolved its snapshot"
+                        )
+                    try:
+                        arrow_table = ipc.open_stream(raw_data).read_all()
+                    except Exception as error:
+                        raise WorkerProtocolError("worker Arrow write stream is invalid") from error
+                    if arrow_table.num_rows > MAX_WORKER_ARROW_ROWS:
+                        raise WorkerProtocolError("worker Arrow write exceeds the row limit")
+                    operation_scope = (
+                        f"{run_id}:{reader_task_key}:{reader_attempt_number}:"
+                        f"{message.attempt_id}:{message.request_id}"
+                    )
+                    operation_id = (
+                        "worker-" + hashlib.sha256(operation_scope.encode("utf-8")).hexdigest()
+                    )
+                    commit = table_service.write_arrow(
+                        table,
+                        arrow_table,
+                        WriteMode.APPEND,
+                        operation_id=operation_id,
+                        expected_version=expected_version,
+                    )
+                    snapshot = commit.snapshot
+                    receipt = {
+                        "identifier": table.full_name,
+                        "table_id": table.table_id,
+                        "canonical_location": str(table.location),
+                        "schema_json": snapshot.schema.json_text,
+                        "provider": "brickhouse-local-delta",
+                        "version": commit.version,
+                        "committed_version": commit.version,
+                    }
+                    encoded_receipt = json.dumps(
+                        {"ok": True, "result": receipt},
+                        ensure_ascii=False,
+                        allow_nan=False,
+                        separators=(",", ":"),
+                    ).encode("utf-8")
+                    if len(encoded_receipt) > MAX_WORKER_MESSAGE_BYTES:
+                        raise ValueError("worker table write receipt exceeds the service limit")
+                    return receipt
+
+                if message.operation == "is_registered_path":
+                    if set(message.payload) != {"path"}:
+                        raise WorkerProtocolError("worker table path payload has invalid fields")
+                    path = message.payload["path"]
+                    if not isinstance(path, str) or not path:
+                        raise WorkerProtocolError("worker table path must be a non-empty string")
+                    try:
+                        self._context.tables.get_by_location(path)
+                    except TableNotFoundError:
+                        return False
+                    return True
+
+                if message.operation == "resolve":
+                    if set(message.payload) != {"identifier"}:
+                        raise WorkerProtocolError("worker table resolve payload has invalid fields")
+                    identifier = message.payload["identifier"]
+                    if not isinstance(identifier, str):
+                        raise WorkerProtocolError("worker table identifier must be a string")
+                    parsed = parse_identifier(identifier)
+                    table_service = DeltaRsTableService(self._context)
+                    try:
+                        table = table_service.resolve(
+                            parsed,
+                            self._context.new_namespace_state(),
+                        )
+                    except (NamespaceNotFoundError, TableNotFoundError):
+                        return None
+                elif message.operation == "resolve_path":
+                    if set(message.payload) != {"path"}:
+                        raise WorkerProtocolError("worker table path payload has invalid fields")
+                    path = message.payload["path"]
+                    if not isinstance(path, str) or not path:
+                        raise WorkerProtocolError("worker table path must be a non-empty string")
+                    try:
+                        registration = self._context.tables.get_by_location(path)
+                    except TableNotFoundError:
+                        return None
+                    table_service = DeltaRsTableService(self._context)
+                    table = TableHandle.from_registration(registration)
+                else:
+                    raise WorkerProtocolError("worker table operation is not supported")
+
+                snapshot = table_service.read_snapshot(table)
+                descriptor = {
+                    "identifier": table.full_name,
+                    "table_id": table.table_id,
+                    "canonical_location": str(table.location),
+                    "schema_json": snapshot.schema.json_text,
+                    "provider": "brickhouse-local-delta",
+                    "version": snapshot.version,
+                }
+                encoded = json.dumps(
+                    {"ok": True, "result": descriptor},
+                    ensure_ascii=False,
+                    allow_nan=False,
+                    separators=(",", ":"),
+                ).encode("utf-8")
+                if len(encoded) > MAX_WORKER_MESSAGE_BYTES:
+                    raise ValueError("registered table descriptor exceeds the worker service limit")
+                return descriptor
+
             if message.service != "task_values":
                 raise WorkerProtocolError("worker service is not supported")
             if message.operation == "set":
@@ -875,6 +1259,19 @@ def _python_parameters(value: object) -> list[str]:
         raise InvalidJobDefinitionError(str(error)) from error
 
 
+def _parameters_from_settings(run: JobRunRecord) -> ParameterOverride:
+    """Rebuild the already-validated parameter override of a persisted queued run."""
+    settings = run.submitted_settings
+    if "python_params" in settings:
+        return _python_parameters(settings["python_params"])
+    if "notebook_params" in settings:
+        try:
+            return validate_notebook_parameters(settings["notebook_params"])
+        except ExecutionContextResolutionError as error:
+            raise JobRepositoryError("queued notebook parameters are invalid") from error
+    return None
+
+
 def _resolved_context_settings(context: ResolvedTaskContext) -> dict[str, object]:
     cluster_configuration: object = None
     if context.cluster_configuration_json is not None:
@@ -902,6 +1299,7 @@ def _resolved_context_settings(context: ResolvedTaskContext) -> dict[str, object
             "autostart": context.autostart,
             "cluster_configuration": cluster_configuration,
             "environment_key": context.environment_key,
+            "environment_source": context.environment_source,
             "environment_profile": context.environment_profile,
             "environment_version": context.environment_version,
             "dependencies": list(context.dependencies),
@@ -913,6 +1311,11 @@ def _resolved_context_settings(context: ResolvedTaskContext) -> dict[str, object
             "task_arguments": context.task_arguments,
         }
     }
+
+
+def _notebook_worker_entry() -> Path:
+    """Return the installed worker entry file used for a supervised notebook task."""
+    return Path(__file__).resolve().parents[1] / "runtime" / "notebook_worker.py"
 
 
 def _build_worker_context(

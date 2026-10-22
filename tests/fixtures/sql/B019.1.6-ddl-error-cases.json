@@ -1,0 +1,93 @@
+{
+  "fixture_id": "B019.1.6-ddl-error-cases",
+  "fixture_version": 1,
+  "engine_profile": "spark35-local-v1",
+  "input_fixture": "B019.1.1-orders-scalar-query",
+  "runtime_versions": {
+    "sparkless": "4.15.0",
+    "deltalake": "1.2.1",
+    "pyarrow": "23.0.1",
+    "sqlglot": "30.24.0"
+  },
+  "ddl": {
+    "create_schema": {
+      "sql": "CREATE SCHEMA analytics",
+      "object_name": "main.analytics",
+      "expected_schemas": ["analytics", "default", "information_schema"]
+    },
+    "create_empty_table": {
+      "sql": "CREATE TABLE analytics.metrics (id BIGINT, amount DECIMAL(12, 2)) USING DELTA",
+      "object_name": "main.analytics.metrics",
+      "expected_delta_version": 0,
+      "expected_schema": [
+        {"name": "id", "type": "int64", "nullable": true},
+        {"name": "amount", "type": "decimal128(12,2)", "nullable": true}
+      ],
+      "expected_rows": []
+    },
+    "ctas": {
+      "sql": "CREATE TABLE active_orders USING DELTA AS SELECT order_id, customer, amount FROM orders WHERE active = true ORDER BY order_id",
+      "object_name": "main.default.active_orders",
+      "expected_delta_version": 0,
+      "expected_schema": [
+        {"name": "order_id", "type": "int64", "nullable": true},
+        {"name": "customer", "type": "string", "nullable": true},
+        {"name": "amount", "type": "decimal128(12,2)", "nullable": true}
+      ],
+      "expected_rows": [
+        {"order_id": 1, "customer": "alice", "amount": "10.50"},
+        {"order_id": 2, "customer": "alice", "amount": "5.25"},
+        {"order_id": 3, "customer": "bob", "amount": null}
+      ]
+    },
+    "drop_table": {
+      "sql": "DROP TABLE analytics.metrics",
+      "object_name": "main.analytics.metrics"
+    },
+    "drop_if_exists": {
+      "sql": "DROP TABLE IF EXISTS analytics.absent",
+      "object_name": "main.analytics.absent",
+      "no_op": true
+    }
+  },
+  "typed_errors": [
+    {
+      "name": "duplicate_table",
+      "sql": "CREATE TABLE orders USING DELTA AS SELECT 1 AS id",
+      "expected_error_type": "TableAlreadyExistsError"
+    },
+    {
+      "name": "duplicate_schema",
+      "sql": "CREATE SCHEMA default",
+      "expected_error_type": "NamespaceAlreadyExistsError"
+    },
+    {
+      "name": "missing_table",
+      "sql": "DROP TABLE absent_table",
+      "expected_error_type": "TableNotFoundError"
+    },
+    {
+      "name": "invalid_column_type",
+      "sql": "CREATE TABLE bad_type (id GEOMETRY) USING DELTA",
+      "expected_error_type": "UnsupportedSqlStatementError",
+      "expected_message_fragment": "data type is not supported"
+    },
+    {
+      "name": "unsupported_format",
+      "sql": "CREATE TABLE unsupported USING PARQUET AS SELECT 1 AS id",
+      "expected_error_type": "UnsupportedSqlStatementError",
+      "expected_message_fragment": "USING DELTA"
+    },
+    {
+      "name": "multiple_statements",
+      "sql": "CREATE SCHEMA first_schema; CREATE SCHEMA second_schema",
+      "expected_error_type": "SqlParseError",
+      "expected_message_fragment": "exactly one"
+    }
+  ],
+  "planning_failure_invariant": "For each duplicate/missing/unsupported/parse failure, schema/table registrations, source Delta version, schema, and rows remain exactly as before the failure.",
+  "databricks_reference": {
+    "remote_compatibility_claim": false,
+    "note": "DDL and error behavior is verified on local catalog/Delta services only; no remote Databricks DDL or error result is claimed."
+  }
+}

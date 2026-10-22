@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import time
 from pathlib import Path
 from typing import Any
@@ -31,6 +32,27 @@ _IDENTIFIER_STATEMENT = (
     "current_schema() AS schema_context, "
     "1 AS `simple`, 2 AS `part.with.dot`, 3 AS `mixed``tick`"
 )
+_ORDERS_SCALAR_STATEMENT = (
+    "SELECT order_id, amount, active, amount IS NULL AS amount_missing, "
+    "order_id + CAST(0.5 AS DOUBLE) AS order_as_double "
+    "FROM VALUES "
+    "(CAST(1 AS BIGINT), CAST(10.50 AS DECIMAL(12, 2)), true), "
+    "(CAST(2 AS BIGINT), CAST(5.25 AS DECIMAL(12, 2)), true), "
+    "(CAST(3 AS BIGINT), CAST(NULL AS DECIMAL(12, 2)), true), "
+    "(CAST(4 AS BIGINT), CAST(20.00 AS DECIMAL(12, 2)), false) "
+    "AS orders(order_id, amount, active) "
+    "WHERE active = true ORDER BY order_id"
+)
+_AGGREGATE_LITERAL_STATEMENT = (
+    "SELECT COUNT(*) AS row_count, COUNT(amount) AS amount_count, "
+    "SUM(amount) AS total_amount, "
+    "SUM(CAST(NULL AS DECIMAL(12, 2))) AS null_total "
+    "FROM ("
+    "SELECT CAST(10.50 AS DECIMAL(12, 2)) AS amount "
+    "UNION ALL SELECT CAST(5.25 AS DECIMAL(12, 2)) AS amount "
+    "UNION ALL SELECT CAST(NULL AS DECIMAL(12, 2)) AS amount"
+    ") AS orders"
+)
 _POLL_INTERVAL_SECONDS = 2
 _MAX_WAIT_SECONDS = 75
 
@@ -38,10 +60,16 @@ _MAX_WAIT_SECONDS = 75
 class ProbeError(RuntimeError):
     """An error safe to report without including credentials or raw responses."""
 
-    def __init__(self, stage: str, status: int | None = None) -> None:
+    def __init__(
+        self,
+        stage: str,
+        status: int | None = None,
+        error_code: str | None = None,
+    ) -> None:
         super().__init__(stage)
         self.stage = stage
         self.status = status
+        self.error_code = error_code
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -114,7 +142,17 @@ class _DatabricksApi:
             with self._opener.open(request, timeout=10) as response:
                 payload = json.loads(response.read())
         except HTTPError as error:
-            raise ProbeError("http_error", error.code) from None
+            try:
+                error_body = json.loads(error.read())
+            except (OSError, json.JSONDecodeError):
+                error_body = None
+            raw_code = error_body.get("error_code") if isinstance(error_body, dict) else None
+            error_code = (
+                raw_code
+                if isinstance(raw_code, str) and re.fullmatch(r"[A-Z0-9_]{1,80}", raw_code)
+                else None
+            )
+            raise ProbeError("http_error", error.code, error_code) from None
         except (URLError, TimeoutError, OSError):
             raise ProbeError("transport_error") from None
         except json.JSONDecodeError:
@@ -209,7 +247,7 @@ def main() -> int:
     parser.add_argument("--host", required=True, help="Explicit HTTPS Databricks workspace URL")
     parser.add_argument(
         "--case",
-        choices=("sql-literals", "identifiers"),
+        choices=("sql-literals", "identifiers", "orders-scalars", "aggregate-literals"),
         default="sql-literals",
         help="Select one reviewed, read-only statement (default: sql-literals)",
     )
@@ -235,7 +273,12 @@ def main() -> int:
             "/api/2.0/sql/statements",
             {
                 "warehouse_id": warehouse_id,
-                "statement": (_IDENTIFIER_STATEMENT if args.case == "identifiers" else _STATEMENT),
+                "statement": {
+                    "sql-literals": _STATEMENT,
+                    "identifiers": _IDENTIFIER_STATEMENT,
+                    "orders-scalars": _ORDERS_SCALAR_STATEMENT,
+                    "aggregate-literals": _AGGREGATE_LITERAL_STATEMENT,
+                }[args.case],
                 "wait_timeout": "10s",
                 "on_wait_timeout": "CONTINUE",
                 "format": "JSON_ARRAY",
@@ -274,6 +317,8 @@ def main() -> int:
             except ProbeError:
                 pass
         summary = {"probe": "failed", "stage": error.stage, "http_status": error.status}
+        if error.error_code is not None:
+            summary["error_code"] = error.error_code
     finally:
         try:
             cleanup_ok = _restore_stopped_state(api, warehouse_id)

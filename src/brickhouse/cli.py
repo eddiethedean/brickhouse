@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import argparse
-import ipaddress
 import json
 import sys
 from collections.abc import Sequence
 from pathlib import Path
 
 from brickhouse._version import __version__
-from brickhouse.diagnostic_server import serve_diagnostics
+from brickhouse.diagnostic_server import require_ipv4_loopback_host, serve_diagnostics
 from brickhouse.diagnostics import capability_report, doctor_report
 from brickhouse.workspace.context import WorkspaceContext, WorkspaceContextError
 from brickhouse.workspace.lifecycle import (
@@ -69,17 +68,6 @@ def _port_number(value: str) -> int:
     return port
 
 
-def _require_loopback(host: str) -> None:
-    try:
-        address = ipaddress.ip_address(host)
-    except ValueError as error:
-        raise ValueError(
-            "the diagnostics server currently accepts IPv4 loopback hosts only"
-        ) from error
-    if not isinstance(address, ipaddress.IPv4Address) or not address.is_loopback:
-        raise ValueError("the unauthenticated diagnostics server must bind to IPv4 loopback")
-
-
 def _render_report(report: dict[str, object], output_format: str) -> str:
     if output_format == "json":
         return json.dumps(report, indent=2, sort_keys=True)
@@ -121,7 +109,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
 
         if args.command == "serve":
-            _require_loopback(args.host)
+            require_ipv4_loopback_host(args.host)
             with WorkspaceContext.local(args.workspace) as context:
                 serve_diagnostics(context, args.host, args.port)
             return 0

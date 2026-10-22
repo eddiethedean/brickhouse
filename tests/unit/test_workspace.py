@@ -80,10 +80,12 @@ def test_initialize_uses_configured_bootstrap_namespace(tmp_path: Path) -> None:
 
 def test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome(
     tmp_path: Path,
+    downgrade_workspace_from_v13,
 ) -> None:
     descriptor = initialize_workspace(tmp_path / "workspace")
     started_at = "2026-10-20T00:00:00+00:00"
     with sqlite3.connect(descriptor.metadata_path) as connection:
+        downgrade_workspace_from_v13(connection)
         for trigger in (
             "job_deletions_are_immutable",
             "job_deletions_cannot_be_deleted",
@@ -148,7 +150,7 @@ def test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome(
         connection.execute("PRAGMA user_version = 8")
 
     with WorkspaceContext.local(descriptor.path) as context:
-        assert context.workspace.metadata_schema_version == 12
+        assert context.workspace.metadata_schema_version == 21
         outcome = context.worker_outcomes.get("recovery-run", "recovery-attempt")
         assert outcome is not None
         assert outcome.state == "running"
@@ -160,6 +162,36 @@ def test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome(
         assert interrupted.termination_reason == "interrupted"
         assert interrupted.exit_code is None
         assert interrupted.finished_at is not None
+
+
+def test_schema_twelve_migrates_to_persistent_sql_warehouse_and_statement_contract(
+    tmp_path: Path,
+    downgrade_workspace_from_v13,
+) -> None:
+    descriptor = initialize_workspace(tmp_path / "workspace")
+    with sqlite3.connect(descriptor.metadata_path) as connection:
+        downgrade_workspace_from_v13(connection)
+
+    assert open_workspace(descriptor.path).metadata_schema_version == 12
+    with WorkspaceContext.local(descriptor.path) as upgraded:
+        assert upgraded.workspace.metadata_schema_version == 21
+        with sqlite3.connect(upgraded.workspace.metadata_path) as connection:
+            assert connection.execute("PRAGMA user_version").fetchone() == (21,)
+            assert connection.execute(
+                "SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 2"
+            ).fetchall() == [(21,), (20,)]
+            assert connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'sql_warehouses'"
+            ).fetchone() == ("sql_warehouses",)
+            assert connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table' "
+                "AND name = 'sql_statement_admission_leases'"
+            ).fetchone() == ("sql_statement_admission_leases",)
+            assert connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'sql_statements'"
+            ).fetchone() == ("sql_statements",)
+            columns = {row[1] for row in connection.execute("PRAGMA table_info(sql_statements)")}
+            assert "parameters_json" in columns
 
 
 def test_initialize_never_overwrites_existing_path(tmp_path: Path) -> None:

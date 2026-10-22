@@ -63,7 +63,10 @@ class ComputeHttpApi:
             if route == "list":
                 if method != "GET":
                     return _method_not_allowed("GET")
-                _validate_query(query, {"page_size", "page_token"})
+                _validate_query(query, {"page_size", "page_token", "filter_by.is_pinned"})
+                pinned_filter = _single_query(query, "filter_by.is_pinned")
+                if pinned_filter is not None and pinned_filter.casefold() not in {"true", "false"}:
+                    raise _InputError("filter_by.is_pinned must be true or false")
                 return _ok(self._list_clusters(query))
             if route == "edit":
                 if method != "POST":
@@ -102,7 +105,11 @@ class ComputeHttpApi:
                 if method != "POST":
                     return _method_not_allowed("POST")
                 _validate_query(query, set())
-                self._service.permanently_delete_cluster(_action_cluster_id(body))
+                compute_id = _action_cluster_id(body)
+                # The Databricks API terminates an active cluster as part of
+                # permanent deletion; keep the local lifecycle events aligned.
+                self._service.terminate_cluster(compute_id)
+                self._service.permanently_delete_cluster(compute_id)
                 return _ok({})
             return _error(HTTPStatus.NOT_FOUND, "RESOURCE_DOES_NOT_EXIST", "API route not found")
         except ComputeNotFoundError as error:
@@ -121,6 +128,7 @@ class ComputeHttpApi:
             )
 
     def _list_clusters(self, query: dict[str, list[str]]) -> dict[str, object]:
+        pinned_filter = _single_query(query, "filter_by.is_pinned")
         raw_page_size = _single_query(query, "page_size")
         page_size = _MAX_PAGE_SIZE
         if raw_page_size is not None:
@@ -133,6 +141,12 @@ class ComputeHttpApi:
             page_size = min(page_size, _MAX_PAGE_SIZE)
         token = _single_query(query, "page_token")
         offset = _decode_page_token(token) if token else 0
+        if pinned_filter is not None and pinned_filter.casefold() == "true":
+            # Cluster pinning is unsupported, so no local cluster can match this
+            # provider read used to populate Terraform's is_pinned attribute.
+            if offset:
+                raise _InputError("page_token is outside the current result set")
+            return {"clusters": []}
         total = self._service.count_clusters()
         if offset > total:
             raise _InputError("page_token is outside the current result set")
@@ -148,6 +162,7 @@ def _cluster_payload(record: ComputeRecord) -> dict[str, object]:
     payload: dict[str, object] = {
         "cluster_id": record.compute_id,
         "cluster_name": record.cluster_name,
+        "is_pinned": False,
         "spark_version": record.spark_version,
         "data_security_mode": record.access_mode,
         "runtime_engine": "STANDARD",

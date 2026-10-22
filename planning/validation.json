@@ -1,30 +1,44 @@
 {
-  "date": "2026-10-20",
-  "scope": "B047 emulator-first roadmap planning: preserve 0.1-0.9 emulator phases, add a bounded B048 architecture review, and gate SH.1-SH.6 deployment implementation on B049 stability after B042.",
+  "date": "2026-10-22",
+  "scope": "Phase 0.1 selected local implementation scope is complete; the refreshed 0.1.0.dev0 owner-review candidate pins Sparkless 4.15.2 and passed the selected 624-case G1-G4 matrix. B064 and all eleven children are complete. Project-license selection, Linux qualification, and separate publication authorization remain open.",
   "result": "passed",
-  "markdown_files": 116,
-  "task_count": 140,
-  "work_package_count": 55,
-  "phase_0_1_child_task_count": 85,
-  "capability_count": 64,
+  "markdown_files": 254,
+  "task_count": 198,
+  "work_package_count": 65,
+  "phase_0_1_child_task_count": 133,
+  "capability_count": 67,
   "release_phase_count": 9,
-  "local_markdown_links_checked": 1019,
+  "local_markdown_links_checked": 2134,
   "checks": [
-    "Planning schema, task graph/cycles, parent-child criteria/prerequisites, all nine emulator release assignments, seven separate post-stability stages, the B049 stability barrier, backlog agreement, capability/evidence references and local Markdown links passed.",
-    "10 focused planning-validator regression checks passed: the real plan, eight malformed graph/assignment/start-state cases and future deployment-child stage inheritance. No emulator or deployment runtime test was run for B047.",
-    "Pre-edit preservation audit retained every original task acceptance criterion, child list, prerequisite edge, reference and evidence record. B023 and its children only gained B048; existing later emulator epics gained guidance references. All original capability states remain. Concurrent B020.2/B020.3 and C030 implementation updates were retained.",
-    "Ruff check and formatting passed for scripts/validate_planning.py and tests/unit/test_planning_validation.py; strict mypy passed for the validator; git diff --check passed.",
-    "C059-C064 are planned only, without tested versions, test IDs or evidence. No JVM, remote Spark fallback, Databricks credential/account request, cloud workload, dependency change, runtime migration or publication was introduced."
+    "Planning validation passed for 177 tasks, 63 work packages, 114 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,707 local Markdown links.",
+    "The B020.5 job/workspace/notebook/Terraform regression suite passed 60 tests with credentials unset. B021.2.3 passed 1 pinned-connector loopback integration and the 28-test SQL statement API regression suite with DATABRICKS_TOKEN and DATABRICKS_HOST unset.",
+    "The connector integration verifies SQL/metadata failures, synchronous cancellation, explicit rollback limitations, statement/session close, and a terminal CANCELED response without result data. The SQL API tests verify result CLOSED state, 12-hour expiry, and oldest-first eviction under the 64 MiB budget.",
+    "Ruff check/format on the changed integration fixture, planning validation, and git diff checks passed. No personal Databricks account requests, .env reads, cloud workloads, JVM, Spark driver, or remote execution were used for B021.2.3.",
+    "Planning validation passed for 179 tasks, 63 work packages, 116 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,736 local Markdown links.",
+    "B022.1, B022.2, and B022.3.1 are complete for their bounded local profiles. B022.3.2 is active for coordinated local backup/restore and external-table policy.",
+    "B022.3.1 focused regressions passed 71 tests across journal recovery, staged inputs, worker log expiry, SQL result expiry, schema migration, workspace/catalog state, and statement API behavior with Databricks credentials unset. Ruff check/format passed for changed source/tests.",
+    "Worker attempt logs expire after 24 hours on output retrieval or explicit maintenance; SQL result chunks expire after 12 hours. No background worker-log expiry scheduler, immediate SQLite file shrinking, or coordinated restore result is claimed.",
+    "Planning validation passed for 180 tasks, 63 work packages, 117 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,759 local Markdown links; B022 and all required children are done, with B048 the next active review.",
+    "The B022 affected local recovery suite passed 141 tests with DATABRICKS_TOKEN and DATABRICKS_HOST unset. B022.3.2 restored managed Delta rows/history, operation/job history and files while preserving external registrations without copying external bytes; B022.4 verified serverless-local post-commit timeout recovery and a distinct pre-commit retry. Ruff check/format, strict mypy across 70 source files, and diff checks passed.",
+    "Planning validation passed after B023.3 assembly: 185 tasks, 63 work packages, 122 phase 0.1 children, 67 capabilities, and 2,006 local Markdown links across 225 Markdown files; no unfinished implementation task is ready.",
+    "B023.3 retained the exact qualified development wheel, audited source archive, capability snapshot, version/case manifests, offline G1–G4 reports, recovery/restore evidence, and owner publication checklist; nothing was published.",
+    "The owner candidate bundle includes a draft release note that matches the qualified platform/profile scope and retained capability limitations.",
+    "Planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 children, 67 capabilities, and 2,039 local Markdown links. B064.11 is the only initially ready implementation task; no tests were added or run for this follow-up.",
+    "Planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 children, 67 capabilities, and 2,039 local Markdown links. B064.11 is the only initially ready implementation task; no tests were added or run for this follow-up.",
+    "Current planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 child tasks, 67 capabilities, and 2,041 local Markdown links; no unfinished implementation task is initially ready. B064 and all children are done.",
+    "Published Sparkless 4.15.2 was hash-verified from PyPI (macOS arm64 wheel 7d12d6f76212e52586cbe07ab12152f4c7dcf04bd2873532751f1335ee81cfb2). The selected UTC-aware Delta timestamp predicate passes and the full 35-test SQL statement-service module passed locally; the refreshed installed BrickHouse wheel passed 99 focused B064 cases under the loopback-only/offline guard. No Databricks credentials or workspace were used. At that checkpoint, the full current-candidate G1-G4 matrix had not yet run; the subsequent exact-wheel requalification passed 624 selected cases.",
+    "Final planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 child tasks, 67 capabilities, 254 Markdown files, and 2,134 local Markdown links; no unfinished implementation task is initially ready."
   ],
-  "implementation_tests_run": false,
+  "implementation_tests_run": true,
   "databricks_account_requests_run": false,
   "provider_qualification": {
-    "result": "blocked",
-    "issues": [
+    "result": "done for the selected public Python provider contracts against Sparkless 4.14.1; the earlier 4.14.0 nullable-struct failures were verified fixed",
+    "resolved_4_14_0_issues": [
       "https://github.com/eddiethedean/robin-sparkless/issues/1694",
       "https://github.com/eddiethedean/robin-sparkless/issues/1695"
     ],
-    "report": "artifacts/conformance/B046.3-sparkless-4.14.0-provider.md"
+    "report": "artifacts/conformance/B046.3-sparkless-4.14.1-provider.md",
+    "task": "B046.3"
   },
   "worker_supervision": {
     "result": "done",
@@ -33,11 +47,20 @@
     "report": "artifacts/conformance/B013.3-worker-supervision.md"
   },
   "connector_transport": {
-    "result": "session-open feasible; SQL compatibility unproven",
-    "task": "B045",
+    "result": "Kernel session lifecycle and SEA-mode INLINE JSON_ARRAY parameter/result/close pass; connector-visible SQL/metadata failures, synchronous cancellation, result expiry/eviction and rollback limitations are recorded. Kernel Arrow-stream/LZ4, broader metadata, Thrift and remote Databricks behavior remain unqualified.",
+    "tasks": [
+      "B045",
+      "B021.1",
+      "B021.2.1",
+      "B021.2.2",
+      "B021.2.3",
+      "B021.2",
+      "B021"
+    ],
     "connector": "databricks-sql-connector==4.6.0",
     "kernel": "databricks-sql-kernel==1.1.0",
-    "report": "artifacts/conformance/B045-sql-connector-loopback.md"
+    "report": "artifacts/conformance/B021.2.3-sql-connector-failures-retention.md",
+    "capability_C031": "partial: strict TLS/auth transport, kernel sessions, one SEA-mode INLINE JSON_ARRAY query/result plus connector error/cancellation/close and bounded retention evidence"
   },
   "job_state": {
     "result": "done",
@@ -68,7 +91,7 @@
     "full_unit_suite": "122 passed"
   },
   "workspace_files_and_sdk_jobs": {
-    "result": "partial local plain-Python SDK profile with sequential DAG dispatch, bounded retries/admission, restart interruption, compute-context binding, and selected worker dbutils services",
+    "result": "partial local pinned-SDK Python workflow with bounded worker Sparkless reads and one registered Delta append path, alongside sequential DAG, retry/admission, restart, compute-context and dbutils subsets",
     "tasks": [
       "B014.2",
       "B014.3.1",
@@ -78,20 +101,24 @@
       "B014.4",
       "B014.5",
       "B014.6",
+      "B015.1.1",
+      "B015.1.2",
+      "B015.1.3",
       "B016.1",
       "B016.2",
-      "B016.3"
+      "B016.3",
+      "B018.1.1"
     ],
-    "metadata_schema_version": 12,
+    "metadata_schema_version": 17,
     "sdk": "databricks-sdk==0.153.0, loopback only",
     "full_unit_suite": "165 passed; the opt-in CLI fixture is skipped unless explicitly configured",
-    "report": "artifacts/conformance/B016.3-attempt-scoped-task-values.md",
-    "limitations": "Python script workers only; no Spark/Sparkless table/session effects, notebook tasks, or multi-task SDK output retrieval; a worker recorded active at service restart is marked interrupted but surviving workers are not adopted/terminated; local job max_concurrent_runs is 1\u20134 within a four-run process cap."
+    "report": "artifacts/conformance/B018.1.1-job-to-delta-data-flow.md",
+    "limitations": "Worker table writes only append to an existing registered Delta table through the parent service, capped at 32 KiB Arrow IPC and 100,000 rows. One classic-standard G2 workflow is verified; broader job/profile matrices, multi-task SDK output retrieval, notebook extras, and remote workspace behavior remain unverified."
   },
   "job_run_admission": {
     "result": "implemented with HTTP 409 capacity conflicts and token-safe idempotency",
     "task": "B014.3.2.2",
-    "per_job_limit": "1\u20134",
+    "per_job_limit": "1–4",
     "process_limit": 4,
     "focused_checks": "14 passed",
     "full_unit_suite": "133 passed",
@@ -116,7 +143,7 @@
     "active_implementation_task": "B020.2",
     "note": "Retained historical implementation results; B047 ran planning-tool regression tests only. Concurrent Terraform work retains its own task/report evidence."
   },
-  "child_task_count": 85,
+  "child_task_count": 133,
   "post_stability_stage_count": 7,
   "emulator_stability_task": "B049",
   "planning_tooling_tests_run": true,
@@ -138,28 +165,250 @@
     "capability_claims_added": "C059-C064 planned; no new implemented deployment claims"
   },
   "initially_ready_implementation_tasks_at_validation": [
-    "B020.3"
+    "B064.11"
   ],
-  "active_implementation_task_at_validation": "B020.3",
-  "active_implementation_task": null,
+  "active_implementation_task_at_validation": "B064.11",
+  "active_implementation_task": "none; B064 is complete and no unfinished implementation task is initially ready.",
   "initially_ready_implementation_tasks": [],
   "current_implementation": {
-    "completed_task": "B020.3",
+    "completed_task": "B064",
     "status": "done",
-    "report": "artifacts/conformance/B020.3-databricks-cli-bundle-v1.21.0.md",
-    "next_ready_phase_0_1_task": null,
-    "dependency_gate": "B020.4 depends on B011; B011 depends on B010, whose child B010.1 and B046.3 are blocked by Sparkless nullable-struct issues #1694/#1695.",
-    "full_local_suite": "184 passed, 3 opt-in CLI/Terraform integrations skipped with client variables unset",
-    "bundle_integration": "1 passed against ephemeral loopback with synthetic token and actual Databricks CLI v1.21.0",
-    "static_checks": "Ruff check/format, strict mypy for 46 source files, planning validation and git diff --check passed",
-    "client_reruns_after_schema_12": "CLI workspace 1 passed; CLI bundle 1 passed; Terraform provider plus API routes 3 passed, all loopback with synthetic credentials."
+    "report": "artifacts/conformance/B064-phase-0.1-review-fixes.md",
+    "parent_task": "B064",
+    "phase_0_1_child_status": "133 done of 133 required children; B064 and all eleven review-fix children are complete.",
+    "qualification": "Exact current wheel SHA-256 f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef on macOS 26.5.2 arm64: 137 base and 175 notebook-extra G1-G4 cases per interpreter on CPython 3.11.15 and 3.12.13 (624 total); plus 99 focused installed-wheel B064 cases on CPython 3.11.15 and 35 SQL statement-service cases. Sparkless 4.15.2 timestamp regression passed. No Databricks account or cloud execution was used.",
+    "artifact_manifest": "artifacts/releases/0.1.0/manifest.json",
+    "remaining_owner_gates": "Select project license; qualify Linux x86_64 or revise advertised scope; authorize publication separately."
   },
   "bundle_workflow": {
-    "result": "bounded local classic single-task Python bundle passed",
-    "task": "B020.3",
-    "client": "Databricks CLI v1.21.0, commit 71934db",
-    "test_id": "tests/integration/test_databricks_cli_bundle_v1_21_0.py::test_cli_bundle_v1_21_0_validate_deploy_and_run_local_python_job",
-    "report": "artifacts/conformance/B020.3-databricks-cli-bundle-v1.21.0.md",
-    "limitations": "Synthetic current-user identity and simulated compute; notebook tasks, pipelines, apps, dashboards, serverless bundles, authentication, and remote workspace behavior remain unsupported or unverified."
+    "result": "selected serverless Python and classic notebook bundle workloads passed; parent B020 done",
+    "task": "B020",
+    "children": [
+      "B020.1",
+      "B020.2",
+      "B020.3",
+      "B020.4",
+      "B020.5"
+    ],
+    "client": "Databricks CLI v1.21.0; SDK 0.153.0; local loopback only",
+    "test_id": "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py::test_cli_bundles_v1_21_0_run_g2_serverless_python_and_classic_notebook",
+    "focused_suite": "60 passed",
+    "report": "artifacts/conformance/B020.5-cli-serverless-classic-bundles.md",
+    "limitations": "One serverless-local Python task and one classic-standard notebook task; current-user identity, classic infrastructure and warehouse allocation are simulated. The local SQL read is not released connector compatibility; authentication, broad bundle semantics, and remote workspace/runtime behavior remain unverified."
+  },
+  "prior_validation_before_B056": {
+    "scope": "B047 emulator-first roadmap planning: preserve 0.1-0.9 emulator phases, add a bounded B048 architecture review, and gate SH.1-SH.6 deployment implementation on B049 stability after B042.",
+    "implementation_tests_run": false,
+    "active_implementation_task": null,
+    "checks": [
+      "Planning schema, task graph/cycles, parent-child criteria/prerequisites, all nine emulator release assignments, seven separate post-stability stages, the B049 stability barrier, backlog agreement, capability/evidence references and local Markdown links passed.",
+      "10 focused planning-validator regression checks passed: the real plan, eight malformed graph/assignment/start-state cases and future deployment-child stage inheritance. No emulator or deployment runtime test was run for B047.",
+      "Pre-edit preservation audit retained every original task acceptance criterion, child list, prerequisite edge, reference and evidence record. B023 and its children only gained B048; existing later emulator epics gained guidance references. All original capability states remain. Concurrent B020.2/B020.3 and C030 implementation updates were retained.",
+      "Ruff check and formatting passed for scripts/validate_planning.py and tests/unit/test_planning_validation.py; strict mypy passed for the validator; git diff --check passed.",
+      "C059-C064 are planned only, without tested versions, test IDs or evidence. No JVM, remote Spark fallback, Databricks credential/account request, cloud workload, dependency change, runtime migration or publication was introduced."
+    ]
+  },
+  "optional_cluster_stage_count": 6,
+  "cluster_planning": {
+    "task": "B056",
+    "status": "done",
+    "report": "artifacts/conformance/B056-sparkless-cluster-plan.md",
+    "regression_tests_passed": 19,
+    "source_revision": "ad1b9445bad609ac4bf74d2cf3ad2f68832ff49b",
+    "source_checkout_changed": false,
+    "implementation_tasks": [
+      "B057",
+      "B058",
+      "B059",
+      "B060",
+      "B061",
+      "B062"
+    ],
+    "integration_prerequisites": [
+      "B061",
+      "B053"
+    ],
+    "new_capabilities": "C065-C067 planned only"
+  },
+  "prior_validation_before_B063": {
+    "scope": "B056 source-grounded native Sparkless cluster planning: optional SC.0-SC.5 after emulator stability, with B062 integration requiring both qualified engine B061 and remote execution B053. Existing emulator and SH requirements retained.",
+    "implementation_tests_run": false,
+    "active_implementation_task": null,
+    "checks": [
+      "Planning validation passed for 147 tasks, 62 top-level packages, 85 retained emulator children, 67 capabilities, nine emulator phases, seven SH stages and six optional SC stages; task/backlog, links, dependency cycles/stage assignments, stability and integration barriers are consistent.",
+      "19 focused planning-validator regression tests passed, including rejected stability bypass/premature implementation, missing upstream/remote integration prerequisites, invalid cluster stage/version assignments and future cluster-child stage inheritance.",
+      "Pre-edit preservation audit retained all 140 original task criteria, child lists, prerequisites, references and evidence; all 64 existing capability entries/evidence remain with concurrent B010/C015/C016 implementation progress preserved. C065-C067 are planned only.",
+      "Clean Sparkless 4.14.1 at ad1b9445bad609ac4bf74d2cf3ad2f68832ff49b was inspected read-only and remained clean. No upstream source edit/rebuild, dependency installation, emulator/cluster runtime test, credential/account request, cloud provisioning or publication occurred in B056.",
+      "Ruff check/format passed for scripts/validate_planning.py and tests/unit/test_planning_validation.py; strict mypy passed for the validator; git diff --check passed."
+    ]
+  },
+  "oss_package_snapshot_count": 22,
+  "oss_native_source_snapshot_count": 3,
+  "oss_constraint_comparison_count": 8,
+  "oss_reuse_research": {
+    "task": "B063",
+    "status": "done",
+    "plan": "docs/plan/20-open-source-reuse.md",
+    "inventory": "planning/oss-reuse.json",
+    "source_report": "docs/upstream/oss-reuse-inventory.md",
+    "report": "artifacts/conformance/B063-open-source-reuse.md",
+    "public_artifact_checks": 26,
+    "offline_tests_passed": 28,
+    "implementation_behavior_claims_added": false
+  },
+  "notebook_task_execution": {
+    "result": "selected local SDK NotebookTask profiles passed",
+    "task": "B017.5",
+    "profiles": "seven compute selections plus three marked Python source-export profiles",
+    "sdk": "databricks-sdk==0.153.0, synthetic-token loopback only",
+    "focused_suite": "87 passed",
+    "report": "artifacts/conformance/B017.5-notebook-compute-interruption.md",
+    "limitations": "No Databricks service/runtime parity; no remote notebooks, full Jobs API merge, multi-task get-output, package installation, or notebook-specific task-value/secret parity is claimed."
+  },
+  "planning_validator_tests": {
+    "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0171-env/bin/python -m pytest -q tests/unit/test_planning_validation.py",
+    "result": "19 passed"
+  },
+  "g1_boundary_validation": {
+    "tasks": [
+      "B012.1",
+      "B012.2.1",
+      "B012.2.2",
+      "B012.2.3"
+    ],
+    "status": "done",
+    "sparkless": "4.15.0",
+    "evidence": [
+      "artifacts/conformance/B012.1-g1-shared-table-restart.md",
+      "artifacts/conformance/B012.2.1-empty-and-schema-mismatch.md",
+      "artifacts/conformance/B012.2.2-external-drop-and-stale-metadata.md",
+      "artifacts/conformance/B012.2.3-native-only-process-network.md"
+    ],
+    "limits": "Local only; no Databricks behavior claim. Guarded network/process proof covers G1 in a prepared macOS development environment. DataFrames already resolved before metadata removal are not revoked."
+  },
+  "g2_job_to_delta_data_flow": {
+    "result": "done for the bounded local data-flow child; parent workflow remains in progress",
+    "task": "B018.1.1",
+    "active_follow_up": null,
+    "sdk": "databricks-sdk==0.153.0, loopback only",
+    "sparkless": "4.15.0",
+    "profile": "classic-standard-local-v1",
+    "test_id": "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
+    "focused_suite": "43 passed",
+    "report": "artifacts/conformance/B018.1.1-job-to-delta-data-flow.md",
+    "write_contract": "Existing registered Delta append only; 32 KiB Arrow IPC, 100,000 rows, identity/location/version checked by the parent before journaled commit.",
+    "remote_compatibility": "not claimed"
+  },
+  "prior_phase_0_1_snapshot_before_B019_2_3": {
+    "scope": "Phase 0.1 implementation snapshot after B019.1.5 local join conformance; B019.1.6 DDL/error cases is active.",
+    "active_implementation_task": "B019.1.6",
+    "initially_ready_implementation_tasks": [
+      "B019.1.6",
+      "B019.1.7",
+      "B020.4"
+    ],
+    "current_implementation": {
+      "completed_task": "B019.1.5",
+      "status": "done",
+      "report": "artifacts/conformance/B019.1.5-sql-joins.md",
+      "active_task": "B019.1.6",
+      "next_ready_phase_0_1_task": "B019.1.6",
+      "initially_ready_tasks": [
+        "B019.1.6",
+        "B019.1.7",
+        "B020.4"
+      ],
+      "dependency_gate": "B019.1.1 through B019.1.5 are complete for selected local scalar, aggregate, date/time, collection, and join cases. B019.1.6 is active for DDL/error qualification; B019.1.7 and B020.4 remain independently ready.",
+      "phase_0_1_child_status": "92 done, 13 planned, 2 in progress of 107 required children",
+      "focused_suite": "26 SQL statement-service and capture-isolation tests passed with Databricks credential variables unset.",
+      "static_checks": "Ruff check/format, planning validation, and git diff --check passed."
+    }
+  },
+  "prior_implementation_before_B019_3": {
+    "completed_task": "B019.2.3",
+    "status": "done",
+    "report": "artifacts/conformance/B019.2.3-sql-describe-history.md",
+    "active_task": "B019.2.4",
+    "next_ready_phase_0_1_task": "B019.2.4",
+    "initially_ready_tasks": [
+      "B019.2.4",
+      "B020.4"
+    ],
+    "dependency_gate": "B019.2.1 through B019.2.3 are complete for selected SQL mutation and provider utility cases. B019.2.4 is active for VERSION AS OF; B020.4 remains independently ready.",
+    "phase_0_1_child_status": "98 done, 11 planned, 2 in progress of 111 required children",
+    "focused_suite": "88 SQL/provider regression tests passed with DATABRICKS_TOKEN, DATABRICKS_HOST, and DATABRICKS_PROFILE unset.",
+    "static_checks": "Ruff check/format, strict mypy across 69 source files, planning validation, and git diff --check passed."
+  },
+  "sql_routing_and_utility_qualification": {
+    "task": "B019.3",
+    "status": "done",
+    "sparkless": "4.15.0",
+    "test_count": 74,
+    "report": "artifacts/conformance/B019.3-executor-routing.md",
+    "duckdb_executor_enabled": false,
+    "databricks_account_requests_run": false,
+    "capability_C018": "planned"
+  },
+  "compute_workload_capabilities": {
+    "C053": "partial: selected local SDK serverless jobs and one CLI serverless Python bundle task",
+    "C054": "partial: selected local classic SDK jobs and one CLI classic-standard notebook bundle task",
+    "C055": "partial: selected SDK local serverless/Pro/classic warehouse lifecycle and query subsets",
+    "C056": "planned: environment/access policy breadth remains open",
+    "report": "artifacts/conformance/B020.5-cli-serverless-classic-bundles.md"
+  },
+  "restart_retention": {
+    "result": "done for local POSIX restart/replay, staged-input safety, and bounded SQL/job output retention",
+    "task": "B022.3.1",
+    "focused_checks": "71 passed",
+    "metadata_schema_version": 20,
+    "report": "artifacts/conformance/B022.3.1-restart-retention.md",
+    "limitations": "Worker-log expiry is lazy on output retrieval or explicit maintenance; no background scheduler or immediate SQLite file shrink is implemented."
+  },
+  "coordinated_restore": {
+    "result": "done for quiesced local snapshots and explicit external-reference policy",
+    "task": "B022.3.2",
+    "focused_checks": "3 snapshot-specific tests; 141 combined affected recovery tests",
+    "external_table_policy": "exclude bytes, preserve registrations and absolute references, raise TableMissingError when data is unavailable",
+    "report": "artifacts/conformance/B022.3.2-coordinated-workspace-restore.md",
+    "limitations": "Owner lock coordinates BrickHouse writers only; external processes and provider state are not included or coordinated."
+  },
+  "cross_mode_recovery": {
+    "result": "done for selected local classic and serverless recovery profiles",
+    "tasks": [
+      "B022.4",
+      "B018.1.2",
+      "B017.5"
+    ],
+    "focused_checks": "2 new serverless-local cases; 141 combined affected recovery tests",
+    "report": "artifacts/conformance/B022.4-serverless-timeout-commit.md",
+    "limitations": "No Databricks service/runtime or cloud compute parity; external Python side effects are not reconciled."
+  },
+  "release_candidate_assembly": {
+    "task": "B023.3",
+    "status": "done",
+    "bundle": "artifacts/releases/0.1.0/README.md",
+    "artifact_manifest": "artifacts/releases/0.1.0/manifest.json",
+    "distribution_audit": "passed; credential-file paths rejected; project license unselected",
+    "candidate_published": false,
+    "databricks_account_requests_run": false
+  },
+  "sql_table_creation_recovery": {
+    "task": "B064.11",
+    "status": "done",
+    "behavior": "Failed initial writes attempt managed-registration cleanup only after confirming there is no Delta snapshot; retry handles a managed registration without a Delta log through the journaled table service; IF NOT EXISTS returns no-op only for a supported managed snapshot and rejects external registrations explicitly.",
+    "regression_coverage": "35 tests passed in tests/unit/test_sql_statement_service.py, including provider rejection, interruption/retry, supported existing managed snapshots, external data, malformed Delta logs, and unresolved operations.",
+    "candidate_status": "The refreshed 0.1.0.dev0 candidate contains B064.11 and pins Sparkless 4.15.2; 99 focused installed-wheel B064 regressions, 35 SQL statement-service cases, and the selected 624-case current-candidate G1-G4 matrix passed. The selected UTC-aware timestamp predicate passes. Linux, license, broader/remote parity, and publication owner gates remain open."
+  },
+  "sparkless_4_15_2_requalification": {
+    "published_wheel": "sparkless-4.15.2-cp38-abi3-macosx_11_0_arm64.whl",
+    "published_wheel_sha256": "7d12d6f76212e52586cbe07ab12152f4c7dcf04bd2873532751f1335ee81cfb2",
+    "upstream_pr": "https://github.com/eddiethedean/robin-sparkless/pull/1721",
+    "resolved_issue": "https://github.com/eddiethedean/robin-sparkless/issues/1720",
+    "timestamp_case": "B019.1.3 direct UTC-aware Delta timestamp predicate returns order_id 2",
+    "sql_statement_service": "35 passed, local Delta, credentials unset",
+    "candidate_b064": "99 passed from the exact installed BrickHouse 0.1.0.dev0 wheel under the loopback-only/offline guard",
+    "candidate_full_g1_g4": "624 selected cases passed on exact BrickHouse wheel f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef: base 137 and notebook-extra 175 per interpreter on macOS arm64 CPython 3.11.15/3.12.13.",
+    "databricks_account_requests_run": false,
+    "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef"
   }
 }

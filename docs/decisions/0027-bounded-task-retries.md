@@ -21,4 +21,4 @@ Execution-context resolution already validates per-task `max_retries`, `min_retr
 
 Failed intermediate attempts remain queryable even when a later retry succeeds. Dependents observe the final task result because the DAG scheduler dispatches them only after retries finish. External side effects from a failed attempt may repeat; this does not provide exactly-once execution.
 
-Run-level `max_concurrent_runs` admission is implemented separately with the local four-run cap; see [ADR 0028](0028-bounded-run-admission.md). This local profile uses the pinned SDK against loopback only and makes no Databricks runtime compatibility claim. See [B014.3.2.1 evidence](../../artifacts/conformance/B014.3.2.1-retry-attempts.md).
+Run-level `max_concurrent_runs` admission was implemented separately under the original local four-run cap; B064 later supersedes that cap with durable queueing as recorded in [ADR 0028](0028-bounded-run-admission.md). This local profile uses the pinned SDK against loopback only and makes no Databricks runtime compatibility claim. See [B014.3.2.1 evidence](../../artifacts/conformance/B014.3.2.1-retry-attempts.md).

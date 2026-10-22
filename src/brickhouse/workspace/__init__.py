@@ -27,6 +27,16 @@ from brickhouse.workspace.ownership import (
     WorkspaceOwnershipError,
     acquire_workspace_owner,
 )
+from brickhouse.workspace.snapshot import (
+    ExternalTableReference,
+    WorkspaceRestoreResult,
+    WorkspaceSnapshot,
+    WorkspaceSnapshotBusyError,
+    WorkspaceSnapshotCorruptError,
+    WorkspaceSnapshotError,
+    restore_workspace_snapshot,
+    snapshot_workspace,
+)
 
 __all__ = [
     "SUPPORTED_CONFIG_VERSION",
@@ -49,7 +59,15 @@ __all__ = [
     "WorkspaceInUseError",
     "WorkspaceOwner",
     "WorkspaceOwnershipError",
+    "WorkspaceRestoreResult",
+    "WorkspaceSnapshot",
+    "WorkspaceSnapshotBusyError",
+    "WorkspaceSnapshotCorruptError",
+    "WorkspaceSnapshotError",
+    "ExternalTableReference",
     "acquire_workspace_owner",
     "initialize_workspace",
     "open_workspace",
+    "restore_workspace_snapshot",
+    "snapshot_workspace",
 ]

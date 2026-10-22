@@ -17,10 +17,13 @@ class Migration:
 
     version: int
     apply: Callable[[sqlite3.Connection], None]
+    requires_foreign_keys_off: bool = False
 
     def __post_init__(self) -> None:
         if type(self.version) is not int or self.version < 1:
             raise ValueError("migration version must be a positive integer")
+        if type(self.requires_foreign_keys_off) is not bool:
+            raise ValueError("requires_foreign_keys_off must be a boolean")
 
 
 def apply_migrations(
@@ -39,9 +42,24 @@ def apply_migrations(
     if connection.in_transaction:
         raise WorkspaceMigrationError("cannot migrate inside an existing transaction")
 
-    connection.execute("BEGIN IMMEDIATE")
+    initial_version_row = connection.execute("PRAGMA user_version").fetchone()
+    if initial_version_row is None:
+        raise WorkspaceMigrationError("SQLite user_version is unavailable")
+    initial_version = initial_version_row[0]
+    foreign_keys_row = connection.execute("PRAGMA foreign_keys").fetchone()
+    if foreign_keys_row is None:
+        raise WorkspaceMigrationError("SQLite foreign_keys setting is unavailable")
+    foreign_keys_were_enabled = foreign_keys_row[0] == 1
+    needs_foreign_key_rebuild = any(
+        migration.requires_foreign_keys_off and migration.version > initial_version
+        for migration in ordered
+    )
+    if needs_foreign_key_rebuild and foreign_keys_were_enabled:
+        connection.execute("PRAGMA foreign_keys = OFF")
     current_version = 0
+    foreign_key_rebuild_applied = False
     try:
+        connection.execute("BEGIN IMMEDIATE")
         has_history = (
             connection.execute(
                 "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'schema_migrations'"
@@ -97,6 +115,16 @@ def apply_migrations(
             )
             connection.execute(f"PRAGMA user_version = {migration.version}")
             current_version = migration.version
+            foreign_key_rebuild_applied = (
+                foreign_key_rebuild_applied or migration.requires_foreign_keys_off
+            )
+
+        if foreign_key_rebuild_applied:
+            violations = connection.execute("PRAGMA foreign_key_check").fetchall()
+            if violations:
+                raise WorkspaceMigrationError(
+                    "workspace migration left invalid foreign-key references"
+                )
 
         connection.commit()
         return current_version
@@ -104,3 +132,6 @@ def apply_migrations(
         if connection.in_transaction:
             connection.rollback()
         raise
+    finally:
+        if needs_foreign_key_rebuild and foreign_keys_were_enabled:
+            connection.execute("PRAGMA foreign_keys = ON")

@@ -1,0 +1,118 @@
+{
+  "candidate_distribution_version": "0.1.0.dev0",
+  "candidate_state": "owner-review candidate; not published",
+  "capability_registry": {
+    "entries": 67,
+    "fully_supported_entries": 0,
+    "status_counts": {
+      "partial": 24,
+      "planned": 41,
+      "simulated": 2
+    }
+  },
+  "date": "2026-10-22",
+  "frozen_local_workload_profiles": {
+    "infrastructure_lifecycle": "simulated metadata; real local workers/SQL/table behavior are covered only by selected evidence",
+    "notebook_compute_selectors": [
+      "SL",
+      "CSN",
+      "CSE",
+      "CSH",
+      "CDN",
+      "CDE",
+      "CDH"
+    ],
+    "python_job_selectors": [
+      "SL",
+      "CSN",
+      "CSE",
+      "CSH",
+      "CDN",
+      "CDE",
+      "CDH"
+    ],
+    "sql_warehouse_profiles": [
+      "serverless",
+      "pro",
+      "classic"
+    ]
+  },
+  "known_scope_limits": [
+    "No remote Databricks runtime or service parity is claimed.",
+    "No cloud compute or real infrastructure lifecycle behavior is claimed.",
+    "Warehouse and cluster lifecycle metadata is simulated.",
+    "Kernel Arrow-stream/LZ4 and broader SQL connector methods remain unqualified.",
+    "Thrift and Windows are unqualified.",
+    "The published Sparkless 4.15.1 wheel still raises the UTC-aware Delta timestamp comparison mismatch in the selected external-catalog case; follow-up issue #1720 tracks it."
+  ],
+  "release_gates": {
+    "current_candidate_b064_installed_wheel": "passed: 99 focused cases with Sparkless 4.15.1 on macOS arm64 CPython 3.11.15 under the loopback-only offline guard",
+    "current_candidate_full_g1_g4": "not requalified; prior candidate evidence is retained with its previous artifact hash",
+    "linux_x86_64": "unqualified; do not advertise until CI passes or scope is revised",
+    "notices_and_distribution_audit": "passed for current wheel and source archive",
+    "project_license": "owner decision required; not selected",
+    "publication": "not authorized by this candidate task; separate owner authorization required",
+    "remote_databricks_parity": "not claimed"
+  },
+  "schema_version": 1,
+  "source_provenance": {
+    "base_commit": "e767437726b96be91f1d1b1291780736ab913483",
+    "development_lock_sha256": "48663f63a2e2b70fa6783724b8056f6373cf98e74683c5317e99b5fc920d1023",
+    "source_archive_sha256": "0499ac91f729f3885711c9a0c598cb3234a7502ed1cae556b2760209db3b91c7",
+    "wheel_sha256": "b8ce3f90fa5956f5e1baae1cfb31c7ccd3279a93ef7fdbfb6c5785319d464d51",
+    "working_tree_was_dirty_during_candidate_build": true
+  },
+  "target_release": "0.1.0",
+  "unqualified_install_matrix": [
+    {
+      "architecture": "x86_64",
+      "os": "Linux",
+      "python": "3.11/3.12",
+      "reason": "Configured CI matrix has not passed; not advertised."
+    },
+    {
+      "architecture": "any",
+      "os": "Windows",
+      "python": "any",
+      "reason": "No install/offline qualification; not advertised."
+    }
+  ],
+  "previous_candidate_qualified_install_matrix": [
+    {
+      "architecture": "arm64",
+      "base": true,
+      "notebooks_extra": true,
+      "os": "macOS 26.5.2",
+      "python": "3.11.15"
+    },
+    {
+      "architecture": "arm64",
+      "base": true,
+      "notebooks_extra": true,
+      "os": "macOS 26.5.2",
+      "python": "3.12.13"
+    }
+  ],
+  "previous_candidate_release_gates": {
+    "base_offline_g1_g4": "passed: 264 cases across two macOS Python combinations",
+    "linux_x86_64": "unqualified; do not advertise until CI passes or scope is revised",
+    "notebook_extra_offline_g1_g4": "passed: 338 cases across two macOS Python combinations",
+    "notices_and_distribution_audit": "passed",
+    "project_license": "owner decision required; not selected",
+    "publication": "not authorized by this candidate task; separate owner authorization required",
+    "remote_databricks_parity": "not claimed"
+  },
+  "previous_candidate_artifact_hashes": {
+    "wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
+    "sdist_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63"
+  },
+  "current_candidate_qualification": {
+    "wheel_sha256": "b8ce3f90fa5956f5e1baae1cfb31c7ccd3279a93ef7fdbfb6c5785319d464d51",
+    "b064_review_cases": 99,
+    "python": "3.11.15",
+    "lane": "base",
+    "full_g1_g4_matrix_requalified": false,
+    "source_distribution_sha256": "0499ac91f729f3885711c9a0c598cb3234a7502ed1cae556b2760209db3b91c7",
+    "sparkless_version": "4.15.1"
+  }
+}

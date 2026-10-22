@@ -24,6 +24,7 @@ from brickhouse.compute.models import (
     normalize_cluster_configuration,
 )
 from brickhouse.compute.repository import ComputeRepository, ComputeRepositoryError
+from brickhouse.compute.warehouse import SqlWarehouseLifecycle
 from brickhouse.workspace.context import WorkspaceContext
 
 _COMPUTE_KEY_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}\Z")
@@ -46,6 +47,7 @@ class ComputeService:
         self._context = context
         self._repository = ComputeRepository(context)
         self._clock = clock or (lambda: datetime.now(UTC))
+        self.warehouses = SqlWarehouseLifecycle(context, clock=self._clock)
 
     def create_cluster(self, body: Mapping[str, object]) -> ComputeRecord:
         """Create local all-purpose cluster metadata in an immediately running state."""

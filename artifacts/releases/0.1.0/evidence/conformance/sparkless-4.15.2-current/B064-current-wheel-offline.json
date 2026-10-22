@@ -1,0 +1,65 @@
+{
+  "result": "passed",
+  "lane": "base",
+  "command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/unit/test_jobs_api_sdk.py::test_reset_revisions_share_stable_job_concurrency_identity tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers tests/unit/test_jobs_api_sdk.py::test_restart_resumes_undispatched_fifo_runs_without_replaying_started_attempts tests/unit/test_worker_supervision.py tests/unit/test_jobs_repository.py tests/unit/test_workspace_snapshot.py tests/unit/test_delta_operation_journal.py tests/unit/test_sql_statement_service.py tests/unit/test_sql_statement_results.py tests/unit/test_sql_statement_api.py",
+  "return_code": 0,
+  "databricks_credentials_present": false,
+  "inherited_databricks_environment_key_count": 0,
+  "dotenv_loads": [],
+  "candidate_python": "3.11.15 (main, Mar 25 2026, 02:58:47) [Clang 22.1.1 ]",
+  "candidate_version": "0.1.0.dev0",
+  "candidate_import": "/tmp/brickhouse-qual-4.15.2-base-py311/lib/python3.11/site-packages/brickhouse/__init__.py",
+  "candidate_wheel_installed": true,
+  "forbidden_distributions_installed": [],
+  "notebook_distributions_installed": {},
+  "forbidden_importable_modules": [],
+  "java_spark_environment_keys_removed": [
+    "JAVA_HOME",
+    "SPARK_HOME"
+  ],
+  "forbidden_events": [],
+  "network_policy": "macOS sandbox denies outbound networking except localhost on any port; the current run's temporary directory is also permitted for local Unix-domain sockets; Python audit hook rejects non-loopback resolution/connections",
+  "sandbox_profile": "deny network-outbound; permit localhost IP sockets and Unix-domain sockets under the unique per-run temporary directory",
+  "process_policy": "test PATH exposes only the candidate wheel environment and whitelisted local utilities; Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports",
+  "loopback_connections": {
+    "count": 263,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "loopback_resolutions": {
+    "count": 263,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "subprocesses": {
+    "count": 34,
+    "executables": [
+      "python"
+    ]
+  },
+  "forbidden_processes": [],
+  "blocked_process_names": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": "........................................................................ [ 72%]\n...........................                                              [100%]\n99 passed in 38.39s",
+  "stderr": "",
+  "qualification_generation": "current-sparkless-4.15.2-candidate",
+  "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
+  "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
+  "sparkless_version": "4.15.2",
+  "python_version": "3.11.15",
+  "platform": "macOS 26.5.2 arm64",
+  "group": "B064 focused review regressions",
+  "passed_cases": 99,
+  "qualification_date": "2026-10-22"
+}

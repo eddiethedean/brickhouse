@@ -1,0 +1,42 @@
+{
+  "project_license_selected": false,
+  "result": "passed",
+  "sdist": {
+    "name": "brickhouse",
+    "path": "/Volumes/T7/coding/brickhouse/artifacts/releases/0.1.0/candidate/brickhouse-0.1.0.dev0.tar.gz",
+    "retained_notice_files": [
+      "THIRD_PARTY_LICENSES/deltalake-1.2.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/ipykernel-7.4.0-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/jupyter-client-8.10.0-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/nbclient-0.11.0-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/nbformat-5.11.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/pyarrow-23.0.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/pyarrow-23.0.1-NOTICE.txt",
+      "THIRD_PARTY_LICENSES/sparkless-4.15.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/sqlglot-30.24.0-LICENSE.txt",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "sha256": "0499ac91f729f3885711c9a0c598cb3234a7502ed1cae556b2760209db3b91c7",
+    "version": "0.1.0.dev0"
+  },
+  "wheel": {
+    "name": "brickhouse",
+    "package_file_count": 70,
+    "path": "/Volumes/T7/coding/brickhouse/artifacts/releases/0.1.0/candidate/brickhouse-0.1.0.dev0-py3-none-any.whl",
+    "requires_python": ">=3.11",
+    "retained_notice_files": [
+      "THIRD_PARTY_LICENSES/deltalake-1.2.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/ipykernel-7.4.0-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/jupyter-client-8.10.0-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/nbclient-0.11.0-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/nbformat-5.11.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/pyarrow-23.0.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/pyarrow-23.0.1-NOTICE.txt",
+      "THIRD_PARTY_LICENSES/sparkless-4.15.1-LICENSE.txt",
+      "THIRD_PARTY_LICENSES/sqlglot-30.24.0-LICENSE.txt",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "sha256": "b8ce3f90fa5956f5e1baae1cfb31c7ccd3279a93ef7fdbfb6c5785319d464d51",
+    "version": "0.1.0.dev0"
+  }
+}

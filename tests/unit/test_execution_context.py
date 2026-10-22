@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.metadata
 import sqlite3
+import sys
 from pathlib import Path
 
 import pytest
@@ -89,7 +90,9 @@ def test_serverless_environment_and_defaults_resolve_from_pinned_sdk_models(
         assert resolved.run_id == 302
         assert resolved.profile == "serverless-local-v1"
         assert resolved.runtime_profile is None
-        assert resolved.environment_profile == "serverless-python311-local-v1"
+        assert resolved.environment_profile == (
+            f"serverless-python{sys.version_info.major}{sys.version_info.minor}-local-v1"
+        )
         assert resolved.environment_key == "python311"
         assert resolved.environment_version == "1"
         assert resolved.dependencies == ("deltalake==1.2.1", "pyarrow==23.0.1")

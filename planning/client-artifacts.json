@@ -1,0 +1,44 @@
+{
+  "cli": {
+    "darwin_arm64": {
+      "filename": "databricks_cli_1.21.0_darwin_arm64.zip",
+      "sha256": "5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83",
+      "checksum_url": "https://github.com/databricks/cli/releases/download/v1.21.0/databricks_cli_1.21.0_SHA256SUMS",
+      "url": "https://github.com/databricks/cli/releases/download/v1.21.0/databricks_cli_1.21.0_darwin_arm64.zip"
+    },
+    "linux_amd64": {
+      "filename": "databricks_cli_1.21.0_linux_amd64.zip",
+      "sha256": "5599f6a4c01535142cdb1aa16527ec68e6aa849bd7ce72581ec4ed491e9d16b7",
+      "checksum_url": "https://github.com/databricks/cli/releases/download/v1.21.0/databricks_cli_1.21.0_SHA256SUMS",
+      "url": "https://github.com/databricks/cli/releases/download/v1.21.0/databricks_cli_1.21.0_linux_amd64.zip"
+    }
+  },
+  "terraform": {
+    "darwin_arm64": {
+      "filename": "terraform_1.16.6_darwin_arm64.zip",
+      "sha256": "85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+      "checksum_url": "https://releases.hashicorp.com/terraform/1.16.6/terraform_1.16.6_SHA256SUMS",
+      "url": "https://releases.hashicorp.com/terraform/1.16.6/terraform_1.16.6_darwin_arm64.zip"
+    },
+    "linux_amd64": {
+      "filename": "terraform_1.16.6_linux_amd64.zip",
+      "sha256": "38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+      "checksum_url": "https://releases.hashicorp.com/terraform/1.16.6/terraform_1.16.6_SHA256SUMS",
+      "url": "https://releases.hashicorp.com/terraform/1.16.6/terraform_1.16.6_linux_amd64.zip"
+    }
+  },
+  "provider": {
+    "darwin_arm64": {
+      "filename": "terraform-provider-databricks_1.137.0_darwin_arm64.zip",
+      "sha256": "17262dad158363e64fbcfe2a7a7273235c8377b1777be00d7192125cbe55efc5",
+      "checksum_url": "https://github.com/databricks/terraform-provider-databricks/releases/download/v1.137.0/terraform-provider-databricks_1.137.0_SHA256SUMS",
+      "url": "https://github.com/databricks/terraform-provider-databricks/releases/download/v1.137.0/terraform-provider-databricks_1.137.0_darwin_arm64.zip"
+    },
+    "linux_amd64": {
+      "filename": "terraform-provider-databricks_1.137.0_linux_amd64.zip",
+      "sha256": "71e708d84e2f675d294dd5e423ed0f80dfee784512eae159db52b7beb64a24a9",
+      "checksum_url": "https://github.com/databricks/terraform-provider-databricks/releases/download/v1.137.0/terraform-provider-databricks_1.137.0_SHA256SUMS",
+      "url": "https://github.com/databricks/terraform-provider-databricks/releases/download/v1.137.0/terraform-provider-databricks_1.137.0_linux_amd64.zip"
+    }
+  }
+}

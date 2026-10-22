@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ipaddress
 import json
 import signal
 from http import HTTPStatus
@@ -13,6 +14,8 @@ from brickhouse.api.catalog import ApiBinaryResponse, ApiResponse, CatalogHttpAp
 from brickhouse.api.compute import ComputeHttpApi
 from brickhouse.api.host_metadata import HostMetadataHttpApi
 from brickhouse.api.jobs import JobsHttpApi
+from brickhouse.api.statements import SqlStatementHttpApi
+from brickhouse.api.warehouses import SqlWarehouseHttpApi
 from brickhouse.api.workspace_files import (
     MAX_WORKSPACE_IMPORT_REQUEST_BYTES,
     WorkspaceFileHttpApi,
@@ -21,19 +24,36 @@ from brickhouse.diagnostics import capability_report
 from brickhouse.workspace.context import WorkspaceContext
 
 
+def require_ipv4_loopback_host(host: str) -> None:
+    """Reject network binds because this compatibility server has no caller auth."""
+    try:
+        address = ipaddress.ip_address(host)
+    except ValueError as error:
+        raise ValueError(
+            "the diagnostics server currently accepts IPv4 loopback hosts only"
+        ) from error
+    if not isinstance(address, ipaddress.IPv4Address) or not address.is_loopback:
+        raise ValueError("the unauthenticated diagnostics server must bind to IPv4 loopback")
+
+
 class _DiagnosticHttpServer(ThreadingHTTPServer):
     def __init__(
         self,
         address: tuple[str, int],
         handler: type[BaseHTTPRequestHandler],
         jobs_api: JobsHttpApi,
+        statement_api: SqlStatementHttpApi,
     ) -> None:
         self._jobs_api = jobs_api
+        self._statement_api = statement_api
         super().__init__(address, handler)
 
     def server_close(self) -> None:
         try:
-            self._jobs_api.close()
+            try:
+                self._statement_api.close()
+            finally:
+                self._jobs_api.close()
         finally:
             super().server_close()
 
@@ -44,13 +64,16 @@ def create_diagnostic_server(
     port: int,
 ) -> ThreadingHTTPServer:
     """Build the loopback server for diagnostics and the local catalog API."""
+    require_ipv4_loopback_host(host)
     jobs_api = JobsHttpApi(context)
+    statement_api = SqlStatementHttpApi(context)
 
     def handler_factory(
         active_context: WorkspaceContext,
     ) -> type[BaseHTTPRequestHandler]:
         catalog_api = CatalogHttpApi(active_context)
         compute_api = ComputeHttpApi(active_context)
+        warehouse_api = SqlWarehouseHttpApi(active_context)
         host_metadata_api = HostMetadataHttpApi(active_context)
         workspace_files_api = WorkspaceFileHttpApi(active_context)
 
@@ -67,10 +90,14 @@ def create_diagnostic_server(
                 )
                 if api_response is None:
                     api_response = jobs_api.dispatch("GET", self.path)
+                if api_response is None:
+                    api_response = statement_api.dispatch("GET", self.path)
                 if api_response is not None:
                     self._send_payload(api_response)
                     return
                 api_response = compute_api.dispatch("GET", self.path)
+                if api_response is None:
+                    api_response = warehouse_api.dispatch("GET", self.path)
                 if api_response is None:
                     api_response = catalog_api.dispatch("GET", self.path)
                 if api_response is not None:
@@ -173,7 +200,11 @@ def create_diagnostic_server(
                     body = decoded
                 api_response = jobs_api.dispatch(method, self.path, body)
                 if api_response is None:
+                    api_response = statement_api.dispatch(method, self.path, body)
+                if api_response is None:
                     api_response = compute_api.dispatch(method, self.path, body)
+                if api_response is None:
+                    api_response = warehouse_api.dispatch(method, self.path, body)
                 if api_response is None:
                     api_response = catalog_api.dispatch(method, self.path, body)
                 if api_response is None:
@@ -184,11 +215,12 @@ def create_diagnostic_server(
                 self._send_payload(api_response)
 
             def _send_payload(self, response: ApiResponse | ApiBinaryResponse) -> None:
-                encoded = (
-                    response.body
-                    if isinstance(response, ApiBinaryResponse)
-                    else json.dumps(response.payload, sort_keys=True).encode("utf-8")
-                )
+                if isinstance(response, ApiBinaryResponse):
+                    encoded = response.body
+                elif response.payload is None:
+                    encoded = b""
+                else:
+                    encoded = json.dumps(response.payload, sort_keys=True).encode("utf-8")
                 self.send_response(response.status)
                 content_type = (
                     response.content_type
@@ -206,13 +238,14 @@ def create_diagnostic_server(
 
         return DiagnosticHandler
 
-    server = _DiagnosticHttpServer((host, port), handler_factory(context), jobs_api)
+    server = _DiagnosticHttpServer((host, port), handler_factory(context), jobs_api, statement_api)
     server.daemon_threads = True
     return server
 
 
 def serve_diagnostics(context: WorkspaceContext, host: str, port: int) -> None:
     """Serve diagnostics and local catalog endpoints until interrupted."""
+    require_ipv4_loopback_host(host)
     with create_diagnostic_server(context, host, port) as server:
         previous_sigterm = signal.signal(signal.SIGTERM, _interrupt_on_sigterm)
         print(

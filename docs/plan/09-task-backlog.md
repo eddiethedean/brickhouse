@@ -14,9 +14,9 @@ Phase 0.1 parents B001–B023 now have required child tasks listed below and in 
 
 The 2026-10-20 compute expansion adds planning task B043 and five bounded implementation children (B011.5, B014.4, B014.5, B017.4, B020.4), bringing required phase 0.1 children to 73 at that decision. Appended criteria preserve all prior requirements. [Document 17](17-serverless-and-classic-compute.md) maps serverless/classic behavior, warehouse types and later environment/access/protocol work to their acceptance owners.
 
-The subsequent delivery refinement adds B044 (planning), B045 (early connector transport research) and B046 (Python provider binding, with three required children). B011.6, B014.6, B017.5 and B020.5 separate workload verification from resource/context/client setup. The current ledger has 85 required child tasks after B014.3 was split into DAG scheduling, retry/concurrency admission and restart recovery; original parent criteria and prerequisites remain required. [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md) records the earlier provider/consumer split.
+The subsequent delivery refinement adds B044 (planning), B045 (early connector transport research) and B046 (Python provider binding, with three required children). B011.6, B014.6, B017.5 and B020.5 separate workload verification from resource/context/client setup. The ledger has **120 original implementation child tasks**, plus B048.1/.2 and eleven B064 review-fix children (133 phase children total). B064.11 records the SQL table-creation recovery finding from code review and is complete for focused local service coverage; the current candidate still predates this source change. This count includes B023.2's three bounded wheel/platform, base-offline, and notebook-extra qualification slices; earlier decompositions cover B014.3 scheduling/retry/recovery, B011.3 statement behavior, B015.1/B015.2 worker/data access, B012.2 boundaries, B018.1 workflow evidence, and B022 recovery; original parent criteria and prerequisites remain required. [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md) records the earlier provider/consumer split.
 
-The emulator remains primary through phases 0.1–0.9. B047 records the long-term plan and B048 adds a bounded local architecture review before B023. B049/SH.0 assesses stability after B042; B050–B055 are future deployment epics, strictly after that gate and requiring decomposition before implementation. See [document 18](18-self-hosted-platform.md) and [ADR 0034](../decisions/0034-emulator-first-self-hosted-platform.md). Existing emulator task states, acceptance criteria and evidence remain authoritative.
+The emulator remains primary through phases 0.1–0.9. B047 records the long-term plan and B048 completes a bounded local architecture review before B023; B048.1 closes its unauthenticated network-bind bypass. B049/SH.0 assesses stability after B042; B050–B055 are future deployment epics, strictly after that gate and requiring decomposition before implementation. See [document 18](18-self-hosted-platform.md) and [ADR 0034](../decisions/0034-emulator-first-self-hosted-platform.md). Existing emulator task states, acceptance criteria and evidence remain authoritative.
 
 ## B001 — Create installable project skeleton
 
@@ -114,7 +114,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B006 — Implement workspace lifecycle and persistence
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B001.
 
@@ -189,7 +189,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B010 — Bind Sparkless sessions to BrickHouse tables
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B008, B009, B043, B046.
 
@@ -206,13 +206,15 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B010.1, B010.2, B010.3. All children and the original criteria above are required.
 
+**Evidence:** All three children and the four original criteria passed. The internal Sparkless 4.14.1 adapter uses the shared DeltaRsTableService for selected table operations and verifies typed, isolated coexisting sessions under resolved serverless defaults and one explicit classic-standard local runtime. Close detaches/stops the native session and releases its BrickHouse reference on the owner thread. The full suite passed 201 tests with three opt-in integrations skipped and no PyO3 cross-thread-drop warning; static, build, dependency, planning and diff gates passed. See [B010.1](../../artifacts/conformance/B010.1-sparkless-read-adapter.md), [B010.2](../../artifacts/conformance/B010.2-sparkless-write-adapter.md), and [B010.3](../../artifacts/conformance/B010.3-sparkless-session-isolation.md). SQL and job-worker sessions remain unintegrated.
+
 ## B011 — Implement initial Statement Execution path
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** in progress.
 
 **Dependencies:** B005, B010, B043.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** AST parsing/binding, query and DDL routing, statement lifecycle/results API.
 
@@ -227,7 +229,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B012 — Prove shared-data and restart workflow
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B011.
 
@@ -242,6 +244,8 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 3. Exercise empty data, schema mismatch, external table drop, and stale metadata invalidation.
 
 **Required children:** B012.1, B012.2. All children and the original criteria above are required.
+
+**Evidence:** B012.1 passed the Sparkless → Delta → SDK SQL → fresh session → local restart workflow and compared table identity, schema, committed version and rows. B012.2.1–B012.2.2 cover empty tables, schema-mismatch rejection, external file ownership and stale metadata rejection. B012.2.3 reran G1 under macOS outbound-network denial except localhost, with Databricks credentials unset and import/process guards active. See [B012.1](../../artifacts/conformance/B012.1-g1-shared-table-restart.md), [B012.2.1](../../artifacts/conformance/B012.2.1-empty-and-schema-mismatch.md), [B012.2.2](../../artifacts/conformance/B012.2.2-external-drop-and-stale-metadata.md), and [B012.2.3](../../artifacts/conformance/B012.2.3-native-only-process-network.md).
 
 ## B013 — Implement process supervisor and worker protocol
 
@@ -286,7 +290,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B015 — Implement managed-worker compatibility bootstrap
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B010, B013, B043.
 
@@ -302,6 +306,8 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 4. Apply compute-profile-specific Python API and configuration gates inside the worker; verify serverless restrictions and classic runtime/access-mode limits, including explicit BrickHouse errors for JVM/RDD functionality absent from the native implementation.
 
 **Required children:** B015.1, B015.2. All children and the original criteria above are required.
+
+**Evidence:** All required child slices are complete. Managed workers isolate selected `pyspark` and `delta.tables` imports, apply the tested serverless/classic settings, read registered committed Delta tables through the authenticated parent service, and expose the selected read-only DeltaTable facade. Unsupported namespaces, JVM/RDD APIs, unregistered paths, and mutations fail explicitly. See [B015.1.1](../../artifacts/conformance/B015.1.1-worker-pyspark-imports.md), [B015.1.2](../../artifacts/conformance/B015.1.2-worker-spark-session.md), [B015.1.3](../../artifacts/conformance/B015.1.3-worker-registered-tables.md), and [B015.2](../../artifacts/conformance/B015.2-worker-delta-table.md). The selected loopback profile does not establish remote Databricks behavior.
 
 ## B016 — Implement scoped dbutils subset
 
@@ -325,11 +331,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B017 — Implement optional Python notebook runner
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B015, B016, B043.
 
-**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** nbformat/nbclient runner and explicit Databricks source/magic handling.
 
@@ -342,9 +348,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B017.1, B017.2, B017.3, B017.4, B017.5. All children and the original criteria above are required.
 
+**Evidence:** The five child tasks are complete with criterion-level local evidence: fresh `.ipynb` kernels and failure/output capture; marked Python source conversion and `%run`; child notebook isolation, timeout and cancellation cleanup; serverless/classic profile contexts and normal reset; and SDK notebook dispatch with environment/parameter precedence and active compute interruption. The aggregated SDK regression suite passed 87 tests, Ruff check/format, strict mypy, `pip check`, and `git diff --check`. See [B017.1](../../artifacts/conformance/B017.1-ipynb-kernel.md), [B017.2](../../artifacts/conformance/B017.2-source-format-magics.md), [B017.3](../../artifacts/conformance/B017.3-child-notebook-outcomes.md), [B017.4](../../artifacts/conformance/B017.4-notebook-context.md), and [B017.5](../../artifacts/conformance/B017.5-notebook-compute-interruption.md). The selected behavior is local only and does not establish Databricks service/runtime parity.
+
 ## B018 — Prove SDK-driven job workflow
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B012, B014, B015, B016, B017, B043.
 
@@ -361,9 +369,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B018.1, B018.2. All children and the original criteria above are required.
 
+**Evidence:** B018.1 verifies the parameterized SDK producer/dependent reader, failures, retries, isolation, seven job compute selectors, and three local SQL warehouse profiles. B018.2 verifies separate built-wheel base and notebook-extra installation lanes with credentials, Java, and cloud compute unavailable. The notebook-extra lane also exercises SDK NotebookTask results across seven selectors and three source-export profiles. See [the aggregate B018 report](../../artifacts/conformance/B018-sdk-driven-workflow.md) and the linked child reports. Classic/warehouse resources remain simulated; this is local loopback evidence only.
+
 ## B019 — Expand SQL semantics with explicit routing
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B011, B043.
 
@@ -380,9 +390,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B019.1, B019.2, B019.3. All children and the original criteria above are required.
 
+**Evidence:** All three required children are complete. B019.1 provides the enumerated local SQL/profile corpus; B019.2 routes the selected mutations, history and snapshots through the shared Delta provider; B019.3 records the fixed Sparkless/catalog/table-service route and selected utility/type limits, with no DuckDB route or exception-driven retry. The focused routing/provider suite passed 74 tests with Sparkless 4.15.0 and Databricks credential variables unset. The overall C018 semantics capability stays planned because only enumerated local cases are qualified and remote Databricks parity remains unclaimed. See [B019.1](../../artifacts/conformance/B019.1-sql-semantics-corpus.md), [B019.2](../../artifacts/conformance/B019.2-sql-mutations-history-snapshots.md), and [B019.3](../../artifacts/conformance/B019.3-executor-routing.md).
+
 ## B020 — Prove one CLI Terraform and bundle workflow
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B014, B043.
 
@@ -399,13 +411,15 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B020.1, B020.2, B020.3, B020.4, B020.5. All children and the original criteria above are required.
 
+**Evidence:** All five children are complete. The pinned Databricks CLI workspace/job and classic/serverless bundle subsets passed; Terraform Core/provider apply/read/update/refresh/destroy covered workspace files, jobs, classic compute and serverless/Pro/classic warehouses. The B020.5 G2 bundles proved actual serverless Python and classic notebook worker output, shared Delta/SQL rows, update/redeploy, explicit invalid cases, and cleanup. Simulation and remote-compatibility boundaries are documented in each child report.
+
 ## B021 — Implement and prove SQL connector REST profile
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B019, B045.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Pinned REST-mode SQL connector integration or a documented scope decision.
 
@@ -417,9 +431,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B021.1, B021.2. All children and the original criteria above are required.
 
+**Evidence:** The released connector reaches the local API over strict TLS with synthetic auth, runs a named-parameter inline query, fetches its typed row, reports SQL and unsupported metadata failures, exercises synchronous cancellation, and closes results/sessions. Result expiry/eviction are covered by the SQL API regression suite. The kernel Arrow-stream/LZ4 query default remains explicitly unsupported, so C031 stays partial; no remote Databricks behavior is inferred. See [B021.2.3 evidence](../../artifacts/conformance/B021.2.3-sql-connector-failures-retention.md).
+
 ## B022 — Harden concurrent writes and crash recovery
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B018, B019, B043.
 
@@ -434,15 +450,17 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 3. Exercise restart, safe retry, result/log retention, and coordinated backup/restore with actual files.
 4. Exercise cancellation, compute/session restart, interrupted writes and safe retries under both required compute modes; preserve committed Delta versions and accurate attempts while simulated infrastructure transitions never fabricate completion.
 
-**Required children:** B022.1, B022.2, B022.3. All children and the original criteria above are required.
+**Required children:** B022.1, B022.2, B022.3, B022.4. All children and the original criteria above are required.
+
+**Evidence:** All four acceptance criteria have criterion-level local evidence: B022.1 covers real process death around Delta/SQLite commit boundaries; B022.2 covers same-process SQL/DataFrame writes through location aliases and replay; B022.3.1–B022.3.2 cover restart, retention, and coordinated local restore with the external-reference policy; B018.1.2/B017.5/B022.4 cover classic interruption and serverless timeout/retry behavior while preserving committed writes. The combined affected recovery suite passed 141 tests; Ruff check/format, strict mypy across 70 source files, planning validation, and `git diff --check` passed. See [B022.1](../../artifacts/conformance/B022.1-commit-boundary-crashes.md), [B022.2](../../artifacts/conformance/B022.2-concurrent-alias-writes.md), [B022.3.1](../../artifacts/conformance/B022.3.1-restart-retention.md), [B022.3.2](../../artifacts/conformance/B022.3.2-coordinated-workspace-restore.md), and [B022.4](../../artifacts/conformance/B022.4-serverless-timeout-commit.md). The evidence is local only: cross-process/host and network-filesystem locking, external Python side effects, external snapshot writers, cloud provisioning, and Databricks runtime/service parity remain unqualified.
 
 ## B023 — Prepare alpha release candidate
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B020, B021, B022, B043, B044, B048.
 
-**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Local distribution artifacts, generated capability docs, examples and release report.
 
@@ -454,6 +472,8 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 4. Include both bounded serverless/classic Python/notebook profiles and serverless/pro/classic warehouse execution in the 0.1.0 scope snapshot and G1-G4 evidence; keep mode/protocol/environment limits explicit and block release or formally revise scope when a required subset is unimplemented.
 
 **Required children:** B023.1, B023.2, B023.3. All children and the original criteria above are required.
+
+**Evidence:** B023.1–B023.3 complete the frozen candidate scope. The [owner-review bundle](../../artifacts/releases/0.1.0/README.md) retains actual `0.1.0.dev0` wheel/sdist artifacts, their hashes, generated capability docs, exact G1–G4 selectors, client/runtime versions, offline guard reports, local recovery/restore evidence, and the owner checklist. The exact current wheel passed 137 base and 175 notebook-extra cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13 (624 selected matrix cases); its separate installed-wheel B064 suite passed 99 cases. Historical 132/169 counts remain tied to the prior wheel. Linux x86_64 remains unadvertised pending CI; the project's license remains unselected and blocks publication. No candidate was published.
 
 ## B024 — Expand workflow orchestration
 
@@ -474,11 +494,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B025 — Integrate real MLflow tracking and registry
 
-**Milestone:** M4 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M4 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B006, B007.
 
-**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed ML extra epic with provider lifecycle and registry mapping.
 
@@ -487,14 +507,15 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 1. Log/retrieve actual experiments, metrics, artifacts and Python model versions through the declared clients.
 2. Restart providers and verify authoritative state, artifact paths and name mappings.
 3. Keep UC permissions/aliases/registry URI support bounded by fixtures and exclude JVM-dependent flavors.
+4. Qualify an exact full MLflow service/environment including matching skinny/tracing packages, explicit local database-backed registry/artifact/endpoints and coordinated provider restore; preserve provider authority and prove ordinary tests cannot discover personal profiles or redirect to cloud tracking.
 
 ## B026 — Add local Python model serving
 
-**Milestone:** M4 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M4 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B025, B013.
 
-**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed serving endpoint/worker epic.
 
@@ -503,14 +524,15 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 1. Load a recorded Python model version and return real schema-validated predictions through declared API routes.
 2. Exercise lifecycle, update, load failure, request errors, concurrency limits and cancellation.
 3. Do not silently call remote model endpoints; capture native-only runtime evidence.
+4. Qualify the selected native Python flavor/model environment with real model-version/schema/output and failure/cancellation/resource checks; reject Spark flavors and unprovisioned dependencies, and distinguish a Docker Python dependency from actually permitting a container execution backend.
 
 ## B027 — Integrate dbt without duplicate tables
 
-**Milestone:** M4 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M4 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B019, B008.
 
-**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed dbt-duckdb profile and Delta materialization epic.
 
@@ -519,14 +541,16 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 1. Run an actual sources/refs/models/tests project against the shared committed table view.
 2. Implement supported incremental/materialization behavior through the authoritative service and test restart/schema changes.
 3. Publish separate dbt-duckdb and dbt-databricks capability claims; unsupported macros fail explicitly.
+4. Resolve dbt-duckdb and any separately selected dbt-databricks client profiles in independent hash-pinned environments; the researched dbt-databricks 1.12.7 rejects core SDK 0.153.0 and connector 4.6.0, so do not downgrade or strip bounds to share an environment.
+5. Prove registered materializations and incremental writes use the one table/commit service, reread schema/rows/versions after restart and reject unsupported SQL/macros/Python-model paths; a successful dbt-duckdb run cannot qualify dbt-databricks.
 
 ## B028 — Add local authorization and audit semantics
 
-**Milestone:** M4 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M4 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B007, B016, B043.
 
-**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [11-ml-and-extensions.md](11-ml-and-extensions.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed identity/grant/enforcement/audit epic.
 
@@ -536,6 +560,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 2. Verify permitted and denied operations with audit events and no unauthorized data results.
 3. Document trusted-code filesystem bypass limits; row filters/masks require separate fixtures.
 4. Decompose and enforce classic standard/dedicated compute use and distinct interactive/automated serverless compute-object permissions separately from SQL warehouse ACLs; prove allowed/denied jobs/notebooks/SQL paths with the same identities and audit authority.
+5. Use pinned OSS Unity Catalog OpenAPI/generated-client contracts only for explicitly mapped operations through the existing catalog/policy authority; exclude its Java server, prove allowed/denied principal propagation and keep OSS-versus-managed UC differences visible.
 
 ## B029 — Add native vector index workflows
 
@@ -653,11 +678,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B036 — Implement native Spark Connect subset
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B010, B019, B005, B043.
 
-**Plans:** [02-packages-and-public-api.md](02-packages-and-public-api.md), [04-sparkless-upstream.md](04-sparkless-upstream.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [02-packages-and-public-api.md](02-packages-and-public-api.md), [04-sparkless-upstream.md](04-sparkless-upstream.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed gRPC/protobuf planning, execution and pure Python client epic.
 
@@ -667,6 +692,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 2. Exercise actual unmodified pure Python client sessions, errors, cancellation and resource cleanup.
 3. Prove no Spark server/JVM and isolate unsupported plan/UDF/session features; consider wheel split only after boundary criteria.
 4. Prove reference-specific Spark Connect analysis/error timing, temporary-view rebinding and UDF capture with an unmodified pure Python client for serverless and applicable classic runtimes; keep compute mode independent of protocol and shared driver state.
+5. Qualify an actual pure-Python pyspark-client artifact and resolved protobuf/gRPC/Arrow environment independently from full pyspark; verify packaging/install, namespace isolation, native server execution and exact protocol/error/result scope without inferring semantic parity from the 4.2.0 research candidate.
 
 ## B037 — Implement broader SQL driver protocols
 
@@ -702,11 +728,11 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B039 — Add Delta Sharing protocol subset
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B008, B028.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed sharing server/client and access lifecycle epic.
 
@@ -715,14 +741,15 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 1. Pin the protocol and demonstrate a real independent client reading an authorized shared snapshot.
 2. Validate schema/version/file result lifetime, revocation and unsupported Delta features.
 3. Prevent arbitrary filesystem disclosure and preserve no-JVM server execution.
+4. Qualify an exact non-Spark Delta Sharing client plus native wrapper/PyArrow/platform matrix, including real snapshot reads, credentials, revocation, expired file/results and feature errors; exclude Spark reader methods/reference JVM serving and do not generalize client metadata to native server parity.
 
 ## B040 — Inventory and close remaining platform gaps
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B005, B007, B043.
 
-**Plans:** [00-vision-and-scope.md](00-vision-and-scope.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [13-decisions-and-risks.md](13-decisions-and-risks.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [00-vision-and-scope.md](00-vision-and-scope.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [13-decisions-and-risks.md](13-decisions-and-risks.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed platform frontier for dashboards/Genie/accounts/Lakebase/other domains.
 
@@ -732,14 +759,15 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 2. For each selected slice, define a real workflow, authority and oracle before implementing.
 3. Keep absent proprietary/cloud/Scala/JAR behavior visibly unsupported; simulated infrastructure is labeled.
 4. Retain explicit serverless/classic workload, warehouse, access-mode, runtime/environment and cloud/version gaps after the bounded earlier releases; do not use this frontier epic to defer their required 0.1 behavior silently.
+5. Evaluate explicitly selected native PyIceberg and Delta Kernel candidates with bounded read/snapshot/feature/ownership fixtures and a viable/blocked provider decision before any adoption; keep Delta/Iceberg identities distinct and retain the existing mutation authority without automatic dual writes or new support claims from source inspection.
 
 ## B041 — Expand performance, platforms and storage adapters
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B023.
 
-**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed benchmarks/wheel/platform/scaling and optional cloud-storage adapter epic.
 
@@ -749,6 +777,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 2. Add platforms only after native wheel and golden workflow evidence.
 3. Improve bottlenecks without changing declared semantics; no unsupported acceleration claims.
 4. Prove advertised Python and native storage paths against pinned optional Moto/Azurite services; record URI/API limits and do not infer ADLS Gen2 compatibility.
+5. Qualify native/transitive wheel and credential/IO behavior for each selected optional provider/client combination, including Delta Sharing wrapper architecture/libc gaps and Arrow/Kernel version differences; no unadvertised source-build requirement may substitute for the claimed install matrix.
 
 ## B042 — Prepare expanded conformance release
 
@@ -1243,7 +1272,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B010.1 — Compose isolated Sparkless sessions and table bindings
 
-**Milestone:** M1 · **Kind:** task · **Current ledger status:** blocked
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B008, B009, B043, B046.
 
@@ -1257,9 +1286,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 **Parent:** B010 · **Parent criteria:** 3.
 
+**Evidence:** The internal factory binds isolated Sparkless 4.14.1 sessions to registered, version-pinned local Delta snapshots with explicit profile settings and the tested decimal/array/nullable-struct envelope. Five focused tests passed; the full local suite passed 189 tests with three opt-in client integrations skipped. See [B010.1 conformance](../../artifacts/conformance/B010.1-sparkless-read-adapter.md). B010.2 adds selected writer routing through the table service.
+
 ## B010.2 — Route DataFrame writes through the table service
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B008, B009, B010.1, B043, B046.
 
@@ -1271,31 +1302,38 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Write a managed table through the explicit Python API, read it by full name in a fresh session, and prove supported path saves share the service while bypasses fail clearly.
 
+**Evidence:** Managed creation, named append/overwrite through Sparkless' public callback, fresh-session reads, and explicit `session.write_path()` writes to a registered location use the same `DeltaRsTableService`. Direct `.save(path)`, insert writers, DataFrameWriterV2, unsupported options, mixed SQL statements, unregistered names, stale snapshot writes, and changed operation payloads fail clearly. Thirteen focused Sparkless/table-service tests passed; the full local suite passed 191 tests with three opt-in CLI/Terraform integrations skipped. Ruff, formatting, strict mypy across 49 source files, `pip check`, planning validation, and package build passed. See [B010.2 conformance](../../artifacts/conformance/B010.2-sparkless-write-adapter.md). B010.3 subsequently completed the parent session-state/profile criteria; see [its conformance report](../../artifacts/conformance/B010.3-sparkless-session-isolation.md).
+
 **Parent:** B010 · **Parent criteria:** 1, 2.
 
 ## B010.3 — Verify independent concurrent session state
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B008, B009, B010.2, B043, B046.
 
 **Plans:** [02-packages-and-public-api.md](02-packages-and-public-api.md), [04-sparkless-upstream.md](04-sparkless-upstream.md), [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
 
-**Deliverable:** Two-session namespace/config/view/UDF and interchange evidence.
+**Deliverable:** Two coexisting, profile-bound sessions with isolated namespace/config/view/UDF state and typed interchange evidence.
 
 **Acceptance criteria:**
 
-1. Exercise two concurrent sessions with different namespaces, temporary views, config, and UDFs; assert no state leakage and preserved typed results.
+1. Exercise two coexisting sessions with different namespaces, temporary views, configuration, and distinct callable UDFs; assert no state leakage and preserve each result schema and values.
+2. Apply a resolved serverless profile and a mapped classic-standard runtime profile to those sessions; verify serverless ANSI/UTC defaults, require explicit classic ANSI/timezone settings, and reject unmapped settings or runtimes without claiming parallel query or Spark Connect behavior.
 
 **Parent:** B010 · **Parent criteria:** 3, 4.
 
+**Evidence:** Nineteen focused adapter/execution-context tests and the full suite (201 passed, 3 opt-in integrations skipped) passed. The serverless context applies ANSI/UTC defaults; classic-standard `spark35-local-v1` requires explicit ANSI/timezone settings. Two coexisting owner-thread sessions retain separate namespaces, configs, temp views and typed callable UDF results. Unmapped settings, missing classic defaults and unmapped runtimes fail explicitly. Close releases the native session on its owner thread; the full suite completed without the earlier PyO3 cross-thread-drop warning. Ruff, formatting, strict mypy (49 source files), `pip check`, wheel/sdist build, planning validation and diff checks passed. See [B010.3 conformance](../../artifacts/conformance/B010.3-sparkless-session-isolation.md).
+
 ## B011.1 — Parse bind and route the initial SQL corpus
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011 · **Parent criteria:** 1, 3, 4.
 
 **Dependencies:** B005, B010, B043.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** AST classifier/binder and service/query routing.
 
@@ -1303,15 +1341,17 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Implement the selected SELECT/DDL cases over registered tables with bound identifiers; reject unsupported syntax before side effects and prohibit exception-driven executor fallback.
 
-**Parent:** B011 · **Parent criteria:** 1, 3, 4.
+**Evidence:** Sixteen local conformance tests passed using Python 3.11.14, SQLGlot 30.24.0, Sparkless 4.14.1, delta-rs 1.2.1 and PyArrow 23.0.1. Real local Delta fixtures cover SELECT projection/filter, COUNT/SUM grouping, one inner equijoin, schema/table DDL, CTAS, canonical identifier binding, no-op/duplicate DDL, and pre-effect rejection/error propagation. No Databricks credentials were available to the test process. See [B011.1 conformance](../../artifacts/conformance/B011.1-sql-initial-corpus.md).
 
 ## B011.2 — Expose statement lifecycle and typed JSON results
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done.
 
-**Dependencies:** B005, B010, B011.1, B043.
+**Parent:** B011 · **Parent criteria:** 1, 2.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Dependencies:** B005, B010, B011.1, B011.5, B043.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** SDK submit/poll/result transport with persisted lifecycle state.
 
@@ -1319,15 +1359,17 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Use the pinned SDK to submit and poll actual statements, returning the expected schema and JSON row encoding from the authoritative data.
 
-**Parent:** B011 · **Parent criteria:** 1, 2.
+**Evidence:** Sixty-three local conformance tests passed with databricks-sdk 0.153.0 against loopback, Sparkless 4.14.1, delta-rs 1.2.1, PyArrow 23.0.1, and metadata schema 14. Tests submit/poll actual statements over committed local Delta data, verify typed JSON results, errors, row/byte caps, restart persistence, and v12-to-v14 migration with Databricks credentials unset. See [B011.2 evidence](../../artifacts/conformance/B011.2-sql-statement-api.md).
 
 ## B011.3 — Implement parameter errors timeouts and cancellation
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011 · **Parent criteria:** 2, 3, 4.
 
 **Dependencies:** B005, B010, B011.2, B011.5, B043, B011.6.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Bound-parameter handling and explicit terminal/error semantics.
 
@@ -1335,15 +1377,71 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Exercise supported parameter forms, invalid requests, engine errors, wait/timeout behavior, and cancellation without interpolation or fabricated successful completion.
 
-**Parent:** B011 · **Parent criteria:** 2, 3, 4.
+**Required children:** B011.3.1, B011.3.2, B011.3.3. All children are complete. Active cancellation uses Sparkless 4.15.0's public cancellation handle and terminal exception; BrickHouse retains active admission until execution reaches its actual terminal outcome.
+
+## B011.3.1 — Validate and bind named scalar SQL parameters
+
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011.3 · **Parent criteria:** 1.
+
+**Dependencies:** B005, B010, B011.2, B011.5, B043, B011.6.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** API validation and typed AST binding for named primitive scalar parameters.
+
+**Acceptance criteria:**
+
+1. Bind named Databricks parameter markers without SQL text interpolation; support documented NULL and selected primitive values; reject positional, missing, duplicate, unused, malformed, and unsupported complex parameters before execution; prove typed results and injection-shaped strings with real local queries.
+
+**Evidence:** Ninety-two focused local tests passed with `databricks-sdk==0.153.0` against loopback, Sparkless 4.14.1, delta-rs 1.2.1, PyArrow 23.0.1, and metadata schema 15. Real parameterized SDK statements verify typed values, NULL, injection-shaped literal data, rejection before statement creation, and pending parameter persistence across workspace reopen. Ruff, format, strict mypy, and planning validation passed with credentials unset. See [B011.3.1 evidence](../../artifacts/conformance/B011.3.1-sql-parameter-binding.md).
+
+## B011.3.2 — Implement hybrid wait-timeout continuation
+
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011.3 · **Parent criteria:** 1.
+
+**Dependencies:** B005, B010, B011.2, B011.5, B043, B011.6, B011.3.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Pinned Statement Execution hybrid wait behavior with persisted asynchronous continuation.
+
+**Acceptance criteria:**
+
+1. Match omitted 10s, explicit 0s, and valid 5–50s wait settings with `CONTINUE`; return a truthful pending/running statement ID when the wait expires and execute it exactly once; reject invalid timeout and unsupported wait dispositions before admission.
+
+**Evidence:** Thirty-two focused local SQL API/service tests passed with `databricks-sdk==0.153.0` against loopback, Sparkless 4.14.1, delta-rs 1.2.1, PyArrow 23.0.1, SQLite 3.53.4, and metadata schema 15. They verify default 10-second wait, immediate 0-second response, valid 5–50-second `CONTINUE`, exact-once completion after the 5-second wait expires, persisted continuation, polling, and validation before admission. Ruff check/format, strict mypy, and planning validation passed with credentials unset. See [B011.3.2 evidence](../../artifacts/conformance/B011.3.2-sql-wait-timeout.md).
+
+## B011.3.3 — Implement explicit and timeout cancellation
+
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011.3 · **Parent criteria:** 1.
+
+**Dependencies:** B005, B010, B011.2, B011.5, B043, B011.6, B011.3.2.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Explicit cancel and `on_wait_timeout=CANCEL` semantics that reconcile real engine outcomes.
+
+**Acceptance criteria:**
+
+1. Cancel queued work immediately and active work only when the engine reports a terminal outcome; retain leases while execution can still mutate data, preserve already committed writes, and test cancel/finish/warehouse-stop races without false cancellation or success.
+
+**Evidence:** Fifty-one focused SQL, warehouse, and Sparkless tests passed against Sparkless 4.15.0. The tests cover queued cancellation, active native cancellation, actual `on_wait_timeout=CANCEL`, warehouse-stop cancellation, safe lease retention, completion/cancellation races, stale-generation admission fencing, and a committed CTAS that remains successful after cancellation arrives beyond the commit fence. Ruff check/format and strict mypy passed with Databricks credential variables unset. See [the cancellation conformance report](../../artifacts/conformance/B011.3.3-sparkless-4.15.0-cancellation.md).
 
 ## B011.4 — Bound statement results and retention
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011 · **Parent criteria:** 2, 3, 4.
 
 **Dependencies:** B005, B010, B011.3, B043.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Documented row/byte/lifetime limits and result cleanup.
 
@@ -1351,11 +1449,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Choose recorded result limits and retention, test expiry/oversize behavior, and reject unsupported formats/dispositions without arbitrary filesystem reads or unbounded global result storage.
 
-**Parent:** B011 · **Parent criteria:** 2, 3, 4.
+**Evidence:** Sixty-one focused workspace and SQL tests passed with metadata schema 17. Tests verify request-level row/byte prefixes, oversized-result failure without partial retention, 1,000-row chunks, expiry, oldest-first eviction under the 64 MiB workspace budget, legacy schema-16 result migration into bounded chunks, and rejection of unsupported formats/dispositions before admission. Ruff check, Ruff format check, and strict mypy passed; Databricks credentials were unset. See [B011.4 result limits and retention evidence](../../artifacts/conformance/B011.4-sql-result-limits-and-retention.md).
 
 ## B012.1 — Prove shared table reads through restart
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B012 · **Parent criteria:** 1.
 
@@ -1369,9 +1467,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Write through Sparkless, query through the real SDK, read in a fresh session, restart the server, and compare committed rows/schema and table identity.
 
+**Evidence:** One local end-to-end test passed. It writes typed orders through Sparkless into managed Delta version 0, queries through databricks-sdk over loopback, checks a fresh Sparkless session, shuts down/reopens the local service and workspace, then verifies the same table ID/location/schema/rows/version, retained statement result, and a fresh post-restart query. Ruff check/format passed; credentials were unset. See [B012.1 G1 evidence](../../artifacts/conformance/B012.1-g1-shared-table-restart.md).
+
 ## B012.2 — Prove G1 boundary and native-execution cases
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B012 · **Parent criteria:** 2, 3.
 
@@ -1379,11 +1479,72 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 **Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md).
 
-**Deliverable:** G1 negative corpus and dependency/process/network report.
+**Deliverable:** G1 boundary corpus and native-only process/network report.
 
 **Acceptance criteria:**
 
 1. Exercise empty data, schema mismatch, external drop, and stale metadata invalidation while proving no Java/full PySpark/Docker or cloud access during the local workflow.
+
+**Required children:** B012.2.1, B012.2.2, B012.2.3. All children preserve this acceptance criterion.
+
+**Evidence:** All three children passed. Boundary tests preserve empty-table schemas, reject schema changes before commit, preserve external bytes, and reject stale service/session access. The G1 integration test passed under the loopback-only OS sandbox with Databricks credentials unset and no forbidden dependencies/processes. See the [B012.2.1](../../artifacts/conformance/B012.2.1-empty-and-schema-mismatch.md), [B012.2.2](../../artifacts/conformance/B012.2.2-external-drop-and-stale-metadata.md), and [B012.2.3](../../artifacts/conformance/B012.2.3-native-only-process-network.md) reports.
+
+## B012.2.1 — Verify empty table and schema mismatch boundaries
+
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B012.2 · **Parent criteria:** 1.
+
+**Dependencies:** B011, B012.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md).
+
+**Deliverable:** Local tests for empty managed Delta tables and rejected schema-mismatch writes.
+
+**Acceptance criteria:**
+
+1. Create and read an empty typed table through the selected Sparkless/Delta path without fabricating rows.
+2. Reject a schema-mismatched append or overwrite before commit and preserve the prior Delta version and rows.
+
+**Evidence:** Sparkless 4.15.0 created and read a typed empty managed Delta table at version 0. A schema-mismatched append raised the public `SparklessError` with category `incompatible_table_schema`; the table remained at version 0 with the original row. Ten local adapter tests passed; credentials were unset. See [B012.2.1 evidence](../../artifacts/conformance/B012.2.1-empty-and-schema-mismatch.md).
+
+## B012.2.2 — Verify external drop and stale metadata invalidation
+
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B012.2 · **Parent criteria:** 1.
+
+**Dependencies:** B011, B008, B010, B012.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md).
+
+**Deliverable:** Local tests for external table ownership and stale Sparkless/catalog resolution.
+
+**Acceptance criteria:**
+
+1. Dropping an external registration preserves all files at its external location.
+2. After dropping or invalidating registered metadata, a previously resolved handle/session cannot read or mutate through stale state.
+
+**Evidence:** External deregistration preserved the external directory and sentinel bytes; a captured handle failed reads and writes after deregistration. An already-open Sparkless session rejected a subsequent read and append after its managed table was dropped. Sixteen focused local tests passed; credentials were unset. Revocation of a DataFrame resolved before drop is not claimed. See [B012.2.2 evidence](../../artifacts/conformance/B012.2.2-external-drop-and-stale-metadata.md).
+
+## B012.2.3 — Capture native-only and local-network boundary evidence
+
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B012.2 · **Parent criteria:** 1.
+
+**Dependencies:** B011, B012.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md).
+
+**Deliverable:** Repeatable local workflow guard and process/dependency evidence report.
+
+**Acceptance criteria:**
+
+1. Run the selected G1 workflow with Databricks credentials unset and only explicit loopback service access permitted.
+2. Observe the workflow process/dependency boundary and fail on Java, full PySpark, Docker, or remote-workspace access.
+
+**Evidence:** `scripts/verify_g1_local_only.py` passed the G1 integration test under macOS `sandbox-exec` with outbound access denied except `localhost:*`. It strips Databricks credentials, checks forbidden distributions, and installs audit guards for network, import and process events. Nine connections and nine resolutions all used `127.0.0.1`; no forbidden event was observed. See the [native-only report](../../artifacts/conformance/B012.2.3-native-only-process-network.md) and [machine-readable audit](../../artifacts/conformance/B012.2.3-native-only-network-guard.json).
 
 ## B013.1 — Launch real workers with explicit immutable context
 
@@ -1523,7 +1684,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Honor validated retry and max_concurrent_runs settings with a distinct persisted attempt for each retry; enforce capacity before starting a worker and prevent SDK retries or token replay from creating duplicate runs.
 
-**Evidence:** B014.3.2.1 persists distinct attempts and retry outputs. B014.3.2.2 enforces the per-job 1–4 limit and the four-run process cap before admission, returns pinned-SDK `ResourceConflict` at capacity, and replays active/terminal tokens without adding runs. All 133 local unit tests, Ruff, formatting and strict mypy passed. See [B014.3.2.2 conformance](../../artifacts/conformance/B014.3.2.2-run-admission.md).
+**Historical evidence (superseded by B064):** B014.3.2.1 persists distinct attempts and retry outputs. The original B014.3.2.2 implementation enforced a per-job 1–4 limit and four-run process cap, returned pinned-SDK `ResourceConflict` at capacity, and replayed active/terminal tokens without adding runs. The current policy is at most two active attempts plus eight FIFO queued runs, per-job limit 1–10, stable reset identity, and restart recovery of undispatched work. See [original B014.3.2.2 evidence](../../artifacts/conformance/B014.3.2.2-run-admission.md) and [B064 current evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md).
 
 **Parent:** B014.3 · **Parent criteria:** 1.
 
@@ -1561,7 +1722,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Honor max_concurrent_runs within the local process limit; admit or reject before creating a worker, return a non-retryable capacity conflict, and ensure active or terminal idempotency-token replays never create duplicate runs.
 
-**Evidence:** Actual pinned-SDK loopback tests admit two concurrent runs under a per-job limit of two, reject a third without creating a run, exercise the process-wide four-run limit, replay active and terminal idempotency tokens, and reject changed input under a used token. HTTP 409 produces SDK `ResourceConflict`. All 133 unit tests, Ruff, formatting and strict mypy passed. See [B014.3.2.2 conformance](../../artifacts/conformance/B014.3.2.2-run-admission.md).
+**Historical evidence (superseded by B064):** The pinned-SDK tests verified two active runs under a per-job limit of two, capacity rejection, the original four-run process limit, token replay, and changed-input conflict. The current queue behavior and restart/reset identity are verified in [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md); the earlier test report remains at [B014.3.2.2](../../artifacts/conformance/B014.3.2.2-run-admission.md).
 
 **Parent:** B014.3.2 · **Parent criteria:** 1.
 
@@ -1585,7 +1746,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B015.1 — Scope supported pyspark imports to managed workers
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B010, B013, B043.
 
@@ -1599,9 +1760,60 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 **Parent:** B015 · **Parent criteria:** 1, 2, 4.
 
+**Required children:** B015.1.1, B015.1.2, B015.1.3. These slices separately cover the worker import namespace, profile-bound owner-thread SparkSession, and authenticated resolution of shared registered tables.
+
+## B015.1.1 — Install a worker-only PySpark import namespace
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B015.1 · **Parent criteria:** 1.
+
+**Dependencies:** B010, B013, B043.
+
+**Deliverable:** Child-process-only pyspark.sql compatibility modules backed by Sparkless exports.
+
+**Acceptance criteria:**
+
+1. Support the selected pyspark, pyspark.sql, pyspark.sql.functions, pyspark.sql.types, and pyspark.sql.window imports from public Sparkless exports; reject an installed conflicting pyspark package and unsupported namespaces such as pyspark.rdd, pyspark.ml, and pyspark.java_gateway with explicit BrickHouse errors.
+2. Run actual scripts in fresh workers to prove import module state does not alter the parent interpreter or another process; do not rewrite user source or add a top-level pyspark distribution.
+
+**Evidence:** Five worker-import cases passed using fresh processes and Sparkless 4.14.1. The selected module exports resolve to the public Sparkless objects; unsupported namespaces and a conflicting import-path package fail explicitly; worker module state does not leak to the parent or another worker. Eleven existing worker tests also passed, including a check that the child retains its configured virtual-environment interpreter. Ruff check/format and strict mypy passed with Databricks credentials unset. See [B015.1.1 conformance](../../artifacts/conformance/B015.1.1-worker-pyspark-imports.md).
+
+## B015.1.2 — Bind imported SparkSession to the selected worker profile
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B015.1 · **Parent criteria:** 1.
+
+**Dependencies:** B010, B013, B043, B015.1.1.
+
+**Deliverable:** Owner-thread Sparkless session facade with validated serverless/classic settings and cleanup.
+
+**Acceptance criteria:**
+
+1. Expose the selected SparkSession builder/creation subset, apply the worker effective settings before user execution, close the native session on its creating thread, and turn unsupported JVM/RDD calls and profile configuration into explicit BrickHouse errors.
+
+**Evidence:** All three required child slices passed: worker-only Sparkless imports, profile-bound owner-thread sessions, and attempt-authenticated registered-table reads. The pinned-SDK loopback test read a real committed table through DataFrame and SQL paths, rejected missing and unregistered tables/paths plus mutation attempts, and retained Delta version 0. Worker auth, secrets, task values, and all seven selected compute variants passed in the focused set; Ruff check/format and strict mypy passed with Databricks credentials unset. See [B015.1.3 conformance](../../artifacts/conformance/B015.1.3-worker-registered-tables.md) and the [B015.1.2 session report](../../artifacts/conformance/B015.1.2-worker-spark-session.md).
+
+## B015.1.3 — Resolve registered tables for worker Sparkless sessions
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B015.1 · **Parent criteria:** 1.
+
+**Dependencies:** B010, B013, B043, B015.1.2.
+
+**Deliverable:** Attempt-authenticated table descriptor lookup backed by the parent catalog and shared local Delta storage.
+
+**Acceptance criteria:**
+
+1. Resolve only registered table identities through the authenticated worker parent service, return version-pinned public Sparkless descriptors, and read shared committed Delta rows in a real SDK job; reject missing or unsupported tables and preserve the common mutation authority.
+
+**Evidence:** Fifty focused tests passed with Databricks credentials unset. A real pinned-SDK loopback job read registered committed rows through `SparkSession.table()` and SQL, rejected a missing table and an actual unregistered Delta path, rejected DataFrame and SQL mutations, and left the common Delta table at version 0. The provider used Sparkless 4.14.1's public external-catalog descriptor and the attempt-authenticated parent service. Ruff check/format and strict mypy passed. No new Sparkless issue was needed; #1705 and #1706 remain the relevant open upstream gaps. See [B015.1.3 conformance](../../artifacts/conformance/B015.1.3-worker-registered-tables.md).
+
 ## B015.2 — Delegate supported DeltaTable facade operations
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B010, B013, B015.1, B043.
 
@@ -1612,8 +1824,49 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 **Acceptance criteria:**
 
 1. Exercise the selected DeltaTable methods/builders through the table service with canonical paths/commit identity; prohibit delta-spark or JVM execution and independent registered-table writers.
+2. The initial worker surface is limited to DeltaTable.forName, forPath, isDeltaTable, toDF, and alias; mutations, merge builders, arbitrary paths, and JVM-backed behavior must fail explicitly.
+
+**Required children:** B015.2.1, B015.2.2.
+
+These bound the worker import/factory boundary separately from read-only methods and explicit unsupported mutation behavior.
+
+**Evidence:** The selected facade passed 53 focused worker/SDK loopback tests with Databricks credential variables unset. It read committed registered rows through `forName`, `forPath`, `toDF`, and `alias`; verified `isDeltaTable`; rejected temporary views and unregistered paths; and kept the table at Delta version 0 while rejecting mutations. Ruff check/format and strict mypy passed. See [B015.2 conformance](../../artifacts/conformance/B015.2-worker-delta-table.md).
 
 **Parent:** B015 · **Parent criteria:** 3.
+
+## B015.2.1 — Add worker-only DeltaTable imports and registered factories
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B015.2 · **Parent criteria:** 1, 2.
+
+**Dependencies:** B010, B013, B043, B015.1, B015.1.3.
+
+**Deliverable:** A managed-worker-only delta.tables.DeltaTable import and registered-name/path lookup factories.
+
+**Acceptance criteria:**
+
+1. Support only delta.tables.DeltaTable imports inside managed workers; reject conflicting installed Delta Lake packages and unsupported delta namespaces without changing the parent interpreter.
+2. Implement forName, forPath, and isDeltaTable using the attempt-authenticated parent service and existing table registrations; reject unregistered paths and unsupported options.
+
+**Evidence:** Worker-only `delta.tables.DeltaTable` imports and the three registered-table factories passed the focused suite; conflicting `delta-spark` and unsupported `delta` namespaces are rejected without replacing the parent interpreter. See [B015.2 conformance](../../artifacts/conformance/B015.2-worker-delta-table.md).
+
+## B015.2.2 — Expose read-only DeltaTable facade methods
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B015.2 · **Parent criteria:** 1, 2.
+
+**Dependencies:** B010, B013, B015.1, B043, B015.2.1.
+
+**Deliverable:** The selected toDF and alias methods backed by the worker Sparkless session, with explicit errors for unsupported mutations/builders.
+
+**Acceptance criteria:**
+
+1. Return the registered table through the existing Sparkless session/provider for toDF and preserve the registered table identity through alias.
+2. Reject unsupported DeltaTable mutations and merge builders with named BrickHouse errors; verify the read-only API in an actual SDK loopback job and preserve the committed table version.
+
+**Evidence:** A pinned-SDK loopback worker exercised `toDF` and `alias` over the existing Sparkless session, rejected DeltaTable mutation/builders and worker SQL/DataFrame writes, and verified the committed version stayed at 0. See [B015.2 conformance](../../artifacts/conformance/B015.2-worker-delta-table.md).
 
 ## B016.1 — Implement file and widget parameter context
 
@@ -1671,11 +1924,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B017.1 — Execute parameterized ipynb in fresh kernels
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B017 · **Parent criteria:** 1, 4.
 
 **Dependencies:** B015, B016, B043.
 
-**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** nbformat/nbclient runner with outputs and errors.
 
@@ -1683,15 +1938,17 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Execute real parameterized ipynb fixtures in fresh kernels with scoped spark/dbutils injection, cell output artifacts, and propagated failures.
 
-**Parent:** B017 · **Parent criteria:** 1, 4.
+**Evidence:** Five real-kernel tests passed using Python 3.11.14, Sparkless 4.14.1, ipykernel 7.4.0, jupyter-client 8.10.0, nbclient 0.11.0 and nbformat 5.11.1. Tagged-cell parameter overrides, local Spark/dbutils behavior, output artifacts, fresh-kernel isolation, parent credential non-inheritance and saved/propagated failures passed. Hash-locked environment installation, `pip check`, focused Ruff/format and strict mypy passed. No Databricks account, real credential, cloud compute, JVM or Spark driver was used. See [B017.1 evidence](../../artifacts/conformance/B017.1-ipynb-kernel.md).
 
 ## B017.2 — Convert source exports and handle supported magics
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B017 · **Parent criteria:** 1, 2, 3.
 
 **Dependencies:** B015, B016, B017.1, B043.
 
-**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Structured Python source converter and explicit magic handlers.
 
@@ -1699,15 +1956,17 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Test the declared source format and Python/SQL/Markdown/run handlers, including shared-scope %run; reject unsupported languages, unknown magics, and package installation.
 
-**Parent:** B017 · **Parent criteria:** 1, 2, 3.
+**Evidence:** Eleven focused source-export tests passed with a real Python 3.11.14 kernel, Sparkless 4.14.1, ipykernel 7.4.0, jupyter-client 8.10.0, nbclient 0.11.0, and nbformat 5.11.1. The suite exercised Python/SQL/Markdown/%run handlers, shared Python scope, `_sqldf`, output capture, immutable source files, and pre-kernel rejection for unsupported languages, magics, package installation, invalid paths, and cycles. The combined B017.1/B017.2 run passed 16 tests; Ruff check/format and strict mypy passed. No Databricks account, credentials, cloud compute, JVM, or Spark driver was used. See [B017.2 conformance](../../artifacts/conformance/B017.2-source-format-magics.md).
 
 ## B017.3 — Implement child notebook outcomes and kernel cleanup
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B017 · **Parent criteria:** 2, 3, 4.
 
 **Dependencies:** B015, B016, B017.2, B017.4, B043.
 
-**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Child notebook run/exit contract and reliable cancellation.
 
@@ -1715,27 +1974,104 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Prove child notebook parameter/output isolation separately from %run, propagate failures/timeouts/parent cancellation, and reap kernels/descendants without leaked resources.
 
-**Parent:** B017 · **Parent criteria:** 2, 3, 4.
+**Evidence:** Forty-eight focused tests passed with real local kernels. Relative `.ipynb` and marked `.py` children receive fresh kernels and isolated widget arguments/globals/output; string `exit()` values, early termination, failures and total timeouts are covered. Timeout and parent-cell interruption tests confirmed that both child kernels and their spawned subprocesses were reaped. Ruff check/format, strict mypy and `pip check` passed. No Databricks account, credentials, cloud compute, JVM or Spark driver was used. See [B017.3 conformance](../../artifacts/conformance/B017.3-child-notebook-outcomes.md). B017.5 adds compute reset/termination and timeout during active SDK notebook work; see [B017.5 conformance](../../artifacts/conformance/B017.5-notebook-compute-interruption.md).
 
 ## B018.1 — Prove the SDK dependent Python job workflow
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B012, B014, B015, B016, B017, B043.
 
-**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [ADR 0016](../decisions/0016-serverless-and-classic-compute-profiles.md), [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md).
 
-**Deliverable:** Runnable G2 job/Delta/dependent-task/SQL fixture.
+**Deliverable:** Runnable G2 conformance suite for data flow, job lifecycle/isolation, compute selectors and warehouse consumers.
 
 **Acceptance criteria:**
 
 1. Submit a parameterized Python transformation through the SDK, resolve a scoped secret, commit Delta, and verify task output plus dependent-task and external SQL/session reads; exercise dependency failure, cancellation, retry, and cross-run isolation.
 
+**Required children:** B018.1.1, B018.1.2, B018.1.3, B018.1.4. All children preserve the parent acceptance criterion.
+
+**Evidence:** All four required children are complete. The current SDK-job, worker-session, and Sparkless-adapter suites passed 45 tests, including parameterized secret-scoped Delta writes, dependent reads, failure/retry/cancellation/isolation behavior, all seven job compute selectors, and G2 reads through all three local warehouse profiles. Credentials were unset; the SDK used local loopback only. Classic compute and warehouse infrastructure remain simulated, and no remote Databricks compatibility is claimed. See the [B018.1 aggregate conformance report](../../artifacts/conformance/B018.1-g2-sdk-workflow.md) and its linked child reports.
+
 **Parent:** B018 · **Parent criteria:** 1, 2, 4.
+
+## B018.1.1 — Prove job-to-Delta dependent data flow
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B018.1 · **Parent criteria:** 1.
+
+**Dependencies:** B012, B014, B015, B016, B017, B043.
+
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [ADR 0016](../decisions/0016-serverless-and-classic-compute-profiles.md), [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Runnable SDK G2 fixture for parameters, scoped secrets, Delta commit, task output, dependent task and external readers.
+
+**Acceptance criteria:**
+
+1. Submit a parameterized Python script through the pinned SDK, resolve a scoped secret, commit typed Delta rows, capture actual task output, and verify a declared dependent task plus SQL/Sparkless session reads the same committed rows.
+
+**Evidence:** The pinned-SDK loopback producer appended typed rows through the worker's attempt-authenticated parent service. Its dependent task read both the task value and committed table rows; persisted task output, Delta version, schema and data matched a fresh Sparkless session and SDK SQL statement query. The worker write surface is restricted to registered Delta append, 32 KiB of Arrow IPC and 100,000 rows. Forty-three focused SDK job, worker-session and Sparkless-adapter tests passed; credentials were unset and no personal workspace was used. See [B018.1.1 conformance](../../artifacts/conformance/B018.1.1-job-to-delta-data-flow.md) for the initial classic-standard slice and the completed selector/warehouse matrices in [B018.1.3](../../artifacts/conformance/B018.1.3-g2-compute-profiles.md) and [B018.1.4](../../artifacts/conformance/B018.1.4-g2-warehouse-profiles.md).
+
+## B018.1.2 — Verify job failures, cancellation, retry and isolation
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B018.1 · **Parent criteria:** 1.
+
+**Dependencies:** B012, B014, B015, B016, B017, B043, B018.1.1.
+
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [ADR 0016](../decisions/0016-serverless-and-classic-compute-profiles.md), [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** G2 lifecycle fixture for dependency failure, cancellation, retry attempts and cross-run isolation.
+
+**Acceptance criteria:**
+
+1. Verify truthful dependency-failure propagation, cancellation and distinct retry attempts; prove parameters, widgets, secrets and task values do not leak between independent runs.
+
+**Evidence:** Seven focused SDK job tests passed. Failed upstream work skipped dependent tasks while independent work completed; retries retained distinct attempts/output; classic compute restart and termination canceled active workers, reaped descendants, and preserved prior Delta commits. Parameters, widgets, task values and job-granted secrets remained scoped across runs, with secrets redacted from output and absent from workspace metadata. See [B018.1.2 conformance](../../artifacts/conformance/B018.1.2-job-lifecycle-isolation.md). The cancellation trigger is simulated compute interruption; no public SDK run-cancel route is claimed.
+
+## B018.1.3 — Exercise G2 job compute-selection profiles
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B018.1 · **Parent criteria:** 1.
+
+**Dependencies:** B012, B014, B015, B016, B017, B043, B014.6, B018.1.1.
+
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [ADR 0016](../decisions/0016-serverless-and-classic-compute-profiles.md), [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Orders job fixture across selected serverless and classic compute selectors with resource-lifetime assertions.
+
+**Acceptance criteria:**
+
+1. Run the G2 orders workflow under serverless and the selected classic new, existing, shared and dedicated compute selectors; assert real schema/data/output and the declared simulated resource lifetime without fabricating job completion.
+
+**Evidence:** The two-task SDK orders workflow passed across serverless and six classic standard/dedicated new, existing, and shared selections. Real task outputs, parameter widgets, granted-secret redaction, dependent task values/reads, typed Delta schema/data through versions 0–7, and fresh Sparkless reads matched. Per-task new resources terminated on release; shared resources terminated after both consumers; existing all-purpose resources remained running; serverless had no classic resource. Compute resources are simulated. Credentials were unset; the pinned SDK used local loopback only. See [B018.1.3 conformance](../../artifacts/conformance/B018.1.3-g2-compute-profiles.md).
+
+## B018.1.4 — Verify G2 output through SQL warehouse profiles
+
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B018.1 · **Parent criteria:** 1.
+
+**Dependencies:** B012, B014, B015, B016, B017, B043, B011.6, B018.1.1.
+
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [ADR 0016](../decisions/0016-serverless-and-classic-compute-profiles.md), [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Warehouse-bound SQL readers for the G2 Delta commit across all selected warehouse profiles.
+
+**Acceptance criteria:**
+
+1. Read the exact G2 Delta commit through serverless, pro and classic SQL warehouse profiles; compare schema, values and committed version against the task and fresh Sparkless reads.
+
+**Evidence:** A local SDK Python worker committed typed rows at Delta version 1. The exact versioned snapshot and a fresh Sparkless session agreed with successful SELECT results through serverless, pro, and classic warehouse profiles, including column names/types and values. Each simulated warehouse admission lease released, the table remained at version 1, and local warehouse metadata was deleted. Credentials were unset; SDK traffic used loopback only. See [B018.1.4 conformance](../../artifacts/conformance/B018.1.4-g2-warehouse-profiles.md).
+
 
 ## B018.2 — Prove base and notebook-extra installation paths
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B012, B014, B015, B016, B017, B018.1, B043.
 
@@ -1747,11 +2083,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Run the base workflow without notebook dependencies, Java, or cloud compute; independently run the notebook-extra workflow and record real outputs, errors, cancellation, and cleanup.
 
+**Evidence:** The built `brickhouse==0.1.0.dev0` wheel passed the ten-case base G2 job suite in a clean install with Sparkless 4.15.0, delta-rs 1.2.1, PyArrow 23.0.1 and SQLGlot 30.24.0, while `ipykernel`, `jupyter-client`, `nbclient` and `nbformat` were absent. The separate `[notebooks]` install passed 36 cases for kernel output/errors, environment and source handling, child/parent cancellation, cleanup and SDK NotebookTask profiles. Both isolated lanes hid Java, unset Databricks credentials and used the installed wheel plus local loopback only. Dependency checks, wheel/sdist build and lock check passed. See [B018.2 conformance](../../artifacts/conformance/B018.2-installation-lanes.md). The final release candidate gate remains B023.
+
 **Parent:** B018 · **Parent criteria:** 3, 4.
 
 ## B019.1 — Define and implement the bounded SQL semantics corpus
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B011, B043.
 
@@ -1762,12 +2100,143 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 **Acceptance criteria:**
 
 1. Enumerate and implement selected projection/filter/aggregate/join/DDL cases with null, coercion, decimal, date/timezone, collection, and error fixtures; retain mismatches visibly.
+2. Define and verify separate serverless (serverless-local-v1) and classic standard/dedicated (spark35-local-v1) SQL/session cases for ANSI/timezone defaults, configuration scope, temporary/global views and cache restrictions, and error behavior. Deferred-analysis and Connect cases remain explicitly unsupported until B036 proves them.
+
+**Required children:** B019.1.1, B019.1.2, B019.1.3, B019.1.4, B019.1.5, B019.1.6, B019.1.7. All children and both original/inherited criteria remain required.
 
 **Parent:** B019 · **Parent criteria:** 1, 4.
 
+**Evidence:** All seven required slices originally passed against real local Delta/Sparkless 4.15.0. The SQL statement-service module passed 35 tests against the published Sparkless 4.15.1 wheel; it passed again on 4.15.2 after the published fix. Nested field projection succeeds, and the selected direct UTC-aware timestamp predicate now returns order_id 2 under [PR #1721](https://github.com/eddiethedean/robin-sparkless/pull/1721), closing [follow-up issue #1720](https://github.com/eddiethedean/robin-sparkless/issues/1720). The local corpus retains exact schemas and mismatches, including COUNT int32 and lost UTC Arrow metadata. Connect protocol/deferred analysis remain unsupported pending B036. C018 remains planned and remote Databricks parity is not claimed. See [the aggregate corpus report](../../artifacts/conformance/B019.1-sql-semantics-corpus.md).
+
+## B019.1.1 — Freeze the SQL fixture and scalar query cases
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned typed SQL fixture and projection/filter/null/coercion evidence.
+
+**Acceptance criteria:**
+
+1. Store deterministic input rows, exact Arrow schemas, expected results, and ordering rules for the selected SQL fixture; exercise projection, filtering, null predicates, aliases, and selected scalar coercions through the local SQL service.
+
+**Parent:** B019.1 · **Parent criteria:** 1.
+
+**Evidence:** The versioned orders fixture passed through real local Delta and Sparkless 4.15.0, with exact Arrow schema/data checks for projection, filtering, null detection, decimal values, scalar coercion, aliases, and ordering. The captured reference statement was rejected with HTTP 400 `BAD_REQUEST`; the existing serverless warehouse was restored to `STOPPED`, and no remote output was used as an oracle. See [the conformance report](../../artifacts/conformance/B019.1.1-sql-scalar-cases.md).
+
+## B019.1.2 — Qualify grouped aggregates and decimal results
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043, B019.1.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Exact aggregate values, Arrow result schemas, and decimal/error fixtures.
+
+**Acceptance criteria:**
+
+1. Exercise selected COUNT/SUM/grouping cases with null and empty inputs, recording exact result types, decimal precision/scale, and ANSI overflow or invalid-cast outcomes in the versioned corpus.
+
+**Evidence:** The versioned aggregate fixture passed grouped COUNT/SUM with a null amount, COUNT/SUM over empty input, and the selected invalid BIGINT cast through real local Delta and Sparkless 4.15.0. Exact Arrow schemas retain local COUNT as `int32` and SUM as `decimal128(22,2)`; `ValueError` is recorded for the invalid cast. The bounded `aggregate-literals` Databricks statement returned HTTP 400 `BAD_REQUEST`, so no remote schema or rows are claimed. The existing warehouse was restored to `STOPPED`; no objects were created. See [the conformance report](../../artifacts/conformance/B019.1.2-sql-aggregate-cases.md).
+
+**Parent:** B019.1 · **Parent criteria:** 1.
+
+## B019.1.3 — Qualify date, timestamp, and timezone semantics
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043, B019.1.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned date/timestamp SQL result and error cases for the selected UTC profile.
+
+**Acceptance criteria:**
+
+1. Exercise selected DATE and TIMESTAMP projections, predicates, and literals against exact Arrow schemas/results under the declared UTC profile; record null, invalid conversion, and timezone boundary outcomes without normalizing away type or offset differences.
+
+**Parent:** B019.1 · **Parent criteria:** 1, 2.
+
+**Evidence:** The versioned date/time corpus passed against real local Delta and Sparkless 4.15.1 with exact DATE/TIMESTAMP schemas, date predicate and null behavior, UTC offset normalization and boundary results, and invalid DATE/TIMESTAMP conversions. Historical 4.15.1 behavior raised a timezone-type mismatch; the same retained predicate now passes with the published Sparkless 4.15.2 wheel under upstream [PR #1721](https://github.com/eddiethedean/robin-sparkless/pull/1721), closing issue [#1720](https://github.com/eddiethedean/robin-sparkless/issues/1720). A prior literal-only Databricks capture supplies UTC context but no predicate parity claim. See [the conformance report](../../artifacts/conformance/B019.1.3-date-time-semantics.md).
+
+## B019.1.4 — Qualify nested collection projections
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043, B019.1.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned array/struct SQL fixtures with nested-null preservation and explicit unsupported cases.
+
+**Acceptance criteria:**
+
+1. Project selected nullable arrays and structs through SQL and compare exact nested Arrow schema/value results; explicitly reject unsupported collection types or operators instead of converting them through lossy JSON.
+
+**Parent:** B019.1 · **Parent criteria:** 1.
+
+**Evidence:** The selected nullable array/struct SQL projection passed against Sparkless 4.15.1 and the full statement-service module was requalified on 4.15.2 with exact nested Arrow schema and values, preserving empty arrays, null arrays, nested null fields, and null structs. Nested-field SQL projection returns the selected leaf value under upstream PR #1717; selected array subscript and map-constructor expressions still fail explicitly. No remote Databricks collection result is claimed. See [the conformance report](../../artifacts/conformance/B019.1.4-sql-collections.md).
+
+## B019.1.5 — Qualify selected join semantics and boundaries
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043, B019.1.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned join result/error cases with explicit null-key, alias, and duplicate-column behavior.
+
+**Acceptance criteria:**
+
+1. Exercise the selected inner equijoin across registered tables with null keys and aliased columns; assert exact schema and values, and retain explicit errors for unsupported outer, self, multi-key, or multiple joins.
+
+**Parent:** B019.1 · **Parent criteria:** 1.
+
+**Evidence:** The selected aliased inner equijoin passed on real local Delta/Sparkless 4.15.0 with nullable keys, duplicate matches, exact schema and ordering. Explicit outer, self, multi-key and multiple joins raise typed unsupported errors. Fixed the planner to accept explicit `INNER JOIN`; no remote join behavior is claimed. See [the conformance report](../../artifacts/conformance/B019.1.5-sql-joins.md).
+
+## B019.1.6 — Qualify DDL and stable SQL error categories
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043, B019.1.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned DDL and planner/execution error fixtures with no-side-effect assertions.
+
+**Acceptance criteria:**
+
+1. Exercise selected schema/table CREATE, CTAS, DROP, and IF EXISTS cases with exact catalog/table results; assert stable typed errors for duplicate/missing/invalid/unsupported statements and verify planning failures leave catalog, Delta versions, and rows unchanged.
+
+**Parent:** B019.1 · **Parent criteria:** 1.
+
+**Evidence:** The versioned DDL case passed schema/table CREATE, empty Delta creation, CTAS, DROP, and `IF EXISTS` with exact catalog/schema, Arrow, rows, and commit versions. Duplicate/missing/invalid/unsupported/parse failures are typed; each leaves catalog registrations and source Delta version/schema/rows unchanged. See [the conformance report](../../artifacts/conformance/B019.1.6-sql-ddl-errors.md).
+
+## B019.1.7 — Qualify serverless and classic semantic profiles
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B043, B019.1.1, B019.1.3.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Profile-specific SQL/session defaults, isolation, restriction, and error cases.
+
+**Acceptance criteria:**
+
+1. Verify serverless ANSI/UTC defaults and restrictions separately from classic standard/dedicated spark35-local-v1 settings; exercise configuration and temporary-view scope, explicitly unsupported global-view/cache behavior, and profile-specific errors. Keep deferred analysis and Connect behavior explicitly unsupported pending B036.
+
+**Parent:** B019.1 · **Parent criteria:** 2.
+
+**Evidence:** Selected serverless, classic-standard, and classic-dedicated session profiles passed with exact settings and same-name temporary-view isolation. Global temporary views and SQL/DataFrame cache operations are explicitly unsupported; profile/config errors are tested. Deferred analysis is eager locally and Connect remains unsupported pending B036. No remote classic/Python parity is claimed. See [the conformance report](../../artifacts/conformance/B019.1.7-sql-session-profiles.md).
+
 ## B019.2 — Route mutations and snapshot utilities through shared tables
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B011, B019.1, B043.
 
@@ -1779,11 +2248,88 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Execute SQL mutations through the selected table service/provider and compare DataFrame-visible history/schema; prove declared history/time-travel cases without bypassing feature validation.
 
+**Required children:** B019.2.1, B019.2.2, B019.2.3, B019.2.4. All children and the original parent criterion remain required.
+
 **Parent:** B019 · **Parent criteria:** 2.
+
+**Evidence:** All required children B019.2.1–B019.2.4 are complete. The shared provider/local SQL regression suite verifies journaled UPDATE/DELETE/MERGE, exact committed DESCRIBE HISTORY ordering and schema, DESCRIBE TABLE schema, and version-pinned historical reads/errors. The combined focused SQL/provider/Sparkless adapter/worker suite passed 128 tests with Databricks credentials unset. See the [B019.2 aggregate report](../../artifacts/conformance/B019.2-sql-mutations-history-snapshots.md).
+
+## B019.2.1 — Implement SQL UPDATE and DELETE through the table service
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B019.1, B043.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Journaled SQL UPDATE/DELETE with exact Delta snapshots and DataFrame-visible results.
+
+**Acceptance criteria:**
+
+1. Route selected single-table UPDATE and DELETE predicates through DeltaRsTableService and its declared Delta provider; verify exact affected rows, Arrow schema, committed Delta versions/history, null/predicate behavior, and unchanged state on rejected or failed operations. No read/overwrite emulation or direct _delta_log edits.
+
+**Evidence:** Focused local tests passed against Sparkless 4.15.0, delta-rs 1.2.1, PyArrow 23.0.1, SQLGlot 30.24.0, and workspace schema 18. Native UPDATE/DELETE history commits carry the journal operation identity and exact affected-row metrics; Sparkless reads the same table version/schema. Zero-row operations and pre-commit provider failures are terminal journal outcomes with no transaction-version gap. A pinned-SDK Statement Execution UPDATE is visible to the next SELECT, and an injected post-commit journal failure recovers from exact Delta history. Schema-17 operation records survive the schema-18 migration. No Databricks reference workspace or cloud compute was used. See [B019.2.1 evidence](../../artifacts/conformance/B019.2.1-sql-update-delete.md).
+
+**Parent:** B019.2 · **Parent criteria:** 1.
+
+## B019.2.2 — Implement single-key SQL MERGE through the table service
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B019.1, B043.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Atomic matched-update/unmatched-insert SQL MERGE with exact snapshot evidence.
+
+**Acceptance criteria:**
+
+1. Route one selected single-key MERGE with matched UPDATE and unmatched INSERT through DeltaRsTableService and the declared Delta provider; verify exact output rows/schema, one committed version, DataFrame visibility, and typed rejection/no-side-effects for unsupported clauses, duplicate source keys, or invalid targets.
+
+**Parent:** B019.2 · **Parent criteria:** 1.
+
+**Evidence:** A registered-table, one-key MERGE passed the focused SQL/provider/workspace regressions with Sparkless 4.15.0, delta-rs 1.2.1, PyArrow 23.0.1, SQLGlot 30.24.0, and metadata schema 19. One native commit produced exact matched-update/unmatched-insert rows, Arrow schema, history metrics, operation identity, and fresh Sparkless visibility. Unsupported clauses, duplicate/null source keys, invalid targets and mappings fail before target commit or journaling. The schema-19 migration preserves schema-18 journal records; Databricks credential variables were unset and no remote workspace was used. See [B019.2.2 evidence](../../artifacts/conformance/B019.2.2-sql-merge.md).
+
+## B019.2.3 — Qualify SQL DESCRIBE and Delta history utilities
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B019.1, B043, B019.2.1, B019.2.2.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned utility result schemas and history rows for real provider commits.
+
+**Acceptance criteria:**
+
+1. Implement selected DESCRIBE TABLE and DESCRIBE HISTORY results from the registered table/provider services; assert exact schemas and committed operation/version ordering after UPDATE, DELETE, and MERGE without deriving history from uncommitted metadata.
+
+**Parent:** B019.2 · **Parent criteria:** 1.
+
+**Evidence:** Selected DESCRIBE TABLE and DESCRIBE HISTORY passed with Sparkless 4.15.0, delta-rs 1.2.1, PyArrow 23.0.1, SQLGlot 30.24.0, and metadata schema 19. DESCRIBE TABLE returns the registered provider field order, exact three-column schema, and supported primitive/nested Spark SQL type text. DESCRIBE HISTORY returns the exact seven-column profile from public delta-rs history and the committed newest-first versions after UPDATE, DELETE, and MERGE; fresh Sparkless reads observe the same target state. Unsupported forms reject without mutation. The focused SQL/provider suite passed 88 tests with Databricks credential variables unset; no remote workspace was used. See [B019.2.3 evidence](../../artifacts/conformance/B019.2.3-sql-describe-history.md).
+
+## B019.2.4 — Qualify SQL version-as-of snapshot reads
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B011, B019.1, B043, B019.2.3.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Versioned SQL time-travel fixtures that share the authoritative table snapshot contract.
+
+**Acceptance criteria:**
+
+1. Implement selected VERSION AS OF SQL reads using TableSnapshot/read_snapshot and compare exact historical schema/rows with direct service and Sparkless reads; invalid, future, expired, or unsupported snapshot selectors must raise typed errors and never silently fall back to latest.
+
+**Parent:** B019.2 · **Parent criteria:** 1.
+
+**Evidence:** Literal integer VERSION AS OF selectors returned the exact historical Arrow schema and rows through SQL and matched direct service/Sparkless reads at the same Delta version. Timestamp/negative/decimal/string/malformed selectors reject; future and vacuum-expired versions raise typed unavailable errors and do not fall back to latest. The combined focused SQL/provider/Sparkless adapter/worker suite passed 128 tests with Databricks credential variables unset. No Databricks workspace or cloud compute was used. See [B019.2.4 evidence](../../artifacts/conformance/B019.2.4-sql-version-as-of.md).
+
 
 ## B019.3 — Declare executor capabilities and utility limits
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B011, B019.2, B043.
 
@@ -1794,6 +2340,8 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 **Acceptance criteria:**
 
 1. Document selected utility/type cases and Sparkless/default routing; any enabled DuckDB path is explicitly selected before execution and has profile-specific evidence, with no silent retry and no separate managed-table copy.
+
+**Evidence:** The route matrix records SELECT/CTAS through Sparkless plus schema/catalog/table operations through their shared services and one registered Delta authority. Selected scalar, aggregate, date/time, collection, join, describe/history and integer snapshot cases are linked to their exact reports. A new parameterized regression rejects SHOW, EXPLAIN, ANALYZE, OPTIMIZE and VACUUM before table or version changes; existing CTAS error coverage proves query-engine exceptions propagate before registration. No DuckDB executor is enabled or included in the dependency set. The focused SQL/provider/Sparkless suite passed 74 tests on Sparkless 4.15.0 with Databricks credentials unset. See [B019.3 routing evidence](../../artifacts/conformance/B019.3-executor-routing.md).
 
 **Parent:** B019 · **Parent criteria:** 1, 3.
 
@@ -1851,11 +2399,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B021.1 — Prove released REST connector transport locally
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B021 · **Parent criteria:** 1, 3.
 
 **Dependencies:** B005, B019, B045.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Pinned actual connector with local TLS/auth/transport evidence.
 
@@ -1863,15 +2413,15 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Connect the released REST/kernel profile to BrickHouse with recorded TLS/auth configuration and method limits; a failed interoperability probe leaves the promised implementation blocked or triggers a formal scope revision.
 
-**Parent:** B021 · **Parent criteria:** 1, 3.
-
 ## B021.2 — Exercise connector query and result lifecycle
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** epic · **Current ledger status:** done
+
+**Parent:** B021 · **Parent criteria:** 2, 3.
 
 **Dependencies:** B005, B019, B021.1, B045.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Connector parameter/schema/fetch/error/lifetime/cancellation fixtures.
 
@@ -1879,11 +2429,63 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Execute parameterized queries through the actual connector, compare schema/results, and test failures, retention, cancellation where advertised, plus explicit unsupported metadata/driver methods.
 
-**Parent:** B021 · **Parent criteria:** 2, 3.
+**Required children:** B021.2.1, B021.2.2, B021.2.3. All children and the original criterion above are required.
+
+**Evidence:** All three required children pass for their stated local subsets. See [session evidence](../../artifacts/conformance/B021.2.1-sql-kernel-session-lifecycle.md), [query/result evidence](../../artifacts/conformance/B021.2.2-sql-connector-inline-results.md), and [failure/lifetime evidence](../../artifacts/conformance/B021.2.3-sql-connector-failures-retention.md). The kernel default result profile, other DB-API metadata methods, Thrift, and remote Databricks remain outside the capability claim.
+
+## B021.2.1 — Implement kernel session lifecycle
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B021.2 · **Parent criteria:** 1.
+
+**Dependencies:** B005, B019, B021.1, B045.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Thread-safe ephemeral connector sessions bound to the persistent warehouse and namespace.
+
+**Acceptance criteria:**
+
+1. Verify actual pinned-kernel session create/close requests and return the released client's expected session ID shape; isolate each session's warehouse and namespace, reject per-session settings that are not applied by the SQL engine, and reject missing/stopped warehouses and unknown or cross-session IDs without fabricating a session.
+
+## B021.2.2 — Verify connector execution parameters and fetch results
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B021.2 · **Parent criteria:** 1.
+
+**Dependencies:** B005, B019, B021.1, B045, B021.2.1.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Connector parameter, schema, inline fetch and typed result fixtures.
+
+**Acceptance criteria:**
+
+1. Execute bounded parameterized queries through the actual released connector, compare description/schema and fetched values with the local Statement Execution API, and retain explicit result-limit and unsupported-format behavior.
+
+## B021.2.3 — Verify connector errors cancellation and method limits
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B021.2 · **Parent criteria:** 1.
+
+**Dependencies:** B005, B019, B021.1, B045, B021.2.2.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [14-research-sources.md](14-research-sources.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Connector error, close, retention, cancellation and unsupported-method fixtures.
+
+**Acceptance criteria:**
+
+1. Verify connector-visible SQL failures, result/session close and bounded retention; exercise cancellation where the synchronous client advertises it, and record actual unsupported metadata/driver methods without returning fabricated success.
+
+**Evidence:** The connector integration observes `ServerOperationError` for SQL and `SHOW CATALOGS`, the synchronous cross-thread cancel request and terminal `CANCELED` state, the connector's `ProgrammingError: Invalid result format` for canceled results, and explicit `NotSupportedError` for rollback. Result close/session close return HTTP 200; SQL API regressions verify `CLOSED`, 12-hour expiry, and oldest-first eviction under the 64 MiB budget. See [the conformance report](../../artifacts/conformance/B021.2.3-sql-connector-failures-retention.md).
 
 ## B022.1 — Inject journal and commit boundary failures
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B018, B019, B043.
 
@@ -1895,11 +2497,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Crash before/after Delta commit and SQLite finalization, then restart and verify known/uncertain outcomes and safe idempotent retry using actual files.
 
-**Parent:** B022 · **Parent criteria:** 1, 4.
+**Parent:** B022 · **Parent criteria:** 1.
+
+**Evidence:** A POSIX child process is killed before Delta dispatch, after the Delta commit but before SQLite finalization, and after SQLite finalization. Reopen confirms conservative `UNCERTAIN` before provider dispatch, exact history-based recovery after Delta commit, and version-preserving idempotent replay after SQLite commit. The journal/provider/SQL mutation regression passed 24 tests. See [the crash-boundary report](../../artifacts/conformance/B022.1-commit-boundary-crashes.md).
 
 ## B022.2 — Exercise concurrent alias-aware SQL and DataFrame writes
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B018, B019, B022.1, B043.
 
@@ -1911,11 +2515,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Append through SQL and DataFrame paths including canonical-location aliases, proving no lost committed rows or duplicates from repeated operation IDs.
 
-**Parent:** B022 · **Parent criteria:** 2, 4.
+**Parent:** B022 · **Parent criteria:** 2.
+
+**Evidence:** Two separate workspace catalogs with different table IDs resolve through real symlink/physical paths to one canonical Delta location. Concurrent Sparkless `session.write_path()` append and SQL MERGE unmatched insert serialize to consecutive commits; the stale version-0 MERGE is rejected before journaling and one same-ID retry commits. Both operation IDs replay their original versions; final Delta history contains one commit per mutation and actual rows `[0, 10, 20]`. The focused journal/table/SQL/Sparkless regression suite passed 46 tests with Databricks credentials unset. See [the alias-concurrency report](../../artifacts/conformance/B022.2-concurrent-alias-writes.md).
 
 ## B022.3 — Verify retention coordinated backup and restore
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B018, B019, B022.2, B043.
 
@@ -1927,17 +2533,80 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Exercise restart/safe retry and result/log/staging retention; restore a coordinated SQLite/Delta/file snapshot and read actual rows/history with an explicit external-table inclusion policy.
 
+**Required children:** B022.3.1, B022.3.2.
+
 **Parent:** B022 · **Parent criteria:** 3.
+
+**Evidence:** B022.3.1 and B022.3.2 are complete. The focused recovery regression suite passed 141 tests, covering same-payload reconciliation, changed-payload rejection, staged-input and result/log retention, managed row/history and job-history restore, and external-reference behavior. See [B022.3.1](../../artifacts/conformance/B022.3.1-restart-retention.md) and [B022.3.2](../../artifacts/conformance/B022.3.2-coordinated-workspace-restore.md). Snapshot quiescence coordinates BrickHouse owners only; external writers/provider state are not copied or coordinated.
+
+## B022.3.1 — Exercise restart and bounded retention lifecycles
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B018, B019, B022.2, B043, B021.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Restart/replay plus SQL result, worker-log and staged-input retention evidence.
+
+**Acceptance criteria:**
+
+1. Restart a local workspace after committed and uncertain Delta operations; confirm exact same-payload reconciliation, changed-payload rejection, and staged-input cleanup only after a known terminal outcome.
+2. Advance controlled retention clocks for SQL result chunks and worker attempt logs; expired payloads/log bytes are released while statement/run/attempt and Delta commit history remain available.
+
+**Parent:** B022.3 · **Parent criteria:** 1.
+
+**Evidence:** Real POSIX process kills cover the three SQLite/Delta boundaries. Restart confirms same-payload recovery, changed-payload rejection, and staged-input cleanup only after a known terminal outcome. Controlled clocks verify 12-hour SQL result expiry and 24-hour worker-log expiry while SQL statement and job/run/attempt history remains. The schema 19-to-20 upgrade preserves existing output. The focused journal, table, workspace, catalog, job, and statement API regression suite passed 71 tests with Databricks credentials unset; Ruff check and format passed. Worker-log expiry is lazy on output retrieval or explicit maintenance, with no background scheduler. See [the B022.3.1 report](../../artifacts/conformance/B022.3.1-restart-retention.md).
+
+## B022.3.2 — Restore a coordinated local workspace snapshot
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B018, B019, B022.2, B043.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Restored local workspace evidence and external-table inclusion policy.
+
+**Owner:** Codex
+
+**Acceptance criteria:**
+
+1. Snapshot a quiesced workspace with SQLite metadata and managed Delta/files, restore it to a separate path, and verify actual rows, Delta history, operation records, and job history.
+2. Record and exercise an explicit external-table policy: exclude external bytes by default, preserve their registrations as external references, and report missing external data explicitly rather than copying, deleting, or fabricating it.
+
+**Parent:** B022.3 · **Parent criteria:** 1.
+
+**Evidence:** Three snapshot-specific tests and the combined 141-test affected recovery suite passed. The quiesced snapshot preserved actual managed Delta rows/history, operation records, job/run/attempt/output records, and workspace files after restoring to a separate path. External bytes were excluded while registrations remained absolute references; a missing external table raised `TableMissingError`. Ruff, strict mypy, and diff checks passed. See [the restore report](../../artifacts/conformance/B022.3.2-coordinated-workspace-restore.md). External writers are not coordinated and external provider state is not captured.
+
+## B022.4 — Verify serverless timeout preserves committed Delta state
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B018, B019, B022.1, B022.2, B043.
+
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+
+**Deliverable:** Serverless worker timeout and committed-write recovery evidence.
+
+**Acceptance criteria:**
+
+1. Run a real pinned-SDK serverless Python worker that commits a Delta append before its timeout; verify the actual terminal attempt, worker cleanup, rows, and provider commit history.
+2. Reopen the local workspace and prove timeout did not automatically retry the side-effecting task or duplicate the committed Delta version; combine with the existing classic restart/termination evidence for the parent cross-mode criterion.
+
+**Parent:** B022 · **Parent criteria:** 4.
+
+**Evidence:** Two pinned-SDK loopback cases and the combined 141-test affected recovery suite passed. A serverless-local worker that committed Delta data before timeout was reaped and recorded as timed out; reopen retained the one attempt, logs, rows and provider history without automatic replay. A separate pre-commit failure retried as a distinct attempt and produced one commit. Existing B018.1.2/B017.5 evidence supplies classic compute restart/termination, retry-attempt and notebook interruption comparisons. See [the B022.4 report](../../artifacts/conformance/B022.4-serverless-timeout-commit.md). This does not establish Databricks serverless/classic service or runtime behavior.
 
 ## B023.1 — Freeze the 0.1.0 scope and distribution inventory
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B023 · **Parent criteria:** 3, 4.
 
 **Dependencies:** B020, B021, B022, B043, B044, B048.
 
-**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Versioned release scope, notices, dependency/client inventory, and limitations.
 
@@ -1945,15 +2614,19 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Reconcile completed requirements with per-case capability evidence; verify notices/license decisions, migrations, examples, and a publicly available compatible Sparkless artifact without publishing BrickHouse.
 
+**B048 attachment:** The supported-scope inventory must retain [the local-core boundary review](../../artifacts/conformance/B048-local-core-boundaries.md) and [the loopback remediation evidence](../../artifacts/conformance/B048.1-loopback-bind-boundary.md), including the explicit no-auth/no-sandbox limit.
+
+**Evidence:** [The versioned scope inventory](../../artifacts/conformance/B023.1-alpha-scope.md) records the 0.1.0 package/dependency/client scope, all 67 capability states, schema-20 migration coverage, pinned direct dependency notices and hashes, runnable local orders example, the public Sparkless 4.15.0 artifact and exact locally exercised macOS arm64 wheel hash. Nine focused migration/rollback tests passed; the example integration passed 1 test with `DATABRICKS_TOKEN` and `DATABRICKS_HOST` unset; Ruff and strict mypy passed for the example. B023.2.1–B023.2.3 now record wheel/sdist auditing, macOS arm64 CPython 3.11/3.12 base and notebook-extra install/offline behavior, and G1–G4 evidence; Linux x86_64 remains unadvertised pending CI. BrickHouse's own license remains unselected and blocks public publication. No release artifact was published.
+
 ## B023.2 — Gate candidate wheels on platforms and offline execution
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B023 · **Parent criteria:** 1, 2, 4.
 
 **Dependencies:** B020, B021, B022, B023.1, B043, B044, B048.
 
-**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** 0.1.0 wheel/sdist install matrix and consolidated local G1-G4 reports.
 
@@ -1961,15 +2634,77 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Install built wheels for every advertised Python/platform candidate and run declared G1-G4 plus JVM/cloud/Docker-free base and provisioned offline checks; gate the notebook extra separately and advertise only passing combinations.
 
+**Required children:** B023.2.1, B023.2.2, B023.2.3. The platform matrix, clean base/offline gate, and separate notebook-extra gate must all pass for the advertised profiles.
+
+**Evidence:** [B023.2.1](../../artifacts/conformance/B023.2.1-candidate-wheel-platform.md) audited clean installs; current wheel/sdist hashes and audit are in the candidate bundle. The current exact candidate passed base G1–G4 in 137 cases per interpreter and notebook-extra G1–G4 in 175 cases per interpreter on macOS arm64 CPython 3.11.15/3.12.13, 624 total. See its [machine-readable current reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/). The prior 132/169 counts are historical. Linux x86_64 remains unadvertised pending CI; publication remains blocked on the owner's project-license decision.
+
+## B023.2.1 — Build and audit release candidates across the advertised platform matrix
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B023.2 · **Parent criteria:** 1.
+
+**Dependencies:** B020, B021, B022, B023.1, B043, B044, B048.
+
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Hash-identified wheel/sdist and clean-install evidence for every advertised Python/OS/architecture combination.
+
+**Acceptance criteria:**
+
+1. Build the candidate wheel and source distribution from the current checkout; inspect metadata, runtime requirements, package contents, and third-party notices in both artifacts.
+2. Install the built wheel in clean environments for every advertised Python/OS/architecture combination; assess CPython 3.11/3.12 Linux x86_64 and macOS arm64 candidates and advertise only combinations with actual passing install evidence.
+
+**Evidence:** The built `0.1.0.dev0` wheel and sdist passed metadata/content audit and include every retained notice. Fresh macOS arm64 CPython 3.11.15 and 3.12.13 environments installed the same wheel, passed dependency checks and CLI/import checks, and omitted all four optional notebook packages. The current qualified install set is those two macOS combinations; Linux x86_64 is intentionally not advertised until its new Ubuntu CI matrix runs. See [the candidate report](../../artifacts/conformance/B023.2.1-candidate-wheel-platform.md).
+
+## B023.2.2 — Qualify the base wheel offline without JVM, cloud, or Docker
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B023.2 · **Parent criteria:** 1.
+
+**Dependencies:** B020, B021, B022, B023.1, B043, B044, B048, B023.2.1.
+
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Clean base-wheel G1-G4 and provisioned offline execution reports with credential and process boundaries.
+
+**Acceptance criteria:**
+
+1. Install the base candidate without the notebook extra, provision dependencies before the offline check, then run the declared G1-G4 workflow and process/network gates without Java, full PySpark, delta-spark, Docker, cloud compute, or real Databricks access.
+2. Prove the installed-wheel workflow uses loopback only, does not load `.env` or inherit real workspace credentials, and succeeds after external network access is denied.
+
+**Evidence:** The historical [base-wheel report](../../artifacts/conformance/B023.2.2-base-wheel-offline.md) records 132 G1–G4 tests per interpreter for its prior wheel hash. The exact current wheel passed 137 base cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13; its [current machine-readable reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/) bind results to the current wheel and source archive. They show loopback-only traffic under outbound-network denial, no `.env` reads or inherited Databricks credentials, no Java/Spark/Docker process or forbidden distribution/import, and absence of optional notebook packages. Terraform uses the provisioned local provider mirror and local RPC socket exception. Linux remains unadvertised pending CI and BrickHouse's own license remains an owner publication blocker.
+
+## B023.2.3 — Qualify the notebook extra as a separate offline candidate
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B023.2 · **Parent criteria:** 1.
+
+**Dependencies:** B020, B021, B022, B023.1, B043, B044, B048, B023.2.1, B023.2.2.
+
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Isolated notebook-extra wheel install and G1-G4 evidence with exact advertised combinations.
+
+**Acceptance criteria:**
+
+1. Install the notebook extra separately from the base candidate and run the declared kernel, notebook job, mode, G1-G4, cleanup, and interruption cases on the advertised platform/Python combinations.
+2. Provision all native/runtime dependencies before the offline check; prove notebook execution uses local kernels and workers without Java, full PySpark, delta-spark, Docker, cloud compute, or real Databricks access.
+3. Verify the base wheel remains free of notebook runtime packages and advertise only notebook combinations with passing install and behavior evidence.
+
+**Evidence:** The historical [notebook-extra report](../../artifacts/conformance/B023.2.3-notebook-extra-offline.md) records 169 G1–G4 tests per interpreter for its prior wheel hash. The exact current wheel with the notebook extra passed 175 selected cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13, including 37 notebook/kernel cases. Current machine reports are in the [Sparkless 4.15.2 report directory](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/). Both base environments passed `uv pip check` and assertions that optional notebook distributions were absent. The current sandbox reports show only loopback/local Unix-socket traffic, no `.env` reads or inherited workspace credentials, and no Java/Spark/Docker process or full Spark/Delta distribution/import. Linux x86_64 remains unadvertised pending CI; the project license remains an owner decision.
+
 ## B023.3 — Assemble the owner-reviewable release candidate
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B023 · **Parent criteria:** 3, 4.
 
 **Dependencies:** B020, B021, B022, B023.2, B043, B044, B048.
 
-**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+**Plans:** [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [08-roadmap.md](08-roadmap.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Local distribution artifacts, generated capability docs, and release report.
 
@@ -1977,13 +2712,17 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 1. Assemble actual artifacts and retained evidence, update truthful current-behavior documentation, validate the owner release checklist, and keep publication as a separately authorized action.
 
+**Evidence:** The [0.1.0 owner-review bundle](../../artifacts/releases/0.1.0/README.md) contains the audited `0.1.0.dev0` wheel/sdist, artifact hashes, capability snapshot and generated Markdown, versions and exact G1–G4 selectors, current offline guard reports, recovery evidence, and owner checklist. The exact current wheel passed 624 selected cases across base and notebook-extra lanes on CPython 3.11.15/3.12.13; the separate 99-case B064 installed-wheel run also passed. The distribution audit passed and reports the unselected project license. Linux x86_64 qualification and explicit publication authorization remain open. No account, cloud workload, or publication was used.
+
 ## B011.5 — Implement local SQL warehouse identity and lifecycle
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B011 · **Parent criteria:** 4.
 
 **Dependencies:** B005, B010, B011.1, B043.
 
-**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Persistent warehouse records, type/flag validation and simulated lifecycle with admission/invalidation contracts.
 
@@ -1992,7 +2731,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 1. Use the pinned SDK to create/get/list/update/delete and start/stop serverless, pro, and classic local warehouse records; validate PRO plus enable_serverless_compute semantics, settings and missing IDs, label infrastructure simulated, and exercise persistence and idle transitions with a controlled clock.
 2. Test real repository/state/API behavior for admission leases, stop/delete invalidation, missing resource errors and persistence with a controlled clock; expose the service contract consumed by B011.6, without requiring downstream SQL/connector results for this child to complete.
 
-**Parent:** B011 · **Parent criteria:** 4.
+**Implementation evidence (2026-10-20):** Five focused local tests passed with Databricks credential variables unset. The actual pinned SDK 0.153.0 used loopback only to exercise the three warehouse types and their lifecycle; SQLite persistence/migration, type/setting errors, the release's 1 active per warehouse / 2 active workspace-wide / 8 queued per warehouse FIFO admission, lease invalidation, and controlled-clock auto-stop were verified. See [B011.5 conformance](../../artifacts/conformance/B011.5-sql-warehouse-lifecycle.md). All infrastructure states remain simulated; this task does not prove SQL execution or remote Databricks behavior.
 
 ## B014.4 — Implement classic compute identity and lifecycle
 
@@ -2030,11 +2769,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B017.4 — Bind compute profiles to notebook session lifecycle
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
+
+**Parent:** B017 · **Parent criteria:** 4.
 
 **Dependencies:** B015, B016, B017.2, B014, B043.
 
-**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0016-serverless-and-classic-compute-profiles.md](../decisions/0016-serverless-and-classic-compute-profiles.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Serverless/classic notebook context, environment precedence and isolated kernel attachment/reset between executions.
 
@@ -2043,11 +2784,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 1. Execute real local notebook fixtures under serverless and classic standard/dedicated profiles with mapped environments, notebook/job override precedence, supported config defaults and rejection cases; preserve cell state only in its own live kernel.
 2. Verify distinct notebook sessions, environment/config rejection before execution, retained state between cells and a fresh context after a normal reset; expose compute attachment/invalidation to B017.3/B017.5, which own interruption during execution and descendant cleanup.
 
-**Parent:** B017 · **Parent criteria:** 4.
+**Evidence:** Twenty-four focused real-kernel tests passed across B017.1, B017.2, and B017.4 using the exact pinned stack and Sparkless 4.14.1. Serverless, classic-standard, and classic-dedicated contexts verified mapped environments, installed dependency pins, session defaults/overrides, invocation/widget parameter precedence, state between cells, isolated sessions after reset, and pre-kernel rejection of invalid profiles/settings/dependencies. Flattened worker context preserves classic compute identity/generation for later supervision. Ruff check/format, strict mypy, and `pip check` passed. No Databricks account, credentials, cloud compute, JVM, or Spark driver was used. See [B017.4 conformance](../../artifacts/conformance/B017.4-notebook-context.md).
 
 ## B020.4 — Prove compute and warehouse Terraform resources
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B014, B020.3, B011, B043.
 
@@ -2058,6 +2799,8 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 **Acceptance criteria:**
 
 1. Apply/read/update/refresh/destroy selected classic cluster and all three SQL warehouse resource variants against local BrickHouse with pinned Terraform/provider versions, validating persisted identity, type flags, errors and cleanup.
+
+**Evidence:** Terraform Core 1.16.6 and `databricks/databricks` 1.137.0 passed the selected local lifecycle matrix: one classic cluster and serverless/Pro/classic SQL warehouses applied, refreshed, updated, rejected an invalid type/flag change without mutation, and destroyed cleanly. Focused SDK/warehouse and Terraform integration checks passed 8 tests. Compute and warehouse infrastructure remain simulated. A clean no-drift plan is not claimed because the provider's computed `odbc_params` has no truthful value without an ODBC listener; after warehouse updates, this is the only residual planned field. See [B020.4 conformance](../../artifacts/conformance/B020.4-terraform-compute-warehouses.md).
 
 **Parent:** B020 · **Parent criteria:** 4.
 
@@ -2079,11 +2822,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B011.6 — Bind warehouse admission to real statement execution
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done.
+
+**Parent:** B011 · **Parent criteria:** 1, 2, 4.
 
 **Dependencies:** B005, B010, B043, B011.2, B011.5.
 
-**Plans:** [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Warehouse-bound statement dispatch, admission leases, invalidation and actual shared-table results.
 
@@ -2092,7 +2837,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 1. Execute actual SDK statements through each local warehouse type using persistent warehouse identity, per-resource/global admission and supported settings; verify schema/rows and committed versions, and reject missing/deleted IDs before engine dispatch.
 2. Stop/reset a warehouse during real execution and verify admission release, accurate cancellation/terminal outcomes and committed-data preservation; bind the selected connector warehouse path to the same identity, leaving released-connector proof to B021.
 
-**Parent:** B011 · **Parent criteria:** 1, 2, 4.
+**Evidence:** Seventy-one focused local SQL/workspace/job regressions passed with Databricks credentials unset. The pinned SDK executed SELECTs through serverless, pro, and classic warehouse identities against shared committed Delta data; per-resource/global admission, FIFO promotion, overload rejection before engine dispatch, stop cancellation, restart release, and missing/stopped/deleted rejection passed. B045's selected kernel request path maps to the same persisted `warehouse_id`; BrickHouse validates that identity and returns an explicit unsupported response pending B021 session execution. See [B011.6 conformance](../../artifacts/conformance/B011.6-sql-warehouse-statement-binding.md).
 
 ## B014.6 — Verify compute lifetimes against real job workers
 
@@ -2115,11 +2860,13 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B017.5 — Qualify notebook profiles during compute interruption
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** in_progress
+
+**Parent:** B017 · **Parent criteria:** 1, 3, 4.
 
 **Dependencies:** B015, B016, B043, B017.3, B017.4, B014.6.
 
-**Plans:** [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md).
+**Plans:** [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), [17-serverless-and-classic-compute.md](17-serverless-and-classic-compute.md), [0017-phase-0.1-delivery-refinement.md](../decisions/0017-phase-0.1-delivery-refinement.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Real notebook mode/format corpus with in-flight compute reset, cancellation and replacement-kernel evidence.
 
@@ -2128,11 +2875,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 1. Run the document 16 notebook-extra variants with real kernels and shared-table results, including notebook/job environment precedence and source-export handling for serverless and classic standard/dedicated profiles.
 2. Reset/terminate attached compute during cell execution and exercise timeout/parent cancellation, proving actual kernel/descendant cleanup, fresh replacement state, no cross-notebook leakage and preservation of committed Delta data.
 
-**Parent:** B017 · **Parent criteria:** 1, 3, 4.
+**Evidence:** The pinned Databricks SDK loopback flow created and ran notebook jobs through all seven serverless/classic compute selections using real kernels and a shared committed Delta table. Base parameters and run-now overrides were applied, notebook environment metadata supplied a fallback, and an explicit job environment took precedence. Marked Python source exports ran under serverless, classic-standard, and classic-dedicated profiles with their PEP 723 environment metadata preserved. Restart/reset, termination, and timeout during actual kernel work reaped the kernel supervisor and spawned child; replacement execution had fresh state and retained the earlier Delta commit. B017.3 separately covers parent-cell cancellation of a child kernel and descendant. The schema upgrade preserved an existing queued job/run, accepted a notebook task after migration, and passed the foreign-key check. The focused regression suite passed 87 tests; Ruff, format, strict mypy, `pip check`, and `git diff --check` passed with Databricks credentials unset. See [B017.5 conformance](../../artifacts/conformance/B017.5-notebook-compute-interruption.md). This qualifies only the selected local profiles; it is not Databricks service/runtime parity.
 
 ## B020.5 — Prove both compute modes through bundle workloads
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B014, B043, B020.4, B018.
 
@@ -2146,6 +2893,8 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 2. Exercise invalid resource/task/settings, update/redeploy and cleanup against persisted local state; report supported execution separately from simulated infrastructure and retain exact client/provider/fixture versions.
 
 **Parent:** B020 · **Parent criteria:** 3, 4.
+
+**Evidence:** The pinned Databricks CLI v1.21.0 ran one serverless-local Python bundle and one classic-standard notebook bundle against a disposable loopback workspace. A serverless worker appended G2 rows 42 and 43 across an update/redeploy; the stable public job ID retained two immutable successful run histories. The classic notebook read and emitted those exact committed rows, and the pinned SDK SQL statement returned their exact schema/values through a local Pro warehouse with serverless enabled. Invalid task/selector/pipeline cases failed without creating state; destroy removed bundle trees/jobs and preserved run history. The classic resource was explicitly marked simulated; serverless created no classic consumer. The expanded job/workspace/notebook/Terraform regression passed 60 tests with token and host variables unset; a notebook interruption test now writes its marker atomically. See [B020.5 evidence](../../artifacts/conformance/B020.5-cli-serverless-classic-bundles.md).
 
 ## B044 — Refine the phase 0.1 execution and release gates
 
@@ -2182,7 +2931,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B046 — Deliver the Sparkless Python provider binding
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B009, B043, B044.
 
@@ -2198,9 +2947,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 **Required children:** B046.1, B046.2, B046.3. All children and the original criteria above are required.
 
+**Evidence:** The published Sparkless 4.14.1 wheel passed the exact six nullable-struct cases and 14 selected real local Delta provider checks. The wheel SHA-256, versions, public API signature and limits are recorded in [B046.3 conformance](../../artifacts/conformance/B046.3-sparkless-4.14.1-provider.md). This clears the provider artifact/type blocker; it does not complete B010 writer routing or the release gates.
+
 ## B046.1 — Specify the public Python provider ownership contract
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B009, B043, B044.
 
@@ -2232,7 +2983,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B046.3 — Verify and probe the published Python provider wheel
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B009, B043, B044, B046.2, B008.
 
@@ -2246,6 +2997,9 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 2. Record the tested source/wheel hash, dependency versions, public signatures and all owner-thread/materialization limits; make the development artifact reviewable without publishing, and retain B023's requirement for a publicly available compatible artifact before release.
 
 **Parent:** B046 · **Parent criteria:** 2, 3.
+
+**Evidence:** Installed the SHA-256-verified published 4.14.1 wheel in a temporary environment. The combined local Delta/provider probe passed 14/14 checks, and the exact nullable-struct reproducer passed 6/6 checks. No Databricks credentials or account were used; see [B046.3 conformance](../../artifacts/conformance/B046.3-sparkless-4.14.1-provider.md).
+
 ## B047 — Plan the self-hosted platform across all release phases
 
 **Milestone:** M0 · **Kind:** task · **Current ledger status:** done
@@ -2264,7 +3018,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B048 — Review local-core boundaries for future deployment
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B047, B018, B022.
 
@@ -2278,6 +3032,51 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 2. Identify contained local paths, staging, interpreter/PID/signal/socket assumptions and stable workspace/table/job/attempt identities; document future storage/runtime adaptation points without adding speculative backends or changing tested local behavior.
 3. Map future principal provenance and enforcement points across API, SQL, workers, files, secrets and results; accurately state that local compatibility tokens, access-mode labels and fresh processes are not network authentication or a sandbox.
 4. Resolve violations of existing architectural invariants before release through bounded owning work, retain future-only gaps for SH.0 onward, and attach the review to the B023 scope record without adding deployment infrastructure to 0.1.
+
+**Required children:** B048.1, B048.2. B048.1 resolves the unauthenticated network-bind bypass; B048.2 records the code-referenced review and attaches it to B023.1. All original criteria remain required.
+
+**Evidence:** The code-referenced G1–G4 review maps service/catalog/commit authority, stable resource identities, local path/process assumptions, and future principal enforcement points. It retains authentication, sandboxing, and remote-worker work for SH.1/SH.3/SH.4. Direct API bind bypass was resolved by B048.1. See [the review](../../artifacts/conformance/B048-local-core-boundaries.md).
+
+## B048.1 — Enforce loopback binds at the diagnostics server boundary
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B018, B022, B047.
+
+**Plans:** [01-architecture.md](01-architecture.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md).
+
+**Deliverable:** Consistent IPv4 loopback-only enforcement for every unauthenticated diagnostics server entry point.
+
+**Acceptance criteria:**
+
+1. Reject non-IPv4-loopback hosts in the direct server factory and serving function before opening a socket or taking a workspace service into network exposure.
+2. Use the same host validation for the CLI and direct server APIs; retain successful loopback binding and test invalid IPv4, IPv6, and hostname inputs.
+3. Document the loopback-only boundary without claiming network authentication or sandboxing.
+
+**Parent:** B048 · **Parent criteria:** 4.
+
+**Evidence:** The direct factory, serving function, and CLI share numeric IPv4-loopback validation before opening a socket or acquiring workspace state. The focused CLI/server suite passed 13 tests. Ruff, strict mypy (70 source files), and diff checks passed. See [the loopback-boundary report](../../artifacts/conformance/B048.1-loopback-bind-boundary.md).
+
+## B048.2 — Record the local-core boundary review and release attachment
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B047, B018, B022.
+
+**Plans:** [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [01-architecture.md](01-architecture.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md).
+
+**Deliverable:** Code-referenced G1-G4 local-core review with future identity/runtime/storage gaps attached to the B023 scope inventory.
+
+**Acceptance criteria:**
+
+1. Review the implemented G1-G4 paths for one catalog/table-commit authority and separation of transport, domain services, persistence and local runtime; record code references and existing test evidence.
+2. Identify contained local paths, staging, interpreter/PID/signal/socket assumptions and stable workspace/table/job/attempt identities; describe future storage/runtime adaptation points without speculative backends.
+3. Map future principal provenance and enforcement points across API, SQL, workers, files, secrets and results; state that local compatibility tokens and fresh processes are not network authentication or a sandbox.
+4. Record architectural findings and their disposition, link the completed review from B023.1, and retain only future deployment gaps for SH.1/SH.3/SH.4.
+
+**Parent:** B048 · **Parent criteria:** 1, 2, 3, 4.
+
+**Evidence:** The complete review and B023.1 attachment are recorded in [the local-core boundary report](../../artifacts/conformance/B048-local-core-boundaries.md).
 
 ## B049 — Establish emulator stability before deployment implementation
 
@@ -2298,11 +3097,11 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B050 — Deliver authenticated single-server deployment for trusted workloads
 
-**Milestone:** M7 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M7 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B049.
 
-**Plans:** [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [02-packages-and-public-api.md](02-packages-and-public-api.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [12-delivery-and-operations.md](12-delivery-and-operations.md).
+**Plans:** [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [02-packages-and-public-api.md](02-packages-and-public-api.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed SH.1 service, authentication, secret persistence and single-host operations epic with S1 evidence.
 
@@ -2313,14 +3112,15 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 3. Persist scoped secrets using an explicit protected storage and recovery contract, test rotation/restart and principal/run denial, and exclude secret values from config, URLs, logs, ordinary backups and build artifacts.
 4. Ship an installable optional single-server deployment artifact with durable state, bounded admission, health/readiness, draining/shutdown and coordinated backup/restore; use the same core services and retain one metadata owner.
 5. Pass S1 using real TLS clients, providers, files and jobs on the selected deployment host; document arbitrary Python host-access limits for trusted code authors and prove the base local installation still runs without deployment dependencies.
+6. Resolve and pin actual deployed provider/runtime graphs, separate incompatible clients and verify explicit endpoints/artifact provisioning and no credential discovery or hidden JVM/container/cloud execution before promoting a deployed profile.
 
 ## B051 — Add a browser workspace and deployed optional integrations
 
-**Milestone:** M7 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M7 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B050.
 
-**Plans:** [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [12-delivery-and-operations.md](12-delivery-and-operations.md).
+**Plans:** [18-self-hosted-platform.md](18-self-hosted-platform.md), [0034-emulator-first-self-hosted-platform.md](../decisions/0034-emulator-first-self-hosted-platform.md), [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
 
 **Deliverable:** Decomposed SH.2 browser and optional-provider deployment epic with S2 evidence.
 
@@ -2330,6 +3130,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 2. Test browser session expiry/revocation, CSRF protection where applicable, output rendering safety and cross-principal denial for source, notebooks, results and logs; never create a second catalog, scheduler or UI-only authorization model.
 3. Deploy only selected notebook/MLflow/serving/dbt/vector integrations with scoped credentials, authenticated advertised endpoints, explicit provider authority, resource/lifecycle management and coordinated state/artifact restore tests.
 4. Pass S2 against real browser/API/provider flows with exact versions; absent extras remain absent, hosted services do not silently call cloud APIs, and the local core remains independently installable.
+5. Apply shared deployed identity/artifact policy to selected MLflow/notebook provider APIs and UIs as well as BrickHouse routes, and restore actual provider-owned databases/artifacts without duplicating state in the BrickHouse catalog.
 
 ## B052 — Isolate execution for shared self-hosted use
 
@@ -2400,3 +3201,444 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 2. Publish a reviewable local candidate inventory with artifact hashes, native/runtime versions, notices/license decision, migrations, security/recovery reports, runnable examples and operator documentation; actual publication still requires separate owner authorization.
 3. Report planned, unsupported, partial, simulated and supported capabilities separately; real worker allocation cannot be inferred from simulated Databricks cluster metadata, and the release does not imply complete Databricks or distributed-query parity.
 4. Pass S6 while independently retaining the JVM-free local wheel workflow without containers, identity servers, remote workers or cloud accounts; keep unresolved deployment/frontier requirements open with concrete limitations.
+
+## B056 — Plan native Sparkless cluster execution
+
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B047.
+
+**Plans:** [04-sparkless-upstream.md](04-sparkless-upstream.md), [18-self-hosted-platform.md](18-self-hosted-platform.md), [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md).
+
+**Deliverable:** A source-grounded distributed Sparkless design, staged upstream work and separate BrickHouse integration gates.
+
+**Acceptance criteria:**
+
+1. Inspect and pin current Sparkless source/contracts read-only; distinguish observed local behavior from proposed cluster interfaces and preserve JVM-free emulator priority.
+2. Define partition planning/execution, typed bounded transport/shuffle, recovery, authentication, session isolation and provider-owned commit contracts with explicit unsupported cases and finite evidence gates.
+3. Synchronize roadmap, future task/capability ledgers, upstream ownership and validation; gate implementation after emulator stability and BrickHouse integration on both qualified upstream artifacts and remote-worker foundations without expanding existing emulator or self-hosted release requirements.
+
+## B057 — Qualify native Sparkless cluster architecture and contracts
+
+**Milestone:** M8 · **Kind:** epic · **Current ledger status:** planned
+
+**Dependencies:** B049, B056.
+
+**Plans:** [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md), [04-sparkless-upstream.md](04-sparkless-upstream.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Decomposed SC.0 feasibility and selection epic with a finite typed operator, partition, transport, sink and threat-model contract.
+
+**Acceptance criteria:**
+
+1. Refresh exact Sparkless source/instructions and decompose bounded feasibility probes after B049; compare extending native coordination with Polars partition operators against explicitly contained native backend options, checking real public APIs, licenses and semantic risks.
+2. Freeze the initial typed operator/oracle corpus, versioned physical plan and snapshot/partition rules, numeric memory/batch/transfer/spill/result/retry limits, homogeneous platform/artifact matrix and enrolled-host threat model.
+3. Probe typed plans/batches with two actual processes and determine whether provider-owned multi-fragment sink commits can avoid a full coordinator gather; record observed failures and required public upstream hooks without treating current buffered Arrow callbacks as distributed streams.
+4. Pass K0 with an evidence-backed viable implementation decision, or record a negative feasibility outcome and keep dependent implementation blocked; no local prototype establishes multi-host execution, JVM-free guarantees or Spark compatibility without their separate tests.
+5. Include pinned Ballista/DataFusion native infrastructure in the architecture comparison, measuring semantic/provider/partition/failure/security fit and Rust/Arrow/Polars version boundaries; the Ballista 55.0.0 research candidate requires Rust 1.94 and must not silently replace the Sparkless default or force an unqualified toolchain migration.
+
+## B058 — Implement typed partition planning and native executor prototypes
+
+**Milestone:** M8 · **Kind:** epic · **Current ledger status:** planned
+
+**Dependencies:** B057.
+
+**Plans:** [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md), [04-sparkless-upstream.md](04-sparkless-upstream.md).
+
+**Deliverable:** Decomposed SC.1 versioned plan, pinned partition-scan and bounded native execution epic with K1 evidence.
+
+**Acceptance criteria:**
+
+1. Decompose and implement only the viable SC.0 operator/type envelope in Sparkless under its current repository instructions; preserve ordinary local APIs and keep BrickHouse SDK, SQLite and domain types out of generic engine code.
+2. Bind one query to exact schema/settings/snapshots, generate disjoint provider-authorized scan fragments and a stage DAG with explicit partitioning/order requirements, typed literals, capabilities and version/hash/environment checks.
+3. Execute one supported query across at least two real native executor processes using typed bounded batches, without shipping Python sessions/callbacks or materializing all source rows at the coordinator; prove exact null/decimal/nested types and empty-partition behavior.
+4. Pass K1 including invalid plan/version/operator/schema/environment, oversized input and cancellation/resource-bound cases; repartition/coalesce names or duplicated full-query execution cannot substitute for actual partition work.
+
+## B059 — Implement network exchange and distributed query operators
+
+**Milestone:** M8 · **Kind:** epic · **Current ledger status:** planned
+
+**Dependencies:** B058.
+
+**Plans:** [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md).
+
+**Deliverable:** Decomposed SC.2 authenticated exchange, shuffle and global-operator epic with real two-host K2 evidence.
+
+**Acceptance criteria:**
+
+1. Decompose selected hash exchange, two-phase aggregates and inner equijoin with explicit partial/final semantics and bounded broadcast/global merge cases; freeze hash/equality, null/NaN/decimal/timezone and ordering rules.
+2. Implement authenticated encrypted versioned executor transport, complete partition block manifests, checksums, maximum message/batch/in-flight bytes, backpressure/deadlines/cancellation, measured memory and spill-disk budgets and explicit skew/oversized-row failure policies.
+3. Pass K2 on two actual hosts with overlapping keys, duplicate/null rows and empty partitions so real exchanges are necessary; verify corruption, slow readers, invalid credentials and resource exhaustion cannot produce fabricated empty results.
+4. Record actual partition placement, network/spill/result bytes and operator outcomes; no silent local/backend fallback, unbounded coordinator gather or multi-process-only evidence can establish distributed-query support.
+
+## B060 — Implement cluster attempt recovery and provider-owned sink commits
+
+**Milestone:** M8 · **Kind:** epic · **Current ledger status:** planned
+
+**Dependencies:** B059.
+
+**Plans:** [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md), [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md).
+
+**Deliverable:** Decomposed SC.3 query lifecycle, fencing, recovery and distributed sink epic with K3 evidence.
+
+**Acceptance criteria:**
+
+1. Decompose generic query/stage/task attempt state distinct from BrickHouse job retries; enforce authenticated worker identities, coordinator leases/generations, bounded retry budgets and one accepted output per logical partition without speculative execution initially.
+2. Test executor/network/coordinator failures, missing shuffle blocks, stale/duplicate completion, cancellation races and resource exhaustion; restart may truthfully interrupt queries but must fence old output and reconcile accepted sink outcomes.
+3. Implement a provider-owned immutable fragment-manifest sink with content/schema/coverage/ownership and task-winner validation, one logical native commit and exact version receipt; qualify the actual provider API without claiming the current delta-rs callback supports this automatically.
+4. Separate stable logical write intent from physical fragment checksums; freeze accepted manifests for an operation key, reject changed replay and reconcile commit-before-response uncertainty before replacement or retry. Workers never independently append retries or edit Delta logs.
+5. Pass K3 with actual provider data/history/version checks, no duplicate visible output and bounded distributed-write memory; a bounded coordinator-gather prototype cannot qualify the distributed sink, and unsupported provider paths leave consumers blocked.
+
+## B061 — Qualify a standalone native Sparkless cluster candidate
+
+**Milestone:** M8 · **Kind:** epic · **Current ledger status:** planned
+
+**Dependencies:** B060.
+
+**Plans:** [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md), [04-sparkless-upstream.md](04-sparkless-upstream.md), [02-packages-and-public-api.md](02-packages-and-public-api.md).
+
+**Deliverable:** Decomposed SC.4 public engine API, artifact, semantic/failure/security and scale qualification epic with K4 evidence.
+
+**Acceptance criteria:**
+
+1. Decompose a finite standalone public API and optional cluster installation boundary; record native executor/plan/exchange/environment compatibility separately from Python/Rust package versions and test mixed-version rejection.
+2. Run K1-K3 and the selected Q01-Q09 typed semantic, snapshot, recovery, security/resource and no-JVM/no-remote-Spark corpus from exact candidate artifacts, including actual cross-host execution and bounded distributed sink behavior.
+3. Measure single-node overhead and one/two/more-worker capacity/latency with hardware, input/skew, network, memory/spill and variance; do not promise speedup, autoscaling, HA or full Spark parity from a prototype.
+4. Pass K4 with reviewable hash-pinned source/wheel/native artifacts, required upstream checks, licenses/notices and explicit limitations while local Sparkless runs independently; a development candidate is not a published release and publication remains separately authorized.
+
+## B062 — Integrate qualified Sparkless clusters into BrickHouse
+
+**Milestone:** M8 · **Kind:** epic · **Current ledger status:** planned
+
+**Dependencies:** B061, B053.
+
+**Plans:** [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [sparkless-cluster-contracts.md](../upstream/sparkless-cluster-contracts.md), [0037-native-sparkless-cluster-plan.md](../decisions/0037-native-sparkless-cluster-plan.md), [01-architecture.md](01-architecture.md), [18-self-hosted-platform.md](18-self-hosted-platform.md).
+
+**Deliverable:** Decomposed SC.5 optional engine adapter and two-host job/SQL/table integration epic with K5 evidence.
+
+**Acceptance criteria:**
+
+1. Decompose after both standalone cluster qualification B061 and authenticated isolated remote-worker foundation B053; use actual public Sparkless contracts and explicit engine selection, preserving fresh child job attempts and the local default.
+2. Apply one workspace identity/policy, pinned table/snapshot and environment context across SQL/DataFrame plans and query/stage workers; the Sparkless query scheduler consumes granted capacity without duplicating BrickHouse job/resource authority.
+3. Route all registered mutations and manifest validation through the authoritative table service and declared native Delta provider; enforce winning attempts, leases/generations, principal scope, uncertain-commit reconciliation and real deployed isolation/resource limits.
+4. Pass K5 with two actual hosts, job and SQL results plus fresh-session/restart reads of exact schema/Delta versions, query cancellation/failures and relevant G/S gate regressions; distinguish actual partition placement from simulated Databricks compute metadata.
+5. Keep existing emulator/self-hosted releases independent of this optional capability; require a published compatible Sparkless artifact before public BrickHouse cluster installation and retain explicit unsupported UDF/streaming/HA/distributed-transaction cases.
+
+## B063 — Research and plan native open-source component reuse
+
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B056.
+
+**Plans:** [03-dependencies-and-minilake.md](03-dependencies-and-minilake.md), [11-ml-and-extensions.md](11-ml-and-extensions.md), [19-sparkless-cluster-execution.md](19-sparkless-cluster-execution.md), [20-open-source-reuse.md](20-open-source-reuse.md), [oss-reuse-inventory.md](../upstream/oss-reuse-inventory.md), [0038-native-open-source-reuse.md](../decisions/0038-native-open-source-reuse.md).
+
+**Deliverable:** Pinned primary-source dependency research and actionable adoption/qualification contracts across emulator, self-hosting and optional cluster plans.
+
+**Acceptance criteria:**
+
+1. Research exact public source/artifact versions, licenses and JVM/runtime boundaries for selected Databricks ecosystem and native alternative components, distinguishing local evidence from research-only candidates.
+2. Record concrete reuse, adaptation, rejection and deferred decisions with single-authority interfaces, owned acceptance gates, dependency/source hygiene and finite native-only failure/restart tests; preserve emulator-first priority and existing release behavior requirements.
+3. Synchronize affected plans, future task criteria, capability limitations and provenance/validation records without installing unqualified dependencies, modifying upstream source, changing existing successful evidence or claiming new runtime support.
+
+
+## B064 — Correct phase 0.1 defects found in implementation review
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3.
+
+**Plans:** [01-architecture.md](01-architecture.md), [05-catalog-storage-sql.md](05-catalog-storage-sql.md), [06-jobs-notebooks-dbutils.md](06-jobs-notebooks-dbutils.md), [07-compatibility-and-testing.md](07-compatibility-and-testing.md), [12-delivery-and-operations.md](12-delivery-and-operations.md), [16-phase-0.1-initial-release.md](16-phase-0.1-initial-release.md), and [ADR 0014](../decisions/0014-delta-operation-journal.md).
+
+**Deliverable:** Review defects fixed with regression evidence, a refreshed local 0.1 candidate, and truthful release/status records.
+
+**Acceptance criteria:**
+
+1. SQL joins retain each table binding so aliases resolve to the intended registered table even when source names collide across schemas.
+2. Statement result production uses the public Sparkless bounded Arrow batch API and keeps peak result materialization bounded before enforcing row and byte limits.
+3. The phase 0.1 INSERT forms covered by the contract append through the shared Delta table service, preserve named parameter binding, and have accurate capability and error behavior.
+4. Worker timeout and cancellation supervision includes descendants that hold inherited output pipes after the parent exits; the caller returns within the configured supervision bounds.
+5. Job admission runs at most two worker attempts concurrently, persists up to eight queued runs, rejects overflow before creating history, and safely resumes undispatched queue entries after restart.
+6. Job reset revisions share the stable public job concurrency identity, so resetting a definition cannot bypass its max_concurrent_runs limit.
+7. Snapshot restore validates the captured managed-table data inventory even when the original workspace is unavailable, while preserving valid unmaterialized registrations.
+8. A committed operation with identical input replays after managed-table restore without weakening changed-input or changed-table identity checks.
+9. SQL JSON timestamp encoding preserves the precision represented by the Arrow timestamp unit, including microseconds.
+10. Refresh the local 0.1.0.dev0 candidate and current-behavior documentation from the fixed source, rerun relevant release gates, and record hashes, exact versions, test results and remaining limitations without publishing.
+11. Recover interrupted SQL table creation without reporting an unmaterialized registration as a successful `IF NOT EXISTS`; preserve external tables, malformed Delta logs, and unresolved commits.
+
+**Required children:** B064.1, B064.2, B064.3, B064.4, B064.5, B064.6, B064.7, B064.8, B064.9, B064.10, B064.11.
+
+**Evidence:** B064 and all eleven children are complete. The refreshed Sparkless 4.15.2 installed wheel passed 99 focused B064 cases under the offline loopback guard and passed the selected current-candidate G1–G4 matrix (624 cases across base/notebook-extra and two Python versions). The earlier 415-pass/six-skip full source suite used Sparkless 4.15.0 before B064.11 and is historical. The older matrix reports remain tied to their archived wheel hash. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current candidate reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/).
+
+## B064.1 — Preserve SQL table aliases across same-named relations
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3.
+
+**Deliverable:** Alias-qualified join projections resolve to their own registered source after table binding, with a regression case using duplicate table names in separate schemas.
+
+**Acceptance criteria:**
+
+1. Alias-qualified join projections resolve to their own registered source after table binding, with a regression case using duplicate table names in separate schemas.
+
+**Parent:** B064 · **Parent criteria:** 1.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.2 — Bound SQL output materialization before result encoding
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.1.
+
+**Deliverable:** A query with large join amplification is consumed through public bounded Arrow batches; row and byte truncation/failure behavior stays truthful and result memory is capped before JSON serialization.
+
+**Acceptance criteria:**
+
+1. A query with large join amplification is consumed through public bounded Arrow batches; row and byte truncation/failure behavior stays truthful and result memory is capped before JSON serialization.
+
+**Parent:** B064 · **Parent criteria:** 2.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.3 — Implement the planned bounded SQL INSERT subset
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.2.
+
+**Deliverable:** Supported VALUES and SELECT inserts use the registered Delta table service and operation journal, support the selected named parameters, and are visible to DataFrame reads; unsupported forms fail before mutation.
+
+**Acceptance criteria:**
+
+1. Supported VALUES and SELECT inserts use the registered Delta table service and operation journal, support the selected named parameters, and are visible to DataFrame reads; unsupported forms fail before mutation.
+
+**Parent:** B064 · **Parent criteria:** 3.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.4 — Supervise worker descendants that retain output pipes
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.3.
+
+**Deliverable:** A parent that exits after spawning a child cannot make a run exceed its deadline or return completed while the owned descendant continues to hold stdout/stderr.
+
+**Acceptance criteria:**
+
+1. A parent that exits after spawning a child cannot make a run exceed its deadline or return completed while the owned descendant continues to hold stdout/stderr.
+
+**Parent:** B064 · **Parent criteria:** 4.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.5 — Implement durable two-active/eight-queued job admission
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.4.
+
+**Deliverable:** At most two worker runs dispatch concurrently; up to eight additional runs remain queued in FIFO order, overflow is rejected without a run record, and restart resumes only runs with no dispatched attempts.
+
+**Acceptance criteria:**
+
+1. At most two worker runs dispatch concurrently; up to eight additional runs remain queued in FIFO order, overflow is rejected without a run record, and restart resumes only runs with no dispatched attempts.
+
+**Parent:** B064 · **Parent criteria:** 5.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.6 — Keep reset revisions under the stable public-job concurrency limit
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.5.
+
+**Deliverable:** Resetting a Terraform job preserves one stable admission identity across immutable execution revisions and cannot exceed the current definition concurrency setting.
+
+**Acceptance criteria:**
+
+1. Resetting a Terraform job preserves one stable admission identity across immutable execution revisions and cannot exceed the current definition concurrency setting.
+
+**Parent:** B064 · **Parent criteria:** 6.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.7 — Validate managed snapshot contents from the snapshot itself
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.6.
+
+**Deliverable:** A managed table recorded as materialized at snapshot time cannot disappear silently during restore when the source workspace is gone; never-materialized managed registrations remain restorable.
+
+**Acceptance criteria:**
+
+1. A managed table recorded as materialized at snapshot time cannot disappear silently during restore when the source workspace is gone; never-materialized managed registrations remain restorable.
+
+**Parent:** B064 · **Parent criteria:** 7.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.8 — Replay committed operation IDs after workspace restore
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.7.
+
+**Deliverable:** An identical previously committed create/append/mutation operation safely returns its journaled result after managed paths are rebased; changed input still raises the reuse error.
+
+**Acceptance criteria:**
+
+1. An identical previously committed create/append/mutation operation safely returns its journaled result after managed paths are rebased; changed input still raises the reuse error.
+
+**Parent:** B064 · **Parent criteria:** 8.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.9 — Preserve SQL timestamp fractional precision
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.8.
+
+**Deliverable:** Timestamp JSON output retains all precision supported by each Arrow timestamp unit, with explicit checks for millisecond and microsecond values.
+
+**Acceptance criteria:**
+
+1. Timestamp JSON output retains all precision supported by each Arrow timestamp unit, with explicit checks for millisecond and microsecond values.
+
+**Parent:** B064 · **Parent criteria:** 9.
+
+**Evidence:** The current Sparkless 4.15.2 candidate wheel passes 99 focused B064 regressions under the offline loopback guard. The earlier 415-pass/six-skip full source-suite result used Sparkless 4.15.0 before B064.11 and is historical. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md) and the [current-wheel report](../../artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json).
+
+## B064.10 — Requalify and refresh the local 0.1 release candidate
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.1, B064.2, B064.3, B064.4, B064.5, B064.6, B064.7, B064.8, B064.9.
+
+**Deliverable:** Focused regression and affected phase gates pass offline; the wheel, source archive, manifest and evidence match the reviewed source and accurately report current limitations; no release is published.
+
+**Acceptance criteria:**
+
+1. Focused regression and affected phase gates pass offline; the wheel, source archive, manifest and evidence match the reviewed source and accurately report current limitations; no release is published.
+
+**Parent:** B064 · **Parent criteria:** 10.
+
+**Evidence:** Rebuilt and audited the refreshed 2026-10-22 0.1.0.dev0 wheel/sdist with Sparkless 4.15.2. The installed wheel passed 99 focused B064 tests offline on macOS arm64 CPython 3.11.15; the SQL statement-service source suite passed 35 focused tests. The selected full G1–G4 candidate matrix then passed 624 cases across the base and notebook-extra lanes on CPython 3.11.15/3.12.13. The earlier 415-pass/six-skip full source suite used Sparkless 4.15.0 before B064.11 and is historical. Prior matrix results remain tied to their exact wheel hash. See [B064 evidence](../../artifacts/conformance/B064-phase-0.1-review-fixes.md), [candidate manifest](../../artifacts/releases/0.1.0/manifest.json), and [current candidate reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/).
+
+## B064.11 — Recover interrupted SQL table creation
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.10.
+
+**Deliverable:** SQL CREATE retries recover a managed registration left without a Delta snapshot, while preserving external data, malformed Delta logs, and unresolved provider commits.
+
+**Acceptance criteria:**
+
+1. A failed first write removes its newly created managed registration only when the table service confirms no Delta snapshot and no unresolved operation prevents safe cleanup.
+2. After a process interruption, retrying CREATE recovers a managed registration with no Delta log and proceeds through the shared journaled Delta service.
+3. `CREATE TABLE IF NOT EXISTS` reports a no-op only for an existing registration that opens as a supported Delta snapshot; external or malformed/unresolved tables fail explicitly and retain their data.
+4. Focused regression coverage verifies provider rejection, interruption/retry, valid existing tables, and preservation of external data, malformed Delta logs, and unresolved commits.
+
+**Parent:** B064 · **Parent criteria:** 11.
+
+**Evidence:** The SQL statement service module passed 35 focused local tests on Python 3.11.15, Sparkless 4.15.1, delta-rs 1.2.1, PyArrow 23.0.1, and SQLGlot 30.24.0. The same module passed again on Sparkless 4.15.2 after the selected timestamp predicate fix. Coverage includes provider rejection cleanup, retry after an unmaterialized managed registration, valid existing managed snapshots, and preservation of external data, malformed Delta logs, and unresolved operations. No Databricks credentials or remote workspace were used. See [B064.11 evidence](../../artifacts/conformance/B064.11-sql-create-recovery.md).
+
+## B065 — Add a tag-gated PyPI Trusted Publishing workflow
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B023.3, B064.
+
+**Deliverable:** A version-tagged GitHub Actions release workflow that runs release checks before building and publishing audited wheel/sdist artifacts through PyPI Trusted Publishing.
+
+**Acceptance criteria:**
+
+1. Trigger only on pushed tags matching v*.*.*; reject malformed version tags and tags that do not exactly match the package version.
+2. Require planning, lint, formatting, type, and full test checks plus clean wheel installation checks on Linux/macOS and Python 3.11/3.12 before packaging.
+3. Audit the built distributions and require the selected BrickHouse project license plus all readiness gates in the version-matched release checklist; the pushed matching tag supplies publication authorization.
+4. Build distributions in a non-publishing job, then publish that exact artifact in a separate job with only the permissions needed for PyPI OIDC Trusted Publishing; store no PyPI API token.
+5. Document the required PyPI trusted-publisher configuration and preserve current release limitations; do not publish during workflow setup.
+
+**Evidence:** The release workflow parsed successfully; tag trigger, dependency gates, OIDC permission scope, action SHA pins, and absence of secret references were checked. `python scripts/validate_planning.py` passed with 197 tasks, 132 phase 0.1 children, and 67 capabilities. No tag workflow or PyPI publication was run. See [release workflow](../../.github/workflows/release.yml).
+
+
+## B066 — Prepare and qualify the final 0.1.0 release
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+
+**Dependencies:** B065.
+
+**Deliverable:** A fully qualified 0.1.0 source revision and audited distribution bundle with complete release evidence and explicit remaining owner authorization.
+
+**Acceptance criteria:**
+
+1. Audit all phase 0.1 requirements and run the full current source suite on Python 3.11 and 3.12 with required optional clients enabled; fix failures without weakening acceptance criteria.
+2. Qualify clean base and notebook-extra installations on Linux x86_64 and macOS arm64 under OS-enforced offline networking, including declared G1-G4 client and recovery workflows, with reproducible pinned tooling and retained evidence.
+3. Prepare version 0.1.0 metadata, owner-selected project license, retained notices, accurate user documentation and release notes, and verified repository/package/trusted-publisher configuration.
+4. Freeze and audit final wheel/sdist artifacts, exact qualification hashes and requirement traceability; complete release-readiness records and pass GitHub CI while preserving separate public-publication authorization.
+
+**Required children:** B066.1, B066.2, B066.3, B066.4.
+
+
+## B066.1 — Audit requirements and complete current full-suite qualification
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B065.
+
+**Deliverable:** Full Python 3.11/3.12 source-suite results and a requirement-to-test traceability audit with required failures resolved.
+
+**Acceptance criteria:**
+
+1. Audit all phase 0.1 requirements and run the full current source suite on Python 3.11 and 3.12 with required optional clients enabled; fix failures without weakening acceptance criteria.
+
+**Parent:** B066 · **Parent criteria:** 1.
+
+
+## B066.2 — Automate and pass the complete offline platform matrix
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+
+**Dependencies:** B065, B066.1.
+
+**Deliverable:** Reproducible Linux/macOS base and notebook-extra G1-G4 qualification in CI with pinned clients, OS network isolation, and retained reports.
+
+**Acceptance criteria:**
+
+1. Qualify clean base and notebook-extra installations on Linux x86_64 and macOS arm64 under OS-enforced offline networking, including declared G1-G4 client and recovery workflows, with reproducible pinned tooling and retained evidence.
+
+**Parent:** B066 · **Parent criteria:** 2.
+
+
+## B066.3 — Finalize license and 0.1.0 release metadata
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+
+**Dependencies:** B065, B066.1.
+
+**Deliverable:** Owner-selected license, version 0.1.0 metadata, current user and release documentation, and verified publication configuration.
+
+**Acceptance criteria:**
+
+1. Prepare version 0.1.0 metadata, owner-selected project license, retained notices, accurate user documentation and release notes, and verified repository/package/trusted-publisher configuration.
+
+**Parent:** B066 · **Parent criteria:** 3.
+
+
+## B066.4 — Freeze final artifacts and release-readiness evidence
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+
+**Dependencies:** B065, B066.2, B066.3.
+
+**Deliverable:** Audited final artifacts and hash-bound qualification bundle, current requirement evidence, and passing GitHub checks without public publication.
+
+**Acceptance criteria:**
+
+1. Freeze and audit final wheel/sdist artifacts, exact qualification hashes and requirement traceability; complete release-readiness records and pass GitHub CI while preserving separate public-publication authorization.
+
+**Parent:** B066 · **Parent criteria:** 4.

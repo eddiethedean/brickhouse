@@ -1,0 +1,94 @@
+{
+  "fixture_id": "B019.1.1-orders-scalar-query",
+  "fixture_version": 1,
+  "engine_profile": "spark35-local-v1",
+  "runtime_versions": {
+    "sparkless": "4.15.0",
+    "deltalake": "1.2.1",
+    "pyarrow": "23.0.1"
+  },
+  "table": {
+    "name": "orders",
+    "schema": [
+      {"name": "order_id", "type": "int64", "nullable": false},
+      {"name": "customer", "type": "string", "nullable": false},
+      {"name": "amount", "type": "decimal128(12,2)", "nullable": true},
+      {"name": "active", "type": "bool", "nullable": false},
+      {"name": "event_date", "type": "date32", "nullable": true},
+      {"name": "event_ts", "type": "timestamp[us, tz=UTC]", "nullable": true},
+      {"name": "item_ids", "type": "list<int64>", "nullable": true},
+      {
+        "name": "details",
+        "type": "struct<coupon:string,tags:list<string>>",
+        "nullable": true
+      }
+    ],
+    "rows": [
+      {
+        "order_id": 1,
+        "customer": "alice",
+        "amount": "10.50",
+        "active": true,
+        "event_date": "2026-10-16",
+        "event_ts": "2026-10-16T12:34:56+00:00",
+        "item_ids": [101, 102],
+        "details": {"coupon": "A", "tags": ["promo", "new"]}
+      },
+      {
+        "order_id": 2,
+        "customer": "alice",
+        "amount": "5.25",
+        "active": true,
+        "event_date": "2026-10-17",
+        "event_ts": "2026-10-17T23:30:00-04:00",
+        "item_ids": [103],
+        "details": {"coupon": null, "tags": ["repeat"]}
+      },
+      {
+        "order_id": 3,
+        "customer": "bob",
+        "amount": null,
+        "active": true,
+        "event_date": null,
+        "event_ts": null,
+        "item_ids": [],
+        "details": {"coupon": null, "tags": null}
+      },
+      {
+        "order_id": 4,
+        "customer": "bob",
+        "amount": "20.00",
+        "active": false,
+        "event_date": "2026-10-18",
+        "event_ts": "2026-10-18T01:00:00+00:00",
+        "item_ids": null,
+        "details": null
+      }
+    ]
+  },
+  "scalar_query": {
+    "sql": "SELECT order_id, amount, active, amount IS NULL AS amount_missing, order_id + CAST(0.5 AS DOUBLE) AS order_as_double FROM orders WHERE active = true ORDER BY order_id",
+    "expected_schema": [
+      {"name": "order_id", "type": "int64", "nullable": true},
+      {"name": "amount", "type": "decimal128(12,2)", "nullable": true},
+      {"name": "active", "type": "bool", "nullable": true},
+      {"name": "amount_missing", "type": "bool", "nullable": true},
+      {"name": "order_as_double", "type": "double", "nullable": true}
+    ],
+    "expected_rows": [
+      {"order_id": 1, "amount": "10.50", "active": true, "amount_missing": false, "order_as_double": 1.5},
+      {"order_id": 2, "amount": "5.25", "active": true, "amount_missing": false, "order_as_double": 2.5},
+      {"order_id": 3, "amount": null, "active": true, "amount_missing": true, "order_as_double": 3.5}
+    ],
+    "ordering": "ORDER BY order_id is explicit; no other row ordering is assumed."
+  },
+  "databricks_reference": {
+    "related_sanitized_fixture": "tests/fixtures/oracles/databricks/B005.3-sql-literals.json",
+    "expanded_probe_case": "orders-scalars",
+    "outcome": "not_accepted",
+    "http_status": 400,
+    "error_code": "BAD_REQUEST",
+    "warehouse_restored_to_stopped": true,
+    "expected_result_source": "The scalar SQL rows above are a frozen local expectation exercised against Sparkless 4.15.0; the rejected statement produced no Databricks result and does not establish remote compatibility."
+  }
+}

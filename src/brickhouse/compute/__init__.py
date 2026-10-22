@@ -15,6 +15,22 @@ from brickhouse.compute.models import (
     UnsupportedComputeEffectError,
 )
 from brickhouse.compute.service import ComputeService
+from brickhouse.compute.warehouse import (
+    MAX_ACTIVE_STATEMENTS_PER_WAREHOUSE,
+    MAX_ACTIVE_STATEMENTS_PER_WORKSPACE,
+    MAX_QUEUED_STATEMENTS_PER_WAREHOUSE,
+    InvalidWarehouseRequestError,
+    SqlWarehouseLifecycle,
+    UnsupportedWarehouseEffectError,
+    WarehouseAdmissionLease,
+    WarehouseAdmissionLimitError,
+    WarehouseConflictError,
+    WarehouseLifecycleEvent,
+    WarehouseNotFoundError,
+    WarehouseRecord,
+    WarehouseState,
+    normalize_warehouse_configuration,
+)
 
 __all__ = [
     "ClusterConfiguration",
@@ -29,5 +45,19 @@ __all__ = [
     "ComputeState",
     "ComputeStateTransitionError",
     "InvalidComputeRequestError",
+    "InvalidWarehouseRequestError",
+    "MAX_ACTIVE_STATEMENTS_PER_WAREHOUSE",
+    "MAX_ACTIVE_STATEMENTS_PER_WORKSPACE",
+    "MAX_QUEUED_STATEMENTS_PER_WAREHOUSE",
+    "SqlWarehouseLifecycle",
     "UnsupportedComputeEffectError",
+    "UnsupportedWarehouseEffectError",
+    "WarehouseAdmissionLease",
+    "WarehouseAdmissionLimitError",
+    "WarehouseConflictError",
+    "WarehouseLifecycleEvent",
+    "WarehouseNotFoundError",
+    "WarehouseRecord",
+    "WarehouseState",
+    "normalize_warehouse_configuration",
 ]

@@ -93,6 +93,41 @@ def test_timeout_kills_reaps_worker_and_persists_actual_exit_and_cleanup(
         assert outcome.worker_pid is not None and outcome.worker_pid > 0
 
 
+@pytest.mark.skipif(os.name != "posix", reason="worker process-group supervision is POSIX-scoped")
+def test_timeout_covers_descendant_holding_output_after_worker_exits(tmp_path: Path) -> None:
+    script = tmp_path / "parent.py"
+    child_pid_file = tmp_path / "descendant.pid"
+    child_code = (
+        "import os, pathlib, time\n"
+        f"pathlib.Path({str(child_pid_file)!r}).write_text(str(os.getpid()))\n"
+        "time.sleep(60)\n"
+    )
+    script.write_text(
+        f"import subprocess, sys\nsubprocess.Popen([sys.executable, '-c', {child_code!r}])\n",
+        encoding="utf-8",
+    )
+    started = time.monotonic()
+    result = run_python_worker(
+        script,
+        cwd=tmp_path,
+        context=WorkerContext.from_mapping(
+            {"run_id": "run-descendant-timeout", "attempt_id": "attempt-1"}
+        ),
+        timeout_seconds=0.25,
+        termination_grace_seconds=0.05,
+    )
+
+    elapsed = time.monotonic() - started
+    assert result.termination_reason == "timeout"
+    assert elapsed < 2
+    assert child_pid_file.exists()
+    child_pid = int(child_pid_file.read_text())
+    deadline = time.monotonic() + 2
+    while _pid_running(child_pid) and time.monotonic() < deadline:
+        time.sleep(0.01)
+    assert not _pid_running(child_pid)
+
+
 @pytest.mark.skipif(os.name != "posix", reason="self-SIGKILL crash check is POSIX-scoped")
 def test_crashed_worker_exit_status_is_persisted(tmp_path: Path) -> None:
     initialized = initialize_workspace(tmp_path / "workspace")
