@@ -462,3 +462,7 @@ B066.3 is split into metadata/diagnostics and remote publication configuration. 
 ### 2026-10-22 — Explicit numeric loopback rule for macOS qualification
 
 The final diagnostics run passed the macOS 3.11 base lane but hit an intermittent native CLI `operation not permitted` on a later numeric 127.0.0.1 connection in notebook G4. It is retained as a failed qualification, not accepted as release evidence. The macOS sandbox now explicitly permits numeric IPv4 loopback alongside localhost; outbound networking remains denied. The complete final candidate matrix is rerun with that profile.
+
+### 2026-10-22 — macOS profile compilation and local native-client verification
+
+The numeric-host experiment was rejected by macOS policy compilation (`host must be * or localhost`), so that run is a failed experiment and provides no qualification. The verified replacement retains localhost-only IP access and permits local Unix sockets, including native system-service IPC, consistently with the Linux guard's permitted local Unix sockets. Both final-wheel local G4 lanes passed (5 base + 6 notebook cases); the preflight records macOS EPERM for non-loopback IP access, rather than accepting a timeout or connection refusal as isolation proof. Full CI is rerun with this profile, and failure-only macOS sandbox denial capture is available for diagnosis.

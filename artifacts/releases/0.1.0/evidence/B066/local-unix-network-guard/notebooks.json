@@ -1,0 +1,92 @@
+{
+  "result": "passed",
+  "lane": "notebooks",
+  "command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_databricks_cli_v1_21_0.py tests/integration/test_databricks_cli_bundle_v1_21_0.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py tests/integration/test_databricks_sql_kernel_b0211.py tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py",
+  "return_code": 0,
+  "argv": [
+    "/tmp/brickhouse-qual-4.15.2-notebooks-py311/bin/python",
+    "-m",
+    "pytest",
+    "-c",
+    "/dev/null",
+    "--rootdir",
+    "/Volumes/T7/coding/brickhouse",
+    "-q",
+    "--junitxml=/tmp/brickhouse-b066-final-unix-loopback-notebooks.xml",
+    "tests/integration/test_databricks_cli_v1_21_0.py",
+    "tests/integration/test_databricks_cli_bundle_v1_21_0.py",
+    "tests/integration/test_terraform_v1_16_6_provider_1_137_0.py",
+    "tests/integration/test_databricks_sql_kernel_b0211.py",
+    "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py"
+  ],
+  "os_network_probe": {
+    "non_loopback_denied": true,
+    "errno": 1,
+    "uid": 501
+  },
+  "counts": {
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "passed_cases": 6,
+  "skipped_cases": 0,
+  "databricks_credentials_present": false,
+  "inherited_databricks_environment_key_count": 0,
+  "dotenv_loads": [],
+  "candidate_python": "3.11.15 (main, Mar 25 2026, 02:58:47) [Clang 22.1.1 ]",
+  "candidate_version": "0.1.0",
+  "candidate_import": "/tmp/brickhouse-qual-4.15.2-notebooks-py311/lib/python3.11/site-packages/brickhouse/__init__.py",
+  "candidate_wheel_installed": true,
+  "forbidden_distributions_installed": [],
+  "notebook_distributions_installed": {
+    "nbformat": "5.11.1",
+    "ipykernel": "7.4.0",
+    "jupyter-client": "8.10.0",
+    "nbclient": "0.11.0"
+  },
+  "forbidden_importable_modules": [],
+  "java_spark_environment_keys_removed": [],
+  "forbidden_events": [],
+  "network_policy": "macOS sandbox denies IP outbound networking except localhost; local Unix-domain sockets are permitted; Python audit hook rejects non-loopback resolution/connections",
+  "sandbox_profile": "deny IP network-outbound except localhost; permit local Unix-domain sockets (filesystem access remains that of the invoking user)",
+  "process_policy": "test PATH exposes only the candidate wheel environment and whitelisted local utilities; Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports",
+  "loopback_connections": {
+    "count": 42,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "loopback_resolutions": {
+    "count": 42,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "subprocesses": {
+    "count": 59,
+    "executables": [
+      "databricks",
+      "python",
+      "terraform"
+    ]
+  },
+  "forbidden_processes": [],
+  "blocked_process_names": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": "......                                                                   [100%]\n6 passed in 32.50s",
+  "stderr": "",
+  "candidate_wheel_sha256": "f52e4049cc29419288ca8af5d11598503c3b5123fc05d6270b8995b0353ad314",
+  "guard_source_sha256": "8a54c67b14f7ef88ed3d646c8e29181e5307d16a7242fdaa332e85856c62212f",
+  "scope": "Local installed-wheel G4 smoke only; complete final candidate CI qualification is separate."
+}

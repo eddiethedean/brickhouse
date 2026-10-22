@@ -41,8 +41,7 @@ def run_isolated(
         profile = (
             "(version 1) (allow default) (deny network-outbound) "
             '(allow network-outbound (remote ip "localhost:*")) '
-            '(allow network-outbound (remote ip "127.0.0.1:*")) '
-            f'(allow network-outbound (subpath "{guard_dir.resolve()}"))'
+            '(allow network-outbound (subpath "/"))'
         )
         return subprocess.run(
             [sandbox_exec, "-p", profile, *command],
@@ -258,10 +257,14 @@ def main() -> int:
                 str(python),
                 "-I",
                 "-c",
-                "import json,os,socket\n"
+                "import errno,json,os,socket,sys\n"
                 "try:\n socket.create_connection(('192.0.2.1',9),timeout=0.25)\n"
-                "except OSError:\n"
-                " print(json.dumps({'non_loopback_denied':True,'uid':os.getuid()}))\n"
+                "except OSError as error:\n"
+                " expected=({errno.EPERM,errno.EACCES} if sys.platform=='darwin' "
+                "else {errno.ENETUNREACH,errno.EHOSTUNREACH})\n"
+                " assert error.errno in expected, (type(error).__name__,error.errno)\n"
+                " print(json.dumps({'non_loopback_denied':True,'errno':error.errno,"
+                "'uid':os.getuid()}))\n"
                 "else:\n raise SystemExit('OS network isolation did not block egress')\n",
             ],
             environment,
@@ -413,7 +416,7 @@ def main() -> int:
             "forbidden_events": forbidden_events,
             "network_policy": (
                 (
-                    "macOS sandbox denies outbound networking except localhost/127.0.0.1; "
+                    "macOS sandbox denies IP outbound networking except localhost; "
                     if sys.platform == "darwin"
                     else (
                         "Linux network namespace contains only an enabled loopback interface; "
@@ -425,17 +428,13 @@ def main() -> int:
             ),
             "sandbox_profile": (
                 (
-                    "deny network-outbound; permit localhost IP sockets and Unix-domain sockets "
+                    "deny IP network-outbound except localhost; permit local Unix-domain sockets "
                     if sys.platform == "darwin"
                     else (
                         "isolated Linux network namespace; permit loopback and Unix-domain sockets "
                     )
                 )
-                + (
-                    "under the unique per-run temporary directory"
-                    if sys.platform == "darwin"
-                    else "(filesystem access remains that of the invoking user)"
-                )
+                + "(filesystem access remains that of the invoking user)"
             ),
             "process_policy": (
                 "test PATH exposes only the candidate wheel environment and whitelisted local "

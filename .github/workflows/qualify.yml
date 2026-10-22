@@ -58,6 +58,11 @@ jobs:
       - name: Qualify installed base and notebook wheels, then the complete source suite
         run: |
           python scripts/qualify_release.py --clients "$RUNNER_TEMP/brickhouse-clients.json" --output-dir "$RUNNER_TEMP/qualification" --full-source
+      - name: Capture native macOS sandbox denials when qualification fails
+        if: failure() && runner.os == 'macOS'
+        run: |
+          mkdir -p "$RUNNER_TEMP/qualification"
+          sudo -n /usr/bin/log show --last 20m --style compact --predicate 'process == "sandboxd" AND eventMessage CONTAINS "databricks"' > "$RUNNER_TEMP/qualification/macos-sandbox-denials.log" 2>&1 || true
       - name: Retain exact artifact hashes, zero-skip counts, and isolation evidence
         if: always()
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
