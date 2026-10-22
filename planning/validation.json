@@ -1,34 +1,19 @@
 {
   "date": "2026-10-22",
-  "scope": "Final 0.1.0 release preparation: Apache-2.0 selected, complete corrected Linux/macOS matrix passed; final diagnostics artifacts are being qualified and frozen. PyPI Trusted Publisher verification is blocked on owner-account access.",
+  "scope": "Final 0.1.0 preparation complete for the bounded local scope; all 142 phase children and B066 done. Public publication remains separately authorized.",
   "result": "passed",
-  "markdown_files": 256,
+  "markdown_files": 258,
   "task_count": 208,
   "work_package_count": 66,
   "phase_0_1_child_task_count": 142,
   "capability_count": 67,
   "release_phase_count": 9,
-  "local_markdown_links_checked": 2094,
+  "local_markdown_links_checked": 2108,
   "checks": [
-    "Planning validation passed for 177 tasks, 63 work packages, 114 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,707 local Markdown links.",
-    "The B020.5 job/workspace/notebook/Terraform regression suite passed 60 tests with credentials unset. B021.2.3 passed 1 pinned-connector loopback integration and the 28-test SQL statement API regression suite with DATABRICKS_TOKEN and DATABRICKS_HOST unset.",
-    "The connector integration verifies SQL/metadata failures, synchronous cancellation, explicit rollback limitations, statement/session close, and a terminal CANCELED response without result data. The SQL API tests verify result CLOSED state, 12-hour expiry, and oldest-first eviction under the 64 MiB budget.",
-    "Ruff check/format on the changed integration fixture, planning validation, and git diff checks passed. No personal Databricks account requests, .env reads, cloud workloads, JVM, Spark driver, or remote execution were used for B021.2.3.",
-    "Planning validation passed for 179 tasks, 63 work packages, 116 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,736 local Markdown links.",
-    "B022.1, B022.2, and B022.3.1 are complete for their bounded local profiles. B022.3.2 is active for coordinated local backup/restore and external-table policy.",
-    "B022.3.1 focused regressions passed 71 tests across journal recovery, staged inputs, worker log expiry, SQL result expiry, schema migration, workspace/catalog state, and statement API behavior with Databricks credentials unset. Ruff check/format passed for changed source/tests.",
-    "Worker attempt logs expire after 24 hours on output retrieval or explicit maintenance; SQL result chunks expire after 12 hours. No background worker-log expiry scheduler, immediate SQLite file shrinking, or coordinated restore result is claimed.",
-    "Planning validation passed for 180 tasks, 63 work packages, 117 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,759 local Markdown links; B022 and all required children are done, with B048 the next active review.",
-    "The B022 affected local recovery suite passed 141 tests with DATABRICKS_TOKEN and DATABRICKS_HOST unset. B022.3.2 restored managed Delta rows/history, operation/job history and files while preserving external registrations without copying external bytes; B022.4 verified serverless-local post-commit timeout recovery and a distinct pre-commit retry. Ruff check/format, strict mypy across 70 source files, and diff checks passed.",
-    "Planning validation passed after B023.3 assembly: 185 tasks, 63 work packages, 122 phase 0.1 children, 67 capabilities, and 2,006 local Markdown links across 225 Markdown files; no unfinished implementation task is ready.",
-    "B023.3 retained the exact qualified development wheel, audited source archive, capability snapshot, version/case manifests, offline G1\u2013G4 reports, recovery/restore evidence, and owner publication checklist; nothing was published.",
-    "The owner candidate bundle includes a draft release note that matches the qualified platform/profile scope and retained capability limitations.",
-    "Planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 children, 67 capabilities, and 2,039 local Markdown links. B064.11 is the only initially ready implementation task; no tests were added or run for this follow-up.",
-    "Planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 children, 67 capabilities, and 2,039 local Markdown links. B064.11 is the only initially ready implementation task; no tests were added or run for this follow-up.",
-    "Current planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 child tasks, 67 capabilities, and 2,041 local Markdown links; no unfinished implementation task is initially ready. B064 and all children are done.",
-    "Published Sparkless 4.15.2 was hash-verified from PyPI (macOS arm64 wheel 7d12d6f76212e52586cbe07ab12152f4c7dcf04bd2873532751f1335ee81cfb2). The selected UTC-aware Delta timestamp predicate passes and the full 35-test SQL statement-service module passed locally; the refreshed installed BrickHouse wheel passed 99 focused B064 cases under the loopback-only/offline guard. No Databricks credentials or workspace were used. At that checkpoint, the full current-candidate G1-G4 matrix had not yet run; the subsequent exact-wheel requalification passed 624 selected cases.",
-    "Final planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 child tasks, 67 capabilities, 254 Markdown files, and 2,134 local Markdown links; no unfinished implementation task is initially ready.",
-    "B066 corrected platform matrix passed 1,368 installed-wheel offline cases and 1,804 complete-source cases (451 per OS/Python pair), zero required skips; Apache-2.0 and 0.1.0 metadata are prepared. Final diagnostics qualification and publisher access remain separate gates."
+    "All 27 release case families and 63 runnable selectors validated; 253 unique capability test references and every backlog status match actual definitions and the ledger.",
+    "CI run 39873265129 passed 1,368 installed-wheel offline cases and 1,832 full-source cases (458 per OS/Python pair), zero required skips.",
+    "Apache-2.0 and 0.1.0 metadata/notices audited; strict Twine 7.0.0 checks passed; sdist rebuild produced the byte-identical wheel.",
+    "Owner-verified saved PyPI pending-publisher configuration matches release.yml and the tag-only GitHub pypi environment. No tag, OIDC exchange or package publication occurred."
   ],
   "implementation_tests_run": true,
   "databricks_account_requests_run": true,
@@ -165,23 +150,21 @@
     ],
     "capability_claims_added": "C059-C064 planned; no new implemented deployment claims"
   },
-  "initially_ready_implementation_tasks_at_validation": [
-    "B066.4"
-  ],
-  "active_implementation_task_at_validation": "B066.4",
-  "active_implementation_task": "B066.4",
-  "initially_ready_implementation_tasks": [
-    "B066.4"
-  ],
+  "initially_ready_implementation_tasks_at_validation": [],
+  "active_implementation_task_at_validation": null,
+  "active_implementation_task": null,
+  "initially_ready_implementation_tasks": [],
   "current_implementation": {
-    "completed_task": "B064",
+    "completed_task": "B066",
     "status": "done",
-    "report": "artifacts/conformance/B064-phase-0.1-review-fixes.md",
-    "parent_task": "B064",
-    "phase_0_1_child_status": "133 done of 133 required children; B064 and all eleven review-fix children are complete.",
-    "qualification": "Exact current wheel SHA-256 f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef on macOS 26.5.2 arm64: 137 base and 175 notebook-extra G1-G4 cases per interpreter on CPython 3.11.15 and 3.12.13 (624 total); plus 99 focused installed-wheel B064 cases on CPython 3.11.15 and 35 SQL statement-service cases. Sparkless 4.15.2 timestamp regression passed. No Databricks account or cloud execution was used.",
+    "phase_0_1_child_status": "142 done of 142 required children",
+    "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39873265129",
+    "installed_wheel_offline_cases": 1368,
+    "complete_source_cases": 1832,
+    "complete_source_cases_per_os_python": 458,
+    "required_skips": 0,
     "artifact_manifest": "artifacts/releases/0.1.0/manifest.json",
-    "remaining_owner_gates": "Select project license; qualify Linux x86_64 or revise advertised scope; authorize publication separately."
+    "remaining_owner_action": "Authorize publication separately; no release tag or package upload is created by preparation."
   },
   "bundle_workflow": {
     "result": "selected serverless Python and classic notebook bundle workloads passed; parent B020 done",
@@ -387,11 +370,11 @@
     "limitations": "No Databricks service/runtime or cloud compute parity; external Python side effects are not reconciled."
   },
   "release_candidate_assembly": {
-    "task": "B023.3",
+    "task": "B066.4",
     "status": "done",
     "bundle": "artifacts/releases/0.1.0/README.md",
     "artifact_manifest": "artifacts/releases/0.1.0/manifest.json",
-    "distribution_audit": "passed; credential-file paths rejected; project license unselected",
+    "distribution_audit": "passed; Apache-2.0 SPDX and all retained notices byte-checked",
     "candidate_published": false,
     "databricks_account_requests_run": false
   },
@@ -415,18 +398,18 @@
     "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef"
   },
   "release_requirement_families": 27,
-  "release_test_selectors": 61,
+  "release_test_selectors": 63,
   "required_ci_databricks_account_requests_run": false,
   "B066_release_readiness": {
     "metadata_version": "0.1.0",
     "license": "Apache-2.0",
     "first_complete_ci_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39860440439",
     "offline_passed_cases": 1368,
-    "full_source_passed_cases": 1804,
-    "full_source_cases_per_os_python": 451,
+    "full_source_passed_cases": 1832,
+    "full_source_cases_per_os_python": 458,
     "required_skips": 0,
-    "final_candidate": "B066.4 in progress; final CLI diagnostics source being qualified",
-    "publisher_configuration": "prepared but unverified; Mac locked and PyPI account inaccessible",
+    "final_candidate": "B066.4 done; exact current hashes/reports in the release bundle",
+    "publisher_configuration": "Saved PyPI pending publisher configured by owner and verified against workflow/environment",
     "publication_authorized": false,
     "published": false,
     "reference_capture": {
@@ -435,6 +418,39 @@
       "warehouse_restored_to_stopped": true,
       "schema_or_rows_captured": false,
       "ordinary_tests_use_account": false
-    }
-  }
+    },
+    "current_qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39873265129"
+  },
+  "historical_record_scope": "Named task reports and historical checks retain the exact versions, counts and limitations recorded at their original checkpoints. Current state is defined by tasks.json, capabilities.json, current_implementation and B066_release_readiness.",
+  "historical_checks": [
+    "Planning validation passed for 177 tasks, 63 work packages, 114 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,707 local Markdown links.",
+    "The B020.5 job/workspace/notebook/Terraform regression suite passed 60 tests with credentials unset. B021.2.3 passed 1 pinned-connector loopback integration and the 28-test SQL statement API regression suite with DATABRICKS_TOKEN and DATABRICKS_HOST unset.",
+    "The connector integration verifies SQL/metadata failures, synchronous cancellation, explicit rollback limitations, statement/session close, and a terminal CANCELED response without result data. The SQL API tests verify result CLOSED state, 12-hour expiry, and oldest-first eviction under the 64 MiB budget.",
+    "Ruff check/format on the changed integration fixture, planning validation, and git diff checks passed. No personal Databricks account requests, .env reads, cloud workloads, JVM, Spark driver, or remote execution were used for B021.2.3.",
+    "Planning validation passed for 179 tasks, 63 work packages, 116 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,736 local Markdown links.",
+    "B022.1, B022.2, and B022.3.1 are complete for their bounded local profiles. B022.3.2 is active for coordinated local backup/restore and external-table policy.",
+    "B022.3.1 focused regressions passed 71 tests across journal recovery, staged inputs, worker log expiry, SQL result expiry, schema migration, workspace/catalog state, and statement API behavior with Databricks credentials unset. Ruff check/format passed for changed source/tests.",
+    "Worker attempt logs expire after 24 hours on output retrieval or explicit maintenance; SQL result chunks expire after 12 hours. No background worker-log expiry scheduler, immediate SQLite file shrinking, or coordinated restore result is claimed.",
+    "Planning validation passed for 180 tasks, 63 work packages, 117 required phase 0.1 child tasks, 67 capabilities, nine emulator release phases, seven post-stability stages, six optional cluster stages, and 1,759 local Markdown links; B022 and all required children are done, with B048 the next active review.",
+    "The B022 affected local recovery suite passed 141 tests with DATABRICKS_TOKEN and DATABRICKS_HOST unset. B022.3.2 restored managed Delta rows/history, operation/job history and files while preserving external registrations without copying external bytes; B022.4 verified serverless-local post-commit timeout recovery and a distinct pre-commit retry. Ruff check/format, strict mypy across 70 source files, and diff checks passed.",
+    "Planning validation passed after B023.3 assembly: 185 tasks, 63 work packages, 122 phase 0.1 children, 67 capabilities, and 2,006 local Markdown links across 225 Markdown files; no unfinished implementation task is ready.",
+    "B023.3 retained the exact qualified development wheel, audited source archive, capability snapshot, version/case manifests, offline G1\u2013G4 reports, recovery/restore evidence, and owner publication checklist; nothing was published.",
+    "The owner candidate bundle includes a draft release note that matches the qualified platform/profile scope and retained capability limitations.",
+    "Planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 children, 67 capabilities, and 2,039 local Markdown links. B064.11 is the only initially ready implementation task; no tests were added or run for this follow-up.",
+    "Planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 children, 67 capabilities, and 2,039 local Markdown links. B064.11 is the only initially ready implementation task; no tests were added or run for this follow-up.",
+    "Current planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 child tasks, 67 capabilities, and 2,041 local Markdown links; no unfinished implementation task is initially ready. B064 and all children are done.",
+    "Published Sparkless 4.15.2 was hash-verified from PyPI (macOS arm64 wheel 7d12d6f76212e52586cbe07ab12152f4c7dcf04bd2873532751f1335ee81cfb2). The selected UTC-aware Delta timestamp predicate passes and the full 35-test SQL statement-service module passed locally; the refreshed installed BrickHouse wheel passed 99 focused B064 cases under the loopback-only/offline guard. No Databricks credentials or workspace were used. At that checkpoint, the full current-candidate G1-G4 matrix had not yet run; the subsequent exact-wheel requalification passed 624 selected cases.",
+    "Final planning validation passed on 2026-10-22 for 198 tasks, 65 work packages, 133 phase 0.1 child tasks, 67 capabilities, 254 Markdown files, and 2,134 local Markdown links; no unfinished implementation task is initially ready.",
+    "B066 corrected platform matrix passed 1,368 installed-wheel offline cases and 1,804 complete-source cases (451 per OS/Python pair), zero required skips; Apache-2.0 and 0.1.0 metadata are prepared. Final diagnostics qualification and publisher access remain separate gates."
+  ],
+  "historical_B023_release_candidate_assembly": {
+    "task": "B023.3",
+    "status": "done",
+    "bundle": "artifacts/releases/0.1.0/README.md",
+    "artifact_manifest": "artifacts/releases/0.1.0/manifest.json",
+    "distribution_audit": "passed; credential-file paths rejected; project license unselected",
+    "candidate_published": false,
+    "databricks_account_requests_run": false
+  },
+  "capability_test_selectors": 253
 }

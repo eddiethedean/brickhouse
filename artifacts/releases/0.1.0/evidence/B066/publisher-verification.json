@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-22",
+  "result": "configuration-verified",
+  "verification_method": "Owner configured PyPI and supplied a screenshot of the saved Pending publishers entry; compared all fields with the checked-in release workflow. GitHub environment tag policy re-read through the API.",
+  "project": "brickhouse",
+  "publisher_type": "GitHub",
+  "owner": "eddiethedean",
+  "repository": "brickhouse",
+  "workflow": "release.yml",
+  "environment": "pypi",
+  "pypi_state": "pending publisher",
+  "owner_evidence": {
+    "artifact": "pypi-pending-publisher.png",
+    "sha256": "84fbc7aca5199585dab833d575fbda7636a4a5af9d9825161ab625e342b4616b"
+  },
+  "github_environment_policy": {
+    "name": "v*.*.*",
+    "type": "tag"
+  },
+  "publication_authorized": false,
+  "published": false,
+  "scope": "Configuration is verified. The first actual OIDC exchange and upload can be verified only during a separately authorized release; no package upload or release tag was attempted."
+}

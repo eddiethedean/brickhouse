@@ -18,8 +18,11 @@
     "repository": "brickhouse",
     "workflow": "release.yml",
     "environment": "pypi",
-    "configured_and_verified": false,
-    "remaining_action": "Sign into PyPI and add/verify the pending publisher for brickhouse. Browser access is unavailable while the Mac is locked."
+    "configured_and_verified": true,
+    "verified_date": "2026-10-22",
+    "verification_method": "Owner-provided screenshot of the saved PyPI pending publisher; all fields match release.yml and the GitHub pypi environment.",
+    "verification_artifact": "artifacts/releases/0.1.0/evidence/B066/publisher-verification.json",
+    "pypi_state": "pending publisher"
   },
   "publication_authorized": false,
   "published": false

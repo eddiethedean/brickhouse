@@ -9237,7 +9237,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Prepare and qualify the final 0.1.0 release",
-      "status": "in_progress",
+      "status": "done",
       "depends_on": [
         "B065"
       ],
@@ -9255,7 +9255,16 @@
         "Freeze and audit final wheel/sdist artifacts, exact qualification hashes and requirement traceability; complete release-readiness records and pass GitHub CI while preserving separate public-publication authorization."
       ],
       "owner": "Codex",
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "final-release-candidate-qualification",
+          "command": "Shared GitHub checks/qualification workflows via CI run 39873265129; audit_distribution.py; twine 7.0.0 check --strict; rebuild wheel from actual sdist",
+          "result": "All 27 release case families map to 63 real selectors and 253 unique capability references. One 0.1.0 wheel passed 1,368 installed-wheel offline cases across Ubuntu 22.04 x86_64/macOS 26 arm64, native CPython 3.11.17/3.12.15, base/notebooks; all four complete source suites passed 458 tests each (1,832), zero errors/failures/skips. Native SQLite 3.53.1 is recorded in every lane. License/content audit and strict Twine checks passed. Rebuilding from the exact source archive produced the byte-identical wheel. The owner verified the saved PyPI pending publisher; nine preflight fixtures verify rejection and ready cases. Current source/artifact hashes and reports are frozen in the excluded release bundle. No release tag, OIDC upload or package publication occurred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
+        }
+      ],
       "blockers": [],
       "children": [
         "B066.1",
@@ -9353,7 +9362,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Finalize license and 0.1.0 release metadata",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.1"
@@ -9369,13 +9378,16 @@
         "Prepare version 0.1.0 metadata, owner-selected project license, retained notices, accurate user documentation and release notes, and verified repository/package/trusted-publisher configuration."
       ],
       "owner": "Codex",
-      "evidence": [],
-      "blockers": [
+      "evidence": [
         {
-          "kind": "owner-account-access",
-          "description": "PyPI Trusted Publisher configuration cannot be inspected or submitted while the Mac is locked and no PyPI account session is accessible. Owner sign-in is required; no distribution has been published."
+          "date": "2026-10-22",
+          "kind": "owner-verified-pypi-pending-publisher",
+          "command": "Owner configured PyPI and supplied the saved publisher screenshot; gh api repos/eddiethedean/brickhouse/environments/pypi/deployment-branch-policies",
+          "result": "The saved PyPI pending publisher lists project brickhouse, owner eddiethedean, repository brickhouse, workflow release.yml and environment pypi. All fields match. GitHub pypi accepts only v*.*.* tags. Apache-2.0 is detected by GitHub. This verifies configuration, not an OIDC upload; no publication or tag occurred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/publisher-verification.json"
         }
       ],
+      "blockers": [],
       "children": [
         "B066.3.1",
         "B066.3.2"
@@ -9390,7 +9402,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Freeze final artifacts and release-readiness evidence",
-      "status": "in_progress",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.2",
@@ -9415,6 +9427,14 @@
           "result": "Baseline native CPython 3.11.17/3.12.15 on Ubuntu 22.04 x86_64/macOS 26 arm64 passed 1,368 installed-wheel offline cases and 1,820 full-source tests, zero required skips. Final evidence corrections pass 26 planning/report regressions and all 17 actual orders workflow variants. Updated source archive requires its own CI proof before this task completes. Capability states remain 24 partial, 2 simulated and 41 planned.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/github-run.json",
           "commit": "e25a6daaf57f4ec1059cf66f373b7ba4466a856d"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-release-candidate-qualification",
+          "command": "Shared GitHub checks/qualification workflows via CI run 39873265129; audit_distribution.py; twine 7.0.0 check --strict; rebuild wheel from actual sdist",
+          "result": "All 27 release case families map to 63 real selectors and 253 unique capability references. One 0.1.0 wheel passed 1,368 installed-wheel offline cases across Ubuntu 22.04 x86_64/macOS 26 arm64, native CPython 3.11.17/3.12.15, base/notebooks; all four complete source suites passed 458 tests each (1,832), zero errors/failures/skips. Native SQLite 3.53.1 is recorded in every lane. License/content audit and strict Twine checks passed. Rebuilding from the exact source archive produced the byte-identical wheel. The owner verified the saved PyPI pending publisher; nine preflight fixtures verify rejection and ready cases. Current source/artifact hashes and reports are frozen in the excluded release bundle. No release tag, OIDC upload or package publication occurred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "blockers": [],
@@ -9581,7 +9601,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Verify GitHub and PyPI publishing configuration",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.1",
@@ -9605,14 +9625,16 @@
           "command": "gh api repos/eddiethedean/brickhouse/environments/pypi; PyPI JSON project lookup; browser inventory",
           "result": "Repository and tag-only pypi environment are prepared. The public brickhouse PyPI lookup returned 404 (not a reservation). Exact pending publisher fields are owner eddiethedean, repository brickhouse, workflow release.yml, environment pypi. Browser inventory reports the Mac locked, so PyPI configuration is explicitly unverified. The release workflow checks this record and fails before publication when unverified.",
           "artifact": "planning/publishing.json"
-        }
-      ],
-      "blockers": [
+        },
         {
-          "kind": "owner-account-access",
-          "description": "PyPI Trusted Publisher configuration cannot be inspected or submitted while the Mac is locked and no PyPI account session is accessible. Owner sign-in is required; no distribution has been published."
+          "date": "2026-10-22",
+          "kind": "owner-verified-pypi-pending-publisher",
+          "command": "Owner configured PyPI and supplied the saved publisher screenshot; gh api repos/eddiethedean/brickhouse/environments/pypi/deployment-branch-policies",
+          "result": "The saved PyPI pending publisher lists project brickhouse, owner eddiethedean, repository brickhouse, workflow release.yml and environment pypi. All fields match. GitHub pypi accepts only v*.*.* tags. Apache-2.0 is detected by GitHub. This verifies configuration, not an OIDC upload; no publication or tag occurred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/publisher-verification.json"
         }
       ],
+      "blockers": [],
       "children": [],
       "parent_id": "B066.3",
       "parent_criteria": [

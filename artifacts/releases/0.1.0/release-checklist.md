@@ -13,7 +13,7 @@ the separate owner publication action after every readiness prerequisite passes.
 - [x] Check readable user documentation, current capability limits, release notes, and exact version/hash inventories.
 - [x] Verify GitHub repository ownership, the tag-only pypi environment, and separate least-privilege OIDC publishing job.
 - [x] Look up the brickhouse PyPI name (404 on 2026-10-22); record that lookup does not reserve ownership.
-- [ ] Sign into PyPI and configure/verify the pending GitHub Trusted Publisher for eddiethedean/brickhouse, release.yml, environment pypi; update planning/publishing.json and refresh the final candidate checks.
+- [x] Verify the owner-configured PyPI pending GitHub Trusted Publisher for eddiethedean/brickhouse, release.yml, environment pypi; retain the saved entry and planning/publishing.json record.
 - [ ] Explicitly authorize any public release build and publication.
 
-Exact wheel/source hashes, qualification counts and reports are in [manifest.json](manifest.json), [scope.json](scope.json), and [the passing CI run](https://github.com/eddiethedean/brickhouse/actions/runs/39869421709). Historical development evidence is explicitly archived.
+Exact wheel/source hashes, qualification counts and reports are in [manifest.json](manifest.json), [scope.json](scope.json), and [the passing CI run](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129). Historical development evidence is explicitly archived.

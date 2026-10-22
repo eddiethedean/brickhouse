@@ -36,7 +36,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_format": "1",
         "metadata_schema_version": "21"
       },
@@ -165,6 +165,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -244,6 +252,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -292,7 +308,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "metadata_schema_version": "21",
         "databricks_reference": "Free Edition serverless SQL warehouse; engine version unavailable",
         "statement_execution_api": "2.0",
@@ -351,6 +367,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -383,7 +407,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "metadata_schema_version": "21",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1"
@@ -513,6 +537,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -538,7 +570,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "metadata_schema_version": "21",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1"
@@ -605,6 +637,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -687,6 +727,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -717,7 +765,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_format": "1",
         "metadata_schema_version": "21",
         "deltalake": "1.2.1",
@@ -812,6 +860,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -966,7 +1022,7 @@
       ],
       "tested_versions": {
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
@@ -1051,6 +1107,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -1253,6 +1317,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -1395,6 +1467,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -1690,6 +1770,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -1895,6 +1983,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -1965,7 +2061,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against local loopback only",
         "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)",
@@ -2255,6 +2351,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -2294,7 +2398,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 against local loopback only",
@@ -2471,6 +2575,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -2622,6 +2734,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -2686,6 +2806,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -2757,6 +2885,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -2815,6 +2951,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -2976,6 +3120,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -3046,7 +3198,7 @@
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "serverless_environment": "local-python, environment version 1"
       },
@@ -3136,6 +3288,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -3229,6 +3389,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -3303,7 +3471,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against loopback only"
       },
@@ -3344,6 +3512,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -3742,7 +3918,7 @@
         "databricks_sdk": "0.153.0 against local loopback only",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "databricks_cli": "1.21.0; platform archive hashes in planning/client-artifacts.json"
       },
@@ -3819,6 +3995,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -3865,7 +4049,7 @@
         "databricks_sdk": "0.153.0 against local loopback only",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "databricks_cli": "1.21.0; platform archive hashes in planning/client-artifacts.json"
       },
@@ -3937,6 +4121,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -3977,7 +4169,7 @@
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21"
       },
       "test_ids": [
@@ -4048,6 +4240,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -4106,7 +4306,7 @@
       "tested_versions": {
         "brickhouse": "0.1.0",
         "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
-        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sqlite": "3.53.1 (native CPython 3.11.17/3.12.15 qualification profiles)",
         "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against loopback only",
         "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)"
@@ -4149,6 +4349,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [
@@ -4211,6 +4419,14 @@
           "command": "Shared release qualification CI run 39869421709",
           "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
           "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "final-versioned-local-regression",
+          "command": "CI run 39873265129: complete required-client source suite and installed-wheel G1-G4",
+          "result": "458 full-source cases pass per OS/Python pair and 1,368 installed-wheel offline cases pass across all required lanes, zero skips. This refreshes evidence for this entry\u2019s existing selected local test IDs; its status and declared limitations are unchanged. No broader or remote Databricks parity is inferred.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39873265129/github-run.json",
+          "commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b"
         }
       ],
       "limitations": [

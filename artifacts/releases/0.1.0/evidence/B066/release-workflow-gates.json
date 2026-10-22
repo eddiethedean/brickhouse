@@ -1,6 +1,6 @@
 {
   "result": "passed",
-  "source_workflow_sha256": "4671d164da24be9e39353c74b2758188e458f1a30052c5acf0c1082333ada4ff",
+  "source_workflow_sha256": "3fbdc9948554e1136967b59339a84caf5b0171a491b60c41bd4e2bcc08813f56",
   "cases": [
     {
       "case": "unverified-publisher",
@@ -43,7 +43,28 @@
       "actual_returncode": 0,
       "passed": true,
       "message": ""
+    },
+    {
+      "case": "pending-readiness-checklist",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Resolve release checklist gates before tagging:\n- [ ] Required fixture readiness gate."
+    },
+    {
+      "case": "missing-readiness-checklist",
+      "expected_exit": "rejection",
+      "actual_returncode": 1,
+      "passed": true,
+      "message": "Missing versioned release checklist: artifacts/releases/0.1.0/release-checklist.md"
+    },
+    {
+      "case": "ready-fixture-with-separate-tag-authorization",
+      "expected_exit": "success",
+      "actual_returncode": 0,
+      "passed": true,
+      "message": ""
     }
   ],
-  "scope": "Local configuration/script fixture checks only. No release tag, PyPI account action or publication occurred; actual publisher configuration is still unverified."
+  "scope": "Local release preflight fixtures only. The owner separately verified the actual pending-publisher configuration. No tag, OIDC exchange or package publication was attempted."
 }

@@ -1,0 +1,11 @@
+{
+  "result": "passed",
+  "source_distribution_sha256": "23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619",
+  "qualified_wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+  "rebuilt_wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+  "wheel_payloads_identical": true,
+  "wheel_archives_identical": true,
+  "command": "python -m build --no-isolation --wheel --outdir <temporary> <extracted-sdist>",
+  "python": "3.11.15",
+  "scope": "Build from the actual source archive with the pinned local backend; compare every wheel member byte-for-byte with the CI candidate. No account credentials or publication."
+}

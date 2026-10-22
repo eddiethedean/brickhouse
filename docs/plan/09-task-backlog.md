@@ -14,7 +14,7 @@ Phase 0.1 parents B001–B023 now have required child tasks listed below and in 
 
 The 2026-10-20 compute expansion adds planning task B043 and five bounded implementation children (B011.5, B014.4, B014.5, B017.4, B020.4), bringing required phase 0.1 children to 73 at that decision. Appended criteria preserve all prior requirements. [Document 17](17-serverless-and-classic-compute.md) maps serverless/classic behavior, warehouse types and later environment/access/protocol work to their acceptance owners.
 
-The delivery refinement adds B044 planning, B045 early connector research and B046 provider qualification. The ledger retains **120 original implementation children**, two B048 review children, eleven B064 fixes and nine B066 release-preparation children/descendants: **142 phase children**. B064 is complete. B066.2 passed the full Linux/macOS offline platform matrix; B066.3.1 completed final metadata/diagnostics; B066.3.2 requires owner PyPI access; B066.4 freezes the exact final candidate and evidence. Every original acceptance criterion and prerequisite remains required. [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md) records the original provider/consumer split.
+The delivery refinement adds B044 planning, B045 early connector research and B046 provider qualification. The ledger retains **120 original implementation children**, two B048 review children, eleven B064 fixes and nine B066 release-preparation children/descendants: **142 phase children**. B064 is complete. B066.2 passed the full Linux/macOS offline platform matrix; B066.3.1 completed final metadata/diagnostics; B066.3.2 completed owner-verified PyPI pending-publisher configuration; B066.4 completed the exact artifact/evidence freeze; all 142 phase children are done. Every original acceptance criterion and prerequisite remains required. [ADR 0017](../decisions/0017-phase-0.1-delivery-refinement.md) records the original provider/consumer split.
 
 The emulator remains primary through phases 0.1–0.9. B047 records the long-term plan and B048 completes a bounded local architecture review before B023; B048.1 closes its unauthenticated network-bind bypass. B049/SH.0 assesses stability after B042; B050–B055 are future deployment epics, strictly after that gate and requiring decomposition before implementation. See [document 18](18-self-hosted-platform.md) and [ADR 0034](../decisions/0034-emulator-first-self-hosted-platform.md). Existing emulator task states, acceptance criteria and evidence remain authoritative.
 
@@ -3589,7 +3589,7 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 ## B066 — Prepare and qualify the final 0.1.0 release
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065.
 
@@ -3604,6 +3604,9 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 **Required children:** B066.1, B066.2, B066.3, B066.4.
 
+
+
+**Final qualification:** [CI run 39873265129](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129) passed 1,368 installed-wheel offline cases and all four 458-case source suites (1,832), zero required skips. Apache-2.0, version 0.1.0, strict metadata/notices checks, byte-identical sdist rebuild, and owner-verified PyPI pending-publisher configuration are complete. Exact artifacts and reports are in the [release bundle](../../artifacts/releases/0.1.0/README.md). No tag or publication is authorized by preparation.
 
 ## B066.1 — Audit requirements and complete current full-suite qualification
 
@@ -3638,7 +3641,7 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 ## B066.3 — Finalize license and 0.1.0 release metadata
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** blocked
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1.
 
@@ -3652,9 +3655,12 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 **Required children:** B066.3.1, B066.3.2.
 
+
+**Publisher verification:** The owner supplied the saved PyPI Pending publishers entry for brickhouse, GitHub eddiethedean/brickhouse, release.yml, environment pypi. All fields match; the GitHub environment accepts v*.*.* tags only. [Configuration evidence](../../artifacts/releases/0.1.0/evidence/B066/publisher-verification.json) is retained. No OIDC upload, tag or publication occurred.
+
 ## B066.4 — Freeze final artifacts and release-readiness evidence
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.2, B066.3.1.
 
@@ -3666,7 +3672,10 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 **Parent:** B066 · **Parent criteria:** 4.
 
-**Evidence:** Native-Python CI run 39869421709 passed 1,368 installed-wheel offline cases and four 455-case complete source suites (1,820 total), zero required skips, on Ubuntu 22.04 x86_64/macOS 26 arm64 and CPython 3.11.17/3.12.15. The final evidence audit passes 26 planning/report regressions and all 17 actual orders workflow variants; it validates all 63 release selectors, 253 unique capability references and current backlog states. Updated source-archive qualification and final freeze remain pending. See the [release bundle](../../artifacts/releases/0.1.0/README.md).
+**Evidence:** Native-Python CI run 39869421709 passed 1,368 installed-wheel offline cases and four 455-case complete source suites (1,820 total), zero required skips, on Ubuntu 22.04 x86_64/macOS 26 arm64 and CPython 3.11.17/3.12.15. The final evidence audit passes 26 planning/report regressions and all 17 actual orders workflow variants; it validates all 63 release selectors, 253 unique capability references and current backlog states. Updated source-archive qualification and final freeze passed under B066.4. See the [release bundle](../../artifacts/releases/0.1.0/README.md).
+
+
+**Final qualification:** [CI run 39873265129](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129) passed 1,368 installed-wheel offline cases and all four 458-case source suites (1,832), zero required skips. Apache-2.0, version 0.1.0, strict metadata/notices checks, byte-identical sdist rebuild, and owner-verified PyPI pending-publisher configuration are complete. Exact artifacts and reports are in the [release bundle](../../artifacts/releases/0.1.0/README.md). No tag or publication is authorized by preparation.
 
 ## B066.2.1 — Make pinned client fixtures portable
 
@@ -3734,7 +3743,7 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 ## B066.3.2 — Verify GitHub and PyPI publishing configuration
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** blocked
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1, B066.3.1.
 
@@ -3747,3 +3756,5 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 1. Verify the repository, package-name lookup and tag-only GitHub environment, then configure and verify the PyPI publisher for eddiethedean/brickhouse, release.yml and environment pypi without publishing a distribution.
 
 **Parent:** B066.3 · **Parent criteria:** 1.
+
+**Publisher verification:** The owner supplied the saved PyPI Pending publishers entry for brickhouse, GitHub eddiethedean/brickhouse, release.yml, environment pypi. All fields match; the GitHub environment accepts v*.*.* tags only. [Configuration evidence](../../artifacts/releases/0.1.0/evidence/B066/publisher-verification.json) is retained. No OIDC upload, tag or publication occurred.

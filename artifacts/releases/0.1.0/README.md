@@ -1,8 +1,8 @@
 # BrickHouse 0.1.0 release candidate
 
 Prepared 2026-10-22. Version **0.1.0**, license **Apache-2.0**. Nothing has been
-published or tagged. PyPI Trusted Publisher verification remains an owner-account
-step; see the [release checklist](release-checklist.md).
+published or tagged. The saved PyPI pending publisher is owner-configured and
+verified; see the [release checklist](release-checklist.md).
 
 ## Exact candidate
 
@@ -11,18 +11,18 @@ step; see the [release checklist](release-checklist.md).
 - [SHA-256 manifest](manifest.json) and [distribution/license audit](distribution-audit.json)
 - [Scope and qualification matrix](scope.json), [versions](versions.json), and [27-family case map](cases.json)
 - [Capability snapshot](capabilities.json) and [rendered report](capabilities.md)
-- [Prepared release notes](release-notes.md) and [publisher configuration](publishing.json)
-- [CI reports](evidence/B066/ci-39869421709/) from [run 39869421709](https://github.com/eddiethedean/brickhouse/actions/runs/39869421709)
+- [Prepared release notes](release-notes.md), [publisher configuration](publishing.json), and [saved publisher verification](evidence/B066/publisher-verification.json)
+- [CI reports](evidence/B066/ci-39873265129/) from [run 39873265129](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129)
 
-Wheel SHA-256: `3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7`. Source SHA-256: `b795829dd455f281784df9be435588d3fa264b965b9c82bc43ffbedbf4785a2c`.
-The source revision qualified by that run is `e25a6daaf57f4ec1059cf66f373b7ba4466a856d`; it built one candidate
+Wheel SHA-256: `3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7`. Source SHA-256: `23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619`.
+The source revision qualified by that run is `e3abdcee28d98a2b0298c2cefdd873f976ae488b`; it built one candidate
 for every lane. Changes confined to this excluded release bundle do not alter
 the wheel or source archive contents.
 
 ## Qualification
 
 **1368 installed-wheel cases** passed across all eight Ubuntu 22.04 x86_64/macOS 26
-arm64, Python 3.11/3.12, base/notebook lanes. **1820 full-source cases**
+arm64, Python 3.11/3.12, base/notebook lanes. **1832 full-source cases**
 passed across all four OS/Python combinations. Required skips: **zero**.
 The JSON/XML reports record exact interpreter versions, artifact hashes, installed
 imports, notebook separation, and OS network denial. Required clients were
