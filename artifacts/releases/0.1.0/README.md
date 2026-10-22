@@ -1,40 +1,49 @@
-# BrickHouse 0.1.0 owner-review candidate
+# BrickHouse 0.1.0 release candidate
 
-**Candidate assembled:** 2026-10-22  
-**Package version:** `0.1.0.dev0`  
-**Target release:** `0.1.0`  
-**Publication state:** not published; a separate owner decision is required.
+Prepared 2026-10-22. Version **0.1.0**, license **Apache-2.0**. Nothing has been
+published or tagged. PyPI Trusted Publisher verification remains an owner-account
+step; see the [release checklist](release-checklist.md).
 
-This bundle contains the exact current wheel and source archive, capability snapshot, candidate manifests, current machine-readable qualification reports, historical reports tied to earlier hashes, and owner release checklist.
+## Exact candidate
 
-## Candidate artifacts
-
-- [Current wheel](candidate/brickhouse-0.1.0.dev0-py3-none-any.whl)
-- [Current source distribution](candidate/brickhouse-0.1.0.dev0.tar.gz)
-- [Artifact manifest and SHA-256 values](manifest.json)
-- [Distribution metadata and notice audit](distribution-audit.json)
-- [Supported install scope](scope.json)
-- [Case manifest](cases.json)
-- [Dependency and client version inventory](versions.json)
+- [Wheel](candidate/brickhouse-0.1.0-py3-none-any.whl)
+- [Source distribution](candidate/brickhouse-0.1.0.tar.gz)
+- [SHA-256 manifest](manifest.json) and [distribution/license audit](distribution-audit.json)
+- [Scope and qualification matrix](scope.json), [versions](versions.json), and [27-family case map](cases.json)
 - [Capability snapshot](capabilities.json) and [rendered report](capabilities.md)
-- [Draft release notes](release-notes-draft.md)
-- [Owner release checklist](release-checklist.md)
-- [Current Sparkless 4.15.2 machine reports](evidence/conformance/sparkless-4.15.2-current/)
+- [Prepared release notes](release-notes.md) and [publisher configuration](publishing.json)
+- [CI reports](evidence/B066/ci-39869421709/) from [run 39869421709](https://github.com/eddiethedean/brickhouse/actions/runs/39869421709)
 
-The wheel SHA-256 is `f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef`. The source archive SHA-256 is `c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a`. The distribution audit passed metadata, Python requirement, retained-notice, credential-path and recursive release-bundle checks; it records that the BrickHouse project license has not been selected.
+Wheel SHA-256: `3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7`. Source SHA-256: `b795829dd455f281784df9be435588d3fa264b965b9c82bc43ffbedbf4785a2c`.
+The source revision qualified by that run is `e25a6daaf57f4ec1059cf66f373b7ba4466a856d`; it built one candidate
+for every lane. Changes confined to this excluded release bundle do not alter
+the wheel or source archive contents.
 
-## Current candidate qualification
+## Qualification
 
-The exact wheel was installed in four fresh hash-pinned offline environments: base and `notebooks` extra on macOS 26.5.2 arm64 CPython 3.11.15 and 3.12.13. All passed dependency consistency. The selected G1–G4 matrix passed **624 cases**: **274 base** (137 per interpreter) and **350 notebook-extra** (175 per interpreter). A separate installed-wheel B064 review run passed **99 focused regressions** on CPython 3.11.15. The selected Sparkless 4.15.2 UTC-aware Delta timestamp predicate passed inside G1+G2.
+**1368 installed-wheel cases** passed across all eight Ubuntu 22.04 x86_64/macOS 26
+arm64, Python 3.11/3.12, base/notebook lanes. **1820 full-source cases**
+passed across all four OS/Python combinations. Required skips: **zero**.
+The JSON/XML reports record exact interpreter versions, artifact hashes, installed
+imports, notebook separation, and OS network denial. Required clients were
+provisioned from pinned, checksum-verified artifacts before offline execution.
+Routine checks used no personal Databricks account or credentials.
 
-The first 4.15.2 matrix run exposed a stale hardcoded Sparkless 4.15.0 notebook-kernel requirement. BrickHouse now pins the required kernel distribution to 4.15.2 and a regression test checks it against the project runtime pin. A G4 SQL cancellation test adapter was also updated to forward the connector's row and byte limits. The final matrix was rerun against the rebuilt candidate. The archived 132-case base and 169-case notebook-extra results apply only to the prior wheel hash `d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979`.
+The real orders workflow covers all seven Python and ipynb compute selections,
+three source notebook profile families, all three SQL warehouses, actual native
+aggregate output, dependent reads, secrets, resource lifetimes, and reopen checks.
+Recovery and deterministic terminal/admission ordering are included.
 
-Every current qualification run used an installed candidate wheel, clean local environments, and the macOS loopback-only network guard. Databricks credential variables were absent, `.env` was not read, and the guard observed no forbidden imports or Java, Spark driver, or Docker processes. No personal Databricks workspace, remote compute, or cloud workload was used.
+## Limits and history
 
-## Qualified scope and remaining gates
+67 capability entries remain partial, simulated, or planned; none is fully
+supported. This is a bounded local emulator. It does not allocate cloud compute,
+provide a worker sandbox, authenticate loopback callers, or establish remote
+Databricks Runtime/service parity. See [scope.json](scope.json).
 
-Qualification covers only the selected local G1–G4 cases and macOS arm64 CPython 3.11.15/3.12.13 combinations. It does not establish broad Spark or remote Databricks behavior. Linux x86_64 remains unqualified pending CI; Windows is unqualified. Warehouse and cluster lifecycle metadata is simulated. Kernel Arrow-stream/LZ4 results, broader connector metadata methods, Thrift and other unselected SQL/timestamp forms remain unqualified. The capability registry still has no fully supported entry.
-
-The project license and root `LICENSE` remain owner decisions required before public publication. Review the frozen phase 0.1 scope, repository/package ownership, notices and release notes, then explicitly authorize any public release. Nothing was published.
-
-See the repository [release plan](../../../docs/plan/16-phase-0.1-initial-release.md), [delivery plan](../../../docs/plan/12-delivery-and-operations.md), and [current status](../../../STATUS.md).
+Earlier 0.1.0.dev0 artifact metadata is retained under
+[evidence/pre-B066-development-candidate/](evidence/pre-B066-development-candidate/).
+Other dated development reports remain tied to their original hashes. They do
+not qualify the final candidate. Root source metadata and documents are outside
+this bundle; the bundle itself is excluded from source distributions to prevent
+recursive packaging and self-referential source hashes.

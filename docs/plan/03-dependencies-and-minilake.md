@@ -29,7 +29,7 @@ B002 outputs `docs/upstream/minilake-inventory.md` and ADR 0004: pinned commit, 
 
 Minilake reference: commit `0597285d1ba33daf76f553b82a32024ded7b78f6`, MIT, copyright Rafael Sales (2026). No code from this revision is copied. If a future change includes source, verify exact files and terms first; retain original notices and add `THIRD_PARTY_NOTICES.md` plus a machine-readable inventory before shipping. The current package contains no Minilake implementation.
 
-Choose BrickHouse's project license with the owner before publishing; MIT is the proposed default, not a license declaration by this plan. Confirm licenses and dependency terms at the pinned release, including native binaries. Do not label all optional services as permissively licensed without checking the actual artifact.
+The owner authorized choosing the project license on 2026-10-22; BrickHouse 0.1.0 uses Apache-2.0, with the full root LICENSE and SPDX distribution metadata. Dependencies retain their own terms and notices. Confirm licenses and dependency terms at the pinned release, including native binaries. Do not label all optional services as permissively licensed without checking the actual artifact.
 
 If a later decision accepts source adaptation, track divergence with a small patch ledger and contract tests. Re-evaluate upgrades periodically, but never automatically overwrite copied files. Outreach, issues, and PRs require the user's authorization to send messages; no upstream submission is required to execute this plan.
 

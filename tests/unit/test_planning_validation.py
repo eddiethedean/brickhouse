@@ -165,3 +165,17 @@ def test_incomplete_release_requirements_are_rejected(
     )
     with pytest.raises(validator.ValidationError):
         validator.check_release_requirements()
+
+
+def test_stale_capability_test_reference_is_rejected(validator: ModuleType) -> None:
+    capabilities = copy.deepcopy(validator.read_json("planning/capabilities.json")["capabilities"])
+    capabilities[0]["test_ids"].append("tests/unit/test_cli.py::test_nonexistent_capability")
+    with pytest.raises(validator.ValidationError, match="Capability selector does not exist"):
+        validator.check_capability_tests(capabilities)
+
+
+def test_stale_backlog_status_is_rejected(validator: ModuleType) -> None:
+    tasks = copy.deepcopy(validator.read_json("planning/tasks.json")["tasks"])
+    tasks[0]["status"] = "planned" if tasks[0]["status"] == "done" else "done"
+    with pytest.raises(validator.ValidationError, match="Backlog status differs for B001"):
+        validator.check_backlog(tasks)

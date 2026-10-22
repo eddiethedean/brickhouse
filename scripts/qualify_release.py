@@ -147,9 +147,11 @@ def main() -> int:
                             str(python),
                             "-I",
                             "-c",
-                            "import brickhouse,importlib.metadata as m,json; "
+                            "import brickhouse,importlib.metadata as m,json,sqlite3; "
                             "print(json.dumps({'brickhouse':m.version('brickhouse'),"
-                            "'sparkless':m.version('sparkless'),'import':brickhouse.__file__}))",
+                            "'sparkless':m.version('sparkless'),'deltalake':m.version('deltalake'),"
+                            "'pyarrow':m.version('pyarrow'),'sqlglot':m.version('sqlglot'),"
+                            "'sqlite':sqlite3.sqlite_version,'import':brickhouse.__file__}))",
                         ],
                         environment,
                     ).stdout

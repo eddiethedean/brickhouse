@@ -1,6 +1,6 @@
 # 09 — Implementation backlog
 
-This document mirrors `planning/tasks.json`: the JSON ledger is canonical for task definitions and current state. Keep this readable view synchronized when task definitions change. Initial-state labels on original entries describe the planning baseline; current state and evidence live in the ledger.
+This document mirrors `planning/tasks.json`: the JSON ledger is canonical for task definitions and current state. Keep this readable view synchronized when task definitions change. Status labels are checked against the ledger; dated evidence retains the versions and artifact scope originally tested.
 
 ## Task execution rules
 
@@ -38,7 +38,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B002 — Audit Minilake reuse and provenance
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B001.
 
@@ -56,7 +56,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B003 — Prove Sparkless provider extension design
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B001.
 
@@ -74,7 +74,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B004 — Select native Delta provider and feature envelope
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B001.
 
@@ -92,7 +92,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B005 — Pin client profiles and capture transport fixtures
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B001.
 
@@ -132,7 +132,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B007 — Implement catalog identity and namespace services
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Current ledger status:** done.
 
@@ -210,7 +210,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B011 — Implement initial Statement Execution path
 
-**Milestone:** M1 · **Kind:** task · **Current ledger status:** in progress.
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done progress.
 
 **Dependencies:** B005, B010, B043.
 
@@ -311,7 +311,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B016 — Implement scoped dbutils subset
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** done
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B014.
 
@@ -473,11 +473,14 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 **Required children:** B023.1, B023.2, B023.3. All children and the original criteria above are required.
 
-**Evidence:** B023.1–B023.3 complete the frozen candidate scope. The [owner-review bundle](../../artifacts/releases/0.1.0/README.md) retains actual `0.1.0.dev0` wheel/sdist artifacts, their hashes, generated capability docs, exact G1–G4 selectors, client/runtime versions, offline guard reports, local recovery/restore evidence, and the owner checklist. The exact current wheel passed 137 base and 175 notebook-extra cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13 (624 selected matrix cases); its separate installed-wheel B064 suite passed 99 cases. Historical 132/169 counts remain tied to the prior wheel. Linux x86_64 remains unadvertised pending CI; the project's license remains unselected and blocks publication. No candidate was published.
+**Evidence (historical development candidate; superseded by B066):** B023.1–B023.3 complete the frozen candidate scope. The [owner-review bundle](../../artifacts/releases/0.1.0/README.md) retains actual `0.1.0.dev0` wheel/sdist artifacts, their hashes, generated capability docs, exact G1–G4 selectors, client/runtime versions, offline guard reports, local recovery/restore evidence, and the owner checklist. The exact current wheel passed 137 base and 175 notebook-extra cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13 (624 selected matrix cases); its separate installed-wheel B064 suite passed 99 cases. Historical 132/169 counts remain tied to the prior wheel. Linux x86_64 remains unadvertised pending CI; the project's license remains unselected and blocks publication. No candidate was published.
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B024 — Expand workflow orchestration
 
-**Milestone:** M4 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M4 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B018, B043.
 
@@ -564,7 +567,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B029 — Add native vector index workflows
 
-**Milestone:** M4 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M4 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B008, B028.
 
@@ -580,7 +583,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B030 — Define and execute bounded micro-batches
 
-**Milestone:** M5 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M5 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B010, B013, B043.
 
@@ -597,7 +600,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B031 — Implement durable checkpoints and replay
 
-**Milestone:** M5 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M5 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B030, B022.
 
@@ -613,7 +616,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B032 — Add file ingestion and Auto Loader subset
 
-**Milestone:** M5 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M5 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B031.
 
@@ -629,7 +632,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B033 — Implement declarative batch pipeline graph
 
-**Milestone:** M5 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M5 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B018, B019, B043.
 
@@ -646,7 +649,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B034 — Add expectations and selected CDC semantics
 
-**Milestone:** M5 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M5 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B033, B031.
 
@@ -662,7 +665,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B035 — Evaluate and integrate stateful streaming
 
-**Milestone:** M5 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M5 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B031.
 
@@ -696,7 +699,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B037 — Implement broader SQL driver protocols
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B019, B005.
 
@@ -712,7 +715,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B038 — Research native feature engineering and MLlib coverage
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B025, B008.
 
@@ -781,7 +784,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B042 — Prepare expanded conformance release
 
-**Milestone:** M6 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M6 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B023, B024, B025, B026, B027, B028, B029, B032, B034, B035, B036, B037, B038, B039, B040, B041, B043.
 
@@ -798,7 +801,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B001.1 — Create the package and lazy CLI entry point
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B001 · **Parent criteria:** 2, 3.
 
@@ -814,7 +817,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B001.2 — Build and install distribution artifacts
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B001 · **Parent criteria:** 1, 2.
 
@@ -830,7 +833,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B001.3 — Establish development and planning validation tooling
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B001 · **Parent criteria:** 3.
 
@@ -846,7 +849,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B002.1 — Inventory pinned Minilake source and coupling
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B002 · **Parent criteria:** 1.
 
@@ -862,7 +865,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B002.2 — Decide reuse boundaries and provenance requirements
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B002 · **Parent criteria:** 2, 3.
 
@@ -878,7 +881,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B003.1 — Inspect actual Sparkless extension APIs
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B003 · **Parent criteria:** 1.
 
@@ -894,7 +897,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B003.2 — Probe external relations writers and typed interchange
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B003 · **Parent criteria:** 2.
 
@@ -910,7 +913,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B003.3 — Resolve session and callback delivery risks
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B003 · **Parent criteria:** 2, 3.
 
@@ -926,7 +929,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B004.1 — Probe native Delta mutation candidates
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B004 · **Parent criteria:** 1.
 
@@ -942,7 +945,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B004.2 — Cross-read the selected type and protocol envelope
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B004 · **Parent criteria:** 2.
 
@@ -958,7 +961,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B004.3 — Select mutation provider and recovery identity
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B004 · **Parent criteria:** 3.
 
@@ -974,7 +977,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B005.1 — Pin clients semantic profiles and transport requirements
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B005 · **Parent criteria:** 1, 2, 3.
 
@@ -990,7 +993,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B005.2 — Configure bounded personal-account reference scope
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B005 · **Parent criteria:** 3, 4.
 
@@ -1006,7 +1009,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B005.3 — Capture and sanitize a real reference behavior
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B005 · **Parent criteria:** 5.
 
@@ -1022,7 +1025,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B005.4 — Guard local fixtures and clients against remote authentication
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B005 · **Parent criteria:** 7.
 
@@ -1038,7 +1041,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B005.5 — Add the optional manual reference-capture workflow
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B005 · **Parent criteria:** 6.
 
@@ -1054,7 +1057,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B006.1 — Define workspace configuration namespaces and schema
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B006 · **Parent criteria:** 1, 2.
 
@@ -1070,7 +1073,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B006.2 — Enforce service ownership and independent persistence
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B006 · **Parent criteria:** 2, 3.
 
@@ -1086,7 +1089,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B006.3 — Expose equivalent CLI and embedded lifecycle
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B006 · **Parent criteria:** 1, 3.
 
@@ -1102,7 +1105,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B007.1 — Persist stable catalog and table identities
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Current ledger status:** done.
 
@@ -1120,7 +1123,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B007.2 — Bind identifiers and isolated namespace defaults
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Current ledger status:** done.
 
@@ -1138,7 +1141,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B007.3 — Implement SDK catalog and schema workflows
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Current ledger status:** done.
 
@@ -1156,7 +1159,7 @@ The emulator remains primary through phases 0.1–0.9. B047 records the long-ter
 
 ## B008.1 — Define table handles snapshots and staging
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Current ledger status:** done.
 
@@ -1598,7 +1601,7 @@ The tested contract is Rust-only. The current source has no PyO3/Python callback
 
 ## B014.1 — Persist jobs submissions runs and attempts
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B002, B005, B013, B043.
 
@@ -1906,7 +1909,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B016.3 — Persist task values and output context
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** done
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B016 · **Parent criteria:** 3.
 
@@ -2347,7 +2350,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B020.1 — Prove the pinned CLI workspace and job workflow
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** done
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B014, B043.
 
@@ -2363,7 +2366,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B020.2 — Prove the minimal Terraform lifecycle
 
-**Milestone:** M3 · **Kind:** task · **Initial state:** done
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B014, B020.1, B043.
 
@@ -2616,7 +2619,10 @@ These bound the worker import/factory boundary separately from read-only methods
 
 **B048 attachment:** The supported-scope inventory must retain [the local-core boundary review](../../artifacts/conformance/B048-local-core-boundaries.md) and [the loopback remediation evidence](../../artifacts/conformance/B048.1-loopback-bind-boundary.md), including the explicit no-auth/no-sandbox limit.
 
-**Evidence:** [The versioned scope inventory](../../artifacts/conformance/B023.1-alpha-scope.md) records the 0.1.0 package/dependency/client scope, all 67 capability states, schema-20 migration coverage, pinned direct dependency notices and hashes, runnable local orders example, the public Sparkless 4.15.0 artifact and exact locally exercised macOS arm64 wheel hash. Nine focused migration/rollback tests passed; the example integration passed 1 test with `DATABRICKS_TOKEN` and `DATABRICKS_HOST` unset; Ruff and strict mypy passed for the example. B023.2.1–B023.2.3 now record wheel/sdist auditing, macOS arm64 CPython 3.11/3.12 base and notebook-extra install/offline behavior, and G1–G4 evidence; Linux x86_64 remains unadvertised pending CI. BrickHouse's own license remains unselected and blocks public publication. No release artifact was published.
+**Evidence (historical development candidate; superseded by B066):** [The versioned scope inventory](../../artifacts/conformance/B023.1-alpha-scope.md) records the 0.1.0 package/dependency/client scope, all 67 capability states, schema-20 migration coverage, pinned direct dependency notices and hashes, runnable local orders example, the public Sparkless 4.15.0 artifact and exact locally exercised macOS arm64 wheel hash. Nine focused migration/rollback tests passed; the example integration passed 1 test with `DATABRICKS_TOKEN` and `DATABRICKS_HOST` unset; Ruff and strict mypy passed for the example. B023.2.1–B023.2.3 now record wheel/sdist auditing, macOS arm64 CPython 3.11/3.12 base and notebook-extra install/offline behavior, and G1–G4 evidence; Linux x86_64 remains unadvertised pending CI. BrickHouse's own license remains unselected and blocks public publication. No release artifact was published.
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B023.2 — Gate candidate wheels on platforms and offline execution
 
@@ -2636,7 +2642,10 @@ These bound the worker import/factory boundary separately from read-only methods
 
 **Required children:** B023.2.1, B023.2.2, B023.2.3. The platform matrix, clean base/offline gate, and separate notebook-extra gate must all pass for the advertised profiles.
 
-**Evidence:** [B023.2.1](../../artifacts/conformance/B023.2.1-candidate-wheel-platform.md) audited clean installs; current wheel/sdist hashes and audit are in the candidate bundle. The current exact candidate passed base G1–G4 in 137 cases per interpreter and notebook-extra G1–G4 in 175 cases per interpreter on macOS arm64 CPython 3.11.15/3.12.13, 624 total. See its [machine-readable current reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/). The prior 132/169 counts are historical. Linux x86_64 remains unadvertised pending CI; publication remains blocked on the owner's project-license decision.
+**Evidence (historical development candidate; superseded by B066):** [B023.2.1](../../artifacts/conformance/B023.2.1-candidate-wheel-platform.md) audited clean installs; current wheel/sdist hashes and audit are in the candidate bundle. The current exact candidate passed base G1–G4 in 137 cases per interpreter and notebook-extra G1–G4 in 175 cases per interpreter on macOS arm64 CPython 3.11.15/3.12.13, 624 total. See its [machine-readable current reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/). The prior 132/169 counts are historical. Linux x86_64 remains unadvertised pending CI; publication remains blocked on the owner's project-license decision.
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B023.2.1 — Build and audit release candidates across the advertised platform matrix
 
@@ -2655,7 +2664,10 @@ These bound the worker import/factory boundary separately from read-only methods
 1. Build the candidate wheel and source distribution from the current checkout; inspect metadata, runtime requirements, package contents, and third-party notices in both artifacts.
 2. Install the built wheel in clean environments for every advertised Python/OS/architecture combination; assess CPython 3.11/3.12 Linux x86_64 and macOS arm64 candidates and advertise only combinations with actual passing install evidence.
 
-**Evidence:** The built `0.1.0.dev0` wheel and sdist passed metadata/content audit and include every retained notice. Fresh macOS arm64 CPython 3.11.15 and 3.12.13 environments installed the same wheel, passed dependency checks and CLI/import checks, and omitted all four optional notebook packages. The current qualified install set is those two macOS combinations; Linux x86_64 is intentionally not advertised until its new Ubuntu CI matrix runs. See [the candidate report](../../artifacts/conformance/B023.2.1-candidate-wheel-platform.md).
+**Evidence (historical development candidate; superseded by B066):** The built `0.1.0.dev0` wheel and sdist passed metadata/content audit and include every retained notice. Fresh macOS arm64 CPython 3.11.15 and 3.12.13 environments installed the same wheel, passed dependency checks and CLI/import checks, and omitted all four optional notebook packages. The current qualified install set is those two macOS combinations; Linux x86_64 is intentionally not advertised until its new Ubuntu CI matrix runs. See [the candidate report](../../artifacts/conformance/B023.2.1-candidate-wheel-platform.md).
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B023.2.2 — Qualify the base wheel offline without JVM, cloud, or Docker
 
@@ -2674,7 +2686,10 @@ These bound the worker import/factory boundary separately from read-only methods
 1. Install the base candidate without the notebook extra, provision dependencies before the offline check, then run the declared G1-G4 workflow and process/network gates without Java, full PySpark, delta-spark, Docker, cloud compute, or real Databricks access.
 2. Prove the installed-wheel workflow uses loopback only, does not load `.env` or inherit real workspace credentials, and succeeds after external network access is denied.
 
-**Evidence:** The historical [base-wheel report](../../artifacts/conformance/B023.2.2-base-wheel-offline.md) records 132 G1–G4 tests per interpreter for its prior wheel hash. The exact current wheel passed 137 base cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13; its [current machine-readable reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/) bind results to the current wheel and source archive. They show loopback-only traffic under outbound-network denial, no `.env` reads or inherited Databricks credentials, no Java/Spark/Docker process or forbidden distribution/import, and absence of optional notebook packages. Terraform uses the provisioned local provider mirror and local RPC socket exception. Linux remains unadvertised pending CI and BrickHouse's own license remains an owner publication blocker.
+**Evidence (historical development candidate; superseded by B066):** The historical [base-wheel report](../../artifacts/conformance/B023.2.2-base-wheel-offline.md) records 132 G1–G4 tests per interpreter for its prior wheel hash. The exact current wheel passed 137 base cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13; its [current machine-readable reports](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/) bind results to the current wheel and source archive. They show loopback-only traffic under outbound-network denial, no `.env` reads or inherited Databricks credentials, no Java/Spark/Docker process or forbidden distribution/import, and absence of optional notebook packages. Terraform uses the provisioned local provider mirror and local RPC socket exception. Linux remains unadvertised pending CI and BrickHouse's own license remains an owner publication blocker.
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B023.2.3 — Qualify the notebook extra as a separate offline candidate
 
@@ -2694,7 +2709,10 @@ These bound the worker import/factory boundary separately from read-only methods
 2. Provision all native/runtime dependencies before the offline check; prove notebook execution uses local kernels and workers without Java, full PySpark, delta-spark, Docker, cloud compute, or real Databricks access.
 3. Verify the base wheel remains free of notebook runtime packages and advertise only notebook combinations with passing install and behavior evidence.
 
-**Evidence:** The historical [notebook-extra report](../../artifacts/conformance/B023.2.3-notebook-extra-offline.md) records 169 G1–G4 tests per interpreter for its prior wheel hash. The exact current wheel with the notebook extra passed 175 selected cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13, including 37 notebook/kernel cases. Current machine reports are in the [Sparkless 4.15.2 report directory](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/). Both base environments passed `uv pip check` and assertions that optional notebook distributions were absent. The current sandbox reports show only loopback/local Unix-socket traffic, no `.env` reads or inherited workspace credentials, and no Java/Spark/Docker process or full Spark/Delta distribution/import. Linux x86_64 remains unadvertised pending CI; the project license remains an owner decision.
+**Evidence (historical development candidate; superseded by B066):** The historical [notebook-extra report](../../artifacts/conformance/B023.2.3-notebook-extra-offline.md) records 169 G1–G4 tests per interpreter for its prior wheel hash. The exact current wheel with the notebook extra passed 175 selected cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13, including 37 notebook/kernel cases. Current machine reports are in the [Sparkless 4.15.2 report directory](../../artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/). Both base environments passed `uv pip check` and assertions that optional notebook distributions were absent. The current sandbox reports show only loopback/local Unix-socket traffic, no `.env` reads or inherited workspace credentials, and no Java/Spark/Docker process or full Spark/Delta distribution/import. Linux x86_64 remains unadvertised pending CI; the project license remains an owner decision.
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B023.3 — Assemble the owner-reviewable release candidate
 
@@ -2712,7 +2730,10 @@ These bound the worker import/factory boundary separately from read-only methods
 
 1. Assemble actual artifacts and retained evidence, update truthful current-behavior documentation, validate the owner release checklist, and keep publication as a separately authorized action.
 
-**Evidence:** The [0.1.0 owner-review bundle](../../artifacts/releases/0.1.0/README.md) contains the audited `0.1.0.dev0` wheel/sdist, artifact hashes, capability snapshot and generated Markdown, versions and exact G1–G4 selectors, current offline guard reports, recovery evidence, and owner checklist. The exact current wheel passed 624 selected cases across base and notebook-extra lanes on CPython 3.11.15/3.12.13; the separate 99-case B064 installed-wheel run also passed. The distribution audit passed and reports the unselected project license. Linux x86_64 qualification and explicit publication authorization remain open. No account, cloud workload, or publication was used.
+**Evidence (historical development candidate; superseded by B066):** The [0.1.0 owner-review bundle](../../artifacts/releases/0.1.0/README.md) contains the audited `0.1.0.dev0` wheel/sdist, artifact hashes, capability snapshot and generated Markdown, versions and exact G1–G4 selectors, current offline guard reports, recovery evidence, and owner checklist. The exact current wheel passed 624 selected cases across base and notebook-extra lanes on CPython 3.11.15/3.12.13; the separate 99-case B064 installed-wheel run also passed. The distribution audit passed and reports the unselected project license. Linux x86_64 qualification and explicit publication authorization remain open. No account, cloud workload, or publication was used.
+
+
+Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and remaining publisher requirements are recorded by B066 in the [release bundle](../../artifacts/releases/0.1.0/README.md). These original B023 results apply only to their dated development artifacts.
 
 ## B011.5 — Implement local SQL warehouse identity and lifecycle
 
@@ -2735,7 +2756,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B014.4 — Implement classic compute identity and lifecycle
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B002, B005, B013, B014.1, B043.
 
@@ -2752,7 +2773,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B014.5 — Resolve serverless and classic execution contexts
 
-**Milestone:** M2 · **Kind:** task · **Initial state:** planned
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B002, B005, B013, B014.4, B043.
 
@@ -2806,7 +2827,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B043 — Research and define serverless and classic compute contracts
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005.
 
@@ -2860,7 +2881,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B017.5 — Qualify notebook profiles during compute interruption
 
-**Milestone:** M2 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M2 · **Kind:** task · **Current ledger status:** done
 
 **Parent:** B017 · **Parent criteria:** 1, 3, 4.
 
@@ -2898,7 +2919,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B044 — Refine the phase 0.1 execution and release gates
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B043.
 
@@ -2914,7 +2935,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B045 — Resolve SQL connector transport feasibility early
 
-**Milestone:** M0 · **Kind:** task · **Initial state:** planned
+**Milestone:** M0 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B005, B006, B044.
 
@@ -2967,7 +2988,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B046.2 — Implement and verify Python provider callbacks
 
-**Milestone:** M1 · **Kind:** task · **Initial state:** planned
+**Milestone:** M1 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B009, B043, B044, B046.1.
 
@@ -3080,7 +3101,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B049 — Establish emulator stability before deployment implementation
 
-**Milestone:** M7 · **Kind:** task · **Initial state:** planned
+**Milestone:** M7 · **Kind:** task · **Current ledger status:** planned
 
 **Dependencies:** B042, B048.
 
@@ -3134,7 +3155,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B052 — Isolate execution for shared self-hosted use
 
-**Milestone:** M7 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M7 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B051.
 
@@ -3151,7 +3172,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B053 — Execute jobs and durable automation on remote workers
 
-**Milestone:** M7 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M7 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B052.
 
@@ -3169,7 +3190,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B054 — Qualify self-hosted operations and recovery
 
-**Milestone:** M7 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M7 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B053.
 
@@ -3187,7 +3208,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B055 — Prepare the self-hosted distribution candidate
 
-**Milestone:** M7 · **Kind:** epic · **Initial state:** planned
+**Milestone:** M7 · **Kind:** epic · **Current ledger status:** planned
 
 **Dependencies:** B054.
 
@@ -3601,7 +3622,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.2 — Automate and pass the complete offline platform matrix
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1.
 
@@ -3617,7 +3638,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.3 — Finalize license and 0.1.0 release metadata
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** blocked
 
 **Dependencies:** B065, B066.1.
 
@@ -3633,7 +3654,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.4 — Freeze final artifacts and release-readiness evidence
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
 
 **Dependencies:** B065, B066.2, B066.3.1.
 
@@ -3645,9 +3666,11 @@ These bound the worker import/factory boundary separately from read-only methods
 
 **Parent:** B066 · **Parent criteria:** 4.
 
+**Evidence:** Native-Python CI run 39869421709 passed 1,368 installed-wheel offline cases and four 455-case complete source suites (1,820 total), zero required skips, on Ubuntu 22.04 x86_64/macOS 26 arm64 and CPython 3.11.17/3.12.15. The final evidence audit passes 26 planning/report regressions and all 17 actual orders workflow variants; it validates all 63 release selectors, 253 unique capability references and current backlog states. Updated source-archive qualification and final freeze remain pending. See the [release bundle](../../artifacts/releases/0.1.0/README.md).
+
 ## B066.2.1 — Make pinned client fixtures portable
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1.
 
@@ -3663,7 +3686,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.2.2 — Release statement admission before terminal publication
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1.
 
@@ -3679,7 +3702,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.2.3 — Pass every required offline qualification lane
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1, B066.2.1, B066.2.2.
 
@@ -3695,7 +3718,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.3.1 — Finalize release metadata and truthful diagnostics
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
 
 **Dependencies:** B065, B066.1.
 
@@ -3711,7 +3734,7 @@ These bound the worker import/factory boundary separately from read-only methods
 
 ## B066.3.2 — Verify GitHub and PyPI publishing configuration
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** planned
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** blocked
 
 **Dependencies:** B065, B066.1, B066.3.1.
 

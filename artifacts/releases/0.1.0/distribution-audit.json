@@ -1,10 +1,11 @@
 {
-  "project_license_selected": false,
+  "project_license_selected": true,
   "result": "passed",
   "sdist": {
     "name": "brickhouse",
-    "path": "/Volumes/T7/coding/brickhouse/artifacts/releases/0.1.0/candidate/brickhouse-0.1.0.dev0.tar.gz",
+    "path": "candidate/brickhouse-0.1.0.tar.gz",
     "retained_notice_files": [
+      "LICENSE",
       "THIRD_PARTY_LICENSES/deltalake-1.2.1-LICENSE.txt",
       "THIRD_PARTY_LICENSES/ipykernel-7.4.0-LICENSE.txt",
       "THIRD_PARTY_LICENSES/jupyter-client-8.10.0-LICENSE.txt",
@@ -17,15 +18,17 @@
       "THIRD_PARTY_LICENSES/sqlglot-30.24.0-LICENSE.txt",
       "THIRD_PARTY_NOTICES.md"
     ],
-    "sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-    "version": "0.1.0.dev0"
+    "sha256": "b795829dd455f281784df9be435588d3fa264b965b9c82bc43ffbedbf4785a2c",
+    "version": "0.1.0"
   },
   "wheel": {
+    "license_expression": "Apache-2.0",
     "name": "brickhouse",
     "package_file_count": 70,
-    "path": "/Volumes/T7/coding/brickhouse/artifacts/releases/0.1.0/candidate/brickhouse-0.1.0.dev0-py3-none-any.whl",
+    "path": "candidate/brickhouse-0.1.0-py3-none-any.whl",
     "requires_python": ">=3.11",
     "retained_notice_files": [
+      "LICENSE",
       "THIRD_PARTY_LICENSES/deltalake-1.2.1-LICENSE.txt",
       "THIRD_PARTY_LICENSES/ipykernel-7.4.0-LICENSE.txt",
       "THIRD_PARTY_LICENSES/jupyter-client-8.10.0-LICENSE.txt",
@@ -38,7 +41,7 @@
       "THIRD_PARTY_LICENSES/sqlglot-30.24.0-LICENSE.txt",
       "THIRD_PARTY_NOTICES.md"
     ],
-    "sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "version": "0.1.0.dev0"
+    "sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+    "version": "0.1.0"
   }
 }

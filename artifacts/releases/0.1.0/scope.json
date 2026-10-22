@@ -1,19 +1,283 @@
 {
-  "candidate_distribution_version": "0.1.0.dev0",
-  "candidate_state": "owner-review candidate; not published",
+  "schema_version": 2,
+  "date": "2026-10-22",
+  "target_release": "0.1.0",
+  "candidate_distribution_version": "0.1.0",
+  "published": false,
+  "project_license": "Apache-2.0",
   "capability_registry": {
     "entries": 67,
-    "fully_supported_entries": 0,
     "status_counts": {
       "partial": 24,
       "planned": 41,
       "simulated": 2
-    }
+    },
+    "fully_supported_entries": 0
   },
-  "date": "2026-10-22",
-  "frozen_local_workload_profiles": {
-    "infrastructure_lifecycle": "simulated metadata; real local workers/SQL/table behavior are covered only by selected evidence",
-    "notebook_compute_selectors": [
+  "qualified_install_matrix": [
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.11.17",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.11"
+    },
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.11.17",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.11"
+    },
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.12.15",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.12"
+    },
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.12.15",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.12"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.11.17",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.11"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.11.17",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.11"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.12.15",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.12"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.12.15",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.12"
+    }
+  ],
+  "offline_passed_cases": 1368,
+  "full_source_passed_cases": 1820,
+  "required_skips": 0,
+  "required_case_families": 27,
+  "frozen_local_profiles": {
+    "required_compute_variants": [
       "SL",
       "CSN",
       "CSE",
@@ -22,127 +286,36 @@
       "CDE",
       "CDH"
     ],
-    "python_job_selectors": [
+    "required_source_notebook_profiles": [
       "SL",
       "CSN",
-      "CSE",
-      "CSH",
-      "CDN",
-      "CDE",
-      "CDH"
+      "CDN"
     ],
-    "sql_warehouse_profiles": [
+    "warehouse_profiles": [
       "serverless",
       "pro",
       "classic"
     ]
   },
   "known_scope_limits": [
-    "No remote Databricks runtime or service parity is claimed.",
-    "No cloud compute or real infrastructure lifecycle behavior is claimed.",
-    "Warehouse and cluster lifecycle metadata is simulated.",
-    "Kernel Arrow-stream/LZ4 and broader SQL connector methods remain unqualified.",
-    "Thrift and Windows are unqualified.",
-    "The selected UTC-aware Delta timestamp predicate passes on the published Sparkless 4.15.2 wheel under upstream PR #1721; other timestamp forms, broad SQL, and remote Databricks behavior remain unqualified."
+    "macOS 14 is unqualified for the final artifact because its sandbox intermittently denies native CLI loopback connections.",
+    "No remote Databricks service or Runtime parity is claimed.",
+    "Cluster/warehouse lifecycle metadata and compute access modes are simulated; actual workloads execute locally.",
+    "SQL COUNT has the documented int32/int64 discrepancy tracked in Sparkless issue #1723.",
+    "Kernel Arrow-stream/LZ4, Thrift, broad SQL/connector metadata, remote authentication, Windows and untested Python/platform combinations remain outside qualification.",
+    "The local API is unauthenticated and workers run trusted code as the local user."
   ],
-  "release_gates": {
-    "current_candidate_b064_installed_wheel": "passed: 99 focused installed-wheel cases with Sparkless 4.15.2 on macOS arm64 CPython 3.11.15 under the loopback-only offline guard",
-    "current_candidate_full_g1_g4": "passed: 624 selected cases across base (274) and notebook-extra (350) lanes on macOS arm64 CPython 3.11.15 and 3.12.13; current wheel SHA-256 f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "linux_x86_64": "unqualified; do not advertise until CI passes or scope is revised",
-    "notices_and_distribution_audit": "passed for final current wheel and source archive; project license remains unselected",
-    "project_license": "owner decision required; not selected",
-    "publication": "not authorized by this candidate task; separate owner authorization required",
-    "remote_databricks_parity": "not claimed"
+  "qualified_os_targets": {
+    "linux-x86_64": "Ubuntu 22.04",
+    "macos-arm64": "macOS 26"
   },
-  "schema_version": 1,
-  "source_provenance": {
-    "base_commit": "e767437726b96be91f1d1b1291780736ab913483",
-    "development_lock_sha256": "a709d83648b05f52ef1075a1b76fae510617ad7901ccf2684a54c8ba3746add2",
-    "source_archive_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "working_tree_was_dirty_during_candidate_build": true
-  },
-  "target_release": "0.1.0",
-  "unqualified_install_matrix": [
+  "unqualified_os_targets": [
     {
-      "architecture": "x86_64",
-      "os": "Linux",
-      "python": "3.11/3.12",
-      "reason": "Configured CI matrix has not passed; not advertised."
-    },
-    {
-      "architecture": "any",
-      "os": "Windows",
-      "python": "any",
-      "reason": "No install/offline qualification; not advertised."
+      "os": "macOS 14.8.9",
+      "reason": "The qualification sandbox intermittently denies pinned native CLI loopback connections. No final-artifact qualification is claimed on this OS."
     }
   ],
-  "previous_candidate_qualified_install_matrix": [
-    {
-      "architecture": "arm64",
-      "base": true,
-      "notebooks_extra": true,
-      "os": "macOS 26.5.2",
-      "python": "3.11.15"
-    },
-    {
-      "architecture": "arm64",
-      "base": true,
-      "notebooks_extra": true,
-      "os": "macOS 26.5.2",
-      "python": "3.12.13"
-    }
-  ],
-  "previous_candidate_release_gates": {
-    "base_offline_g1_g4": "passed: 264 cases across two macOS Python combinations",
-    "linux_x86_64": "unqualified; do not advertise until CI passes or scope is revised",
-    "notebook_extra_offline_g1_g4": "passed: 338 cases across two macOS Python combinations",
-    "notices_and_distribution_audit": "passed",
-    "project_license": "owner decision required; not selected",
-    "publication": "not authorized by this candidate task; separate owner authorization required",
-    "remote_databricks_parity": "not claimed"
-  },
-  "previous_candidate_artifact_hashes": {
-    "wheel_sha256": "d17b23f20530998c3b5256a4e9ae37101720080e35cc4252c5519330a5ca8979",
-    "sdist_sha256": "0c6464b617d7d05518161feac07733a343660c2bd0156447d1118f2ab58eac63"
-  },
-  "current_candidate_qualification": {
-    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-    "sparkless_version": "4.15.2",
-    "full_g1_g4_matrix_requalified": true,
-    "g1_g4_passed_cases": 624,
-    "base_lane_cases": 274,
-    "notebook_extra_lane_cases": 350,
-    "per_interpreter": {
-      "base": 137,
-      "notebook_extra": 175
-    },
-    "python_versions": [
-      "3.11.15",
-      "3.12.13"
-    ],
-    "platform": "macOS 26.5.2 arm64",
-    "b064_installed_wheel_cases": 99,
-    "databricks_credentials_used": false
-  },
-  "current_candidate_full_g1_g4": "passed: 624 selected cases across base (274) and notebook-extra (350) lanes on macOS arm64 CPython 3.11.15 and 3.12.13; current wheel SHA-256 f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-  "current_candidate_install_matrix": [
-    {
-      "os": "macOS 26.5.2",
-      "architecture": "arm64",
-      "python": "3.11.15",
-      "base": true,
-      "notebooks_extra": true,
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef"
-    },
-    {
-      "os": "macOS 26.5.2",
-      "architecture": "arm64",
-      "python": "3.12.13",
-      "base": true,
-      "notebooks_extra": true,
-      "candidate_wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef"
-    }
-  ]
+  "trusted_publisher_configured_and_verified": false,
+  "publication_authorized": false,
+  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39869421709"
 }

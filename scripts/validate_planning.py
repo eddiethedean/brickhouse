@@ -68,6 +68,11 @@ def check_backlog(tasks: list[dict[str, Any]]) -> None:
         end = start + 1 + next_heading.start() if next_heading else len(text)
         section = text[start:end]
         require(headings[task_id] == task["title"], f"Backlog title differs for {task_id}")
+        status = re.search(r"\*\*Current ledger status:\*\* ([a-z_]+)", section)
+        require(
+            status is not None and status.group(1) == task["status"],
+            f"Backlog status differs for {task_id}",
+        )
         deliverable = re.search(r"^\*\*Deliverable:\*\* (.+)$", section, re.MULTILINE)
         require(deliverable is not None, f"Backlog deliverable missing for {task_id}")
         assert deliverable is not None
@@ -262,6 +267,34 @@ def check_oss_inventory(tasks_by_id: dict[str, dict[str, Any]]) -> dict[str, int
     }
 
 
+def check_test_selectors(selectors: set[str], context: str) -> None:
+    definitions_by_path: dict[Path, set[str]] = {}
+    for selector in sorted(selectors):
+        path_text, *nodes = selector.split("::")
+        path = (ROOT / path_text).resolve()
+        require(
+            path.is_relative_to(ROOT / "tests") and path.is_file(),
+            f"{context} selector is not a test file: {selector}",
+        )
+        if nodes:
+            if path not in definitions_by_path:
+                definitions_by_path[path] = {
+                    node.name
+                    for node in ast.walk(ast.parse(path.read_text()))
+                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+                }
+            require(
+                all(node.split("[", 1)[0] in definitions_by_path[path] for node in nodes),
+                f"{context} selector does not exist: {selector}",
+            )
+
+
+def check_capability_tests(capabilities: list[dict[str, Any]]) -> dict[str, int]:
+    selectors = {selector for capability in capabilities for selector in capability["test_ids"]}
+    check_test_selectors(selectors, "Capability")
+    return {"capability_test_selectors": len(selectors)}
+
+
 def check_release_requirements() -> dict[str, int]:
     manifest = read_json("planning/release-requirements.json")
     require(manifest["target_release"] == "0.1.0", "Unexpected release requirement version")
@@ -306,23 +339,7 @@ def check_release_requirements() -> dict[str, int]:
         )
         require(bool(family["test_selectors"]), f"Missing cases for release family {family['id']}")
         selectors.update(family["test_selectors"])
-    for selector in sorted(selectors):
-        path_text, *nodes = selector.split("::")
-        path = (ROOT / path_text).resolve()
-        require(
-            path.is_relative_to(ROOT / "tests") and path.is_file(),
-            f"Release selector is not a test file: {selector}",
-        )
-        if nodes:
-            definitions = {
-                node.name
-                for node in ast.walk(ast.parse(path.read_text()))
-                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
-            }
-            require(
-                all(node.split("[", 1)[0] in definitions for node in nodes),
-                f"Release selector does not exist: {selector}",
-            )
+    check_test_selectors(selectors, "Release")
     require(
         manifest["required_compute_variants"] == ["SL", "CSN", "CSE", "CSH", "CDN", "CDE", "CDH"],
         "Release compute variants differ from the seven required selections",
@@ -525,6 +542,7 @@ def validate() -> dict[str, Any]:
                 f"Supported capability has no evidence: {capability_id}",
             )
 
+    capability_report = check_capability_tests(capabilities)
     oss_report = check_oss_inventory(tasks_by_id)
     release_report = check_release_requirements()
     check_backlog(tasks)
@@ -573,6 +591,7 @@ def validate() -> dict[str, Any]:
         "emulator_stability_task": "B049",
         **oss_report,
         **release_report,
+        **capability_report,
         "local_markdown_links_checked": link_count,
         "initially_ready_implementation_tasks": ready,
     }

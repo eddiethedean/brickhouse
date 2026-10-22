@@ -4,8 +4,8 @@ import json
 from decimal import Decimal
 
 from pyspark.sql import SparkSession
-from pyspark.sql import functions as F
-from pyspark.sql.types import (
+from sparkless.sql import functions as F
+from sparkless.sql.types import (
     BooleanType,
     DecimalType,
     LongType,

@@ -9407,7 +9407,16 @@
         "Freeze and audit final wheel/sdist artifacts, exact qualification hashes and requirement traceability; complete release-readiness records and pass GitHub CI while preserving separate public-publication authorization."
       ],
       "owner": "Codex",
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "native-python-matrix-and-final-evidence-audit",
+          "command": "GitHub CI run 39869421709; pytest tests/unit/test_planning_validation.py tests/unit/test_capability_report.py; pytest tests/integration/test_release_orders_workflow.py",
+          "result": "Baseline native CPython 3.11.17/3.12.15 on Ubuntu 22.04 x86_64/macOS 26 arm64 passed 1,368 installed-wheel offline cases and 1,820 full-source tests, zero required skips. Final evidence corrections pass 26 planning/report regressions and all 17 actual orders workflow variants. Updated source archive requires its own CI proof before this task completes. Capability states remain 24 partial, 2 simulated and 41 planned.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/github-run.json",
+          "commit": "e25a6daaf57f4ec1059cf66f373b7ba4466a856d"
+        }
+      ],
       "blockers": [],
       "children": [],
       "parent_id": "B066",

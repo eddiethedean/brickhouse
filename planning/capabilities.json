@@ -34,9 +34,9 @@
         "B064.5"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sqlite": "3.53.4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
         "workspace_format": "1",
         "metadata_schema_version": "21"
       },
@@ -57,7 +57,7 @@
         "tests/unit/test_cli.py::test_diagnostic_server_rejects_nonloopback_bind",
         "tests/unit/test_cli.py::test_diagnostic_server_owns_workspace_until_sigterm_shutdown",
         "tests/unit/test_catalog_repository.py::test_owner_upgrade_migrates_schema_v1_before_repositories_open",
-        "tests/unit/test_delta_operation_journal.py::test_workspace_schema_three_migrates_to_operation_journal_four",
+        "tests/unit/test_delta_operation_journal.py::test_workspace_schema_three_migrates_through_latest_metadata_version",
         "tests/unit/test_diagnostic_server.py::test_server_factory_rejects_non_ipv4_loopback_before_binding",
         "tests/unit/test_diagnostic_server.py::test_direct_serve_entry_rejects_non_loopback_before_signal_setup"
       ],
@@ -151,6 +151,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -180,11 +194,12 @@
         "B012.2.3"
       ],
       "tested_versions": {
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 loopback only",
         "deltalake": "1.2.1",
-        "pyarrow": "23.0.1"
+        "pyarrow": "23.0.1",
+        "brickhouse": "0.1.0"
       },
       "test_ids": [
         "tests/integration/test_g1_shared_table_restart.py::test_g1_sparkless_delta_sdk_and_fresh_session_survive_service_restart"
@@ -215,6 +230,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -261,10 +290,10 @@
         "B007.3"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sqlite": "3.53.4",
-        "metadata_schema_version": "4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "metadata_schema_version": "21",
         "databricks_reference": "Free Edition serverless SQL warehouse; engine version unavailable",
         "statement_execution_api": "2.0",
         "databricks_sdk": "0.153.0"
@@ -308,6 +337,20 @@
           "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-b0081-venv/bin/python -m pytest -q tests/unit/test_table_removal.py tests/unit/test_delta_operation_journal.py tests/unit/test_delta_table_service.py tests/unit/test_table_contracts.py tests/unit/test_catalog_api_sdk.py tests/unit/test_catalog_repository.py tests/unit/test_identifier_resolution.py tests/unit/test_cli.py tests/unit/test_workspace.py tests/unit/test_workspace_context.py tests/unit/test_workspace_ownership.py",
           "result": "passed: 65 local checks including the pinned SDK catalog/schema profile against metadata schema 4, identifier resolution, and the schema 3 to 4 migration; no Databricks API was used in this run.",
           "artifact": "artifacts/conformance/B008.4-ownership-safe-removal.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -338,9 +381,9 @@
         "B064.11"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sqlite": "3.53.4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
         "metadata_schema_version": "21",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1"
@@ -354,7 +397,7 @@
         "tests/unit/test_delta_table_service.py::test_write_rejects_invalid_modes_and_incompatible_schema_before_commit",
         "tests/unit/test_delta_table_service.py::test_writes_serialize_across_table_id_aliases_in_one_process",
         "tests/unit/test_delta_operation_journal.py::test_operation_replay_is_deduplicated_and_changed_payload_is_rejected",
-        "tests/unit/test_delta_operation_journal.py::test_killed_writer_recovers_commit_after_workspace_reopen",
+        "tests/unit/test_delta_operation_journal.py::test_killed_writer_reconciles_each_delta_sqlite_boundary",
         "tests/unit/test_delta_operation_journal.py::test_failed_provider_outcome_is_uncertain_and_never_blindly_retried",
         "tests/unit/test_table_removal.py::test_drop_managed_table_removes_only_registered_owned_directory",
         "tests/unit/test_table_removal.py::test_drop_recovers_after_process_dies_before_metadata_removal"
@@ -456,6 +499,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -479,10 +536,10 @@
         "B012.2.2"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sqlite": "3.53.4",
-        "metadata_schema_version": "4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "metadata_schema_version": "21",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1"
       },
@@ -534,6 +591,20 @@
           },
           "result": "All 16 focused table-removal and Sparkless adapter tests passed. External deregistration preserved the directory and sentinel bytes; a previously captured table handle rejected read and append after metadata removal. An already-open Sparkless session rejected a fresh read and saveAsTable append after its managed registration was dropped. Ruff check/format and git diff --check passed with credentials unset and no cloud access. Revocation of a DataFrame resolved before drop is not claimed.",
           "artifact": "artifacts/conformance/B012.2.2-external-drop-and-stale-metadata.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -564,11 +635,12 @@
         "B046.2"
       ],
       "tested_versions": {
-        "python": "3.11.14",
-        "sparkless": "4.14.1",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "databricks-sdk": "0.153.0"
+        "databricks-sdk": "0.153.0",
+        "brickhouse": "0.1.0"
       },
       "test_ids": [
         "tests/unit/test_sparkless_engine.py::test_factory_applies_resolved_serverless_and_classic_profiles",
@@ -601,6 +673,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-plan-audit/bin/python -m pytest -q tests/unit/test_sparkless_engine.py tests/unit/test_execution_context.py",
           "result": "19 focused adapter/execution-context tests passed. Two coexisting owner-thread sessions use separate namespaces, config, temp views and LongType callable UDF results. Resolved serverless contexts carry ANSI/UTC defaults; one mapped classic-standard spark35-local-v1 context applies explicit ANSI/timezone settings; classic defaults without those explicit values fail. Close releases the native Sparkless handle on its owner thread; the final full suite completed without the previous PyO3 cross-thread-drop warning.",
           "artifact": "artifacts/conformance/B010.3-sparkless-session-isolation.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -629,9 +715,9 @@
         "B064.8"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sqlite": "3.53.4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
         "workspace_format": "1",
         "metadata_schema_version": "21",
         "deltalake": "1.2.1",
@@ -645,7 +731,7 @@
         "tests/unit/test_delta_table_service.py::test_writes_serialize_across_table_id_aliases_in_one_process",
         "tests/unit/test_delta_table_service.py::test_partitioned_delta_tables_are_rejected_before_row_reads",
         "tests/unit/test_delta_operation_journal.py::test_operation_replay_is_deduplicated_and_changed_payload_is_rejected",
-        "tests/unit/test_delta_operation_journal.py::test_killed_writer_recovers_commit_after_workspace_reopen",
+        "tests/unit/test_delta_operation_journal.py::test_killed_writer_reconciles_each_delta_sqlite_boundary",
         "tests/unit/test_delta_operation_journal.py::test_failed_provider_outcome_is_uncertain_and_never_blindly_retried",
         "tests/unit/test_workspace_snapshot.py::test_quiesced_snapshot_restore_rebases_managed_data_and_preserves_external_refs",
         "tests/unit/test_delta_operation_journal.py::test_metadata_schema_17_operation_records_migrate_through_schema_21"
@@ -712,6 +798,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -865,12 +965,13 @@
         "B064.8"
       ],
       "tested_versions": {
-        "python": "3.11.15",
-        "sqlite": "3.50.4",
-        "sparkless": "4.15.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlglot": "30.24.0"
+        "sqlglot": "30.24.0",
+        "brickhouse": "0.1.0"
       },
       "test_ids": [
         "tests/unit/test_delta_operation_journal.py::test_operation_replay_is_deduplicated_and_changed_payload_is_rejected",
@@ -936,6 +1037,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -969,10 +1084,11 @@
         "B012.2.2"
       ],
       "tested_versions": {
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
-        "pyarrow": "23.0.1"
+        "pyarrow": "23.0.1",
+        "brickhouse": "0.1.0"
       },
       "test_ids": [
         "tests/unit/test_sparkless_engine.py::test_dataframe_named_and_registered_path_writes_use_the_table_service",
@@ -1123,6 +1239,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -1155,10 +1285,11 @@
         "B046.3"
       ],
       "tested_versions": {
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
-        "pyarrow": "23.0.1"
+        "pyarrow": "23.0.1",
+        "brickhouse": "0.1.0"
       },
       "test_ids": [
         "tests/unit/test_sparkless_engine.py::test_dataframe_named_and_registered_path_writes_use_the_table_service",
@@ -1250,6 +1381,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -1286,10 +1431,10 @@
         "B064.9"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sqlglot": "30.24.0",
-        "sparkless": "4.15.0",
+        "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
         "databricks_sdk": "0.153.0 against loopback only",
@@ -1311,7 +1456,7 @@
         "tests/unit/test_sql_statement_api.py::test_interrupted_running_statement_fails_and_releases_admission",
         "tests/unit/test_sql_statement_api.py::test_missing_stopped_and_deleted_warehouse_ids_reject_before_statement_creation",
         "tests/unit/test_sql_statement_api.py::test_stopping_warehouse_during_real_query_cancels_result_and_keeps_commit",
-        "tests/unit/test_sql_statement_api.py::test_selected_connector_path_checks_the_same_warehouse_identity",
+        "tests/unit/test_sql_statement_api.py::test_connector_session_lifecycle_binds_warehouse_namespace_and_limits",
         "tests/unit/test_sql_parameters.py::test_named_scalar_parameters_bind_through_sql_ast_without_text_substitution",
         "tests/unit/test_sql_statement_api.py::test_sdk_statement_executes_named_typed_parameters_as_data",
         "tests/unit/test_sql_statement_api.py::test_invalid_sdk_parameters_fail_before_statement_creation",
@@ -1531,6 +1676,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -1568,11 +1727,12 @@
         "B019.2.4"
       ],
       "tested_versions": {
-        "sparkless": "4.15.0",
+        "sparkless": "4.15.2",
         "sqlglot": "30.24.0",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "python": "3.11.15"
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "brickhouse": "0.1.0"
       },
       "test_ids": [
         "tests/unit/test_sql_statement_service.py::test_b019_1_1_versioned_scalar_projection_filter_null_and_coercion",
@@ -1589,7 +1749,7 @@
         "tests/unit/test_sql_mutations.py::test_sql_mutation_rejects_a_stale_snapshot_before_provider_dispatch",
         "tests/unit/test_sql_mutations.py::test_uncertain_sql_mutation_recovers_exact_history_metrics_on_replay",
         "tests/unit/test_sql_statement_api.py::test_sdk_statement_update_commits_and_a_followup_statement_reads_it",
-        "tests/unit/test_delta_operation_journal.py::test_metadata_schema_17_operation_records_migrate_through_schema_19",
+        "tests/unit/test_delta_operation_journal.py::test_metadata_schema_17_operation_records_migrate_through_schema_21",
         "tests/unit/test_sql_merge.py::test_single_key_merge_commits_once_and_is_visible_through_sparkless",
         "tests/unit/test_sql_merge.py::test_unsupported_or_invalid_merge_has_no_target_side_effects",
         "tests/unit/test_sql_merge.py::test_merge_rejects_duplicate_source_keys_before_target_journaling",
@@ -1721,6 +1881,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST -u DATABRICKS_CONFIG_PROFILE PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=src RUST_LOG=error .venv/bin/python -m pytest -q --tb=short -p no:cacheprovider tests/unit/test_sql_statement_service.py",
           "result": "All 35 SQL statement-service tests passed locally against the verified Sparkless 4.15.2 macOS arm64 wheel. The selected UTC-aware Delta timestamp predicate returns order_id 2 after upstream PR #1721. C018 remains planned; this does not establish broad SQL or Databricks parity.",
           "artifact": "artifacts/conformance/B019.1-sql-semantics-corpus.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -1789,13 +1963,13 @@
         "B064.6"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15",
-        "sqlite": "3.53.4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
         "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against local loopback only",
         "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)",
-        "sparkless": "4.15.0",
+        "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1"
       },
@@ -1830,7 +2004,7 @@
         "tests/unit/test_jobs_api_sdk.py::test_sdk_timeout_retry_requires_explicit_retry_on_timeout",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_stops_after_the_configured_number_of_retries",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_enforces_the_local_process_limit_across_jobs",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
         "tests/unit/test_workspace.py::test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants",
@@ -2067,6 +2241,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2104,11 +2292,11 @@
         "B064.6"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15",
-        "sqlite": "3.53.4",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
         "workspace_metadata_schema": "21",
-        "sparkless": "4.15.0",
+        "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 against local loopback only",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1"
@@ -2124,7 +2312,7 @@
         "tests/unit/test_jobs_api_sdk.py::test_sdk_timeout_retry_requires_explicit_retry_on_timeout",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_stops_after_the_configured_number_of_retries",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_admits_declared_concurrency_and_replays_tokens_without_duplicates",
-        "tests/unit/test_jobs_api_sdk.py::test_sdk_enforces_the_local_process_limit_across_jobs",
+        "tests/unit/test_jobs_api_sdk.py::test_sdk_persists_eight_fifo_runs_behind_two_active_workers",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_restart_marks_abandoned_retry_interrupted_and_keeps_prior_output",
         "tests/unit/test_workspace.py::test_schema_nine_migration_preserves_and_interrupts_orphan_worker_outcome",
         "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
@@ -2269,6 +2457,20 @@
           "command": "scripts/verify_g1_local_only.py --lane base --tests [B064 focused selector set]",
           "result": "99 focused B064 regression cases passed from the installed wheel under the macOS loopback-only/offline guard. No Databricks credentials, .env reads, forbidden modules/processes, or non-loopback traffic. This is not a current-wheel G1-G4 matrix run.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/B064-current-wheel-offline.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2337,8 +2539,8 @@
         "B015.1.3"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 against local loopback only"
       },
@@ -2406,6 +2608,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2431,9 +2647,9 @@
         "B015.2.2"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sparkless": "4.14.1",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 against local loopback only"
       },
       "test_ids": [
@@ -2456,6 +2672,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=src /tmp/brickhouse-plan-audit/bin/python -m pytest -q tests/unit/test_worker_imports.py tests/unit/test_worker.py tests/unit/test_worker_session.py tests/unit/test_worker_auth.py tests/unit/test_secrets.py tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants tests/unit/test_jobs_api_sdk.py::test_sdk_worker_reads_only_registered_delta_tables_through_parent_service tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
           "result": "53 focused tests passed with DATABRICKS_TOKEN and DATABRICKS_HOST unset. The pinned-SDK loopback worker imported only the worker-scoped DeltaTable facade and read real committed registered Delta rows through forName, forPath, toDF, alias, SparkSession.table, and read-only SQL. It rejected conflicting delta-spark, unsupported delta namespaces, temporary views, missing tables, unregistered paths, and DataFrame/SQL/DeltaTable mutations; the registered table remained at version 0. Serverless/classic worker profiles, session ownership, auth, secret redaction, and task-value regressions passed. Ruff check/format and strict mypy passed. No Databricks account or cloud compute was used.",
           "artifact": "artifacts/conformance/B015.2-worker-delta-table.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2479,9 +2709,9 @@
         "B016.2"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "workspace_metadata_schema": "10",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against local loopback only"
       },
       "test_ids": [
@@ -2513,6 +2743,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
           "result": "161 local unit tests passed in 48.29 seconds. The local SDK worker verified filesystem/widgets and authorized, missing and denied secret behavior with value isolation and output redaction. Ruff check/format, strict mypy, planning validation and git diff checks passed; no Databricks account or credentials were used.",
           "artifact": "artifacts/conformance/B016.2-process-memory-scoped-secrets.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2540,9 +2784,9 @@
         "B017.3"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "workspace_metadata_schema": "10",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against local loopback only"
       },
       "test_ids": [
@@ -2557,6 +2801,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q",
           "result": "43 focused checks and 165 local unit tests passed in 54.55 seconds. A pinned SDK loopback job verified task value set/get, strict JSON serialization, the 48 KiB/value and 250 distinct task/key run limits, defaults, missing-task errors, successful retry-attempt selection, transitive upstream-only reads, unsupported methods, and run isolation. Schema 8/7/3/1 upgrade fixtures reached schema 10; incomplete task-value constraints were rejected. Ruff check/format, strict mypy, planning validation, and diff checks passed. No Databricks credentials/account, cloud compute, Spark, JVM, or .env was used.",
           "artifact": "artifacts/conformance/B016.3-attempt-scoped-task-values.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2587,8 +2845,8 @@
         "B017.5"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0 built wheel",
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sparkless": "4.15.2",
         "ipykernel": "7.4.0",
         "jupyter-client": "8.10.0",
@@ -2704,6 +2962,20 @@
           },
           "result": "The current installed candidate notebook-extra lane passed 175 selected offline G1-G4 cases per interpreter on macOS arm64 CPython 3.11.15 and 3.12.13, including 37 notebook/kernel cases per interpreter. This supports only the recorded local notebook subset; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/notebook-extra-py31115-notebook.json"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2764,9 +3036,9 @@
         "B020.5"
       ],
       "tested_versions": {
-        "databricks_cli": "1.21.0 (macOS arm64 release ZIP SHA-256 5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83)",
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "databricks_cli": "1.21.0; platform archive hashes in planning/client-artifacts.json",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)",
         "terraform_core": "1.16.6 (official macOS arm64 release ZIP SHA-256 85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd)",
         "databricks_terraform_provider": "databricks/databricks 1.137.0",
@@ -2774,8 +3046,8 @@
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "3.50.4",
-        "workspace_metadata_schema": "19 (B020.5)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "workspace_metadata_schema": "21",
         "serverless_environment": "local-python, environment version 1"
       },
       "test_ids": [
@@ -2850,6 +3122,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2884,7 +3170,9 @@
       "tested_versions": {
         "databricks_sql_connector": "4.6.0",
         "databricks_sql_kernel": "1.1.0",
-        "pyarrow": "23.0.1"
+        "pyarrow": "23.0.1",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)"
       },
       "test_ids": [
         "tests/integration/test_databricks_sql_kernel_b0211.py::test_pinned_connector_sessions_and_inline_results_over_verified_tls",
@@ -2927,6 +3215,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST BRICKHOUSE_SQL_CONNECTOR_PYTHON=/tmp/brickhouse-b045-probe/bin/python .venv/bin/pytest -q --tb=short tests/integration/test_databricks_sql_kernel_b0211.py\nenv -u DATABRICKS_TOKEN -u DATABRICKS_HOST .venv/bin/pytest -q --tb=short tests/unit/test_sql_statement_api.py",
           "result": "The released connector 4.6.0/kernel 1.1.0 passed strict-loopback TLS/auth conformance: named-INT query/result/close, SQL and SHOW CATALOGS failures as ServerOperationError with no manifest/result, subsequent query success, default rollback NotSupportedError, and cross-thread Cursor.cancel() during synchronous SEA polling. Cancellation produced a terminal CANCELED response with no rows; connector 4.6.0 surfaced ProgrammingError: Invalid result format. Statement/session DELETE returned HTTP 200. The 12-hour expiry, 64 MiB oldest-first retention eviction, CLOSED state and preserved history are covered by the API regressions. 1 connector integration and 28 SQL API tests passed with DATABRICKS_TOKEN and DATABRICKS_HOST unset. No Databricks account request was made.",
           "artifact": "artifacts/conformance/B021.2.3-sql-connector-failures-retention.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -2999,10 +3301,10 @@
         "B020.4"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14 (prior evidence); 3.11.15 (B020.4 Terraform resource evidence)",
-        "sqlite": "3.53.4",
-        "workspace_metadata_schema": "19",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against loopback only"
       },
       "test_ids": [
@@ -3028,6 +3330,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST BRICKHOUSE_TERRAFORM=/tmp/brickhouse-terraform-1.16.6/terraform BRICKHOUSE_TERRAFORM_PLUGIN_CACHE=/tmp/brickhouse-b0204-provider-cache .venv/bin/pytest -q tests/unit/test_compute_api_sdk.py tests/unit/test_sql_warehouse_service.py tests/integration/test_terraform_v1_16_6_provider_1_137_0.py::test_terraform_v1_16_6_compute_and_warehouse_profiles",
           "result": "8 focused tests passed against a disposable loopback workspace. The provider persisted a simulated classic cluster and serverless/Pro/classic warehouse identities through apply/read/update/refresh/destroy, and rejected the invalid classic/serverless setting without mutation. Terraform and the SDK used synthetic local auth only; no real compute was provisioned.",
           "artifact": "artifacts/conformance/B020.4-terraform-compute-warehouses.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -3420,21 +3736,24 @@
         "B022.4"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15",
-        "sparkless": "4.15.0",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 against local loopback only",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "3.50.4",
-        "workspace_metadata_schema": "19",
-        "databricks_cli": "1.21.0 (macOS arm64 release ZIP SHA-256 5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83)"
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "workspace_metadata_schema": "21",
+        "databricks_cli": "1.21.0; platform archive hashes in planning/client-artifacts.json"
       },
       "test_ids": [
         "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
         "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py::test_cli_bundles_v1_21_0_run_g2_serverless_python_and_classic_notebook",
         "tests/unit/test_jobs_api_sdk.py::test_serverless_timeout_after_delta_commit_preserves_write_across_reopen",
-        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct"
+        "tests/unit/test_jobs_api_sdk.py::test_serverless_retry_after_precommit_failure_keeps_attempts_distinct",
+        "tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families"
       ],
       "evidence": [
         {
@@ -3486,6 +3805,20 @@
           },
           "result": "A mapped serverless-local SDK worker timed out after a real registered-Delta append; the one timed-out attempt and commit persisted through workspace reopen with no automatic retry. A separate retry after pre-commit failure created a distinct attempt and one commit. These checks qualify local worker semantics only.",
           "artifact": "artifacts/conformance/B022.4-serverless-timeout-commit.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -3526,19 +3859,22 @@
         "B018.1.3"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "sparkless": "4.15.2",
         "databricks_sdk": "0.153.0 against local loopback only",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "3.50.4",
-        "workspace_metadata_schema": "19",
-        "databricks_cli": "1.21.0 (macOS arm64 release ZIP SHA-256 5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83)"
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "workspace_metadata_schema": "21",
+        "databricks_cli": "1.21.0; platform archive hashes in planning/client-artifacts.json"
       },
       "test_ids": [
         "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
-        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py::test_cli_bundles_v1_21_0_run_g2_serverless_python_and_classic_notebook"
+        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py::test_cli_bundles_v1_21_0_run_g2_serverless_python_and_classic_notebook",
+        "tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families"
       ],
       "evidence": [
         {
@@ -3587,6 +3923,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -3620,19 +3970,22 @@
         "B018.1.4"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.15 and 3.12.13 (macOS 26.5.2 arm64; installed candidate wheel)",
-        "databricks_cli": "1.21.0 (macOS arm64 release ZIP SHA-256 5c899a18bb280a33cb1814418fd1352a6a6e5487a2d9eb850c573114885c2f83)",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "databricks_cli": "1.21.0; platform archive hashes in planning/client-artifacts.json",
         "databricks_sdk": "0.153.0 against local loopback only",
         "sparkless": "4.15.2",
         "deltalake": "1.2.1",
         "pyarrow": "23.0.1",
-        "sqlite": "3.50.4",
-        "workspace_metadata_schema": "19"
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "workspace_metadata_schema": "21"
       },
       "test_ids": [
         "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
-        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py::test_cli_bundles_v1_21_0_run_g2_serverless_python_and_classic_notebook"
+        "tests/integration/test_databricks_cli_bundle_profiles_v1_21_0.py::test_cli_bundles_v1_21_0_run_g2_serverless_python_and_classic_notebook",
+        "tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_ipynb_workflow_all_compute_and_warehouse_profiles",
+        "tests/integration/test_release_orders_workflow.py::test_orders_source_notebook_all_profile_families"
       ],
       "evidence": [
         {
@@ -3681,6 +4034,20 @@
           },
           "result": "The exact current candidate passed the selected offline G1-G4 qualification matrix: 624 cases total across base and notebook-extra lanes and two Python versions. This supports only the existing bounded capability slice exercised by its owning selectors; capability status remains partial and no remote Databricks parity is claimed.",
           "artifact": "artifacts/releases/0.1.0/evidence/conformance/sparkless-4.15.2-current/"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -3737,10 +4104,10 @@
         "B014.6"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
-        "sqlite": "3.53.4",
-        "workspace_metadata_schema": "10",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
+        "sqlite": "Native CPython profile; exact per-lane version recorded in installed_versions.sqlite",
+        "workspace_metadata_schema": "21",
         "databricks_sdk": "0.153.0 against loopback only",
         "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)"
       },
@@ -3768,6 +4135,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_jobs_api_sdk.py::test_sdk_binds_workers_to_all_seven_compute_variants tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_compute_service.py tests/unit/test_compute_api_sdk.py",
           "result": "Local SDK tests ran all seven worker/compute selections. New/shared consumers started and released around actual workers, all-purpose identity/autostart persisted, and active restart/termination canceled workers and reaped descendants. Resource allocation remains simulated; no cloud VM, Databricks account, Spark, or JVM was used.",
           "artifact": "artifacts/conformance/B014.6-job-worker-compute-lifetimes.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -3794,8 +4175,8 @@
         "B014.6"
       ],
       "tested_versions": {
-        "brickhouse": "0.1.0.dev0",
-        "python": "3.11.14",
+        "brickhouse": "0.1.0",
+        "python": "CPython 3.11.17 and 3.12.15 (Ubuntu 22.04 x86_64/macOS 26 arm64; exact native builds in qualification evidence)",
         "databricks_sdk": "0.153.0 model serialization only",
         "runtime_alias": "spark35-local-v1 (BrickHouse-local alias)",
         "serverless_environment_version": "1 (mapped to active local Python minor)",
@@ -3816,6 +4197,20 @@
           "command": "env -u DATABRICKS_TOKEN -u DATABRICKS_HOST PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /tmp/brickhouse-sparkless-4140/bin/python -m pytest -q tests/unit/test_execution_context.py; /tmp/brickhouse-sparkless-4140/bin/python -m ruff check src/brickhouse/jobs/execution_context.py tests/unit/test_execution_context.py; /tmp/brickhouse-sparkless-4140/bin/python -m mypy src/brickhouse/jobs src/brickhouse/runtime",
           "result": "11 local resolver tests passed; Ruff and strict mypy passed. SDK model serialization, temporary local SQLite workspaces and installed package metadata only; no account or cloud execution.",
           "artifact": "artifacts/conformance/B014.5-execution-context-resolution.md"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "0.1.0-qualified-native-release-profile",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "python": "CPython 3.11.17 and 3.12.15",
+            "platforms": "Ubuntu 22.04 x86_64; macOS 26 arm64",
+            "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+          },
+          "command": "Shared release qualification CI run 39869421709",
+          "result": "All eight base/notebook lanes passed 1,368 installed-wheel offline cases; each OS/Python pair passed the complete 455-case source suite (1,820 passes), zero required skips. Evidence applies only to existing bounded selectors and profiles; no capability is promoted to fully supported or remote Databricks parity. Final metadata/test-reference corrections receive their own subsequent CI record.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39869421709/"
         }
       ],
       "limitations": [
@@ -4016,5 +4411,19 @@
         "Future integration requires both B061 and B053, a public compatible engine artifact for public installation and actual two-host job/SQL/table evidence; no cluster security, performance or Databricks parity is implied."
       ]
     }
-  ]
+  ],
+  "release_qualification": {
+    "candidate_version": "0.1.0",
+    "profile_evidence": "artifacts/releases/0.1.0/manifest.json",
+    "capability_statuses_unchanged": true,
+    "qualified_os_targets": {
+      "linux-x86_64": "Ubuntu 22.04",
+      "macos-arm64": "macOS 26"
+    },
+    "python_versions": [
+      "3.11.17",
+      "3.12.15"
+    ],
+    "unqualified": "macOS 14, Windows and unlisted OS/Python/architecture combinations; no remote Databricks parity"
+  }
 }

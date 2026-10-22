@@ -337,7 +337,8 @@
       "gate": "G1\u2013G4",
       "test_selectors": [
         "tests/unit/test_planning_validation.py",
-        "tests/integration/test_phase_0_1_example.py"
+        "tests/integration/test_phase_0_1_example.py",
+        "tests/unit/test_capability_report.py"
       ]
     }
   ],

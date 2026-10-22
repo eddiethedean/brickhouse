@@ -1,8 +1,12 @@
 {
+  "schema_version": 2,
   "date": "2026-10-22",
-  "development_lock": {
-    "file": "uv.lock",
-    "sha256": "a709d83648b05f52ef1075a1b76fae510617ad7901ccf2684a54c8ba3746add2"
+  "distribution": {
+    "name": "brickhouse",
+    "candidate_version": "0.1.0",
+    "requires_python": ">=3.11",
+    "license": "Apache-2.0",
+    "build_backend": "hatchling==1.32.4"
   },
   "direct_runtime_dependencies": [
     "deltalake==1.2.1",
@@ -10,15 +14,6 @@
     "sparkless==4.15.2",
     "sqlglot==30.24.0"
   ],
-  "distribution": {
-    "build_backend": "hatchling==1.32.4",
-    "candidate_version": "0.1.0.dev0",
-    "name": "brickhouse",
-    "project_license_selected": false,
-    "requires_python": ">=3.11",
-    "target_release": "0.1.0",
-    "wheel_tag": "py3-none-any"
-  },
   "optional_dependencies": {
     "notebooks": [
       "ipykernel==7.4.0",
@@ -27,81 +22,396 @@
       "nbformat==5.11.1"
     ]
   },
-  "public_sparkless_artifact": {
-    "qualified_macos_arm64_wheel": "sparkless-4.15.2-cp38-abi3-macosx_11_0_arm64.whl",
-    "sha256": "7d12d6f76212e52586cbe07ab12152f4c7dcf04bd2873532751f1335ee81cfb2",
-    "version": "4.15.2"
-  },
-  "qualification_boundary": "The exact current 0.1.0.dev0 candidate wheel and source archive passed the complete selected offline G1-G4 matrix on macOS 26.5.2 arm64 CPython 3.11.15 and 3.12.13: base 137 per interpreter (274 total) and notebook-extra 175 per interpreter (350 total), 624 matrix passes. The selected Sparkless 4.15.2 UTC-aware Delta timestamp regression passes within G1+G2. A separate fresh installed-wheel B064 review run passed 99 focused cases on CPython 3.11.15. All qualification ran locally with outbound traffic denied except loopback/local Unix sockets; Databricks credentials were absent, .env was not read, and no JVM, Spark driver, Docker, cloud compute, or personal workspace was used. This qualifies only the selected local cases and macOS arm64 Python combinations; it does not establish broad or remote Databricks parity.",
   "runtime_and_native_versions": {
+    "sparkless": "4.15.2",
     "deltalake": "1.2.1",
-    "metadata_schema": "21",
     "pyarrow": "23.0.1",
-    "sparkless": "4.15.2",
     "sqlglot": "30.24.0",
-    "workspace_format": "1"
+    "workspace_format": "1",
+    "metadata_schema": "21"
   },
-  "schema_version": 1,
-  "test_and_reference_clients": {
-    "databricks_cli": "1.21.0",
+  "test_clients": {
     "databricks_sdk": "0.153.0",
-    "databricks_sql_connector": "4.6.0",
-    "databricks_sql_kernel": "1.1.0",
-    "notebook_extra": {
-      "ipykernel": "7.4.0",
-      "jupyter-client": "8.10.0",
-      "nbclient": "0.11.0",
-      "nbformat": "5.11.1"
-    },
-    "pytest": "9.1.1",
+    "databricks_cli": "1.21.0",
     "terraform": "1.16.6",
-    "terraform_databricks_provider": "1.137.0"
+    "terraform_provider": "1.137.0",
+    "databricks_sql_connector": "4.6.0",
+    "databricks_sql_kernel": "1.1.0"
   },
-  "previous_candidate_local_qualification_environments": [
-    {
-      "base_cases": 132,
-      "notebook_extra_cases": 169,
-      "platform": "macOS 26.5.2 arm64",
-      "python": "3.11.15"
-    },
-    {
-      "base_cases": 132,
-      "notebook_extra_cases": 169,
-      "platform": "macOS 26.5.2 arm64",
-      "python": "3.12.13"
-    }
-  ],
-  "current_candidate_installed_wheel_review": {
-    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a",
-    "python": "3.11.15",
-    "lane": "base",
-    "passed_cases": 99,
-    "sparkless": "4.15.2",
-    "network": "offline except loopback and local Unix sockets",
-    "full_g1_g4_matrix_requalified": true,
-    "full_g1_g4_matrix_cases": 624
+  "locks": {
+    "uv.lock": "5008cfe523b71c0e9a68b6da4be0cf28fecd9727465553e119a0b42d2f017430",
+    "requirements/dev.txt": "c03672f7eaaa70dca9108e46cad8cf0742bc0dbdcf784d8c35620fdecb5ccdda",
+    "requirements/sql-connector.txt": "e152e3097f814a117dd14aeefd40e958e5513934e4e7bac841d5e55a4f184f64",
+    "planning/client-artifacts.json": "af514cc489cf5597a7caf427f29ec83636e5679baaedd64b2c2a36478c6d4fe5",
+    "requirements/qualification-tools.txt": "eb39b8b106e953e87e4108981b1e370c6e1d8c58d72711f84a3123e4f8a5b255"
   },
   "candidate_artifacts": {
-    "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-    "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+    "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+    "source_distribution_sha256": "b795829dd455f281784df9be435588d3fa264b965b9c82bc43ffbedbf4785a2c"
   },
-  "current_candidate_local_qualification_environments": [
+  "python_provisioning": {
+    "tool": "uv",
+    "version": "0.13.5",
+    "pypi_json_url": "https://pypi.org/pypi/uv/0.13.5/json",
+    "provider": "astral-sh/python-build-standalone",
+    "python_versions": {
+      "3.11": "3.11.17",
+      "3.12": "3.12.15"
+    },
+    "requirements": "requirements/qualification-tools.txt"
+  },
+  "qualified_install_matrix": [
     {
-      "platform": "macOS 26.5.2 arm64",
-      "python": "3.11.15",
-      "base_g1_g4_cases": 137,
-      "notebook_extra_g1_g4_cases": 175,
-      "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.11.17",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.11"
     },
     {
-      "platform": "macOS 26.5.2 arm64",
-      "python": "3.12.13",
-      "base_g1_g4_cases": 137,
-      "notebook_extra_g1_g4_cases": 175,
-      "wheel_sha256": "f6d89bed8e6e9611595c9cce8686383e6225a3fc3376126cbb61df6a51adfcef",
-      "source_distribution_sha256": "c60910965e351d79f90efdd3073a16840e43a217c3bf83516398dec327dca14a"
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.11.17",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.11"
+    },
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.12.15",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.12"
+    },
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.12.15",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-macos-26-py3.12"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.11.17",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.11"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.11.17",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.11"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.12.15",
+      "lane": "base",
+      "passed_cases": 147,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "base",
+          "group": "G4",
+          "passed_cases": 5,
+          "report": "base-g4.json"
+        },
+        {
+          "lane": "base",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "base-g1-g2.json"
+        },
+        {
+          "lane": "base",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "base-g3.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.12"
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.12.15",
+      "lane": "notebooks",
+      "passed_cases": 195,
+      "skipped_cases": 0,
+      "groups": [
+        {
+          "lane": "notebooks",
+          "group": "G4",
+          "passed_cases": 6,
+          "report": "notebooks-g4.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G1+G2",
+          "passed_cases": 19,
+          "report": "notebooks-g1-g2.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "G3",
+          "passed_cases": 123,
+          "report": "notebooks-g3.json"
+        },
+        {
+          "lane": "notebooks",
+          "group": "Notebook",
+          "passed_cases": 47,
+          "report": "notebooks-notebook.json"
+        }
+      ],
+      "evidence_directory": "evidence/B066/ci-39869421709/qualification-ubuntu-22.04-py3.12"
+    }
+  ],
+  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39869421709",
+  "source_commit": "e25a6daaf57f4ec1059cf66f373b7ba4466a856d",
+  "installed_runtime_versions": [
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.11.17",
+      "lanes": [
+        {
+          "lane": "base",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-e7vn8mzv/base/lib/python3.11/site-packages/brickhouse/__init__.py"
+          }
+        },
+        {
+          "lane": "notebooks",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-e7vn8mzv/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
+          }
+        }
+      ]
+    },
+    {
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "architecture": "arm64",
+      "python": "3.12.15",
+      "lanes": [
+        {
+          "lane": "base",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-s7tt9qeh/base/lib/python3.12/site-packages/brickhouse/__init__.py"
+          }
+        },
+        {
+          "lane": "notebooks",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-s7tt9qeh/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
+          }
+        }
+      ]
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.11.17",
+      "lanes": [
+        {
+          "lane": "base",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/tmp/brickhouse-qualification-n_kr3jfn/base/lib/python3.11/site-packages/brickhouse/__init__.py"
+          }
+        },
+        {
+          "lane": "notebooks",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/tmp/brickhouse-qualification-n_kr3jfn/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
+          }
+        }
+      ]
+    },
+    {
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
+      "architecture": "x86_64",
+      "python": "3.12.15",
+      "lanes": [
+        {
+          "lane": "base",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/tmp/brickhouse-qualification-uit7uko9/base/lib/python3.12/site-packages/brickhouse/__init__.py"
+          }
+        },
+        {
+          "lane": "notebooks",
+          "versions": {
+            "brickhouse": "0.1.0",
+            "sparkless": "4.15.2",
+            "import": "/tmp/brickhouse-qualification-uit7uko9/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
+          }
+        }
+      ]
     }
   ]
 }
