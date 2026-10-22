@@ -1,6 +1,6 @@
 # 21 — Final 0.1.0 release readiness
 
-B066 preserves every phase 0.1 acceptance criterion and closes the remaining final-release qualification, packaging, and publication-configuration gaps. Its four required children are tracked in [the task ledger](../../planning/tasks.json) and [detailed backlog](09-task-backlog.md). B066.1 passed 444 full-source tests on each Python version without skips; B066.2 is active for the portable offline platform matrix.
+B066 preserves every phase 0.1 acceptance criterion and closes the remaining final-release qualification, packaging, and publication-configuration gaps. Its four required children are tracked in [the task ledger](../../planning/tasks.json) and [detailed backlog](09-task-backlog.md). B066.1 passed 444 full-source tests on each Python version without skips; B066.2 passed 1,368 installed-wheel offline cases and four complete 451-case source suites across Linux/macOS and both Python versions, with zero required skips. B066.4 freezes the final diagnostics candidate.
 
 The final candidate must pass the complete current source suite with required clients enabled on Python 3.11 and 3.12. Each of the 27 release case families in [document 16](16-phase-0.1-initial-release.md) maps to actual runnable cases, exact dependency/client versions, and retained positive, negative, and recovery results.
 

@@ -41,6 +41,7 @@ def run_isolated(
         profile = (
             "(version 1) (allow default) (deny network-outbound) "
             '(allow network-outbound (remote ip "localhost:*")) '
+            '(allow network-outbound (remote ip "127.0.0.1:*")) '
             f'(allow network-outbound (subpath "{guard_dir.resolve()}"))'
         )
         return subprocess.run(
@@ -412,7 +413,7 @@ def main() -> int:
             "forbidden_events": forbidden_events,
             "network_policy": (
                 (
-                    "macOS sandbox denies outbound networking except localhost on any port; "
+                    "macOS sandbox denies outbound networking except localhost/127.0.0.1; "
                     if sys.platform == "darwin"
                     else (
                         "Linux network namespace contains only an enabled loopback interface; "

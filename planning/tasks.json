@@ -9311,7 +9311,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Automate and pass the complete offline platform matrix",
-      "status": "in_progress",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.1"
@@ -9327,7 +9327,16 @@
         "Qualify clean base and notebook-extra installations on Linux x86_64 and macOS arm64 under OS-enforced offline networking, including declared G1-G4 client and recovery workflows, with reproducible pinned tooling and retained evidence."
       ],
       "owner": "Codex",
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "complete-platform-matrix",
+          "command": "Shared .github/workflows/qualify.yml via CI run 39860440439",
+          "result": "CI run 39860440439 passed all eight Linux x86_64/macOS 14.8.9 arm64 \u00d7 Python 3.11/3.12 \u00d7 base/notebooks lanes: 1,368 installed-wheel offline passes (147 base and 195 notebook cases per OS/Python pair), plus 451 full-source tests per pair (1,804 total), zero required skips. Tested CPython versions are Linux 3.11.17/3.12.15 and macOS 3.11.9/3.12.10. Every lane used the same wheel c4b419840cb505ae789c2fa543dd09a9d806365df9241ce2a8c993f10382c47e, clean installs, pinned clients and OS network denial. This intermediate candidate precedes the final CLI diagnostics update, which is being qualified independently.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39860440439/github-run.json",
+          "commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b"
+        }
+      ],
       "blockers": [],
       "children": [
         "B066.2.1",
@@ -9381,7 +9390,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Freeze final artifacts and release-readiness evidence",
-      "status": "planned",
+      "status": "in_progress",
       "depends_on": [
         "B065",
         "B066.2",
@@ -9411,7 +9420,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Make pinned client fixtures portable",
-      "status": "in_progress",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.1"
@@ -9427,7 +9436,16 @@
         "Fix the actual macOS 14 connector HTTP-client construction failure and Linux Terraform mirror/cache collision; retain TLS verification and exact client pins."
       ],
       "owner": "Codex",
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "complete-platform-matrix",
+          "command": "Shared .github/workflows/qualify.yml via CI run 39860440439",
+          "result": "CI run 39860440439 passed all eight Linux x86_64/macOS 14.8.9 arm64 \u00d7 Python 3.11/3.12 \u00d7 base/notebooks lanes: 1,368 installed-wheel offline passes (147 base and 195 notebook cases per OS/Python pair), plus 451 full-source tests per pair (1,804 total), zero required skips. Tested CPython versions are Linux 3.11.17/3.12.15 and macOS 3.11.9/3.12.10. Every lane used the same wheel c4b419840cb505ae789c2fa543dd09a9d806365df9241ce2a8c993f10382c47e, clean installs, pinned clients and OS network denial. This intermediate candidate precedes the final CLI diagnostics update, which is being qualified independently.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39860440439/github-run.json",
+          "commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b"
+        }
+      ],
       "blockers": [],
       "children": [],
       "parent_id": "B066.2",
@@ -9477,7 +9495,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Pass every required offline qualification lane",
-      "status": "planned",
+      "status": "done",
       "depends_on": [
         "B065",
         "B066.1",
@@ -9495,7 +9513,16 @@
         "Pass all original B066.2 platform, Python, installation, client and recovery requirements after the portability and terminal-ordering fixes, retaining exact hashes and isolation evidence."
       ],
       "owner": "Codex",
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "complete-platform-matrix",
+          "command": "Shared .github/workflows/qualify.yml via CI run 39860440439",
+          "result": "CI run 39860440439 passed all eight Linux x86_64/macOS 14.8.9 arm64 \u00d7 Python 3.11/3.12 \u00d7 base/notebooks lanes: 1,368 installed-wheel offline passes (147 base and 195 notebook cases per OS/Python pair), plus 451 full-source tests per pair (1,804 total), zero required skips. Tested CPython versions are Linux 3.11.17/3.12.15 and macOS 3.11.9/3.12.10. Every lane used the same wheel c4b419840cb505ae789c2fa543dd09a9d806365df9241ce2a8c993f10382c47e, clean installs, pinned clients and OS network denial. This intermediate candidate precedes the final CLI diagnostics update, which is being qualified independently.",
+          "artifact": "artifacts/releases/0.1.0/evidence/B066/ci-39860440439/github-run.json",
+          "commit": "dd64763cb5ca0ae8533a4530f69596b13e33150b"
+        }
+      ],
       "blockers": [],
       "children": [],
       "parent_id": "B066.2",
@@ -9529,7 +9556,8 @@
           "date": "2026-10-22",
           "kind": "final-metadata-license-and-diagnostics",
           "command": "pytest -q tests/unit/test_cli.py tests/unit/test_capture_isolation.py tests/unit/test_diagnostic_server.py tests/unit/test_planning_validation.py; scripts/audit_distribution.py --artifact-dir <0.1.0-candidate>",
-          "result": "41 focused cases passed. Apache-2.0 root LICENSE and SPDX metadata are retained and audited in wheel/sdist; package/runtime version 0.1.0 matches. Current README and changelog describe implemented behavior. CLI diagnostics now identify Sparkless/native Delta as required integrated local subsets, SQL Statement Execution as partial, and selected serverless/classic Python/notebook bundle support. The reserved run command directs users to the working local Jobs API. No cloud or credential access in these tests."
+          "result": "41 focused cases passed. Apache-2.0 root LICENSE and SPDX metadata are retained and audited in wheel/sdist; package/runtime version 0.1.0 matches. Current README and changelog describe implemented behavior. CLI diagnostics now identify Sparkless/native Delta as required integrated local subsets, SQL Statement Execution as partial, and selected serverless/classic Python/notebook bundle support. The reserved run command directs users to the working local Jobs API. No cloud or credential access in these tests.",
+          "commit": "b9be2e2d25210d220f3609b0b6a907f456c1a902"
         }
       ],
       "blockers": [],
