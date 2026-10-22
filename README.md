@@ -11,8 +11,9 @@ Runtime, distributed Spark, cloud resource allocation, or a security sandbox.
 
 ## Install
 
-Use Python 3.11 or 3.12. The release qualification matrix covers Linux x86_64
-and macOS arm64; Windows is outside the 0.1.0 qualification scope.
+Use Python 3.11 or 3.12. The release qualification matrix covers Ubuntu 22.04 x86_64
+and macOS 26 arm64. Other OS versions and Windows are outside the 0.1.0
+qualification scope.
 
 From this checkout:
 

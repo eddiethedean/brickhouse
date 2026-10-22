@@ -275,6 +275,11 @@ def check_release_requirements() -> dict[str, int]:
     )
     require(manifest["lanes"] == ["base", "notebooks"], "Missing release installation lane")
     require(
+        manifest["qualified_os_targets"]
+        == {"linux-x86_64": "Ubuntu 22.04", "macos-arm64": "macOS 26"},
+        "Release OS versions differ from the frozen qualification profiles",
+    )
+    require(
         set(manifest["groups"]) == {"G1+G2", "G3", "G4", "Notebook"},
         "Missing required offline gate",
     )

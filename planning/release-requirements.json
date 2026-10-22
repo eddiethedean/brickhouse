@@ -383,5 +383,15 @@
       ]
     ],
     "reference_scope": "Expected values use the reviewed local fixture. Databricks rejected the bounded aggregate capture; no remote aggregate parity is claimed."
-  }
+  },
+  "qualified_os_targets": {
+    "linux-x86_64": "Ubuntu 22.04",
+    "macos-arm64": "macOS 26"
+  },
+  "unqualified_os_targets": [
+    {
+      "os": "macOS 14.8.9",
+      "reason": "The qualification sandbox intermittently denies pinned native CLI loopback connections. No final-artifact qualification is claimed on this OS."
+    }
+  ]
 }

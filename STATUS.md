@@ -470,3 +470,7 @@ The numeric-host experiment was rejected by macOS policy compilation (`host must
 ### 2026-10-22 — Current native CPython qualification builds
 
 The macOS 3.11 framework build continued to hit intermittent native CLI loopback denials despite a valid localhost/Unix policy; the final artifact remains unqualified by those failed runs. The official setup-python arm64 manifest stops at 3.11.9/3.12.10, so check-latest alone cannot provide current patched builds. Final lanes now provision exact native CPython 3.11.17/3.12.15 using hash-locked uv 0.13.5, with explicit version/implementation/directory checks and retained executable hashes. The localhost policy uses explicit TCP/UDP filters. Local compilation/EPERM checks and six native notebook-lane G4 cases passed; four pure version-selection/rejection regressions passed. Full final CI remains required.
+
+### 2026-10-22 — Final macOS qualification profile
+
+The current native interpreter did not eliminate macOS 14's intermittent native CLI loopback EPERM. The final OS profile is now pinned to GitHub's standard macOS 26 arm64 image, matching the OS family used by successful local qualification. Ubuntu 22.04 x86_64, both Python minors, all base/notebook selectors, real workload/client/recovery checks and strict offline-denial requirements remain unchanged. macOS 14.8.9 is explicitly unqualified for the final artifact, and failed runs are not accepted or retried as passes. The exact final matrix must pass before B066.4 completes.
