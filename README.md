@@ -46,7 +46,7 @@ python -m pip install databricks-sdk==0.153.0
 python examples/phase_0_1/run_orders.py --host http://127.0.0.1:8000
 ```
 
-The [orders example](examples/phase_0_1/README.md) creates a managed Delta table,
+The [orders example](https://github.com/eddiethedean/brickhouse/blob/main/examples/phase_0_1/README.md) creates a managed Delta table,
 submits a Python job, and reads committed data through SQL. It prints
 `[["alice", "2", "15.75"]]` and leaves its local resources for inspection.
 Stop the service with Ctrl-C. Existing workspace metadata and committed tables
@@ -77,7 +77,7 @@ command is reserved and currently raises an explicit unavailable-feature error.
 - Coordinated local snapshot/restore, managed-table ownership checks, and
   explicit handling of external table registrations.
 
-Compatibility is versioned and partial. The [capability registry](planning/capabilities.json)
+Compatibility is versioned and partial. The [capability registry](https://github.com/eddiethedean/brickhouse/blob/main/planning/capabilities.json)
 records exact claims and evidence. Unsupported operations raise explicit errors.
 Worker import compatibility stays inside child processes; installed `pyspark`,
 `databricks`, and `delta` packages are never replaced globally. Cluster access
@@ -113,15 +113,15 @@ never load the checkout's `.env` or real workspace credentials. Opt-in external-
 skip in an unprovisioned developer environment; they are mandatory in CI.
 
 The personal Databricks account is used only for occasional bounded reference
-captures under [document 15](docs/plan/15-personal-databricks-verification.md).
+captures under [document 15](https://github.com/eddiethedean/brickhouse/blob/main/docs/plan/15-personal-databricks-verification.md).
 Routine tests and required CI run locally with sanitized fixtures.
 
-See [release readiness](docs/plan/21-release-readiness.md), the
-[0.1.0 review bundle](artifacts/releases/0.1.0/README.md),
-[STATUS](STATUS.md), and the future [ROADMAP](ROADMAP.md).
+See [release readiness](https://github.com/eddiethedean/brickhouse/blob/main/docs/plan/21-release-readiness.md), the
+[0.1.0 review bundle](https://github.com/eddiethedean/brickhouse/blob/main/artifacts/releases/0.1.0/README.md),
+[STATUS](https://github.com/eddiethedean/brickhouse/blob/main/STATUS.md), and the future [ROADMAP](https://github.com/eddiethedean/brickhouse/blob/main/ROADMAP.md).
 The tag workflow runs checks before a separate PyPI Trusted Publishing job;
 preparing a candidate does not publish it.
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md).
+Apache-2.0. See [LICENSE](https://github.com/eddiethedean/brickhouse/blob/main/LICENSE) and [third-party notices](https://github.com/eddiethedean/brickhouse/blob/main/THIRD_PARTY_NOTICES.md).
