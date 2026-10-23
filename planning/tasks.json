@@ -9232,15 +9232,22 @@
           "date": "2026-10-23",
           "kind": "pypi-publisher-image-digest-repair",
           "command": "gh run view 39975894023; inspect official action.yml at a892a5a61159132606e93a2fa6f4358831b04d26; verify GHCR v1.14.2 manifest digest; Ruby YAML parse; python scripts/validate_planning.py; git diff --check",
-          "result": "The tag run passed source checks, candidate qualification on all four OS/Python profiles, the release preflight, and distribution audit. Publishing failed before upload because the SHA-pinned composite action resolved its own commit SHA as the GHCR image tag; that tag was absent, so no distribution was uploaded. Verified the official v1.14.2 image digest sha256:5c2f7030fbef8308068eb4cc9080fd3c9e157ccf6d511924d69f8f4b23dc95c1 and changed the publish job to call that immutable image directly with explicit inputs. Ruby YAML parsing, planning validation, and diff checks pass. The corrected tagged release run is pending.",
+          "result": "The tag run passed source checks, candidate qualification on all four OS/Python profiles, the release preflight, and distribution audit. Publishing failed before upload because the SHA-pinned composite action resolved its own commit SHA as the GHCR image tag; that tag was absent, so no distribution was uploaded. Verified the official v1.14.2 image digest sha256:5c2f7030fbef8308068eb4cc9080fd3c9e157ccf6d511924d69f8f4b23dc95c1 and changed the publish job to call that immutable image directly with explicit inputs. Ruby YAML parsing, planning validation, and diff checks passed.",
           "artifact": ".github/workflows/release.yml"
         },
         {
           "date": "2026-10-23",
           "kind": "linux-process-state-test-race-fix",
           "command": "gh run view 39982319735 --job 120513050936 --log-failed; PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/unit/test_worker_supervision.py::test_timeout_covers_descendant_holding_output_after_worker_exits -q; ruff check tests/unit/test_worker_supervision.py; ruff format --check tests/unit/test_worker_supervision.py",
-          "result": "The companion tag-triggered CI run had one failure in tests/unit/test_worker_supervision.py because the Linux /proc state file disappeared between the helper's existence check and read. The same suite passed in the release run and main-push CI run. The helper now treats FileNotFoundError and ProcessLookupError during the read as an exited process. The focused test passed (1 passed in 2.93s), and Ruff lint/format checks passed. The fix is test-only and is being pushed to main; the v0.1.0 release workflow remains gated on its own full matrix.",
+          "result": "The companion tag-triggered CI run had one failure in tests/unit/test_worker_supervision.py because the Linux /proc state file disappeared between the helper's existence check and read. The same suite passed in the release run and main-push CI run. The helper now treats FileNotFoundError and ProcessLookupError during the read as an exited process. The focused test passed (1 passed in 2.93s), and Ruff lint/format checks passed. The test-only fix is committed and pushed to main as a13884d; the v0.1.0 tag is being moved to include it in the next release run.",
           "artifact": "tests/unit/test_worker_supervision.py"
+        },
+        {
+          "date": "2026-10-23",
+          "kind": "pypi-publish-empty-oidc-password-input",
+          "command": "gh run view 39982319463 --job 120526094379 --log-failed; inspect action.yml at a892a5a61159132606e93a2fa6f4358831b04d26",
+          "result": "The corrected release run passed source checks, all four OS/Python qualification lanes, and the audited distribution build. The pinned official image started but /app/twine-upload.sh exited on an unbound INPUT_PASSWORD before any upload. The action metadata confirms its optional password input is forwarded to the Docker action, so the direct image invocation must pass password: \"\" for OIDC. Added that explicit empty input; failure occurred before upload and no distribution was published. A new tagged run is pending.",
+          "artifact": ".github/workflows/release.yml"
         }
       ],
       "blockers": [],
