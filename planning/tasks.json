@@ -9587,6 +9587,13 @@
           "command": "pytest -q tests/unit/test_cli.py tests/unit/test_capture_isolation.py tests/unit/test_diagnostic_server.py tests/unit/test_planning_validation.py; scripts/audit_distribution.py --artifact-dir <0.1.0-candidate>",
           "result": "41 focused cases passed. Apache-2.0 root LICENSE and SPDX metadata are retained and audited in wheel/sdist; package/runtime version 0.1.0 matches. Current README and changelog describe implemented behavior. CLI diagnostics now identify Sparkless/native Delta as required integrated local subsets, SQL Statement Execution as partial, and selected serverless/classic Python/notebook bundle support. The reserved run command directs users to the working local Jobs API. No cloud or credential access in these tests.",
           "commit": "b9be2e2d25210d220f3609b0b6a907f456c1a902"
+        },
+        {
+          "date": "2026-10-22",
+          "kind": "readme-usability-and-example-verification",
+          "command": "README static link/anchor/code-block checks; isolated local CLI init/serve, exact README SDK block, examples/phase_0_1/run_orders.py, restart/query, and diagnostics smoke; python scripts/validate_planning.py; git diff --check",
+          "result": "Owner-requested README refresh adds badges/navigation, a three-step source-install quickstart, expected orders output, a copyable local SDK connection, capability/client tables, and direct documentation links. Verified 21 repository-file links, 7 in-page links, 6 shell blocks, 1 Python block and 1 JSON block. A fresh local workspace returned ['main'] from the exact SDK snippet; the real orders worker/Delta/SQL workflow returned [[\"alice\", \"2\", \"15.75\"]] before and after restart; all three diagnostic commands passed. Sparkless 4.15.2 and SDK 0.153.0 were used with real-workspace credentials removed. Capability claims remain at their recorded partial/simulated/planned states; the frozen candidate evidence remains bound to its recorded revision.",
+          "artifact": "STATUS.md"
         }
       ],
       "blockers": [],

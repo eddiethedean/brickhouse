@@ -8,7 +8,7 @@
   "phase_0_1_child_task_count": 142,
   "capability_count": 67,
   "release_phase_count": 9,
-  "local_markdown_links_checked": 2108,
+  "local_markdown_links_checked": 2109,
   "checks": [
     "All 27 release case families and 63 runnable selectors validated; 253 unique capability test references and every backlog status match actual definitions and the ledger.",
     "CI run 39873265129 passed 1,368 installed-wheel offline cases and 1,832 full-source cases (458 per OS/Python pair), zero required skips.",
@@ -452,5 +452,15 @@
     "candidate_published": false,
     "databricks_account_requests_run": false
   },
-  "capability_test_selectors": 253
+  "capability_test_selectors": 253,
+  "readme_upgrade": {
+    "date": "2026-10-22",
+    "task": "B066.3.1",
+    "result": "passed",
+    "static_checks": "21 repository-file links, 7 in-page links, 6 shell blocks, 1 Python block, and 1 expected JSON result; planning validation and git diff --check passed",
+    "local_workflow": "CLI init/serve, exact README SDK catalog example, real orders worker/Delta/SQL workflow, query after restart, and all three diagnostics passed with Sparkless 4.15.2 and SDK 0.153.0",
+    "databricks_account_used": false,
+    "capability_claims_changed": false,
+    "frozen_release_evidence": "Retains the source revision and exact artifact hashes recorded in artifacts/releases/0.1.0/README.md"
+  }
 }

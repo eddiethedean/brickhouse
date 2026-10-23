@@ -3741,6 +3741,8 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 **Parent:** B066.3 · **Parent criteria:** 1.
 
+**README follow-up (2026-10-22):** Upgraded the project introduction, navigation, source-install quickstart, SDK example, capability/client tables and documentation links. The exact SDK snippet, orders worker/Delta/SQL output, restart persistence and diagnostic commands passed against a fresh local workspace with real-workspace credentials removed. Static checks validated 21 repository-file links, 7 in-page links and all 8 code blocks. Capability states and the frozen candidate scope retain their recorded evidence. See [the handoff log](../../STATUS.md).
+
 ## B066.3.2 — Verify GitHub and PyPI publishing configuration
 
 **Milestone:** M3 · **Kind:** task · **Current ledger status:** done
