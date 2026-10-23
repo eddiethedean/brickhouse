@@ -1,0 +1,11 @@
+{
+  "result": "passed",
+  "source_commit": "4fe653cf1fb72b2fea76675aca24311182a52b57",
+  "source_distribution_sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+  "compared_committed_files": 410,
+  "required_code_test_script_plan_files": 224,
+  "missing_required_files": [],
+  "differing_files": [],
+  "unexpected_untracked_files": [],
+  "scope": "Compared every regular archive member except generated PKG-INFO byte-for-byte with tracked files in the clean committed checkout. All package code, tests, release fixtures, qualification scripts, planning files and docs are present. The recursive release evidence bundle is intentionally excluded."
+}

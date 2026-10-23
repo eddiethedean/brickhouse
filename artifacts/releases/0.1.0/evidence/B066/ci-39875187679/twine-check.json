@@ -1,0 +1,20 @@
+{
+  "command": "twine check --strict",
+  "files": [
+    {
+      "name": "brickhouse-0.1.0-py3-none-any.whl",
+      "result": "passed",
+      "sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+      "size_bytes": 296618
+    },
+    {
+      "name": "brickhouse-0.1.0.tar.gz",
+      "result": "passed",
+      "sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+      "size_bytes": 1226625
+    }
+  ],
+  "output": "brickhouse-0.1.0-py3-none-any.whl: PASSED\nbrickhouse-0.1.0.tar.gz: PASSED",
+  "result": "passed",
+  "tool": "twine 7.0.0"
+}

@@ -1,0 +1,112 @@
+{
+  "result": "passed",
+  "lane": "notebooks",
+  "command": "sandbox-exec [loopback-only] python -m pytest -c /dev/null -q tests/integration/test_g1_shared_table_restart.py tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles",
+  "return_code": 0,
+  "argv": [
+    "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-n2k5p4k4/notebooks/bin/python",
+    "-m",
+    "pytest",
+    "-c",
+    "/dev/null",
+    "--rootdir",
+    "/Users/runner/work/brickhouse/brickhouse",
+    "-q",
+    "--junitxml=/Users/runner/work/_temp/qualification/notebooks-g1-g2.xml",
+    "tests/integration/test_g1_shared_table_restart.py",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_propagates_failure_without_running_dependents_and_keeps_independent_tasks",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_retries_failed_task_with_distinct_persisted_attempts",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_injects_local_dbutils_filesystem_and_widget_context",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_task_values_cross_only_successful_upstream_attempts_and_runs",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_resolves_only_granted_secrets_and_redacts_retained_output",
+    "tests/unit/test_jobs_api_sdk.py::test_compute_interruption_reaps_workers_and_preserves_committed_delta",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_appends_registered_delta_for_dependent_task_and_readers",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_worker_g2_delta_flow_across_seven_compute_profiles",
+    "tests/unit/test_jobs_api_sdk.py::test_sdk_reads_g2_delta_commit_through_all_warehouse_profiles",
+    "tests/unit/test_sql_statement_service.py::test_b019_1_3_versioned_date_timestamp_timezone_and_error_cases",
+    "tests/integration/test_release_orders_workflow.py::test_orders_python_workflow_all_compute_and_warehouse_profiles"
+  ],
+  "os_network_probe": {
+    "non_loopback_denied": true,
+    "errno": 1,
+    "uid": 501
+  },
+  "counts": {
+    "tests": 19,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "passed_cases": 19,
+  "skipped_cases": 0,
+  "databricks_credentials_present": false,
+  "inherited_databricks_environment_key_count": 0,
+  "dotenv_loads": [],
+  "candidate_python": "3.12.15 (main, Oct 21 2026, 17:38:27) [Clang 23.1.3 ]",
+  "candidate_version": "0.1.0",
+  "candidate_import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-n2k5p4k4/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py",
+  "candidate_wheel_installed": true,
+  "forbidden_distributions_installed": [],
+  "notebook_distributions_installed": {
+    "nbformat": "5.11.1",
+    "ipykernel": "7.4.0",
+    "jupyter-client": "8.10.0",
+    "nbclient": "0.11.0"
+  },
+  "forbidden_importable_modules": [],
+  "java_spark_environment_keys_removed": [],
+  "forbidden_events": [],
+  "network_policy": "macOS sandbox denies IP outbound networking except localhost; local Unix-domain sockets are permitted; Python audit hook rejects non-loopback resolution/connections",
+  "sandbox_profile": "deny IP network-outbound except localhost; permit local Unix-domain sockets (filesystem access remains that of the invoking user)",
+  "process_policy": "test PATH exposes only the candidate wheel environment and whitelisted local utilities; Python audit hook rejects Java, spark-submit, Docker, and full PySpark/Delta Spark imports",
+  "loopback_connections": {
+    "count": 277,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "loopback_resolutions": {
+    "count": 277,
+    "hosts": [
+      "127.0.0.1"
+    ]
+  },
+  "subprocesses": {
+    "count": 47,
+    "executables": [
+      "python"
+    ]
+  },
+  "forbidden_processes": [],
+  "blocked_process_names": [
+    "java",
+    "spark-submit",
+    "docker"
+  ],
+  "blocked_import_roots": [
+    "pyspark",
+    "delta_spark",
+    "deltaspark",
+    "delta"
+  ],
+  "stdout": "...................                                                      [100%]\n19 passed in 52.09s",
+  "stderr": "",
+  "candidate_wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+  "source_distribution_sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+  "source_commit": "4fe653cf1fb72b2fea76675aca24311182a52b57",
+  "source_worktree_dirty": false,
+  "python_version": "3.12.15",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "databricks_account_used": false,
+  "group": "G1+G2",
+  "installed_versions": {
+    "brickhouse": "0.1.0",
+    "sparkless": "4.15.2",
+    "deltalake": "1.2.1",
+    "pyarrow": "23.0.1",
+    "sqlglot": "30.24.0",
+    "sqlite": "3.53.1",
+    "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-n2k5p4k4/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
+  }
+}

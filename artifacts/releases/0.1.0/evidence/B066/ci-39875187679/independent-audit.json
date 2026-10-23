@@ -1,0 +1,16 @@
+{
+  "result": "passed",
+  "source_commit": "4fe653cf1fb72b2fea76675aca24311182a52b57",
+  "candidate_wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+  "source_distribution_sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+  "offline_groups_checked": 28,
+  "installed_wheel_offline_passed_cases": 1368,
+  "complete_source_passed_cases": 1832,
+  "required_skips": 0,
+  "forbidden_events": 0,
+  "dotenv_loads": 0,
+  "databricks_account_used": false,
+  "all_os_guards_deny_non_loopback": true,
+  "all_candidate_execution_non_root": true,
+  "scope": "Independently checked each retained group report and all four complete-suite summaries against the successful GitHub run and exact distribution hashes, including installed imports, base/notebook separation, credential exclusion and OS network denial."
+}

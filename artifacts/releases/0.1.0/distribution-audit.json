@@ -18,7 +18,7 @@
       "THIRD_PARTY_LICENSES/sqlglot-30.24.0-LICENSE.txt",
       "THIRD_PARTY_NOTICES.md"
     ],
-    "sha256": "23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619",
+    "sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
     "version": "0.1.0"
   },
   "wheel": {

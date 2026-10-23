@@ -20,7 +20,7 @@ are used to force the expected aggregate output types.
 Apache-2.0 is the project license. Third-party dependencies retain their own
 licenses and notices. Base installs exclude the optional notebook runtime.
 
-Qualification passed **1368 installed-wheel offline cases** across Ubuntu 22.04 x86_64/macOS 26 arm64, Python 3.11/3.12, base/notebooks, plus **1832 full-source passes** across the four OS/Python combinations. Required skips: **0**. See the [CI run](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129), [exact versions](versions.json), and [scope](scope.json).
+Qualification passed **1368 installed-wheel offline cases** across Ubuntu 22.04 x86_64/macOS 26 arm64, Python 3.11/3.12, base/notebooks, plus **1832 full-source passes** across the four OS/Python combinations. Required skips: **0**. See the [CI run](https://github.com/eddiethedean/brickhouse/actions/runs/39875187679), [exact versions](versions.json), and [scope](scope.json).
 
 Compatibility remains partial: 24 capabilities are partial, 2 simulated, and
 41 planned; none is fully supported. SQL COUNT's local int32 output differs

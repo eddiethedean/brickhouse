@@ -42,7 +42,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11"
     },
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -77,7 +77,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11"
     },
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -106,7 +106,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12"
     },
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -141,7 +141,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -170,7 +170,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -205,7 +205,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -234,7 +234,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -269,7 +269,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12"
     }
   ],
   "offline_passed_cases": 1368,
@@ -317,5 +317,5 @@
   ],
   "trusted_publisher_configured_and_verified": true,
   "publication_authorized": false,
-  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39873265129"
+  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39875187679"
 }

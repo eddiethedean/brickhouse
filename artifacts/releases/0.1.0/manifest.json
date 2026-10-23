@@ -1,33 +1,23 @@
 {
-  "schema_version": 2,
-  "project": "BrickHouse",
-  "target_release": "0.1.0",
+  "artifact_hashes": {
+    "sdist_sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+    "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7"
+  },
   "candidate_version": "0.1.0",
+  "current_candidate_qualification": {
+    "full_source_passed_cases": 1832,
+    "installed_wheel_offline_passed_cases": 1368,
+    "matrix_combinations": 8,
+    "report_directory": "evidence/B066/ci-39875187679",
+    "required_skips": 0,
+    "source_combinations": 4
+  },
   "date": "2026-10-22",
   "hash_algorithm": "SHA-256",
-  "artifact_hashes": {
-    "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
-    "sdist_sha256": "23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619"
-  },
-  "source_base_commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b",
-  "source_worktree_dirty": false,
-  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39873265129",
-  "current_candidate_qualification": {
-    "installed_wheel_offline_passed_cases": 1368,
-    "full_source_passed_cases": 1832,
-    "required_skips": 0,
-    "matrix_combinations": 8,
-    "source_combinations": 4,
-    "report_directory": "evidence/B066/ci-39873265129"
-  },
-  "project_license": "Apache-2.0",
-  "trusted_publisher_configured_and_verified": true,
-  "published": false,
-  "publication_authorized": false,
   "hashed_bundle_files_excluding_manifest": [
     {
       "path": "README.md",
-      "sha256": "97be620849b5e2fd45abcaa55c3920bbeffbc01cc9c6665f7322668b48932558",
+      "sha256": "2991759a2d18d862cfca05b8aa4c75949fa895203d9d0fb1b6caa494bcccd9fa",
       "size_bytes": 3006
     },
     {
@@ -42,8 +32,8 @@
     },
     {
       "path": "candidate/brickhouse-0.1.0.tar.gz",
-      "sha256": "23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619",
-      "size_bytes": 1224164
+      "sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+      "size_bytes": 1226625
     },
     {
       "path": "capabilities.json",
@@ -62,7 +52,7 @@
     },
     {
       "path": "distribution-audit.json",
-      "sha256": "e8fbcb51b7b6cce421f3e1ee6aeb194ae3f2508ca73f899665b6c0491287d73e",
+      "sha256": "bafe274d33f3bf9bcabbc19ca58793033eba0e328d75400321d3ac78fcef8393",
       "size_bytes": 1912
     },
     {
@@ -1116,6 +1106,391 @@
       "size_bytes": 689
     },
     {
+      "path": "evidence/B066/ci-39875187679/candidate/brickhouse-0.1.0-py3-none-any.whl",
+      "sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
+      "size_bytes": 296618
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/candidate/brickhouse-0.1.0.tar.gz",
+      "sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620",
+      "size_bytes": 1226625
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/distribution-audit.json",
+      "sha256": "58ac375f833fd24573d8865f439c6b925f7a7d65fcfc23fb49e004e28c071f61",
+      "size_bytes": 1990
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/github-run.json",
+      "sha256": "edb24c9586fedc3665f3cbbe1443f48470bd52e2b9c51bd12344c1051c6ba267",
+      "size_bytes": 15897
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/independent-audit.json",
+      "sha256": "008aa1593a5e0f63576f99f26a80a54d258cb462cd1ccebd41fed243f2be15b1",
+      "size_bytes": 861
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/base-g1-g2.json",
+      "sha256": "5b5b39f986afa7c33477a1e89bdc257f8ce0a53a5c5cc051a270b8c4da977709",
+      "size_bytes": 5705
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/base-g1-g2.xml",
+      "sha256": "715bb1c521e608c8e22d0951eea7f6d4a4fcd5d56b3408762eea7bea5a837c94",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/base-g3.json",
+      "sha256": "8ebbdb981294fdf088f65406ac6cf047b5e05657908852956c1830210b97d1ae",
+      "size_bytes": 4848
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/base-g3.xml",
+      "sha256": "9624e9375580a84229b33b8379124aeecb331d3a7d346bdb1afeec39a907ebf4",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/base-g4.json",
+      "sha256": "3653152fa3d3be858ac70846907691569c64d7482e2ae82eecd3e2a0234adb1a",
+      "size_bytes": 3741
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/base-g4.xml",
+      "sha256": "c93d880ef4741350795b39f3b10850130811f92f6ec84529095d28016f659cda",
+      "size_bytes": 975
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/full-source.xml",
+      "sha256": "04fcb985d51635b6b0524b4aab1aa5bcc1e384078cce128658e7ea5a809c4ac1",
+      "size_bytes": 88045
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-g1-g2.json",
+      "sha256": "19a93d96e7cdf09fddbbbe8722ca2cbc4032ab1d676424cbb9c3b65ddcbeaa62",
+      "size_bytes": 5842
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-g1-g2.xml",
+      "sha256": "0b651ace0a595654cf101102d78d59bf5145d30ee71274894c13bc83df3ff089",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-g3.json",
+      "sha256": "cf2412769a40ca42d63979a84ab85585b7e367471c495866d065fd93005ed071",
+      "size_bytes": 4985
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-g3.xml",
+      "sha256": "8b4f1cd30c8f33f91a4098f27d6db09e5b3383ddbdcac43dddf6d8f66772c7e1",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-g4.json",
+      "sha256": "e8e86bcfdbef912ab52acac449e3b2077086c287a016fcdb5f317d14528c07d7",
+      "size_bytes": 4015
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-g4.xml",
+      "sha256": "8eb0fad204b7b815d8b35f1e023b5320526e1cd13c55487f0c80f7addbc23a77",
+      "size_bytes": 1154
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-notebook.json",
+      "sha256": "6a287411510c361220b84289798135cc5577f59919fb96b03c4af2bce7aa838c",
+      "size_bytes": 4884
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/notebooks-notebook.xml",
+      "sha256": "db519043d59b16be07ac41d556551793fe3b9ba6138bd8f87c8f8bc2280fc115",
+      "size_bytes": 7726
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/python-provisioning.json",
+      "sha256": "e96e8633a9c53c4e9499c1ab7848dcc5a9a114bb4f198e46b1fbf5e5201eac37",
+      "size_bytes": 520
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11/summary.json",
+      "sha256": "f69050ef9c95f96c4612b3dc553e39160b0be60f75bab26f9c897942d574b7d4",
+      "size_bytes": 2105
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/base-g1-g2.json",
+      "sha256": "40380b89fc96e4dfeaa9249a0219b5a988efd76cfc44ae8fa21409ed2c06c638",
+      "size_bytes": 5705
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/base-g1-g2.xml",
+      "sha256": "94780ccf44017192fdaa33ff1003f7459d8d7d1ec23c8f8e7a9fab0da59fc42f",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/base-g3.json",
+      "sha256": "30fd9df90c7039af9ce2423df5eae91a0f84fc70469cd92f2489b16f633adfb5",
+      "size_bytes": 4848
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/base-g3.xml",
+      "sha256": "5c5b7c4a02fe193ee2a5f041026842a8a0fae13583718119eff1e321775fc8e9",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/base-g4.json",
+      "sha256": "7bdeb589a99f6d66d0bec9076cfff5d893a3997098b56c09b0dfd61901f0d788",
+      "size_bytes": 3741
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/base-g4.xml",
+      "sha256": "bba118a51ed1cf56c6d177c235031f5e3ed7b2369bae90d0ec8b702c5085c436",
+      "size_bytes": 975
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/full-source.xml",
+      "sha256": "48d12885d82dae192176b63b865f26357ad887f6eebcc927646400ae493d7c47",
+      "size_bytes": 88047
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-g1-g2.json",
+      "sha256": "31aa2841240b9a404bc834ebc39eca45dce08265ea944e1d0700c6be778244d2",
+      "size_bytes": 5842
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-g1-g2.xml",
+      "sha256": "68b77f56fadca403ba6974cd848ebbf3aae6d66f0fe61f8a02f3ba176d943237",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-g3.json",
+      "sha256": "9cf1b2b72653fdafdf35ffa49c0664940014cd6c9d8cb1c1e6a56682a094418c",
+      "size_bytes": 4985
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-g3.xml",
+      "sha256": "7839d4eab47a775e5033735d39f2ecbbc6dd2e99724a8c74b621a24bf724bdf3",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-g4.json",
+      "sha256": "2a9e0cdb51dad0947f50a710892a8678322a9f7d987c979bb34a9e94f5e803bc",
+      "size_bytes": 4015
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-g4.xml",
+      "sha256": "94c53715ec2543f84a6f5849615532266119bf6e9b3bf780d15a0bef5928e050",
+      "size_bytes": 1153
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-notebook.json",
+      "sha256": "2a1ae0a553a5e9fc911c1afde35eb5042800759f4885dfb514924b26d9fad1f0",
+      "size_bytes": 4884
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/notebooks-notebook.xml",
+      "sha256": "85fbe2b1b75b957c1fb7d692413a31f380d48ad921536c6661ad780cd9332532",
+      "size_bytes": 7726
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/python-provisioning.json",
+      "sha256": "c1b7a52ada779251f27afc9639ba5d693b27e803dcc81d460a9d40c7e4185f1a",
+      "size_bytes": 520
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12/summary.json",
+      "sha256": "b54ff1e7e5718366cf0ed7e6c4148af6da3f2a23b8838fd6c24048478032e4ac",
+      "size_bytes": 2105
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/base-g1-g2.json",
+      "sha256": "cbbc5a5a3d0f4a3c98c86eff2f2b2ef3f60620f861ee22a40852f088e618ccb2",
+      "size_bytes": 5652
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/base-g1-g2.xml",
+      "sha256": "86812f666cef5fae115dfd6917219dc0cf7cc711556eb03ca5c10a3761fd1706",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/base-g3.json",
+      "sha256": "04ffb39acfe4852906dd09ce18efc198a41214acdf62d5f8965ca8247e2115fd",
+      "size_bytes": 4783
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/base-g3.xml",
+      "sha256": "4cafeb16293bc29644babc162a8188485d64c151496db06621267e9561b93188",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/base-g4.json",
+      "sha256": "6b024a9579d3459dfccf7fc387e586c18e1fd60ab29aa3a7e5a001c5ecede181",
+      "size_bytes": 3688
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/base-g4.xml",
+      "sha256": "a0f329cd247ad1209c4cdadcb34a8d59bf1d69592231f28d5aa31b095ec1c3bf",
+      "size_bytes": 975
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/full-source.xml",
+      "sha256": "5f6ebfc234bb45615befae648ac455109bf8b3af2edf964afe045a984b838b55",
+      "size_bytes": 88045
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-g1-g2.json",
+      "sha256": "03cd95430b9bc02ab24681877001d4124e6158c6bd628d1537c92fed0bc9f34e",
+      "size_bytes": 5789
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-g1-g2.xml",
+      "sha256": "3658d72f07856ad29719f03e16b8aa739b5c812cfbac84855fd0d7114b7d8a9d",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-g3.json",
+      "sha256": "3fec56f11dd69650e9d73c2e898d41f8a67d7de2c6e4aa534d1be9febf0bec0f",
+      "size_bytes": 4920
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-g3.xml",
+      "sha256": "eb93bf262239ca9e28cfd9e86ecb92eedceb9e2a1ff5d9cc1a5954131822db48",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-g4.json",
+      "sha256": "aa9ab27b55d2f8a347b738788cc65f56ab968f7607968b90a8143599b391a785",
+      "size_bytes": 3962
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-g4.xml",
+      "sha256": "eefbe161ed46bb8cfa3e9568a55be3f3e1dab29dac5c3bde5a4b13c5bd9ac046",
+      "size_bytes": 1152
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-notebook.json",
+      "sha256": "69b2421c71c6e67c0ce6c06ef1bc75dc467a9fdcfe8d2e0b24a9e46963b3a2ca",
+      "size_bytes": 4831
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/notebooks-notebook.xml",
+      "sha256": "4577755141c78c35de9d6db745508c3445891e65e9956e7dab3750b6cc30a929",
+      "size_bytes": 7725
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/python-provisioning.json",
+      "sha256": "0e8495e535cfef0d628188228f476e9ab2f16de1df5e5cd8d63a956e8e159dbe",
+      "size_bytes": 500
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11/summary.json",
+      "sha256": "78a1b914bb2d43f5c35228b908f7b11a796bd56ad535a865cb8fb8ecbf13570f",
+      "size_bytes": 2122
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/base-g1-g2.json",
+      "sha256": "1ed70b2ade7d807ec9a71ae5e549a88071ea79629a92e5d75906b84c8ea63bdb",
+      "size_bytes": 5652
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/base-g1-g2.xml",
+      "sha256": "5aca983a7fcf20886f2633f4ef2ebfb45bafe509b7fecace908c0976234f671b",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/base-g3.json",
+      "sha256": "36d1de7be41b498113ddf25893020956fc18f92ad00556b0ed0f30241e7d5d45",
+      "size_bytes": 4783
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/base-g3.xml",
+      "sha256": "38013fa22aa7bce9debc1fa5d897708f384b819d981be1ba022510fa15d1a03f",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/base-g4.json",
+      "sha256": "cec6eb9fc232e05395d47708ef5085915996da5f56ba0111629552f8c9f9b29a",
+      "size_bytes": 3688
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/base-g4.xml",
+      "sha256": "5899f1d1d292f00bbd9f8fcae32538413632d012eed44c2fd2072d9517578575",
+      "size_bytes": 975
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/full-source.xml",
+      "sha256": "337339702d5d076f8a4ca2b848f3db8284e07ea31593d5f7c29e5f03e58e30cf",
+      "size_bytes": 88044
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-g1-g2.json",
+      "sha256": "790cd7db0b7fac169fde67df49f8ebac767167435a9c9ed42a052dd072c71848",
+      "size_bytes": 5789
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-g1-g2.xml",
+      "sha256": "6ee9c6a886ede0d8fe7f67957a65aaa7affd25a12552f888296553eaf608317d",
+      "size_bytes": 3049
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-g3.json",
+      "sha256": "011fcf1bc5ec340ab69c14a9d356f7671415a4889657ea2412debeae83181160",
+      "size_bytes": 4920
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-g3.xml",
+      "sha256": "7b478319e0f71b60dd68b14e00ef398fd4ab94003ca942747a7de7a45ca261bc",
+      "size_bytes": 19518
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-g4.json",
+      "sha256": "55a59e2d006e5e4da537f1ac28b5aab587093d3a6f44816e4c1e689371926496",
+      "size_bytes": 3962
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-g4.xml",
+      "sha256": "af4ac45ef40077030613d50f88ff73750244db091c5fd4476be5c52cd62f8e59",
+      "size_bytes": 1152
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-notebook.json",
+      "sha256": "7f42a649a3314be7a33f031ebad22b9392227a279050a81fa5f3c99fb25c0c2a",
+      "size_bytes": 4830
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/notebooks-notebook.xml",
+      "sha256": "5c064c0b80291784cffa8e2219ed6edf65ad1ba26dd15cbe0327847d2a65a1e5",
+      "size_bytes": 7724
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/python-provisioning.json",
+      "sha256": "5fcf20732732ebdcde4b7863d2bd27b2f76bdb56bb00a56d6e683eca41b5aa8e",
+      "size_bytes": 500
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12/summary.json",
+      "sha256": "139d04e6674f79f60b829532b707df6f96224148fa8fe6a715933e555fcec334",
+      "size_bytes": 2122
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/release-preflight.json",
+      "sha256": "1d3dcb6bf9426f11035bd28192c5a8ff799dd332484eef34b307a24a55e32740",
+      "size_bytes": 644
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/sdist-rebuild.json",
+      "sha256": "ef1e11eeb63cbd548ea0a787295e00571f0edf06a8c0db29a15c0c85388f7f79",
+      "size_bytes": 689
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/source-content.json",
+      "sha256": "b95c5c081ecf19744d49f3b45f3499c1f36d491cdf6a9351c971fa2ecc6f5b06",
+      "size_bytes": 675
+    },
+    {
+      "path": "evidence/B066/ci-39875187679/twine-check.json",
+      "sha256": "b8a8de120758447f45687e151fd7fdf79711b6d6ce270b498d37f4a6f5fa47ac",
+      "size_bytes": 587
+    },
+    {
       "path": "evidence/B066/local-native-python-provisioning/python311.json",
       "sha256": "2b7dcdebb52051b880c4d394763721607ab12ffe1e08b6c45806ac7bc79643ce",
       "size_bytes": 520
@@ -1937,7 +2312,7 @@
     },
     {
       "path": "release-checklist.md",
-      "sha256": "bbdc01a3b442a7ecd2c879d6cd1f5b155e06f7d0a1dee8ea9a1f4bdf02a85acd",
+      "sha256": "4a802b11551d772d24ce68edc6f87d2712fe0eccc44e43e4f8e0aee0fb2c5e81",
       "size_bytes": 1956
     },
     {
@@ -1947,18 +2322,28 @@
     },
     {
       "path": "release-notes.md",
-      "sha256": "879544be8f6b3d4a873fc9ea3d7a89d8ac8d922b75c18bd221651ae7d7c35a58",
+      "sha256": "d3a83349bd18c38107d89a94753c0c319c9cb7bdb39bbb4cf4af703dc0eb5d09",
       "size_bytes": 2117
     },
     {
       "path": "scope.json",
-      "sha256": "2b21593a0f27b1fc73f166fb973f3cdbf1f29f7fc2bdb42a93e7ba0688ba36fb",
+      "sha256": "0bac22e28c11f62ffb946c56e9189b084ffdff5358710515636829eadc203194",
       "size_bytes": 8703
     },
     {
       "path": "versions.json",
-      "sha256": "366dabcaa8fa024640f116cfe59a90a7ff12a3ecc506923264e0b2f3424432f4",
+      "sha256": "156e4b6e44189f004803d7c40aa532394af248ba681b791858457f9e85cecb3b",
       "size_bytes": 12965
     }
-  ]
+  ],
+  "project": "BrickHouse",
+  "project_license": "Apache-2.0",
+  "publication_authorized": false,
+  "published": false,
+  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39875187679",
+  "schema_version": 2,
+  "source_base_commit": "4fe653cf1fb72b2fea76675aca24311182a52b57",
+  "source_worktree_dirty": false,
+  "target_release": "0.1.0",
+  "trusted_publisher_configured_and_verified": true
 }

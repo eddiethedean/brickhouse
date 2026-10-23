@@ -47,7 +47,7 @@
   },
   "candidate_artifacts": {
     "wheel_sha256": "3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7",
-    "source_distribution_sha256": "23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619"
+    "source_distribution_sha256": "b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620"
   },
   "python_provisioning": {
     "tool": "uv",
@@ -88,7 +88,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11"
     },
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -123,7 +123,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.11"
     },
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -152,7 +152,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12"
     },
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -187,7 +187,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-macos-26-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-macos-26-py3.12"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -216,7 +216,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -251,7 +251,7 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.11"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.11"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -280,7 +280,7 @@
           "report": "base-g3.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12"
     },
     {
       "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.35",
@@ -315,11 +315,11 @@
           "report": "notebooks-notebook.json"
         }
       ],
-      "evidence_directory": "evidence/B066/ci-39873265129/qualification-ubuntu-22.04-py3.12"
+      "evidence_directory": "evidence/B066/ci-39875187679/qualification-ubuntu-22.04-py3.12"
     }
   ],
-  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39873265129",
-  "source_commit": "e3abdcee28d98a2b0298c2cefdd873f976ae488b",
+  "qualification_run": "https://github.com/eddiethedean/brickhouse/actions/runs/39875187679",
+  "source_commit": "4fe653cf1fb72b2fea76675aca24311182a52b57",
   "installed_runtime_versions": [
     {
       "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -335,7 +335,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-55m7_xqb/base/lib/python3.11/site-packages/brickhouse/__init__.py"
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-_dv6e9ga/base/lib/python3.11/site-packages/brickhouse/__init__.py"
           }
         },
         {
@@ -347,7 +347,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-55m7_xqb/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-_dv6e9ga/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
           }
         }
       ]
@@ -366,7 +366,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-j2qktk68/base/lib/python3.12/site-packages/brickhouse/__init__.py"
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-n2k5p4k4/base/lib/python3.12/site-packages/brickhouse/__init__.py"
           }
         },
         {
@@ -378,7 +378,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-j2qktk68/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
+            "import": "/var/folders/n6/hn37q6pj7sj_9dmqqc2113800000gn/T/brickhouse-qualification-n2k5p4k4/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
           }
         }
       ]
@@ -397,7 +397,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/tmp/brickhouse-qualification-4tisc2bp/base/lib/python3.11/site-packages/brickhouse/__init__.py"
+            "import": "/tmp/brickhouse-qualification-trd_g1y7/base/lib/python3.11/site-packages/brickhouse/__init__.py"
           }
         },
         {
@@ -409,7 +409,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/tmp/brickhouse-qualification-4tisc2bp/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
+            "import": "/tmp/brickhouse-qualification-trd_g1y7/notebooks/lib/python3.11/site-packages/brickhouse/__init__.py"
           }
         }
       ]
@@ -428,7 +428,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/tmp/brickhouse-qualification-3u_hyzhs/base/lib/python3.12/site-packages/brickhouse/__init__.py"
+            "import": "/tmp/brickhouse-qualification-tr1x_dfw/base/lib/python3.12/site-packages/brickhouse/__init__.py"
           }
         },
         {
@@ -440,7 +440,7 @@
             "pyarrow": "23.0.1",
             "sqlglot": "30.24.0",
             "sqlite": "3.53.1",
-            "import": "/tmp/brickhouse-qualification-3u_hyzhs/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
+            "import": "/tmp/brickhouse-qualification-tr1x_dfw/notebooks/lib/python3.12/site-packages/brickhouse/__init__.py"
           }
         }
       ]

@@ -12,10 +12,10 @@ verified; see the [release checklist](release-checklist.md).
 - [Scope and qualification matrix](scope.json), [versions](versions.json), and [27-family case map](cases.json)
 - [Capability snapshot](capabilities.json) and [rendered report](capabilities.md)
 - [Prepared release notes](release-notes.md), [publisher configuration](publishing.json), and [saved publisher verification](evidence/B066/publisher-verification.json)
-- [CI reports](evidence/B066/ci-39873265129/) from [run 39873265129](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129)
+- [CI reports](evidence/B066/ci-39875187679/) from [run 39875187679](https://github.com/eddiethedean/brickhouse/actions/runs/39875187679)
 
-Wheel SHA-256: `3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7`. Source SHA-256: `23efd79df8290d49950c3e3234d971c5026740c69adfe83048022d2cbce4f619`.
-The source revision qualified by that run is `e3abdcee28d98a2b0298c2cefdd873f976ae488b`; it built one candidate
+Wheel SHA-256: `3ba1364cb41cf76c78f087f654a139498683e18ea6749a900defca24322b05e7`. Source SHA-256: `b8ec5e09d4ee5b125a8b851a065706583e0ce01942bdef7bb5fbc9dc9695a620`.
+The source revision qualified by that run is `4fe653cf1fb72b2fea76675aca24311182a52b57`; it built one candidate
 for every lane. Changes confined to this excluded release bundle do not alter
 the wheel or source archive contents.
 

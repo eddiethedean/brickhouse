@@ -1,0 +1,11 @@
+{
+  "result": "passed",
+  "source_commit": "4fe653cf1fb72b2fea76675aca24311182a52b57",
+  "source_workflow_sha256": "3fbdc9948554e1136967b59339a84caf5b0171a491b60c41bd4e2bcc08813f56",
+  "candidate_tag_for_configuration_check": "v0.1.0",
+  "metadata_license_publisher_gate": "passed",
+  "versioned_readiness_checklist_gate": "passed",
+  "publication_authorized": false,
+  "published": false,
+  "scope": "Executed only the two read-only preflight Python snippets from release.yml against the actual committed configuration. RELEASE_TAG was a child-process fixture value; no Git tag, workflow dispatch, OIDC exchange or package upload occurred."
+}

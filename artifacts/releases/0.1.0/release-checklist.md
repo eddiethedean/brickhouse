@@ -16,4 +16,4 @@ the separate owner publication action after every readiness prerequisite passes.
 - [x] Verify the owner-configured PyPI pending GitHub Trusted Publisher for eddiethedean/brickhouse, release.yml, environment pypi; retain the saved entry and planning/publishing.json record.
 - [ ] Explicitly authorize any public release build and publication.
 
-Exact wheel/source hashes, qualification counts and reports are in [manifest.json](manifest.json), [scope.json](scope.json), and [the passing CI run](https://github.com/eddiethedean/brickhouse/actions/runs/39873265129). Historical development evidence is explicitly archived.
+Exact wheel/source hashes, qualification counts and reports are in [manifest.json](manifest.json), [scope.json](scope.json), and [the passing CI run](https://github.com/eddiethedean/brickhouse/actions/runs/39875187679). Historical development evidence is explicitly archived.
