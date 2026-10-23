@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "scope": "B067 local emulator benchmark evidence, distinct from release conformance",
+  "files_excluding_manifest": [
+    {
+      "path": "README.md",
+      "sha256": "93e270cc0f47dbed4ac680cf031b0d9bed8aa997d0865d8ee999f514e50a6c40",
+      "size_bytes": 1399
+    },
+    {
+      "path": "brickhouse-dependencies.txt",
+      "sha256": "fda2dcb182140c9e9a10f060753fd5109b6c87751fc0eed773566ee42d95ec7a",
+      "size_bytes": 143
+    },
+    {
+      "path": "combined-results.json",
+      "sha256": "249f86a81086c72605aa8a526a897bd1887a8b59313af4cb2f214eb0008b4a73",
+      "size_bytes": 9185
+    },
+    {
+      "path": "initial-measurement/benchmark_emulators.py",
+      "sha256": "9aef02f0b49f72565ba8912cb873a2fc978e7b70b4ee8547e9fbb9102b206188",
+      "size_bytes": 28888
+    },
+    {
+      "path": "initial-measurement/benchmark_sail_agent.py",
+      "sha256": "0d216842e89d1c362af4f832a07d08f613daf3b22b80d524d1a7670024b09894",
+      "size_bytes": 1604
+    },
+    {
+      "path": "initial-measurement/results.json",
+      "sha256": "7b6bd148c47dcb1610e8a348096fbd9321d61f48183409f4e4d1c2fe2cf4ad98",
+      "size_bytes": 43357
+    },
+    {
+      "path": "measured/results.json",
+      "sha256": "9ccf5f50f2c883d7214188efa6f0389f62b2d6f70a4441b5060b17c111e498d4",
+      "size_bytes": 43443
+    },
+    {
+      "path": "minilake-dependencies.txt",
+      "sha256": "f2bfa74cc13d86b1ead699a587b7a867c1c1872de3ce70c0f9aea3d9766f84a7",
+      "size_bytes": 644
+    },
+    {
+      "path": "native-builds.json",
+      "sha256": "e75203d17a36b383b1772d2a6e98646489ac063924a0c557c3f75e4b1a522c47",
+      "size_bytes": 4385
+    },
+    {
+      "path": "provenance.json",
+      "sha256": "44948634d88558b88dc9d952cfd805c6be28c5d588f29e2a44c6497a0c9a5a7a",
+      "size_bytes": 5113
+    },
+    {
+      "path": "results-table.md",
+      "sha256": "08f366811a283050efe744313c8b7d0700fff915117126a2bdf0ec0802b12afd",
+      "size_bytes": 462
+    },
+    {
+      "path": "sail-agent-dependencies.txt",
+      "sha256": "13fe941ce36073e3b57c721c1601a6138ad0a9ba097040374a1db5d75d2025d8",
+      "size_bytes": 274
+    },
+    {
+      "path": "setup-probes.json",
+      "sha256": "e17ea0801b146f74931582fc6710fc28613b21012385c65d4b434ce6a06d8dad",
+      "size_bytes": 102052
+    },
+    {
+      "path": "validation.json",
+      "sha256": "63144f8301b3031de455c1a643b83635cf89af1c99dcad2a8852def9ed16ca59",
+      "size_bytes": 1819
+    }
+  ],
+  "repository_code": [
+    {
+      "path": "scripts/benchmark_emulators.py",
+      "sha256": "0fba51c734d3ee08479c97ab99de40dbb8a08a0be79823ec0b4525762e4c5248"
+    },
+    {
+      "path": "scripts/benchmark_sail_agent.py",
+      "sha256": "87764e328d8a507199a5d5b5aeb0491e4220576811e30ad245e78ce48d811442"
+    },
+    {
+      "path": "scripts/summarize_emulator_benchmarks.py",
+      "sha256": "3141c600763bf54a36132081292a467ffc3765302411322f3248ef6ad84f2d19"
+    }
+  ]
+}

@@ -2,13 +2,13 @@
   "date": "2026-10-22",
   "scope": "Final 0.1.0 preparation complete for the bounded local scope; all 142 phase children and B066 done. Public publication remains separately authorized.",
   "result": "passed",
-  "markdown_files": 258,
-  "task_count": 208,
-  "work_package_count": 66,
+  "markdown_files": 262,
+  "task_count": 209,
+  "work_package_count": 67,
   "phase_0_1_child_task_count": 142,
   "capability_count": 67,
   "release_phase_count": 9,
-  "local_markdown_links_checked": 2109,
+  "local_markdown_links_checked": 2136,
   "checks": [
     "All 27 release case families and 63 runnable selectors validated; 253 unique capability test references and every backlog status match actual definitions and the ledger.",
     "CI run 39873265129 passed 1,368 installed-wheel offline cases and 1,832 full-source cases (458 per OS/Python pair), zero required skips.",
@@ -462,5 +462,20 @@
     "databricks_account_used": false,
     "capability_claims_changed": false,
     "frozen_release_evidence": "Retains the source revision and exact artifact hashes recorded in artifacts/releases/0.1.0/README.md"
+  },
+  "local_emulator_comparison": {
+    "date": "2026-10-22",
+    "task": "B067",
+    "result": "passed",
+    "full_runs": 2,
+    "verified_trials": 30,
+    "timed_samples": 1500,
+    "benchmark_unit_tests": 37,
+    "total_focused_tests": 63,
+    "source_checks": "Ruff across src/tests/scripts, 139 formatted files, standard mypy (71 files), strict benchmark tool mypy (3 files)",
+    "artifact": "artifacts/benchmarks/2026-10-22-local-emulators/validation.json",
+    "planned_feature_markers": true,
+    "databricks_account_used": false,
+    "capability_states_changed": false
   }
 }

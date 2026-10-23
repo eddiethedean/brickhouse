@@ -1,0 +1,4039 @@
+{
+  "kind": "setup probes, not measured comparison runs",
+  "probes": [
+    {
+      "scope": "Initial SOURCE-export/main-catalog probe; incompatible setup, excluded from timing summary",
+      "excluded_from_published_statistics": true,
+      "report": {
+        "schema_version": 1,
+        "started_at": "2026-10-23T00:41:52.591055+00:00",
+        "system": {
+          "os": "macOS-26.5.2-arm64-arm-64bit",
+          "architecture": "arm64",
+          "controller_python": "3.11.15",
+          "logical_cpus": 12,
+          "cpu": "Apple M4 Pro",
+          "memory_bytes": "25769803776"
+        },
+        "configuration": {
+          "rounds": 1,
+          "iterations": 2,
+          "warmups": 1,
+          "payload_bytes": 65536,
+          "rows": 10000
+        },
+        "provenance": {
+          "brickhouse": {
+            "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "Deprecated": "1.3.1",
+                "arro3-core": "0.9.1",
+                "brickhouse": "0.1.0",
+                "deltalake": "1.2.1",
+                "pyarrow": "23.0.1",
+                "sparkless": "4.15.2",
+                "sqlglot": "30.24.0",
+                "typing_extensions": "4.16.0",
+                "wrapt": "2.5.1"
+              },
+              "python": "3.11.15"
+            },
+            "license": "Apache-2.0",
+            "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+            "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "version": "0.1.0",
+            "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+          },
+          "databricks-emulator": {
+            "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+            "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "go_download": {
+              "arch": "arm64",
+              "filename": "go1.27.2.darwin-arm64.tar.gz",
+              "kind": "archive",
+              "os": "darwin",
+              "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+              "size": 68195916,
+              "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+              "version": "go1.27.2"
+            },
+            "go_version": "1.27.2",
+            "license": "Apache-2.0",
+            "profile": {
+              "attached_statement_engine": false,
+              "jobs_execution_measured": false,
+              "pat_authentication": true,
+              "tls": false,
+              "uc_oss_sidecar": false
+            },
+            "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "version": "05044929 source snapshot (dev build)"
+          },
+          "minilake": {
+            "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "PyYAML": "6.0.3",
+                "aiofiles": "25.1.0",
+                "annotated-doc": "0.0.5",
+                "annotated-types": "0.8.0",
+                "anyio": "4.15.1",
+                "certifi": "2026.10.19",
+                "cffi": "2.1.1",
+                "charset-normalizer": "3.5.2",
+                "click": "8.5.0",
+                "cryptography": "50.0.2",
+                "docker": "7.2.0",
+                "duckdb": "1.5.6",
+                "fastapi": "0.161.1",
+                "h11": "0.16.0",
+                "httpcore": "1.0.9",
+                "httptools": "0.9.0",
+                "httpx": "0.28.1",
+                "idna": "3.20",
+                "minilake": "1.8.0",
+                "opentelemetry-api": "1.45.1",
+                "pyarrow": "26.0.0",
+                "pycparser": "3.12",
+                "pydantic": "2.14.1",
+                "pydantic-settings": "2.16.1",
+                "pydantic_core": "2.50.1",
+                "python-dotenv": "1.2.4",
+                "python-multipart": "0.0.32",
+                "pytz": "2026.5",
+                "requests": "2.34.2",
+                "starlette": "1.9.0",
+                "typing-inspection": "0.4.4",
+                "typing_extensions": "4.16.0",
+                "urllib3": "2.8.0",
+                "uvicorn": "0.54.0",
+                "uvloop": "0.23.0",
+                "watchfiles": "1.3.0",
+                "websockets": "17.3"
+              },
+              "python": "3.11.15"
+            },
+            "extension_files": [
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+                "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+              },
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+                "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+              }
+            ],
+            "license": "MIT",
+            "profile": {
+              "default_job_executor": "Docker/Spark (not exercised)",
+              "delta_extension_preinstalled": true,
+              "notebook_extra": false,
+              "persist_state": true,
+              "spark_image_prewarm": false
+            },
+            "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "version": "1.8.0 source snapshot"
+          }
+        },
+        "harness_sha256": "39be5369e22e964a11aad278e24d9e51f6b5021045a83d436e8434c39a81fb9c",
+        "trials": [
+          {
+            "product": "brickhouse",
+            "status": "failed",
+            "error": "BenchmarkError: HTTP 400 on GET /api/2.0/workspace/export?path=%2FWorkspace%2FShared%2Femulator_benchmark.py&format=SOURCE: {'error_code': 'INVALID_PARAMETER_VALUE', 'message': 'only RAW and AUTO workspace exports are supported'}",
+            "round": 1
+          },
+          {
+            "product": "minilake",
+            "status": "failed",
+            "fresh_workspace_to_verified_file_ms": 4049.6974169509485,
+            "core_server_rss_mib": 108.515625,
+            "workspace_round_trip_ms": [
+              3.995875013060868,
+              3.4885830245912075
+            ],
+            "verified_file_round_trips": 4,
+            "error": "BenchmarkError: HTTP 400 on POST /api/2.1/unity-catalog/catalogs: {'error_code': 'INVALID_REQUEST', 'message': 'Failed to create catalog database: Binder Error: Attached database name \"main\" cannot be used because it is a reserved name'}",
+            "round": 1
+          },
+          {
+            "product": "databricks-emulator",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 430.2053339779377,
+            "core_server_rss_mib": 16.59375,
+            "workspace_round_trip_ms": [
+              2.6519999373704195,
+              2.5914160069078207
+            ],
+            "verified_file_round_trips": 4,
+            "sql_status": "not_configured",
+            "sql_reason": "Core Go API only; Sail/statement agent and UC OSS were not provisioned",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          }
+        ],
+        "summary": {
+          "brickhouse": {
+            "passed_trials": 0,
+            "total_trials": 1
+          },
+          "minilake": {
+            "passed_trials": 0,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 4049.6974169509485,
+              "p95": 4049.6974169509485,
+              "min": 4049.6974169509485,
+              "max": 4049.6974169509485
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 108.515625,
+              "p95": 108.515625,
+              "min": 108.515625,
+              "max": 108.515625
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 3.7422290188260376,
+              "p95": 3.995875013060868,
+              "min": 3.4885830245912075,
+              "max": 3.995875013060868
+            }
+          },
+          "databricks-emulator": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 430.2053339779377,
+              "p95": 430.2053339779377,
+              "min": 430.2053339779377,
+              "max": 430.2053339779377
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 16.59375,
+              "p95": 16.59375,
+              "min": 16.59375,
+              "max": 16.59375
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 2.62170797213912,
+              "p95": 2.6519999373704195,
+              "min": 2.5914160069078207,
+              "max": 2.6519999373704195
+            }
+          }
+        },
+        "scope": "Serial local native-process core API and shared external Delta read workloads",
+        "network": "Explicit IPv4 loopback HTTP only; no pooled connections; TLS disabled for all products",
+        "sql_limitations": "The Go server has no attached engine/UC sidecars; no SQL timing is inferred",
+        "databricks_account_used": false,
+        "fixture": {
+          "rows": 10000,
+          "schema": "group_key BIGINT, amount BIGINT, active BOOLEAN",
+          "expected": [
+            [
+              0,
+              66,
+              29700
+            ],
+            [
+              1,
+              67,
+              30067
+            ],
+            [
+              2,
+              67,
+              30434
+            ],
+            [
+              3,
+              66,
+              29898
+            ],
+            [
+              4,
+              67,
+              30268
+            ],
+            [
+              5,
+              67,
+              30635
+            ],
+            [
+              6,
+              66,
+              30096
+            ],
+            [
+              7,
+              67,
+              30469
+            ],
+            [
+              8,
+              67,
+              30836
+            ],
+            [
+              9,
+              66,
+              30294
+            ],
+            [
+              10,
+              67,
+              30670
+            ],
+            [
+              11,
+              67,
+              31037
+            ],
+            [
+              12,
+              66,
+              30492
+            ],
+            [
+              13,
+              67,
+              30871
+            ],
+            [
+              14,
+              67,
+              31238
+            ],
+            [
+              15,
+              66,
+              30690
+            ],
+            [
+              16,
+              67,
+              31072
+            ],
+            [
+              17,
+              67,
+              31439
+            ],
+            [
+              18,
+              66,
+              30888
+            ],
+            [
+              19,
+              67,
+              31273
+            ],
+            [
+              20,
+              67,
+              31640
+            ],
+            [
+              21,
+              66,
+              31086
+            ],
+            [
+              22,
+              67,
+              31474
+            ],
+            [
+              23,
+              67,
+              31841
+            ],
+            [
+              24,
+              66,
+              31284
+            ],
+            [
+              25,
+              67,
+              31675
+            ],
+            [
+              26,
+              67,
+              32042
+            ],
+            [
+              27,
+              66,
+              31482
+            ],
+            [
+              28,
+              67,
+              31876
+            ],
+            [
+              29,
+              67,
+              32243
+            ],
+            [
+              30,
+              66,
+              31680
+            ],
+            [
+              31,
+              67,
+              32077
+            ],
+            [
+              32,
+              67,
+              32444
+            ],
+            [
+              33,
+              66,
+              31878
+            ],
+            [
+              34,
+              67,
+              32278
+            ],
+            [
+              35,
+              67,
+              32645
+            ],
+            [
+              36,
+              66,
+              32076
+            ],
+            [
+              37,
+              67,
+              32479
+            ],
+            [
+              38,
+              67,
+              32846
+            ],
+            [
+              39,
+              66,
+              32274
+            ],
+            [
+              40,
+              67,
+              32680
+            ],
+            [
+              41,
+              67,
+              33047
+            ],
+            [
+              42,
+              66,
+              32472
+            ],
+            [
+              43,
+              67,
+              32881
+            ],
+            [
+              44,
+              67,
+              33248
+            ],
+            [
+              45,
+              66,
+              32670
+            ],
+            [
+              46,
+              67,
+              33082
+            ],
+            [
+              47,
+              67,
+              33449
+            ],
+            [
+              48,
+              66,
+              32868
+            ],
+            [
+              49,
+              67,
+              33283
+            ],
+            [
+              50,
+              67,
+              33650
+            ],
+            [
+              51,
+              66,
+              33066
+            ],
+            [
+              52,
+              67,
+              33484
+            ],
+            [
+              53,
+              67,
+              33851
+            ],
+            [
+              54,
+              66,
+              33264
+            ],
+            [
+              55,
+              67,
+              33685
+            ],
+            [
+              56,
+              67,
+              34052
+            ],
+            [
+              57,
+              66,
+              33462
+            ],
+            [
+              58,
+              67,
+              33886
+            ],
+            [
+              59,
+              67,
+              34253
+            ],
+            [
+              60,
+              66,
+              33660
+            ],
+            [
+              61,
+              67,
+              34087
+            ],
+            [
+              62,
+              67,
+              34454
+            ],
+            [
+              63,
+              66,
+              33858
+            ],
+            [
+              64,
+              67,
+              34288
+            ],
+            [
+              65,
+              67,
+              34655
+            ],
+            [
+              66,
+              66,
+              34056
+            ],
+            [
+              67,
+              67,
+              34489
+            ],
+            [
+              68,
+              67,
+              34856
+            ],
+            [
+              69,
+              66,
+              34254
+            ],
+            [
+              70,
+              67,
+              34690
+            ],
+            [
+              71,
+              67,
+              35057
+            ],
+            [
+              72,
+              66,
+              34452
+            ],
+            [
+              73,
+              67,
+              34891
+            ],
+            [
+              74,
+              67,
+              35258
+            ],
+            [
+              75,
+              66,
+              34650
+            ],
+            [
+              76,
+              67,
+              35092
+            ],
+            [
+              77,
+              67,
+              35459
+            ],
+            [
+              78,
+              66,
+              34848
+            ],
+            [
+              79,
+              67,
+              35293
+            ],
+            [
+              80,
+              67,
+              35660
+            ],
+            [
+              81,
+              66,
+              35046
+            ],
+            [
+              82,
+              67,
+              35494
+            ],
+            [
+              83,
+              67,
+              35861
+            ],
+            [
+              84,
+              66,
+              35244
+            ],
+            [
+              85,
+              67,
+              35695
+            ],
+            [
+              86,
+              67,
+              36062
+            ],
+            [
+              87,
+              66,
+              35442
+            ],
+            [
+              88,
+              67,
+              35896
+            ],
+            [
+              89,
+              67,
+              36263
+            ],
+            [
+              90,
+              66,
+              35640
+            ],
+            [
+              91,
+              67,
+              36097
+            ],
+            [
+              92,
+              67,
+              36464
+            ],
+            [
+              93,
+              66,
+              35838
+            ],
+            [
+              94,
+              67,
+              36298
+            ],
+            [
+              95,
+              67,
+              36665
+            ],
+            [
+              96,
+              66,
+              36036
+            ],
+            [
+              97,
+              67,
+              36499
+            ],
+            [
+              98,
+              67,
+              36866
+            ],
+            [
+              99,
+              66,
+              36234
+            ]
+          ],
+          "expected_sha256": "97f2a2c9a3acf290c170684971ae49766b790c2bd4f7b1a14907f6f019fc7e5f",
+          "files": [
+            {
+              "path": "_delta_log/00000000000000000000.json",
+              "sha256": "8d41b203a30e0796a95382d3095a3ec890663fbc2f4acc94906fa345e2232676",
+              "size_bytes": 1321
+            },
+            {
+              "path": "part-00000-02ac8379-8128-49a3-ace4-d2f07952484a-c000.snappy.parquet",
+              "sha256": "d81bf14f50323ff87ac68e7d38d72d1254f6efb2386902da24ba526344d42477",
+              "size_bytes": 8253
+            }
+          ]
+        },
+        "fixture_unchanged": true,
+        "completed_at": "2026-10-23T00:42:03.309028+00:00",
+        "temporary_state_removed": true,
+        "result": "failed"
+      }
+    },
+    {
+      "scope": "AUTO export and bench catalog; BrickHouse SQL LOCATION unsupported",
+      "excluded_from_published_statistics": true,
+      "report": {
+        "schema_version": 1,
+        "started_at": "2026-10-23T00:43:48.192744+00:00",
+        "system": {
+          "os": "macOS-26.5.2-arm64-arm-64bit",
+          "architecture": "arm64",
+          "controller_python": "3.11.15",
+          "logical_cpus": 12,
+          "cpu": "Apple M4 Pro",
+          "memory_bytes": "25769803776"
+        },
+        "configuration": {
+          "rounds": 1,
+          "iterations": 2,
+          "warmups": 1,
+          "payload_bytes": 65536,
+          "rows": 10000
+        },
+        "provenance": {
+          "brickhouse": {
+            "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "Deprecated": "1.3.1",
+                "arro3-core": "0.9.1",
+                "brickhouse": "0.1.0",
+                "deltalake": "1.2.1",
+                "pyarrow": "23.0.1",
+                "sparkless": "4.15.2",
+                "sqlglot": "30.24.0",
+                "typing_extensions": "4.16.0",
+                "wrapt": "2.5.1"
+              },
+              "python": "3.11.15"
+            },
+            "license": "Apache-2.0",
+            "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+            "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "version": "0.1.0",
+            "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+          },
+          "databricks-emulator": {
+            "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+            "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "go_download": {
+              "arch": "arm64",
+              "filename": "go1.27.2.darwin-arm64.tar.gz",
+              "kind": "archive",
+              "os": "darwin",
+              "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+              "size": 68195916,
+              "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+              "version": "go1.27.2"
+            },
+            "go_version": "1.27.2",
+            "license": "Apache-2.0",
+            "profile": {
+              "attached_statement_engine": false,
+              "jobs_execution_measured": false,
+              "pat_authentication": true,
+              "tls": false,
+              "uc_oss_sidecar": false
+            },
+            "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "version": "05044929 source snapshot (dev build)"
+          },
+          "minilake": {
+            "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "PyYAML": "6.0.3",
+                "aiofiles": "25.1.0",
+                "annotated-doc": "0.0.5",
+                "annotated-types": "0.8.0",
+                "anyio": "4.15.1",
+                "certifi": "2026.10.19",
+                "cffi": "2.1.1",
+                "charset-normalizer": "3.5.2",
+                "click": "8.5.0",
+                "cryptography": "50.0.2",
+                "docker": "7.2.0",
+                "duckdb": "1.5.6",
+                "fastapi": "0.161.1",
+                "h11": "0.16.0",
+                "httpcore": "1.0.9",
+                "httptools": "0.9.0",
+                "httpx": "0.28.1",
+                "idna": "3.20",
+                "minilake": "1.8.0",
+                "opentelemetry-api": "1.45.1",
+                "pyarrow": "26.0.0",
+                "pycparser": "3.12",
+                "pydantic": "2.14.1",
+                "pydantic-settings": "2.16.1",
+                "pydantic_core": "2.50.1",
+                "python-dotenv": "1.2.4",
+                "python-multipart": "0.0.32",
+                "pytz": "2026.5",
+                "requests": "2.34.2",
+                "starlette": "1.9.0",
+                "typing-inspection": "0.4.4",
+                "typing_extensions": "4.16.0",
+                "urllib3": "2.8.0",
+                "uvicorn": "0.54.0",
+                "uvloop": "0.23.0",
+                "watchfiles": "1.3.0",
+                "websockets": "17.3"
+              },
+              "python": "3.11.15"
+            },
+            "extension_files": [
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+                "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+              },
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+                "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+              }
+            ],
+            "license": "MIT",
+            "profile": {
+              "default_job_executor": "Docker/Spark (not exercised)",
+              "delta_extension_preinstalled": true,
+              "notebook_extra": false,
+              "persist_state": true,
+              "spark_image_prewarm": false
+            },
+            "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "version": "1.8.0 source snapshot"
+          }
+        },
+        "harness_sha256": "be7df312e67685cb4eab985c870eb9ab4f31753f5b6d80d420a8110eb9b332da",
+        "trials": [
+          {
+            "product": "brickhouse",
+            "status": "failed",
+            "fresh_workspace_to_verified_file_ms": 447.06729194149375,
+            "core_server_rss_mib": 44.828125,
+            "workspace_round_trip_ms": [
+              4.166958038695157,
+              4.553957958705723
+            ],
+            "verified_file_round_trips": 4,
+            "error": "BenchmarkError: Statement failed: {'error': {'error_code': 'BAD_REQUEST', 'message': 'only the USING DELTA table property is supported'}, 'sql_state': '42000', 'state': 'FAILED'}",
+            "round": 1
+          },
+          {
+            "product": "minilake",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 1314.6542920731008,
+            "core_server_rss_mib": 98.59375,
+            "workspace_round_trip_ms": [
+              2.8778749983757734,
+              3.1559580238536
+            ],
+            "verified_file_round_trips": 4,
+            "delta_aggregate_ms": [
+              2.806666074320674,
+              2.5265419390052557
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          },
+          {
+            "product": "databricks-emulator",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 47.000791993923485,
+            "core_server_rss_mib": 14.8125,
+            "workspace_round_trip_ms": [
+              3.173791919834912,
+              4.782999982126057
+            ],
+            "verified_file_round_trips": 4,
+            "sql_status": "not_configured",
+            "sql_reason": "Core Go API only; Sail/statement agent and UC OSS were not provisioned",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          }
+        ],
+        "summary": {
+          "brickhouse": {
+            "passed_trials": 0,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 447.06729194149375,
+              "p95": 447.06729194149375,
+              "min": 447.06729194149375,
+              "max": 447.06729194149375
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 44.828125,
+              "p95": 44.828125,
+              "min": 44.828125,
+              "max": 44.828125
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 4.36045799870044,
+              "p95": 4.553957958705723,
+              "min": 4.166958038695157,
+              "max": 4.553957958705723
+            }
+          },
+          "minilake": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 1314.6542920731008,
+              "p95": 1314.6542920731008,
+              "min": 1314.6542920731008,
+              "max": 1314.6542920731008
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 98.59375,
+              "p95": 98.59375,
+              "min": 98.59375,
+              "max": 98.59375
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 3.0169165111146867,
+              "p95": 3.1559580238536,
+              "min": 2.8778749983757734,
+              "max": 3.1559580238536
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 2.666604006662965,
+              "p95": 2.806666074320674,
+              "min": 2.5265419390052557,
+              "max": 2.806666074320674
+            }
+          },
+          "databricks-emulator": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 47.000791993923485,
+              "p95": 47.000791993923485,
+              "min": 47.000791993923485,
+              "max": 47.000791993923485
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 14.8125,
+              "p95": 14.8125,
+              "min": 14.8125,
+              "max": 14.8125
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 3.9783959509804845,
+              "p95": 4.782999982126057,
+              "min": 3.173791919834912,
+              "max": 4.782999982126057
+            }
+          }
+        },
+        "scope": "Serial local native-process core API and shared external Delta read workloads",
+        "network": "Explicit IPv4 loopback HTTP only; no pooled connections; TLS disabled for all products",
+        "sql_limitations": "The Go server has no attached engine/UC sidecars; no SQL timing is inferred",
+        "databricks_account_used": false,
+        "fixture": {
+          "rows": 10000,
+          "schema": "group_key BIGINT, amount BIGINT, active BOOLEAN",
+          "expected": [
+            [
+              0,
+              66,
+              29700
+            ],
+            [
+              1,
+              67,
+              30067
+            ],
+            [
+              2,
+              67,
+              30434
+            ],
+            [
+              3,
+              66,
+              29898
+            ],
+            [
+              4,
+              67,
+              30268
+            ],
+            [
+              5,
+              67,
+              30635
+            ],
+            [
+              6,
+              66,
+              30096
+            ],
+            [
+              7,
+              67,
+              30469
+            ],
+            [
+              8,
+              67,
+              30836
+            ],
+            [
+              9,
+              66,
+              30294
+            ],
+            [
+              10,
+              67,
+              30670
+            ],
+            [
+              11,
+              67,
+              31037
+            ],
+            [
+              12,
+              66,
+              30492
+            ],
+            [
+              13,
+              67,
+              30871
+            ],
+            [
+              14,
+              67,
+              31238
+            ],
+            [
+              15,
+              66,
+              30690
+            ],
+            [
+              16,
+              67,
+              31072
+            ],
+            [
+              17,
+              67,
+              31439
+            ],
+            [
+              18,
+              66,
+              30888
+            ],
+            [
+              19,
+              67,
+              31273
+            ],
+            [
+              20,
+              67,
+              31640
+            ],
+            [
+              21,
+              66,
+              31086
+            ],
+            [
+              22,
+              67,
+              31474
+            ],
+            [
+              23,
+              67,
+              31841
+            ],
+            [
+              24,
+              66,
+              31284
+            ],
+            [
+              25,
+              67,
+              31675
+            ],
+            [
+              26,
+              67,
+              32042
+            ],
+            [
+              27,
+              66,
+              31482
+            ],
+            [
+              28,
+              67,
+              31876
+            ],
+            [
+              29,
+              67,
+              32243
+            ],
+            [
+              30,
+              66,
+              31680
+            ],
+            [
+              31,
+              67,
+              32077
+            ],
+            [
+              32,
+              67,
+              32444
+            ],
+            [
+              33,
+              66,
+              31878
+            ],
+            [
+              34,
+              67,
+              32278
+            ],
+            [
+              35,
+              67,
+              32645
+            ],
+            [
+              36,
+              66,
+              32076
+            ],
+            [
+              37,
+              67,
+              32479
+            ],
+            [
+              38,
+              67,
+              32846
+            ],
+            [
+              39,
+              66,
+              32274
+            ],
+            [
+              40,
+              67,
+              32680
+            ],
+            [
+              41,
+              67,
+              33047
+            ],
+            [
+              42,
+              66,
+              32472
+            ],
+            [
+              43,
+              67,
+              32881
+            ],
+            [
+              44,
+              67,
+              33248
+            ],
+            [
+              45,
+              66,
+              32670
+            ],
+            [
+              46,
+              67,
+              33082
+            ],
+            [
+              47,
+              67,
+              33449
+            ],
+            [
+              48,
+              66,
+              32868
+            ],
+            [
+              49,
+              67,
+              33283
+            ],
+            [
+              50,
+              67,
+              33650
+            ],
+            [
+              51,
+              66,
+              33066
+            ],
+            [
+              52,
+              67,
+              33484
+            ],
+            [
+              53,
+              67,
+              33851
+            ],
+            [
+              54,
+              66,
+              33264
+            ],
+            [
+              55,
+              67,
+              33685
+            ],
+            [
+              56,
+              67,
+              34052
+            ],
+            [
+              57,
+              66,
+              33462
+            ],
+            [
+              58,
+              67,
+              33886
+            ],
+            [
+              59,
+              67,
+              34253
+            ],
+            [
+              60,
+              66,
+              33660
+            ],
+            [
+              61,
+              67,
+              34087
+            ],
+            [
+              62,
+              67,
+              34454
+            ],
+            [
+              63,
+              66,
+              33858
+            ],
+            [
+              64,
+              67,
+              34288
+            ],
+            [
+              65,
+              67,
+              34655
+            ],
+            [
+              66,
+              66,
+              34056
+            ],
+            [
+              67,
+              67,
+              34489
+            ],
+            [
+              68,
+              67,
+              34856
+            ],
+            [
+              69,
+              66,
+              34254
+            ],
+            [
+              70,
+              67,
+              34690
+            ],
+            [
+              71,
+              67,
+              35057
+            ],
+            [
+              72,
+              66,
+              34452
+            ],
+            [
+              73,
+              67,
+              34891
+            ],
+            [
+              74,
+              67,
+              35258
+            ],
+            [
+              75,
+              66,
+              34650
+            ],
+            [
+              76,
+              67,
+              35092
+            ],
+            [
+              77,
+              67,
+              35459
+            ],
+            [
+              78,
+              66,
+              34848
+            ],
+            [
+              79,
+              67,
+              35293
+            ],
+            [
+              80,
+              67,
+              35660
+            ],
+            [
+              81,
+              66,
+              35046
+            ],
+            [
+              82,
+              67,
+              35494
+            ],
+            [
+              83,
+              67,
+              35861
+            ],
+            [
+              84,
+              66,
+              35244
+            ],
+            [
+              85,
+              67,
+              35695
+            ],
+            [
+              86,
+              67,
+              36062
+            ],
+            [
+              87,
+              66,
+              35442
+            ],
+            [
+              88,
+              67,
+              35896
+            ],
+            [
+              89,
+              67,
+              36263
+            ],
+            [
+              90,
+              66,
+              35640
+            ],
+            [
+              91,
+              67,
+              36097
+            ],
+            [
+              92,
+              67,
+              36464
+            ],
+            [
+              93,
+              66,
+              35838
+            ],
+            [
+              94,
+              67,
+              36298
+            ],
+            [
+              95,
+              67,
+              36665
+            ],
+            [
+              96,
+              66,
+              36036
+            ],
+            [
+              97,
+              67,
+              36499
+            ],
+            [
+              98,
+              67,
+              36866
+            ],
+            [
+              99,
+              66,
+              36234
+            ]
+          ],
+          "expected_sha256": "97f2a2c9a3acf290c170684971ae49766b790c2bd4f7b1a14907f6f019fc7e5f",
+          "files": [
+            {
+              "path": "_delta_log/00000000000000000000.json",
+              "sha256": "9e852044f13e0be010309414cf7cec0546365296fb86f6fc84ba69a2bdf63ad6",
+              "size_bytes": 1321
+            },
+            {
+              "path": "part-00000-0c0a1ad3-94c2-4406-8351-211c4c77e864-c000.snappy.parquet",
+              "sha256": "d81bf14f50323ff87ac68e7d38d72d1254f6efb2386902da24ba526344d42477",
+              "size_bytes": 8253
+            }
+          ]
+        },
+        "fixture_unchanged": true,
+        "completed_at": "2026-10-23T00:43:51.583736+00:00",
+        "temporary_state_removed": true,
+        "result": "failed"
+      }
+    },
+    {
+      "scope": "Embedded registration adapter incorrectly recreated an automatic default schema",
+      "excluded_from_published_statistics": true,
+      "report": {
+        "schema_version": 1,
+        "started_at": "2026-10-23T00:45:09.575649+00:00",
+        "system": {
+          "os": "macOS-26.5.2-arm64-arm-64bit",
+          "architecture": "arm64",
+          "controller_python": "3.11.15",
+          "logical_cpus": 12,
+          "cpu": "Apple M4 Pro",
+          "memory_bytes": "25769803776"
+        },
+        "configuration": {
+          "rounds": 1,
+          "iterations": 2,
+          "warmups": 1,
+          "payload_bytes": 65536,
+          "rows": 10000
+        },
+        "provenance": {
+          "brickhouse": {
+            "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "Deprecated": "1.3.1",
+                "arro3-core": "0.9.1",
+                "brickhouse": "0.1.0",
+                "deltalake": "1.2.1",
+                "pyarrow": "23.0.1",
+                "sparkless": "4.15.2",
+                "sqlglot": "30.24.0",
+                "typing_extensions": "4.16.0",
+                "wrapt": "2.5.1"
+              },
+              "python": "3.11.15"
+            },
+            "license": "Apache-2.0",
+            "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+            "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "version": "0.1.0",
+            "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+          },
+          "databricks-emulator": {
+            "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+            "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "go_download": {
+              "arch": "arm64",
+              "filename": "go1.27.2.darwin-arm64.tar.gz",
+              "kind": "archive",
+              "os": "darwin",
+              "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+              "size": 68195916,
+              "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+              "version": "go1.27.2"
+            },
+            "go_version": "1.27.2",
+            "license": "Apache-2.0",
+            "profile": {
+              "attached_statement_engine": false,
+              "jobs_execution_measured": false,
+              "pat_authentication": true,
+              "tls": false,
+              "uc_oss_sidecar": false
+            },
+            "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "version": "05044929 source snapshot (dev build)"
+          },
+          "minilake": {
+            "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "PyYAML": "6.0.3",
+                "aiofiles": "25.1.0",
+                "annotated-doc": "0.0.5",
+                "annotated-types": "0.8.0",
+                "anyio": "4.15.1",
+                "certifi": "2026.10.19",
+                "cffi": "2.1.1",
+                "charset-normalizer": "3.5.2",
+                "click": "8.5.0",
+                "cryptography": "50.0.2",
+                "docker": "7.2.0",
+                "duckdb": "1.5.6",
+                "fastapi": "0.161.1",
+                "h11": "0.16.0",
+                "httpcore": "1.0.9",
+                "httptools": "0.9.0",
+                "httpx": "0.28.1",
+                "idna": "3.20",
+                "minilake": "1.8.0",
+                "opentelemetry-api": "1.45.1",
+                "pyarrow": "26.0.0",
+                "pycparser": "3.12",
+                "pydantic": "2.14.1",
+                "pydantic-settings": "2.16.1",
+                "pydantic_core": "2.50.1",
+                "python-dotenv": "1.2.4",
+                "python-multipart": "0.0.32",
+                "pytz": "2026.5",
+                "requests": "2.34.2",
+                "starlette": "1.9.0",
+                "typing-inspection": "0.4.4",
+                "typing_extensions": "4.16.0",
+                "urllib3": "2.8.0",
+                "uvicorn": "0.54.0",
+                "uvloop": "0.23.0",
+                "watchfiles": "1.3.0",
+                "websockets": "17.3"
+              },
+              "python": "3.11.15"
+            },
+            "extension_files": [
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+                "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+              },
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+                "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+              }
+            ],
+            "license": "MIT",
+            "profile": {
+              "default_job_executor": "Docker/Spark (not exercised)",
+              "delta_extension_preinstalled": true,
+              "notebook_extra": false,
+              "persist_state": true,
+              "spark_image_prewarm": false
+            },
+            "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "version": "1.8.0 source snapshot"
+          }
+        },
+        "harness_sha256": "a5a3f454ea487a200710b209fa7ae6633218d2d3a3981b2149486e042641e440",
+        "trials": [
+          {
+            "product": "brickhouse",
+            "status": "failed",
+            "fresh_workspace_to_verified_file_ms": 399.6855419827625,
+            "core_server_rss_mib": 45.03125,
+            "workspace_round_trip_ms": [
+              5.192499957047403,
+              4.84516704455018
+            ],
+            "verified_file_round_trips": 4,
+            "error": "CalledProcessError: Command '['/private/tmp/brickhouse-bench-brickhouse-env-20261022/bin/python', '-c', \"import sys\\nfrom brickhouse.workspace.context import WorkspaceContext\\nwith WorkspaceContext.local(sys.argv[1]) as context:\\n    context.catalogs.create('bench')\\n    context.schemas.create('bench', 'default')\\n    context.tables.register_external(\\n        'bench', 'default', 'emulator_bench', sys.argv[2])\\n\", '/var/folders/d0/m6dm9m4s1113jt883qbzzpph0000gn/T/brickhouse-emulator-benchmark-399mwj_a/0-brickhouse/workspace', '/var/folders/d0/m6dm9m4s1113jt883qbzzpph0000gn/T/brickhouse-emulator-benchmark-399mwj_a/delta-fixture']' returned non-zero exit status 1.",
+            "round": 1
+          },
+          {
+            "product": "minilake",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 489.7444170201197,
+            "core_server_rss_mib": 98.375,
+            "workspace_round_trip_ms": [
+              2.8683750424534082,
+              2.814917010255158
+            ],
+            "verified_file_round_trips": 4,
+            "sql_setup": "Untimed SQL external table registration",
+            "delta_aggregate_ms": [
+              3.2597079407423735,
+              2.972582937218249
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          },
+          {
+            "product": "databricks-emulator",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 60.63162500504404,
+            "core_server_rss_mib": 14.9375,
+            "workspace_round_trip_ms": [
+              5.690291058272123,
+              4.542917013168335
+            ],
+            "verified_file_round_trips": 4,
+            "sql_status": "not_configured",
+            "sql_reason": "Core Go API only; Sail/statement agent and UC OSS were not provisioned",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          }
+        ],
+        "summary": {
+          "brickhouse": {
+            "passed_trials": 0,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 399.6855419827625,
+              "p95": 399.6855419827625,
+              "min": 399.6855419827625,
+              "max": 399.6855419827625
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 45.03125,
+              "p95": 45.03125,
+              "min": 45.03125,
+              "max": 45.03125
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 5.018833500798792,
+              "p95": 5.192499957047403,
+              "min": 4.84516704455018,
+              "max": 5.192499957047403
+            }
+          },
+          "minilake": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 489.7444170201197,
+              "p95": 489.7444170201197,
+              "min": 489.7444170201197,
+              "max": 489.7444170201197
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 98.375,
+              "p95": 98.375,
+              "min": 98.375,
+              "max": 98.375
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 2.841646026354283,
+              "p95": 2.8683750424534082,
+              "min": 2.814917010255158,
+              "max": 2.8683750424534082
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 3.116145438980311,
+              "p95": 3.2597079407423735,
+              "min": 2.972582937218249,
+              "max": 3.2597079407423735
+            }
+          },
+          "databricks-emulator": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 60.63162500504404,
+              "p95": 60.63162500504404,
+              "min": 60.63162500504404,
+              "max": 60.63162500504404
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 14.9375,
+              "p95": 14.9375,
+              "min": 14.9375,
+              "max": 14.9375
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 5.116604035720229,
+              "p95": 5.690291058272123,
+              "min": 4.542917013168335,
+              "max": 5.690291058272123
+            }
+          }
+        },
+        "scope": "Serial local native-process core API and shared external Delta read workloads",
+        "network": "Explicit IPv4 loopback HTTP only; no pooled connections; TLS disabled for all products",
+        "sql_limitations": "The Go server has no attached engine/UC sidecars; no SQL timing is inferred",
+        "databricks_account_used": false,
+        "fixture": {
+          "rows": 10000,
+          "schema": "group_key BIGINT, amount BIGINT, active BOOLEAN",
+          "expected": [
+            [
+              0,
+              66,
+              29700
+            ],
+            [
+              1,
+              67,
+              30067
+            ],
+            [
+              2,
+              67,
+              30434
+            ],
+            [
+              3,
+              66,
+              29898
+            ],
+            [
+              4,
+              67,
+              30268
+            ],
+            [
+              5,
+              67,
+              30635
+            ],
+            [
+              6,
+              66,
+              30096
+            ],
+            [
+              7,
+              67,
+              30469
+            ],
+            [
+              8,
+              67,
+              30836
+            ],
+            [
+              9,
+              66,
+              30294
+            ],
+            [
+              10,
+              67,
+              30670
+            ],
+            [
+              11,
+              67,
+              31037
+            ],
+            [
+              12,
+              66,
+              30492
+            ],
+            [
+              13,
+              67,
+              30871
+            ],
+            [
+              14,
+              67,
+              31238
+            ],
+            [
+              15,
+              66,
+              30690
+            ],
+            [
+              16,
+              67,
+              31072
+            ],
+            [
+              17,
+              67,
+              31439
+            ],
+            [
+              18,
+              66,
+              30888
+            ],
+            [
+              19,
+              67,
+              31273
+            ],
+            [
+              20,
+              67,
+              31640
+            ],
+            [
+              21,
+              66,
+              31086
+            ],
+            [
+              22,
+              67,
+              31474
+            ],
+            [
+              23,
+              67,
+              31841
+            ],
+            [
+              24,
+              66,
+              31284
+            ],
+            [
+              25,
+              67,
+              31675
+            ],
+            [
+              26,
+              67,
+              32042
+            ],
+            [
+              27,
+              66,
+              31482
+            ],
+            [
+              28,
+              67,
+              31876
+            ],
+            [
+              29,
+              67,
+              32243
+            ],
+            [
+              30,
+              66,
+              31680
+            ],
+            [
+              31,
+              67,
+              32077
+            ],
+            [
+              32,
+              67,
+              32444
+            ],
+            [
+              33,
+              66,
+              31878
+            ],
+            [
+              34,
+              67,
+              32278
+            ],
+            [
+              35,
+              67,
+              32645
+            ],
+            [
+              36,
+              66,
+              32076
+            ],
+            [
+              37,
+              67,
+              32479
+            ],
+            [
+              38,
+              67,
+              32846
+            ],
+            [
+              39,
+              66,
+              32274
+            ],
+            [
+              40,
+              67,
+              32680
+            ],
+            [
+              41,
+              67,
+              33047
+            ],
+            [
+              42,
+              66,
+              32472
+            ],
+            [
+              43,
+              67,
+              32881
+            ],
+            [
+              44,
+              67,
+              33248
+            ],
+            [
+              45,
+              66,
+              32670
+            ],
+            [
+              46,
+              67,
+              33082
+            ],
+            [
+              47,
+              67,
+              33449
+            ],
+            [
+              48,
+              66,
+              32868
+            ],
+            [
+              49,
+              67,
+              33283
+            ],
+            [
+              50,
+              67,
+              33650
+            ],
+            [
+              51,
+              66,
+              33066
+            ],
+            [
+              52,
+              67,
+              33484
+            ],
+            [
+              53,
+              67,
+              33851
+            ],
+            [
+              54,
+              66,
+              33264
+            ],
+            [
+              55,
+              67,
+              33685
+            ],
+            [
+              56,
+              67,
+              34052
+            ],
+            [
+              57,
+              66,
+              33462
+            ],
+            [
+              58,
+              67,
+              33886
+            ],
+            [
+              59,
+              67,
+              34253
+            ],
+            [
+              60,
+              66,
+              33660
+            ],
+            [
+              61,
+              67,
+              34087
+            ],
+            [
+              62,
+              67,
+              34454
+            ],
+            [
+              63,
+              66,
+              33858
+            ],
+            [
+              64,
+              67,
+              34288
+            ],
+            [
+              65,
+              67,
+              34655
+            ],
+            [
+              66,
+              66,
+              34056
+            ],
+            [
+              67,
+              67,
+              34489
+            ],
+            [
+              68,
+              67,
+              34856
+            ],
+            [
+              69,
+              66,
+              34254
+            ],
+            [
+              70,
+              67,
+              34690
+            ],
+            [
+              71,
+              67,
+              35057
+            ],
+            [
+              72,
+              66,
+              34452
+            ],
+            [
+              73,
+              67,
+              34891
+            ],
+            [
+              74,
+              67,
+              35258
+            ],
+            [
+              75,
+              66,
+              34650
+            ],
+            [
+              76,
+              67,
+              35092
+            ],
+            [
+              77,
+              67,
+              35459
+            ],
+            [
+              78,
+              66,
+              34848
+            ],
+            [
+              79,
+              67,
+              35293
+            ],
+            [
+              80,
+              67,
+              35660
+            ],
+            [
+              81,
+              66,
+              35046
+            ],
+            [
+              82,
+              67,
+              35494
+            ],
+            [
+              83,
+              67,
+              35861
+            ],
+            [
+              84,
+              66,
+              35244
+            ],
+            [
+              85,
+              67,
+              35695
+            ],
+            [
+              86,
+              67,
+              36062
+            ],
+            [
+              87,
+              66,
+              35442
+            ],
+            [
+              88,
+              67,
+              35896
+            ],
+            [
+              89,
+              67,
+              36263
+            ],
+            [
+              90,
+              66,
+              35640
+            ],
+            [
+              91,
+              67,
+              36097
+            ],
+            [
+              92,
+              67,
+              36464
+            ],
+            [
+              93,
+              66,
+              35838
+            ],
+            [
+              94,
+              67,
+              36298
+            ],
+            [
+              95,
+              67,
+              36665
+            ],
+            [
+              96,
+              66,
+              36036
+            ],
+            [
+              97,
+              67,
+              36499
+            ],
+            [
+              98,
+              67,
+              36866
+            ],
+            [
+              99,
+              66,
+              36234
+            ]
+          ],
+          "expected_sha256": "97f2a2c9a3acf290c170684971ae49766b790c2bd4f7b1a14907f6f019fc7e5f",
+          "files": [
+            {
+              "path": "_delta_log/00000000000000000000.json",
+              "sha256": "bcccf860b257c6fd2bcb1a6f79d7f57fd7c60370966f3cf9a643e16a8d615f8a",
+              "size_bytes": 1320
+            },
+            {
+              "path": "part-00000-939b052b-c6c4-4d91-b7b6-8a2d88daf976-c000.snappy.parquet",
+              "sha256": "d81bf14f50323ff87ac68e7d38d72d1254f6efb2386902da24ba526344d42477",
+              "size_bytes": 8253
+            }
+          ]
+        },
+        "fixture_unchanged": true,
+        "completed_at": "2026-10-23T00:45:11.723442+00:00",
+        "temporary_state_removed": true,
+        "result": "failed"
+      }
+    },
+    {
+      "scope": "Corrected shared workload; Go core API only",
+      "excluded_from_published_statistics": true,
+      "report": {
+        "schema_version": 1,
+        "started_at": "2026-10-23T00:46:08.738050+00:00",
+        "system": {
+          "os": "macOS-26.5.2-arm64-arm-64bit",
+          "architecture": "arm64",
+          "controller_python": "3.11.15",
+          "logical_cpus": 12,
+          "cpu": "Apple M4 Pro",
+          "memory_bytes": "25769803776"
+        },
+        "configuration": {
+          "rounds": 1,
+          "iterations": 2,
+          "warmups": 1,
+          "payload_bytes": 65536,
+          "rows": 10000
+        },
+        "provenance": {
+          "brickhouse": {
+            "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "Deprecated": "1.3.1",
+                "arro3-core": "0.9.1",
+                "brickhouse": "0.1.0",
+                "deltalake": "1.2.1",
+                "pyarrow": "23.0.1",
+                "sparkless": "4.15.2",
+                "sqlglot": "30.24.0",
+                "typing_extensions": "4.16.0",
+                "wrapt": "2.5.1"
+              },
+              "python": "3.11.15"
+            },
+            "license": "Apache-2.0",
+            "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+            "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "version": "0.1.0",
+            "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+          },
+          "databricks-emulator": {
+            "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+            "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "go_download": {
+              "arch": "arm64",
+              "filename": "go1.27.2.darwin-arm64.tar.gz",
+              "kind": "archive",
+              "os": "darwin",
+              "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+              "size": 68195916,
+              "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+              "version": "go1.27.2"
+            },
+            "go_version": "1.27.2",
+            "license": "Apache-2.0",
+            "profile": {
+              "attached_statement_engine": false,
+              "jobs_execution_measured": false,
+              "pat_authentication": true,
+              "tls": false,
+              "uc_oss_sidecar": false
+            },
+            "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "version": "05044929 source snapshot (dev build)"
+          },
+          "minilake": {
+            "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "PyYAML": "6.0.3",
+                "aiofiles": "25.1.0",
+                "annotated-doc": "0.0.5",
+                "annotated-types": "0.8.0",
+                "anyio": "4.15.1",
+                "certifi": "2026.10.19",
+                "cffi": "2.1.1",
+                "charset-normalizer": "3.5.2",
+                "click": "8.5.0",
+                "cryptography": "50.0.2",
+                "docker": "7.2.0",
+                "duckdb": "1.5.6",
+                "fastapi": "0.161.1",
+                "h11": "0.16.0",
+                "httpcore": "1.0.9",
+                "httptools": "0.9.0",
+                "httpx": "0.28.1",
+                "idna": "3.20",
+                "minilake": "1.8.0",
+                "opentelemetry-api": "1.45.1",
+                "pyarrow": "26.0.0",
+                "pycparser": "3.12",
+                "pydantic": "2.14.1",
+                "pydantic-settings": "2.16.1",
+                "pydantic_core": "2.50.1",
+                "python-dotenv": "1.2.4",
+                "python-multipart": "0.0.32",
+                "pytz": "2026.5",
+                "requests": "2.34.2",
+                "starlette": "1.9.0",
+                "typing-inspection": "0.4.4",
+                "typing_extensions": "4.16.0",
+                "urllib3": "2.8.0",
+                "uvicorn": "0.54.0",
+                "uvloop": "0.23.0",
+                "watchfiles": "1.3.0",
+                "websockets": "17.3"
+              },
+              "python": "3.11.15"
+            },
+            "extension_files": [
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+                "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+              },
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+                "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+              }
+            ],
+            "license": "MIT",
+            "profile": {
+              "default_job_executor": "Docker/Spark (not exercised)",
+              "delta_extension_preinstalled": true,
+              "notebook_extra": false,
+              "persist_state": true,
+              "spark_image_prewarm": false
+            },
+            "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "version": "1.8.0 source snapshot"
+          }
+        },
+        "harness_sha256": "8bf8c39fb5f3edc25fd82a578502bdd96ed329a7222992313afc2cb889d4ed2a",
+        "trials": [
+          {
+            "product": "brickhouse",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 335.22354206070304,
+            "core_server_rss_mib": 44.96875,
+            "workspace_round_trip_ms": [
+              4.415082978084683,
+              4.312999895773828
+            ],
+            "verified_file_round_trips": 4,
+            "sql_setup": "Untimed embedded external registration and server reopen",
+            "delta_aggregate_ms": [
+              34.26274994853884,
+              29.730417067185044
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          },
+          {
+            "product": "minilake",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 357.72916697897017,
+            "core_server_rss_mib": 98.78125,
+            "workspace_round_trip_ms": [
+              3.3040830167010427,
+              3.586291102692485
+            ],
+            "verified_file_round_trips": 4,
+            "sql_setup": "Untimed SQL external table registration",
+            "delta_aggregate_ms": [
+              2.6523330016061664,
+              2.7028749464079738
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          },
+          {
+            "product": "databricks-emulator",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 109.99324999283999,
+            "core_server_rss_mib": 16.015625,
+            "workspace_round_trip_ms": [
+              3.447666997089982,
+              4.24983398988843
+            ],
+            "verified_file_round_trips": 4,
+            "sql_status": "not_configured",
+            "sql_reason": "Core Go API only; Sail/statement agent and UC OSS were not provisioned",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          }
+        ],
+        "summary": {
+          "brickhouse": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 335.22354206070304,
+              "p95": 335.22354206070304,
+              "min": 335.22354206070304,
+              "max": 335.22354206070304
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 44.96875,
+              "p95": 44.96875,
+              "min": 44.96875,
+              "max": 44.96875
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 4.364041436929256,
+              "p95": 4.415082978084683,
+              "min": 4.312999895773828,
+              "max": 4.415082978084683
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 31.996583507861942,
+              "p95": 34.26274994853884,
+              "min": 29.730417067185044,
+              "max": 34.26274994853884
+            }
+          },
+          "minilake": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 357.72916697897017,
+              "p95": 357.72916697897017,
+              "min": 357.72916697897017,
+              "max": 357.72916697897017
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 98.78125,
+              "p95": 98.78125,
+              "min": 98.78125,
+              "max": 98.78125
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 3.4451870596967638,
+              "p95": 3.586291102692485,
+              "min": 3.3040830167010427,
+              "max": 3.586291102692485
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 2.67760397400707,
+              "p95": 2.7028749464079738,
+              "min": 2.6523330016061664,
+              "max": 2.7028749464079738
+            }
+          },
+          "databricks-emulator": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 109.99324999283999,
+              "p95": 109.99324999283999,
+              "min": 109.99324999283999,
+              "max": 109.99324999283999
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 16.015625,
+              "p95": 16.015625,
+              "min": 16.015625,
+              "max": 16.015625
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 3.848750493489206,
+              "p95": 4.24983398988843,
+              "min": 3.447666997089982,
+              "max": 4.24983398988843
+            }
+          }
+        },
+        "scope": "Serial local native-process core API and shared external Delta read workloads",
+        "network": "Explicit IPv4 loopback HTTP only; no pooled connections; TLS disabled for all products",
+        "sql_limitations": "The Go server has no attached engine/UC sidecars; no SQL timing is inferred",
+        "databricks_account_used": false,
+        "fixture": {
+          "rows": 10000,
+          "schema": "group_key BIGINT, amount BIGINT, active BOOLEAN",
+          "expected": [
+            [
+              0,
+              66,
+              29700
+            ],
+            [
+              1,
+              67,
+              30067
+            ],
+            [
+              2,
+              67,
+              30434
+            ],
+            [
+              3,
+              66,
+              29898
+            ],
+            [
+              4,
+              67,
+              30268
+            ],
+            [
+              5,
+              67,
+              30635
+            ],
+            [
+              6,
+              66,
+              30096
+            ],
+            [
+              7,
+              67,
+              30469
+            ],
+            [
+              8,
+              67,
+              30836
+            ],
+            [
+              9,
+              66,
+              30294
+            ],
+            [
+              10,
+              67,
+              30670
+            ],
+            [
+              11,
+              67,
+              31037
+            ],
+            [
+              12,
+              66,
+              30492
+            ],
+            [
+              13,
+              67,
+              30871
+            ],
+            [
+              14,
+              67,
+              31238
+            ],
+            [
+              15,
+              66,
+              30690
+            ],
+            [
+              16,
+              67,
+              31072
+            ],
+            [
+              17,
+              67,
+              31439
+            ],
+            [
+              18,
+              66,
+              30888
+            ],
+            [
+              19,
+              67,
+              31273
+            ],
+            [
+              20,
+              67,
+              31640
+            ],
+            [
+              21,
+              66,
+              31086
+            ],
+            [
+              22,
+              67,
+              31474
+            ],
+            [
+              23,
+              67,
+              31841
+            ],
+            [
+              24,
+              66,
+              31284
+            ],
+            [
+              25,
+              67,
+              31675
+            ],
+            [
+              26,
+              67,
+              32042
+            ],
+            [
+              27,
+              66,
+              31482
+            ],
+            [
+              28,
+              67,
+              31876
+            ],
+            [
+              29,
+              67,
+              32243
+            ],
+            [
+              30,
+              66,
+              31680
+            ],
+            [
+              31,
+              67,
+              32077
+            ],
+            [
+              32,
+              67,
+              32444
+            ],
+            [
+              33,
+              66,
+              31878
+            ],
+            [
+              34,
+              67,
+              32278
+            ],
+            [
+              35,
+              67,
+              32645
+            ],
+            [
+              36,
+              66,
+              32076
+            ],
+            [
+              37,
+              67,
+              32479
+            ],
+            [
+              38,
+              67,
+              32846
+            ],
+            [
+              39,
+              66,
+              32274
+            ],
+            [
+              40,
+              67,
+              32680
+            ],
+            [
+              41,
+              67,
+              33047
+            ],
+            [
+              42,
+              66,
+              32472
+            ],
+            [
+              43,
+              67,
+              32881
+            ],
+            [
+              44,
+              67,
+              33248
+            ],
+            [
+              45,
+              66,
+              32670
+            ],
+            [
+              46,
+              67,
+              33082
+            ],
+            [
+              47,
+              67,
+              33449
+            ],
+            [
+              48,
+              66,
+              32868
+            ],
+            [
+              49,
+              67,
+              33283
+            ],
+            [
+              50,
+              67,
+              33650
+            ],
+            [
+              51,
+              66,
+              33066
+            ],
+            [
+              52,
+              67,
+              33484
+            ],
+            [
+              53,
+              67,
+              33851
+            ],
+            [
+              54,
+              66,
+              33264
+            ],
+            [
+              55,
+              67,
+              33685
+            ],
+            [
+              56,
+              67,
+              34052
+            ],
+            [
+              57,
+              66,
+              33462
+            ],
+            [
+              58,
+              67,
+              33886
+            ],
+            [
+              59,
+              67,
+              34253
+            ],
+            [
+              60,
+              66,
+              33660
+            ],
+            [
+              61,
+              67,
+              34087
+            ],
+            [
+              62,
+              67,
+              34454
+            ],
+            [
+              63,
+              66,
+              33858
+            ],
+            [
+              64,
+              67,
+              34288
+            ],
+            [
+              65,
+              67,
+              34655
+            ],
+            [
+              66,
+              66,
+              34056
+            ],
+            [
+              67,
+              67,
+              34489
+            ],
+            [
+              68,
+              67,
+              34856
+            ],
+            [
+              69,
+              66,
+              34254
+            ],
+            [
+              70,
+              67,
+              34690
+            ],
+            [
+              71,
+              67,
+              35057
+            ],
+            [
+              72,
+              66,
+              34452
+            ],
+            [
+              73,
+              67,
+              34891
+            ],
+            [
+              74,
+              67,
+              35258
+            ],
+            [
+              75,
+              66,
+              34650
+            ],
+            [
+              76,
+              67,
+              35092
+            ],
+            [
+              77,
+              67,
+              35459
+            ],
+            [
+              78,
+              66,
+              34848
+            ],
+            [
+              79,
+              67,
+              35293
+            ],
+            [
+              80,
+              67,
+              35660
+            ],
+            [
+              81,
+              66,
+              35046
+            ],
+            [
+              82,
+              67,
+              35494
+            ],
+            [
+              83,
+              67,
+              35861
+            ],
+            [
+              84,
+              66,
+              35244
+            ],
+            [
+              85,
+              67,
+              35695
+            ],
+            [
+              86,
+              67,
+              36062
+            ],
+            [
+              87,
+              66,
+              35442
+            ],
+            [
+              88,
+              67,
+              35896
+            ],
+            [
+              89,
+              67,
+              36263
+            ],
+            [
+              90,
+              66,
+              35640
+            ],
+            [
+              91,
+              67,
+              36097
+            ],
+            [
+              92,
+              67,
+              36464
+            ],
+            [
+              93,
+              66,
+              35838
+            ],
+            [
+              94,
+              67,
+              36298
+            ],
+            [
+              95,
+              67,
+              36665
+            ],
+            [
+              96,
+              66,
+              36036
+            ],
+            [
+              97,
+              67,
+              36499
+            ],
+            [
+              98,
+              67,
+              36866
+            ],
+            [
+              99,
+              66,
+              36234
+            ]
+          ],
+          "expected_sha256": "97f2a2c9a3acf290c170684971ae49766b790c2bd4f7b1a14907f6f019fc7e5f",
+          "files": [
+            {
+              "path": "_delta_log/00000000000000000000.json",
+              "sha256": "2773ac7595ed0f2bd4b2dafff0e08142bf5b351091d2d0e78746df3acc3b46a4",
+              "size_bytes": 1320
+            },
+            {
+              "path": "part-00000-00d22936-3b38-4ec6-90b2-d0393cafbcd1-c000.snappy.parquet",
+              "sha256": "d81bf14f50323ff87ac68e7d38d72d1254f6efb2386902da24ba526344d42477",
+              "size_bytes": 8253
+            }
+          ]
+        },
+        "fixture_unchanged": true,
+        "completed_at": "2026-10-23T00:46:13.845160+00:00",
+        "temporary_state_removed": true,
+        "result": "passed"
+      }
+    },
+    {
+      "scope": "All three native SQL profiles passed before full measurement",
+      "excluded_from_published_statistics": true,
+      "report": {
+        "schema_version": 1,
+        "started_at": "2026-10-23T00:53:24.462922+00:00",
+        "system": {
+          "os": "macOS-26.5.2-arm64-arm-64bit",
+          "architecture": "arm64",
+          "controller_python": "3.11.15",
+          "logical_cpus": 12,
+          "cpu": "Apple M4 Pro",
+          "memory_bytes": "25769803776"
+        },
+        "configuration": {
+          "rounds": 1,
+          "iterations": 2,
+          "warmups": 1,
+          "payload_bytes": 65536,
+          "rows": 10000
+        },
+        "provenance": {
+          "brickhouse": {
+            "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "Deprecated": "1.3.1",
+                "arro3-core": "0.9.1",
+                "brickhouse": "0.1.0",
+                "deltalake": "1.2.1",
+                "pyarrow": "23.0.1",
+                "sparkless": "4.15.2",
+                "sqlglot": "30.24.0",
+                "typing_extensions": "4.16.0",
+                "wrapt": "2.5.1"
+              },
+              "python": "3.11.15"
+            },
+            "license": "Apache-2.0",
+            "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+            "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+            "version": "0.1.0",
+            "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+          },
+          "databricks-emulator": {
+            "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+            "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "go_download": {
+              "arch": "arm64",
+              "filename": "go1.27.2.darwin-arm64.tar.gz",
+              "kind": "archive",
+              "os": "darwin",
+              "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+              "size": 68195916,
+              "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+              "version": "go1.27.2"
+            },
+            "go_version": "1.27.2",
+            "license": "Apache-2.0",
+            "native_sql_profile": {
+              "agent_commit": "4a42eb4c5dc1cb3a63e5a5ececb47fb147905b3e",
+              "agent_license": "Apache-2.0",
+              "agent_source": "https://github.com/calvinchengx/fabric-emulator/tree/4a42eb4c5dc1cb3a63e5a5ececb47fb147905b3e",
+              "catalog": "Direct Delta path; no UC OSS sidecar",
+              "client": "pyspark-client 4.2.0",
+              "engine": "pysail 0.7.1",
+              "engine_lifetime": "Fresh Sail and statement agent per SQL trial",
+              "environment": {
+                "packages": {
+                  "PyYAML": "6.0.3",
+                  "googleapis-common-protos": "1.76.0",
+                  "grpcio": "1.84.1",
+                  "grpcio-status": "1.84.1",
+                  "numpy": "2.4.6",
+                  "pandas": "3.1.0",
+                  "protobuf": "7.36.2",
+                  "pyarrow": "26.0.0",
+                  "pysail": "0.7.1",
+                  "pyspark-client": "4.2.0",
+                  "python-dateutil": "3.0.0",
+                  "six": "1.17.0",
+                  "typing_extensions": "4.16.0",
+                  "tzdata": "2026.5",
+                  "zstandard": "0.25.0"
+                },
+                "python": "3.11.15"
+              },
+              "launcher_adaptation": "Pinned upstream Handler with loopback binding; see docs/benchmarks/local-emulators.md",
+              "timed_result_protocol": "Go agent JSON text envelope normalized to integer rows"
+            },
+            "profile": {
+              "attached_statement_engine": false,
+              "jobs_execution_measured": false,
+              "pat_authentication": true,
+              "tls": false,
+              "uc_oss_sidecar": false
+            },
+            "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+            "version": "05044929 source snapshot (dev build)"
+          },
+          "minilake": {
+            "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "environment": {
+              "implementation": "CPython",
+              "packages": {
+                "PyYAML": "6.0.3",
+                "aiofiles": "25.1.0",
+                "annotated-doc": "0.0.5",
+                "annotated-types": "0.8.0",
+                "anyio": "4.15.1",
+                "certifi": "2026.10.19",
+                "cffi": "2.1.1",
+                "charset-normalizer": "3.5.2",
+                "click": "8.5.0",
+                "cryptography": "50.0.2",
+                "docker": "7.2.0",
+                "duckdb": "1.5.6",
+                "fastapi": "0.161.1",
+                "h11": "0.16.0",
+                "httpcore": "1.0.9",
+                "httptools": "0.9.0",
+                "httpx": "0.28.1",
+                "idna": "3.20",
+                "minilake": "1.8.0",
+                "opentelemetry-api": "1.45.1",
+                "pyarrow": "26.0.0",
+                "pycparser": "3.12",
+                "pydantic": "2.14.1",
+                "pydantic-settings": "2.16.1",
+                "pydantic_core": "2.50.1",
+                "python-dotenv": "1.2.4",
+                "python-multipart": "0.0.32",
+                "pytz": "2026.5",
+                "requests": "2.34.2",
+                "starlette": "1.9.0",
+                "typing-inspection": "0.4.4",
+                "typing_extensions": "4.16.0",
+                "urllib3": "2.8.0",
+                "uvicorn": "0.54.0",
+                "uvloop": "0.23.0",
+                "watchfiles": "1.3.0",
+                "websockets": "17.3"
+              },
+              "python": "3.11.15"
+            },
+            "extension_files": [
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+                "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+              },
+              {
+                "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+                "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+              }
+            ],
+            "license": "MIT",
+            "profile": {
+              "default_job_executor": "Docker/Spark (not exercised)",
+              "delta_extension_preinstalled": true,
+              "notebook_extra": false,
+              "persist_state": true,
+              "spark_image_prewarm": false
+            },
+            "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+            "version": "1.8.0 source snapshot"
+          }
+        },
+        "harness_sha256": "457572121fa111c12a364055044042c51a4913bbf9404f54d65d6ef09f9c1870",
+        "native_agent_launcher_sha256": "0d216842e89d1c362af4f832a07d08f613daf3b22b80d524d1a7670024b09894",
+        "trials": [
+          {
+            "product": "brickhouse",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 1152.9344589216635,
+            "core_server_rss_mib": 45.203125,
+            "workspace_round_trip_ms": [
+              4.1212079813703895,
+              2.873915946111083
+            ],
+            "verified_file_round_trips": 4,
+            "sql_setup": "Untimed embedded external registration and server reopen",
+            "delta_aggregate_ms": [
+              52.1806669421494,
+              43.67424990050495
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          },
+          {
+            "product": "minilake",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 1237.8389589721337,
+            "core_server_rss_mib": 98.46875,
+            "workspace_round_trip_ms": [
+              4.801791976206005,
+              5.732999998144805
+            ],
+            "verified_file_round_trips": 4,
+            "sql_setup": "Untimed SQL external table registration",
+            "delta_aggregate_ms": [
+              3.0274579767137766,
+              2.598457969725132
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          },
+          {
+            "product": "databricks-emulator",
+            "status": "passed",
+            "fresh_workspace_to_verified_file_ms": 309.6963750431314,
+            "core_server_rss_mib": 14.71875,
+            "workspace_round_trip_ms": [
+              4.548792028799653,
+              3.7985839881002903
+            ],
+            "verified_file_round_trips": 4,
+            "sql_setup": "Fresh native Sail plus pinned statement agent; Delta path read",
+            "delta_aggregate_ms": [
+              5.792292067781091,
+              5.275000003166497
+            ],
+            "verified_sql_results": 3,
+            "sql_status": "measured",
+            "workspace_file_survived_restart": true,
+            "round": 1
+          }
+        ],
+        "summary": {
+          "brickhouse": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 1152.9344589216635,
+              "p95": 1152.9344589216635,
+              "min": 1152.9344589216635,
+              "max": 1152.9344589216635
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 45.203125,
+              "p95": 45.203125,
+              "min": 45.203125,
+              "max": 45.203125
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 3.4975619637407362,
+              "p95": 4.1212079813703895,
+              "min": 2.873915946111083,
+              "max": 4.1212079813703895
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 47.927458421327174,
+              "p95": 52.1806669421494,
+              "min": 43.67424990050495,
+              "max": 52.1806669421494
+            }
+          },
+          "minilake": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 1237.8389589721337,
+              "p95": 1237.8389589721337,
+              "min": 1237.8389589721337,
+              "max": 1237.8389589721337
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 98.46875,
+              "p95": 98.46875,
+              "min": 98.46875,
+              "max": 98.46875
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 5.267395987175405,
+              "p95": 5.732999998144805,
+              "min": 4.801791976206005,
+              "max": 5.732999998144805
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 2.8129579732194543,
+              "p95": 3.0274579767137766,
+              "min": 2.598457969725132,
+              "max": 3.0274579767137766
+            }
+          },
+          "databricks-emulator": {
+            "passed_trials": 1,
+            "total_trials": 1,
+            "fresh_workspace_to_verified_file_ms": {
+              "count": 1,
+              "median": 309.6963750431314,
+              "p95": 309.6963750431314,
+              "min": 309.6963750431314,
+              "max": 309.6963750431314
+            },
+            "core_server_rss_mib": {
+              "count": 1,
+              "median": 14.71875,
+              "p95": 14.71875,
+              "min": 14.71875,
+              "max": 14.71875
+            },
+            "workspace_round_trip_ms": {
+              "count": 2,
+              "median": 4.173688008449972,
+              "p95": 4.548792028799653,
+              "min": 3.7985839881002903,
+              "max": 4.548792028799653
+            },
+            "delta_aggregate_ms": {
+              "count": 2,
+              "median": 5.533646035473794,
+              "p95": 5.792292067781091,
+              "min": 5.275000003166497,
+              "max": 5.792292067781091
+            }
+          }
+        },
+        "scope": "Serial local native-process core API and shared external Delta read workloads",
+        "network": "Explicit IPv4 loopback HTTP only; no pooled connections; TLS disabled for all products",
+        "sql_limitations": "Go SQL uses native Sail and a pinned source statement agent, direct Delta path reads, and JSON text normalization; core API timings/RSS exclude those engine processes",
+        "databricks_account_used": false,
+        "fixture": {
+          "rows": 10000,
+          "schema": "group_key BIGINT, amount BIGINT, active BOOLEAN",
+          "expected": [
+            [
+              0,
+              66,
+              29700
+            ],
+            [
+              1,
+              67,
+              30067
+            ],
+            [
+              2,
+              67,
+              30434
+            ],
+            [
+              3,
+              66,
+              29898
+            ],
+            [
+              4,
+              67,
+              30268
+            ],
+            [
+              5,
+              67,
+              30635
+            ],
+            [
+              6,
+              66,
+              30096
+            ],
+            [
+              7,
+              67,
+              30469
+            ],
+            [
+              8,
+              67,
+              30836
+            ],
+            [
+              9,
+              66,
+              30294
+            ],
+            [
+              10,
+              67,
+              30670
+            ],
+            [
+              11,
+              67,
+              31037
+            ],
+            [
+              12,
+              66,
+              30492
+            ],
+            [
+              13,
+              67,
+              30871
+            ],
+            [
+              14,
+              67,
+              31238
+            ],
+            [
+              15,
+              66,
+              30690
+            ],
+            [
+              16,
+              67,
+              31072
+            ],
+            [
+              17,
+              67,
+              31439
+            ],
+            [
+              18,
+              66,
+              30888
+            ],
+            [
+              19,
+              67,
+              31273
+            ],
+            [
+              20,
+              67,
+              31640
+            ],
+            [
+              21,
+              66,
+              31086
+            ],
+            [
+              22,
+              67,
+              31474
+            ],
+            [
+              23,
+              67,
+              31841
+            ],
+            [
+              24,
+              66,
+              31284
+            ],
+            [
+              25,
+              67,
+              31675
+            ],
+            [
+              26,
+              67,
+              32042
+            ],
+            [
+              27,
+              66,
+              31482
+            ],
+            [
+              28,
+              67,
+              31876
+            ],
+            [
+              29,
+              67,
+              32243
+            ],
+            [
+              30,
+              66,
+              31680
+            ],
+            [
+              31,
+              67,
+              32077
+            ],
+            [
+              32,
+              67,
+              32444
+            ],
+            [
+              33,
+              66,
+              31878
+            ],
+            [
+              34,
+              67,
+              32278
+            ],
+            [
+              35,
+              67,
+              32645
+            ],
+            [
+              36,
+              66,
+              32076
+            ],
+            [
+              37,
+              67,
+              32479
+            ],
+            [
+              38,
+              67,
+              32846
+            ],
+            [
+              39,
+              66,
+              32274
+            ],
+            [
+              40,
+              67,
+              32680
+            ],
+            [
+              41,
+              67,
+              33047
+            ],
+            [
+              42,
+              66,
+              32472
+            ],
+            [
+              43,
+              67,
+              32881
+            ],
+            [
+              44,
+              67,
+              33248
+            ],
+            [
+              45,
+              66,
+              32670
+            ],
+            [
+              46,
+              67,
+              33082
+            ],
+            [
+              47,
+              67,
+              33449
+            ],
+            [
+              48,
+              66,
+              32868
+            ],
+            [
+              49,
+              67,
+              33283
+            ],
+            [
+              50,
+              67,
+              33650
+            ],
+            [
+              51,
+              66,
+              33066
+            ],
+            [
+              52,
+              67,
+              33484
+            ],
+            [
+              53,
+              67,
+              33851
+            ],
+            [
+              54,
+              66,
+              33264
+            ],
+            [
+              55,
+              67,
+              33685
+            ],
+            [
+              56,
+              67,
+              34052
+            ],
+            [
+              57,
+              66,
+              33462
+            ],
+            [
+              58,
+              67,
+              33886
+            ],
+            [
+              59,
+              67,
+              34253
+            ],
+            [
+              60,
+              66,
+              33660
+            ],
+            [
+              61,
+              67,
+              34087
+            ],
+            [
+              62,
+              67,
+              34454
+            ],
+            [
+              63,
+              66,
+              33858
+            ],
+            [
+              64,
+              67,
+              34288
+            ],
+            [
+              65,
+              67,
+              34655
+            ],
+            [
+              66,
+              66,
+              34056
+            ],
+            [
+              67,
+              67,
+              34489
+            ],
+            [
+              68,
+              67,
+              34856
+            ],
+            [
+              69,
+              66,
+              34254
+            ],
+            [
+              70,
+              67,
+              34690
+            ],
+            [
+              71,
+              67,
+              35057
+            ],
+            [
+              72,
+              66,
+              34452
+            ],
+            [
+              73,
+              67,
+              34891
+            ],
+            [
+              74,
+              67,
+              35258
+            ],
+            [
+              75,
+              66,
+              34650
+            ],
+            [
+              76,
+              67,
+              35092
+            ],
+            [
+              77,
+              67,
+              35459
+            ],
+            [
+              78,
+              66,
+              34848
+            ],
+            [
+              79,
+              67,
+              35293
+            ],
+            [
+              80,
+              67,
+              35660
+            ],
+            [
+              81,
+              66,
+              35046
+            ],
+            [
+              82,
+              67,
+              35494
+            ],
+            [
+              83,
+              67,
+              35861
+            ],
+            [
+              84,
+              66,
+              35244
+            ],
+            [
+              85,
+              67,
+              35695
+            ],
+            [
+              86,
+              67,
+              36062
+            ],
+            [
+              87,
+              66,
+              35442
+            ],
+            [
+              88,
+              67,
+              35896
+            ],
+            [
+              89,
+              67,
+              36263
+            ],
+            [
+              90,
+              66,
+              35640
+            ],
+            [
+              91,
+              67,
+              36097
+            ],
+            [
+              92,
+              67,
+              36464
+            ],
+            [
+              93,
+              66,
+              35838
+            ],
+            [
+              94,
+              67,
+              36298
+            ],
+            [
+              95,
+              67,
+              36665
+            ],
+            [
+              96,
+              66,
+              36036
+            ],
+            [
+              97,
+              67,
+              36499
+            ],
+            [
+              98,
+              67,
+              36866
+            ],
+            [
+              99,
+              66,
+              36234
+            ]
+          ],
+          "expected_sha256": "97f2a2c9a3acf290c170684971ae49766b790c2bd4f7b1a14907f6f019fc7e5f",
+          "files": [
+            {
+              "path": "_delta_log/00000000000000000000.json",
+              "sha256": "0fd84fd800134a7b471787630468fc4800fd2bed12f407d5597a69dc9932e81f",
+              "size_bytes": 1320
+            },
+            {
+              "path": "part-00000-9a88d2c2-4135-46e2-bb10-44873a24e00e-c000.snappy.parquet",
+              "sha256": "d81bf14f50323ff87ac68e7d38d72d1254f6efb2386902da24ba526344d42477",
+              "size_bytes": 8253
+            }
+          ]
+        },
+        "fixture_unchanged": true,
+        "completed_at": "2026-10-23T00:54:02.144722+00:00",
+        "temporary_state_removed": true,
+        "result": "passed"
+      }
+    }
+  ]
+}

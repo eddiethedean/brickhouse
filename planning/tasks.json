@@ -9647,6 +9647,39 @@
       "parent_criteria": [
         1
       ]
+    },
+    {
+      "id": "B067",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Publish sourced emulator comparison and reproducible local benchmarks",
+      "status": "done",
+      "depends_on": [
+        "B066"
+      ],
+      "plan_refs": [
+        "docs/plan/03-dependencies-and-minilake.md",
+        "docs/plan/07-compatibility-and-testing.md",
+        "docs/plan/22-local-emulator-comparison.md"
+      ],
+      "deliverable": "README feature/result tables, an opt-in local comparison harness, pinned competitor provenance, and raw benchmark evidence with reproduction instructions.",
+      "acceptance_criteria": [
+        "Compare BrickHouse, MiniLake and the closest Databricks workspace emulator using exact upstream revisions and primary sources; explicitly mark planned BrickHouse features and distinguish partial or simulated implementation.",
+        "Implement a bounded opt-in benchmark harness for genuine shared local API operations and the comparable SQL subset, checking returned bytes/results and recording startup, sample distributions, environment, versions, hashes and unavailable configurations without cloud credentials or fabricated timings.",
+        "Execute the comparison locally, retain all measured samples and setup limitations, verify harness correctness and planning consistency, and publish the measured results and reproducible methodology in the README and detailed benchmark documentation."
+      ],
+      "owner": "Codex",
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "source-pinned-feature-comparison-and-real-native-benchmarks",
+          "command": "scripts/benchmark_emulators.py --rounds 5 --iterations 25 --warmups 2 (two full native runs; exact setup in the report); python -m scripts.summarize_emulator_benchmarks; pytest tests/unit/test_benchmark_emulators.py tests/unit/test_benchmark_summary.py; Ruff; strict mypy with explicit namespace-package bases; scripts/validate_planning.py",
+          "result": "README comparison cites exact MiniLake b2736501 and databricks-emulator 05044929 source snapshots and explicitly marks planned BrickHouse features. Thirty fresh local trials passed, pooling every sample from two runs: 250 timed file and 250 timed SQL samples per product (1,500 total), exact script-byte/100-row aggregate checks, restart file checks, unchanged Delta fixtures and tool/source hashes. Go SQL uses fresh native Sail 0.7.1 plus a pinned external source agent through the documented benchmark-only loopback adapter. No product runtime code, capability state, personal account or cloud workload changed. All 37 benchmark/statistics guard tests, lint/format and strict tool typing pass. Source and setup differences, excluded preflight probes, current and initial measured tool identities, complete raw samples and reproduction instructions are retained.",
+          "artifact": "artifacts/benchmarks/2026-10-22-local-emulators/validation.json"
+        }
+      ],
+      "blockers": [],
+      "children": []
     }
   ],
   "release_roadmap": "ROADMAP.md"

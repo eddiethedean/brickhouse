@@ -10,7 +10,7 @@ This document defines release grouping. The [task ledger](planning/tasks.json) r
 
 | Phase | First version | Release outcome | Work packages | Milestones |
 |---|---|---|---|---|
-| 0.1 | **0.1.0** | Initial local alpha: shared tables, SQL, bounded serverless/classic jobs and notebooks, client workflows, recovery, architecture review, phase 0.1 review corrections, and tag-gated release automation | B001–B023, B043–B048, B056, B063 (planning only), B064–B066 | M0–M3 |
+| 0.1 | **0.1.0** | Initial local alpha: shared tables, SQL, bounded serverless/classic jobs and notebooks, client workflows, recovery, architecture review, phase 0.1 review corrections, and tag-gated release automation | B001–B023, B043–B048, B056, B063 (planning only), B064–B067 | M0–M3 |
 | 0.2 | 0.2.0 | Expanded workflow orchestration, local authorization, and audit | B024, B028 | M4 |
 | 0.3 | 0.3.0 | MLflow, Python model serving, and dbt | B025–B027 | M4 |
 | 0.4 | 0.4.0 | Native vector indexes and bounded feature-engineering research | B029, B038 | M4, M6 |
@@ -180,3 +180,6 @@ Remote job placement in SH.4 remains useful without distributing one query. Spar
 - Use the personal Databricks account for occasional bounded reference probes to verify representative behavior and design tests, following [the capture plan](docs/plan/15-personal-databricks-verification.md). Routine tests, required CI, milestone gates, and release tests run locally using reviewed fixtures without personal credentials or live Databricks calls.
 - A phase completes only when its work packages and applicable [G1–G6 gates](docs/plan/07-compatibility-and-testing.md) pass with retained evidence. Update [STATUS.md](STATUS.md), the task ledger, and relevant capability records; planned or simulated behavior cannot become supported through a version label.
 - Prepare wheels, scope records, and release reports before publication. Release phases do not authorize publication, paid infrastructure, or expanded cloud spend.
+
+
+B067 adds sourced competitor comparison and opt-in local benchmark evidence for the README. It preserves the existing 142 implementation/review/release children and capability claims; benchmark measurements are workload-specific observations, separate from conformance qualification.

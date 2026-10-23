@@ -3760,3 +3760,22 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 **Parent:** B066.3 · **Parent criteria:** 1.
 
 **Publisher verification:** The owner supplied the saved PyPI Pending publishers entry for brickhouse, GitHub eddiethedean/brickhouse, release.yml, environment pypi. All fields match; the GitHub environment accepts v*.*.* tags only. [Configuration evidence](../../artifacts/releases/0.1.0/evidence/B066/publisher-verification.json) is retained. No OIDC upload, tag or publication occurred.
+
+
+## B067 — Publish sourced emulator comparison and reproducible local benchmarks
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B066.
+
+**Plans:** [22-local-emulator-comparison.md](22-local-emulator-comparison.md).
+
+**Deliverable:** README feature/result tables, an opt-in local comparison harness, pinned competitor provenance, and raw benchmark evidence with reproduction instructions.
+
+**Acceptance criteria:**
+
+1. Compare BrickHouse, MiniLake and the closest Databricks workspace emulator using exact upstream revisions and primary sources; explicitly mark planned BrickHouse features and distinguish partial or simulated implementation.
+2. Implement a bounded opt-in benchmark harness for genuine shared local API operations and the comparable SQL subset, checking returned bytes/results and recording startup, sample distributions, environment, versions, hashes and unavailable configurations without cloud credentials or fabricated timings.
+3. Execute the comparison locally, retain all measured samples and setup limitations, verify harness correctness and planning consistency, and publish the measured results and reproducible methodology in the README and detailed benchmark documentation.
+
+**Evidence:** Both full native runs passed and every measured sample is pooled: 30 trials, 1,500 timed samples across the three products, exact returned bytes/aggregate values, restart-file checks and immutable fixture hashes. The README includes explicit planned-feature markers and generated median/p95 results. [Validation record](../../artifacts/benchmarks/2026-10-22-local-emulators/validation.json) and [reproduction/methodology](../benchmarks/local-emulators.md) retain source profiles, limitations and setup probes. No capability is promoted.

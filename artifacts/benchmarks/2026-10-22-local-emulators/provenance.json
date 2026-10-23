@@ -1,0 +1,147 @@
+{
+  "brickhouse": {
+    "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+    "environment": {
+      "implementation": "CPython",
+      "packages": {
+        "Deprecated": "1.3.1",
+        "arro3-core": "0.9.1",
+        "brickhouse": "0.1.0",
+        "deltalake": "1.2.1",
+        "pyarrow": "23.0.1",
+        "sparkless": "4.15.2",
+        "sqlglot": "30.24.0",
+        "typing_extensions": "4.16.0",
+        "wrapt": "2.5.1"
+      },
+      "python": "3.11.15"
+    },
+    "license": "Apache-2.0",
+    "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+    "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+    "version": "0.1.0",
+    "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+  },
+  "databricks-emulator": {
+    "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+    "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+    "core_api_profile": {
+      "attached_statement_engine": false,
+      "jobs_execution_measured": false,
+      "pat_authentication": true,
+      "tls": false,
+      "uc_oss_sidecar": false
+    },
+    "go_download": {
+      "arch": "arm64",
+      "filename": "go1.27.2.darwin-arm64.tar.gz",
+      "kind": "archive",
+      "os": "darwin",
+      "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+      "size": 68195916,
+      "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+      "version": "go1.27.2"
+    },
+    "go_version": "1.27.2",
+    "license": "Apache-2.0",
+    "native_sql_profile": {
+      "agent_commit": "4a42eb4c5dc1cb3a63e5a5ececb47fb147905b3e",
+      "agent_license": "Apache-2.0",
+      "agent_source": "https://github.com/calvinchengx/fabric-emulator/tree/4a42eb4c5dc1cb3a63e5a5ececb47fb147905b3e",
+      "catalog": "Direct Delta path; no UC OSS sidecar",
+      "client": "pyspark-client 4.2.0",
+      "engine": "pysail 0.7.1",
+      "engine_lifetime": "Fresh Sail and statement agent per SQL trial",
+      "environment": {
+        "packages": {
+          "PyYAML": "6.0.3",
+          "googleapis-common-protos": "1.76.0",
+          "grpcio": "1.84.1",
+          "grpcio-status": "1.84.1",
+          "numpy": "2.4.6",
+          "pandas": "3.1.0",
+          "protobuf": "7.36.2",
+          "pyarrow": "26.0.0",
+          "pysail": "0.7.1",
+          "pyspark-client": "4.2.0",
+          "python-dateutil": "3.0.0",
+          "six": "1.17.0",
+          "typing_extensions": "4.16.0",
+          "tzdata": "2026.5",
+          "zstandard": "0.25.0"
+        },
+        "python": "3.11.15"
+      },
+      "launcher_adaptation": "Pinned upstream Handler with loopback binding; see docs/benchmarks/local-emulators.md",
+      "timed_result_protocol": "Go agent JSON text envelope normalized to integer rows"
+    },
+    "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+    "version": "05044929 source snapshot (dev build)"
+  },
+  "minilake": {
+    "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+    "environment": {
+      "implementation": "CPython",
+      "packages": {
+        "PyYAML": "6.0.3",
+        "aiofiles": "25.1.0",
+        "annotated-doc": "0.0.5",
+        "annotated-types": "0.8.0",
+        "anyio": "4.15.1",
+        "certifi": "2026.10.19",
+        "cffi": "2.1.1",
+        "charset-normalizer": "3.5.2",
+        "click": "8.5.0",
+        "cryptography": "50.0.2",
+        "docker": "7.2.0",
+        "duckdb": "1.5.6",
+        "fastapi": "0.161.1",
+        "h11": "0.16.0",
+        "httpcore": "1.0.9",
+        "httptools": "0.9.0",
+        "httpx": "0.28.1",
+        "idna": "3.20",
+        "minilake": "1.8.0",
+        "opentelemetry-api": "1.45.1",
+        "pyarrow": "26.0.0",
+        "pycparser": "3.12",
+        "pydantic": "2.14.1",
+        "pydantic-settings": "2.16.1",
+        "pydantic_core": "2.50.1",
+        "python-dotenv": "1.2.4",
+        "python-multipart": "0.0.32",
+        "pytz": "2026.5",
+        "requests": "2.34.2",
+        "starlette": "1.9.0",
+        "typing-inspection": "0.4.4",
+        "typing_extensions": "4.16.0",
+        "urllib3": "2.8.0",
+        "uvicorn": "0.54.0",
+        "uvloop": "0.23.0",
+        "watchfiles": "1.3.0",
+        "websockets": "17.3"
+      },
+      "python": "3.11.15"
+    },
+    "extension_files": [
+      {
+        "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+        "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+      },
+      {
+        "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+        "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+      }
+    ],
+    "license": "MIT",
+    "profile": {
+      "default_job_executor": "Docker/Spark (not exercised)",
+      "delta_extension_preinstalled": true,
+      "notebook_extra": false,
+      "persist_state": true,
+      "spark_image_prewarm": false
+    },
+    "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+    "version": "1.8.0 source snapshot"
+  }
+}

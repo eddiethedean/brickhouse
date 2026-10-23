@@ -22,6 +22,7 @@ installation, Docker, Databricks account, or cloud compute.
 > Check the [compatibility scope](#compatibility) before adopting a workflow.
 
 [Quickstart](#quickstart) · [Capabilities](#what-you-can-do) ·
+[Compare](#feature-comparison) · [Benchmarks](#local-benchmarks) ·
 [Compatibility](#compatibility) · [Development](#development) ·
 [Documentation](#documentation)
 
@@ -126,6 +127,67 @@ Supported `pyspark`, `databricks`, and `delta` import compatibility is scoped to
 workers. It does not replace packages in the host environment. Worker table writes
 are limited to bounded appends on existing registered tables; embedded and SQL
 surfaces have their own declared operation sets.
+
+## Feature comparison
+
+MiniLake and `calvinchengx/databricks-emulator` also expose local Databricks
+workspace APIs. This comparison uses source snapshots reviewed on **2026-10-22**.
+**◐ Partial** means a selected implemented subset; **⚙ Simulated** means
+infrastructure metadata; **🗓 Planned** marks future BrickHouse work.
+
+| Feature | BrickHouse 0.1.0 | [MiniLake 1.8.0 snapshot](https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c) | [databricks-emulator snapshot](https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173) |
+| --- | --- | --- | --- |
+| SQL engine | ◐ Sparkless, selected Spark SQL | DuckDB with dialect rewrites | Attached Spark SQL engine; Sail profile |
+| Delta tables | ◐ Native delta-rs; shared catalog and commit service | External Delta reads in DuckDB, writes via Spark; managed DuckDB tables | Sail Delta; UC OSS external registrations |
+| Catalog/schema APIs | ◐ Local SQLite catalog | DuckDB catalogs and API metadata | UC OSS sidecar |
+| Python jobs and notebooks | ◐ Fresh Python workers; optional ipynb/source notebooks | Spark containers or Python-only subprocess; optional JupyterLab | Python scripts/notebooks through an attached agent |
+| Serverless/classic compute | ◐ Selected job/warehouse profiles; ⚙ infrastructure lifecycles | Cluster/warehouse metadata; Spark job containers | Engine-backed session handles |
+| SDK, CLI, Terraform, bundles | ◐ Selected workflows for all four | Documented workflows for all four | Selected SDK/CLI/Terraform; bundle deploy not claimed |
+| SQL drivers / Spark Connect | ◐ REST/kernel connector; **🗓 Planned** Thrift and Connect | Statement API; Thrift/Connect not documented | Thrift connector and Spark Connect with attached engines |
+| Persistence | SQLite metadata, Delta journal/reconciliation | Files/DuckDB plus opt-in JSON state snapshots | File stores; jobs/warehouse state in memory |
+| Authentication / grants | Local API unauthenticated; **🗓 Planned** identity/grants | Any token accepted; stored grants not enforced | PAT/OIDC authentication; UC grants unimplemented |
+| Browser workspace | **🗓 Planned** after emulator stability | SQL web UI; optional JupyterLab | No workspace UI documented |
+| MLflow tracking / registry | **🗓 Planned** phase 0.3 | Not implemented | Tracking/registry metadata subset |
+| dbt | **🗓 Planned** phase 0.3, starting with dbt-duckdb | Not implemented | Selected dbt-databricks models and dbt tasks |
+| MCP | Not implemented | Optional MCP tools | SQL MCP subset |
+| License | Apache-2.0 | MIT | Apache-2.0 |
+
+Other columns summarize upstream documentation and source, rather than a complete
+independent conformance audit. Sources: MiniLake's
+[README](https://github.com/dmux/minilake/blob/b2736501ed13c6b069204a202a9e6142a5b7e54c/README.md)
+and [configuration](https://github.com/dmux/minilake/blob/b2736501ed13c6b069204a202a9e6142a5b7e54c/docs/configuration.md);
+the Go emulator's [parity ledger](https://github.com/calvinchengx/databricks-emulator/blob/05044929caf78a7f2155d8de218d3e3e4c53a173/docs/parity.md)
+and [engine setup](https://github.com/calvinchengx/databricks-emulator/blob/05044929caf78a7f2155d8de218d3e3e4c53a173/docs/08-jobs-and-spark.md).
+BrickHouse's planned entries follow the [roadmap](https://github.com/eddiethedean/brickhouse/blob/main/ROADMAP.md).
+
+## Local benchmarks
+
+Measured **2026-10-22** on an **Apple M4 Pro, 12 logical CPUs, 24 GiB RAM,
+macOS 26.5.2 arm64, CPython 3.11.15**, using native host processes. Two complete
+runs provide **10 fresh trials** and **250 timed samples per warm workload per
+product**. Latency cells show **median / p95**; RSS is a single-process median.
+
+| Workload | BrickHouse | MiniLake | Go emulator |
+| --- | --- | --- | --- |
+| Fresh workspace → first verified 64 KiB file | 297.10 / 339.35 ms | 370.35 / 583.05 ms | 58.49 / 83.58 ms |
+| Warm 64 KiB file import + export | 2.74 / 4.94 ms | 2.73 / 4.99 ms | 3.31 / 5.27 ms |
+| Warm filtered/grouped SQL over 10,000 Delta rows | 29.95 / 33.19 ms | 2.59 / 3.17 ms | 4.86 / 5.53 ms |
+| Idle core API server RSS (median only) | 44.98 MiB | 98.19 MiB | 15.26 MiB |
+
+Startup includes workspace initialization and the first verified script round
+trip. Startup/RSS cover the core API process before SQL work; they exclude
+optional notebooks and the Go SQL engine/agent processes. The SQL case reads the
+same immutable Delta fixture and verifies all 100 aggregate result rows. MiniLake
+uses DuckDB; the Go profile attaches native Sail 0.7.1 and a pinned upstream agent.
+Table registration, engine startup, installation, and builds are outside warm
+query timings.
+
+These are small local workflow measurements with warm filesystem caches. Engines,
+durability models, and API paths differ; the figures do not establish general
+Spark performance or complete Databricks parity. Both runs, every timed sample,
+source/artifact hashes, setup probes, and reproduction instructions are in the
+[benchmark report](https://github.com/eddiethedean/brickhouse/blob/main/docs/benchmarks/local-emulators.md)
+and [raw evidence](https://github.com/eddiethedean/brickhouse/tree/main/artifacts/benchmarks/2026-10-22-local-emulators).
 
 ## Compatibility
 

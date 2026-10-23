@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "result": "passed",
+  "runs": 2,
+  "configuration_per_run": {
+    "rounds": 5,
+    "iterations": 25,
+    "warmups": 2,
+    "payload_bytes": 65536,
+    "rows": 10000
+  },
+  "system": {
+    "os": "macOS-26.5.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "controller_python": "3.11.15",
+    "logical_cpus": 12,
+    "cpu": "Apple M4 Pro",
+    "memory_bytes": "25769803776"
+  },
+  "provenance": {
+    "brickhouse": {
+      "commit": "dbb2eb94424897af48c3a19055a59a8391152c7f",
+      "environment": {
+        "implementation": "CPython",
+        "packages": {
+          "Deprecated": "1.3.1",
+          "arro3-core": "0.9.1",
+          "brickhouse": "0.1.0",
+          "deltalake": "1.2.1",
+          "pyarrow": "23.0.1",
+          "sparkless": "4.15.2",
+          "sqlglot": "30.24.0",
+          "typing_extensions": "4.16.0",
+          "wrapt": "2.5.1"
+        },
+        "python": "3.11.15"
+      },
+      "license": "Apache-2.0",
+      "runtime_python_source_sha256": "1bde14d49e2e23ec9e9cd72bac71fb0c10b6caa24d1f1e103b6c985ccf533a25",
+      "source": "https://github.com/eddiethedean/brickhouse/tree/dbb2eb94424897af48c3a19055a59a8391152c7f",
+      "version": "0.1.0",
+      "wheel_sha256": "383e39b475e2edd5d0160523c2625b43531007727c08956a1a283cd9bf63ea08"
+    },
+    "databricks-emulator": {
+      "binary_sha256": "099c170fa5ed386d6840cd00356804ce6baa824a674ed2ec883c010743a6122c",
+      "commit": "05044929caf78a7f2155d8de218d3e3e4c53a173",
+      "core_api_profile": {
+        "attached_statement_engine": false,
+        "jobs_execution_measured": false,
+        "pat_authentication": true,
+        "tls": false,
+        "uc_oss_sidecar": false
+      },
+      "go_download": {
+        "arch": "arm64",
+        "filename": "go1.27.2.darwin-arm64.tar.gz",
+        "kind": "archive",
+        "os": "darwin",
+        "sha256": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+        "size": 68195916,
+        "url": "https://go.dev/dl/go1.27.2.darwin-arm64.tar.gz",
+        "version": "go1.27.2"
+      },
+      "go_version": "1.27.2",
+      "license": "Apache-2.0",
+      "native_sql_profile": {
+        "agent_commit": "4a42eb4c5dc1cb3a63e5a5ececb47fb147905b3e",
+        "agent_license": "Apache-2.0",
+        "agent_source": "https://github.com/calvinchengx/fabric-emulator/tree/4a42eb4c5dc1cb3a63e5a5ececb47fb147905b3e",
+        "catalog": "Direct Delta path; no UC OSS sidecar",
+        "client": "pyspark-client 4.2.0",
+        "engine": "pysail 0.7.1",
+        "engine_lifetime": "Fresh Sail and statement agent per SQL trial",
+        "environment": {
+          "packages": {
+            "PyYAML": "6.0.3",
+            "googleapis-common-protos": "1.76.0",
+            "grpcio": "1.84.1",
+            "grpcio-status": "1.84.1",
+            "numpy": "2.4.6",
+            "pandas": "3.1.0",
+            "protobuf": "7.36.2",
+            "pyarrow": "26.0.0",
+            "pysail": "0.7.1",
+            "pyspark-client": "4.2.0",
+            "python-dateutil": "3.0.0",
+            "six": "1.17.0",
+            "typing_extensions": "4.16.0",
+            "tzdata": "2026.5",
+            "zstandard": "0.25.0"
+          },
+          "python": "3.11.15"
+        },
+        "launcher_adaptation": "Pinned upstream Handler with loopback binding; see docs/benchmarks/local-emulators.md",
+        "timed_result_protocol": "Go agent JSON text envelope normalized to integer rows"
+      },
+      "source": "https://github.com/calvinchengx/databricks-emulator/tree/05044929caf78a7f2155d8de218d3e3e4c53a173",
+      "version": "05044929 source snapshot (dev build)"
+    },
+    "minilake": {
+      "commit": "b2736501ed13c6b069204a202a9e6142a5b7e54c",
+      "environment": {
+        "implementation": "CPython",
+        "packages": {
+          "PyYAML": "6.0.3",
+          "aiofiles": "25.1.0",
+          "annotated-doc": "0.0.5",
+          "annotated-types": "0.8.0",
+          "anyio": "4.15.1",
+          "certifi": "2026.10.19",
+          "cffi": "2.1.1",
+          "charset-normalizer": "3.5.2",
+          "click": "8.5.0",
+          "cryptography": "50.0.2",
+          "docker": "7.2.0",
+          "duckdb": "1.5.6",
+          "fastapi": "0.161.1",
+          "h11": "0.16.0",
+          "httpcore": "1.0.9",
+          "httptools": "0.9.0",
+          "httpx": "0.28.1",
+          "idna": "3.20",
+          "minilake": "1.8.0",
+          "opentelemetry-api": "1.45.1",
+          "pyarrow": "26.0.0",
+          "pycparser": "3.12",
+          "pydantic": "2.14.1",
+          "pydantic-settings": "2.16.1",
+          "pydantic_core": "2.50.1",
+          "python-dotenv": "1.2.4",
+          "python-multipart": "0.0.32",
+          "pytz": "2026.5",
+          "requests": "2.34.2",
+          "starlette": "1.9.0",
+          "typing-inspection": "0.4.4",
+          "typing_extensions": "4.16.0",
+          "urllib3": "2.8.0",
+          "uvicorn": "0.54.0",
+          "uvloop": "0.23.0",
+          "watchfiles": "1.3.0",
+          "websockets": "17.3"
+        },
+        "python": "3.11.15"
+      },
+      "extension_files": [
+        {
+          "path": "v1.5.6/osx_arm64/delta.duckdb_extension",
+          "sha256": "bf02185743b308b647a600b7cde9245d4a5f788b6195411e3e17096e60d0506d"
+        },
+        {
+          "path": "v1.5.6/osx_arm64/delta.duckdb_extension.info",
+          "sha256": "edee3128894acf38560a6e0d21dbab3ecfb5e0c7bcbf08c43d83eef8ed7905f7"
+        }
+      ],
+      "license": "MIT",
+      "profile": {
+        "default_job_executor": "Docker/Spark (not exercised)",
+        "delta_extension_preinstalled": true,
+        "notebook_extra": false,
+        "persist_state": true,
+        "spark_image_prewarm": false
+      },
+      "source": "https://github.com/dmux/minilake/tree/b2736501ed13c6b069204a202a9e6142a5b7e54c",
+      "version": "1.8.0 source snapshot"
+    }
+  },
+  "expected_sql_result_sha256": "97f2a2c9a3acf290c170684971ae49766b790c2bd4f7b1a14907f6f019fc7e5f",
+  "total_trials": 30,
+  "summary": {
+    "brickhouse": {
+      "passed_trials": 10,
+      "fresh_workspace_to_verified_file_ms": {
+        "count": 10,
+        "median": 297.1021044650115,
+        "p95": 339.350915979594,
+        "min": 267.9465840337798,
+        "max": 339.350915979594
+      },
+      "workspace_round_trip_ms": {
+        "count": 250,
+        "median": 2.7369585004635155,
+        "p95": 4.938540980219841,
+        "min": 2.2454169811680913,
+        "max": 6.301417015492916
+      },
+      "delta_aggregate_ms": {
+        "count": 250,
+        "median": 29.945999966003,
+        "p95": 33.19037496112287,
+        "min": 26.236708043143153,
+        "max": 39.80333392973989
+      },
+      "core_server_rss_mib": {
+        "count": 10,
+        "median": 44.9765625,
+        "p95": 45.15625,
+        "min": 44.875,
+        "max": 45.15625
+      }
+    },
+    "minilake": {
+      "passed_trials": 10,
+      "fresh_workspace_to_verified_file_ms": {
+        "count": 10,
+        "median": 370.3467704472132,
+        "p95": 583.0532920081168,
+        "min": 352.67941700294614,
+        "max": 583.0532920081168
+      },
+      "workspace_round_trip_ms": {
+        "count": 250,
+        "median": 2.7257914771325886,
+        "p95": 4.98529092874378,
+        "min": 2.2995000472292304,
+        "max": 27.909291093237698
+      },
+      "delta_aggregate_ms": {
+        "count": 250,
+        "median": 2.5939164916053414,
+        "p95": 3.1740840058773756,
+        "min": 2.1561250323429704,
+        "max": 15.51158307120204
+      },
+      "core_server_rss_mib": {
+        "count": 10,
+        "median": 98.1875,
+        "p95": 98.6875,
+        "min": 97.9375,
+        "max": 98.6875
+      }
+    },
+    "databricks-emulator": {
+      "passed_trials": 10,
+      "fresh_workspace_to_verified_file_ms": {
+        "count": 10,
+        "median": 58.48668748512864,
+        "p95": 83.58079195022583,
+        "min": 28.919792035594583,
+        "max": 83.58079195022583
+      },
+      "workspace_round_trip_ms": {
+        "count": 250,
+        "median": 3.3080834546126425,
+        "p95": 5.269041983410716,
+        "min": 2.0514579955488443,
+        "max": 6.320541957393289
+      },
+      "delta_aggregate_ms": {
+        "count": 250,
+        "median": 4.856187500990927,
+        "p95": 5.527250003069639,
+        "min": 4.356708959676325,
+        "max": 10.318250046111643
+      },
+      "core_server_rss_mib": {
+        "count": 10,
+        "median": 15.2578125,
+        "p95": 15.78125,
+        "min": 14.75,
+        "max": 15.78125
+      }
+    }
+  },
+  "source_runs": [
+    {
+      "path": "initial-measurement/results.json",
+      "sha256": "7b6bd148c47dcb1610e8a348096fbd9321d61f48183409f4e4d1c2fe2cf4ad98",
+      "harness_sha256": "9aef02f0b49f72565ba8912cb873a2fc978e7b70b4ee8547e9fbb9102b206188",
+      "native_agent_launcher_sha256": "0d216842e89d1c362af4f832a07d08f613daf3b22b80d524d1a7670024b09894"
+    },
+    {
+      "path": "measured/results.json",
+      "sha256": "9ccf5f50f2c883d7214188efa6f0389f62b2d6f70a4441b5060b17c111e498d4",
+      "harness_sha256": "0fba51c734d3ee08479c97ab99de40dbb8a08a0be79823ec0b4525762e4c5248",
+      "native_agent_launcher_sha256": "87764e328d8a507199a5d5b5aeb0491e4220576811e30ad245e78ce48d811442"
+    }
+  ]
+}
