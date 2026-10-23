@@ -42,9 +42,11 @@ def _staged_input(tmp_path: Path, context: WorkspaceContext, name: str):
 def _pid_running(pid: int) -> bool:
     if sys.platform.startswith("linux"):
         stat_file = Path(f"/proc/{pid}/stat")
-        if not stat_file.exists():
+        try:
+            process_state = stat_file.read_text().split()[2]
+        except (FileNotFoundError, ProcessLookupError):
             return False
-        return stat_file.read_text().split()[2] != "Z"
+        return process_state != "Z"
     try:
         os.kill(pid, 0)
     except ProcessLookupError:

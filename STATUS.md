@@ -3,7 +3,7 @@
 Updated: 2026-10-23
 
 - Current version: **0.1.0**, licensed **Apache-2.0**. The owner authorized this release; `v0.1.0` is tagged, but no distribution has been published.
-- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, and B066 release preparation are complete. B065 release automation is being repaired after its first tag run found an unavailable publisher image reference. All **142 phase 0.1 children** are done; the ledger has 211 tasks and 69 top-level packages. Future emulator/deployment/cluster work remains planned.
+- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, and B066 release preparation are complete. B065's corrected publisher image is running through release CI; its first tag run found an unavailable image reference. A separate tag CI run exposed a test-only Linux `/proc` race in process supervision, now fixed locally and awaiting a main push. All **142 phase 0.1 children** are done; the ledger has 211 tasks and 69 top-level packages. Future emulator/deployment/cluster work remains planned.
 - Final qualification: **1,368 installed-wheel offline cases** and **1,832 full-source cases** (458 per OS/Python pair) pass with zero required skips on Ubuntu 22.04 x86_64/macOS 26 arm64, native CPython 3.11.17/3.12.15. Exact candidate/source hashes, installed runtime versions, source revision and passing CI reports are frozen in the release bundle; historical development reports do not qualify different hashes.
 - Requirement audit: [release-requirements.json](planning/release-requirements.json) maps all 27 document-16 case families to 63 actual test selectors. The validator also checks all 253 unique capability test references and every backlog status against the ledger. The orders workflow computes and writes the exact native BIGINT/DECIMAL aggregate across seven Python jobs, seven ipynb jobs, and three source notebook profiles, then verifies all three warehouses and reopened state.
 - Capability scope: 67 entries remain 24 partial, 2 simulated, and 41 planned; none is fully supported. Cluster/warehouse lifecycle metadata and access modes are simulated. Actual local workers, queries, Delta data, failures, retries, and restart recovery are tested only within the documented versioned subsets.
@@ -591,3 +591,15 @@ distribution was uploaded. Verified the official `v1.14.2` image digest from
 GHCR and changed the publish job to use that immutable image digest directly,
 with explicit package inputs and the existing publish-only OIDC permission.
 The corrected workflow still needs its release run before B065 can be closed.
+
+
+### 2026-10-23 — Linux process-state test race
+
+The companion CI run [39982319735](https://github.com/eddiethedean/brickhouse/actions/runs/39982319735)
+failed one Ubuntu 3.11 test because `/proc/<pid>/stat` disappeared between a
+process existence check and file read. The release workflow's corresponding
+Ubuntu 3.11 suite and the main-push CI suite passed. The helper now handles
+`FileNotFoundError` and `ProcessLookupError` as an exited process. The focused
+test passes locally with global pytest plugin autoload disabled because the
+host-installed `pytest-cases` is incompatible with its pytest; Ruff checks
+pass. This test-only correction is being pushed to main.
