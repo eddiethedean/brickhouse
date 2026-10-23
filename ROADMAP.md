@@ -10,7 +10,7 @@ This document defines release grouping. The [task ledger](planning/tasks.json) r
 
 | Phase | First version | Release outcome | Work packages | Milestones |
 |---|---|---|---|---|
-| 0.1 | **0.1.0** | Initial local alpha: shared tables, SQL, bounded serverless/classic jobs and notebooks, client workflows, recovery, architecture review, phase 0.1 review corrections, and tag-gated release automation | B001–B023, B043–B048, B056, B063 (planning only), B064–B067 | M0–M3 |
+| 0.1 | **0.1.0** | Initial local alpha: shared tables, SQL, bounded serverless/classic jobs and notebooks, client workflows, recovery, architecture review, phase 0.1 review corrections, and tag-gated release automation | B001–B023, B043–B048, B056, B063 (planning only), B064–B068 | M0–M3 |
 | 0.2 | 0.2.0 | Expanded workflow orchestration, local authorization, and audit | B024, B028 | M4 |
 | 0.3 | 0.3.0 | MLflow, Python model serving, and dbt | B025–B027 | M4 |
 | 0.4 | 0.4.0 | Native vector indexes and bounded feature-engineering research | B029, B038 | M4, M6 |
@@ -183,3 +183,8 @@ Remote job placement in SH.4 remains useful without distributing one query. Spar
 
 
 B067 adds sourced competitor comparison and opt-in local benchmark evidence for the README. It preserves the existing 142 implementation/review/release children and capability claims; benchmark measurements are workload-specific observations, separate from conformance qualification.
+
+
+B068 adds opt-in SQL profiling of the comparison workload, with an uninstrumented
+baseline, nested wall-time accounting and retained detailed evidence. It changes
+no runtime behavior or release conformance claim.

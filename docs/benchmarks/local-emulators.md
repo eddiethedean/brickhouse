@@ -257,3 +257,14 @@ MiniLake uses SQL LOCATION registration, and the Go/Sail profile reads the same
 Delta path directly without a UC OSS sidecar. All execute the same filter/group/
 COUNT/SUM/order computation over identical files. Go's agent JSON text envelope
 is normalized explicitly; this does not establish standard result-protocol parity.
+
+
+## Follow-up SQL profiling
+
+[B068's SQL profile](sql-profile.md) measures the BrickHouse side of the same
+workload in three separate modes, retaining an uninstrumented baseline, nested
+wall spans and detailed cProfile output. SQLite calls account for 71% of the
+instrumented request, with repeated namespace/admission/result-retention work
+and per-operation connection management. Sparkless SQL/Arrow boundaries account
+for 17%; native internals remain unsplit. The original comparison above is
+unchanged; the follow-up quantifies profiling overhead and applies no optimization.

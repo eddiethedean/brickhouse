@@ -1,0 +1,65 @@
+{
+  "runtime_source_revision": "a92e7c4a1f94479160edc4312a43a88edf04dfee",
+  "runtime_source_matches_checkout": true,
+  "all_installed_python_source_hashes": "results.json",
+  "python_executable_sha256": "db30580518b84bad8052a966f9e817db7afb57dbce050885b39922fb81fca485",
+  "installed_packages": [
+    [
+      "Deprecated",
+      "1.3.1"
+    ],
+    [
+      "arro3-core",
+      "0.9.1"
+    ],
+    [
+      "brickhouse",
+      "0.1.0"
+    ],
+    [
+      "deltalake",
+      "1.2.1"
+    ],
+    [
+      "pyarrow",
+      "23.0.1"
+    ],
+    [
+      "sparkless",
+      "4.15.2"
+    ],
+    [
+      "sqlglot",
+      "30.24.0"
+    ],
+    [
+      "typing_extensions",
+      "4.16.0"
+    ],
+    [
+      "wrapt",
+      "2.5.1"
+    ]
+  ],
+  "original_comparison": "artifacts/benchmarks/2026-10-22-local-emulators",
+  "original_provenance_sha256": "44948634d88558b88dc9d952cfd805c6be28c5d588f29e2a44c6497a0c9a5a7a",
+  "original_native_builds_sha256": "e75203d17a36b383b1772d2a6e98646489ac063924a0c557c3f75e4b1a522c47",
+  "excluded_setup_probes": [
+    {
+      "name": "initial-hook-smoke",
+      "status": "setup failed",
+      "reason": "Wrong SqlPlanner hook class; corrected to SqlStatementPlanner before final capture."
+    },
+    {
+      "name": "second-hook-smoke",
+      "status": "passed",
+      "purpose": "Coarse stage smoke check; 3 timed queries per mode, excluded."
+    },
+    {
+      "name": "third-hook-smoke",
+      "status": "passed",
+      "purpose": "SQLite and warmup-exclusion check; 5 timed queries per mode, excluded."
+    }
+  ],
+  "final_capture": "All 9 fixed-tool trials retained; no final measured trial discarded."
+}

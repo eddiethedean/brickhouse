@@ -1,0 +1,592 @@
+{
+  "results_sha256": "cd1f38aa457da593a724ee48b82df40d1ccaf70ccba2c262742b29e731785bb6",
+  "timed_span_samples": 150,
+  "mean_client_ms": 29.60380808,
+  "groups": [
+    {
+      "stage": "SQLite calls",
+      "mean_ms": 21.08866994666667,
+      "percent": 71.23634192492261
+    },
+    {
+      "stage": "Sparkless SQL boundary",
+      "mean_ms": 3.375395859999999,
+      "percent": 11.401897522367666
+    },
+    {
+      "stage": "Sparkless Arrow boundary",
+      "mean_ms": 1.6008747533333336,
+      "percent": 5.407664949749713
+    },
+    {
+      "stage": "SQL planning, catalog and Delta metadata (outside SQLite)",
+      "mean_ms": 1.4184932866666669,
+      "percent": 4.791590604943101
+    },
+    {
+      "stage": "Result limits and JSON",
+      "mean_ms": 0.7151635533333334,
+      "percent": 2.4157822919291583
+    },
+    {
+      "stage": "Session open and close (outside SQLite)",
+      "mean_ms": 0.06505908666666667,
+      "percent": 0.21976593852673926
+    },
+    {
+      "stage": "Other lifecycle, HTTP and client residual",
+      "mean_ms": 1.3401515933333386,
+      "percent": 4.526956767561028
+    }
+  ],
+  "mean_ms": {
+    "http_submission": 0.5201736733333333,
+    "sqlite_connect": 3.9109860466666646,
+    "sqlite_execute": 12.898225126666672,
+    "sqlite_close": 2.3404171800000007,
+    "catalog": 0.16394305333333334,
+    "statement_sqlite": 0.1783526999999999,
+    "sqlite_commit": 1.9090562799999997,
+    "lifecycle": 0.16119573999999992,
+    "sql_planning": 0.45303280666666684,
+    "execution_plumbing": 0.022683353333333333,
+    "session_open": 0.05789906666666667,
+    "engine_sql": 3.375395859999999,
+    "delta_metadata": 0.8015174266666667,
+    "result_limits": 0.4128318933333334,
+    "engine_arrow": 1.6008747533333336,
+    "session_close": 0.007160019999999997,
+    "result_json": 0.3023316599999999,
+    "sqlite_executemany": 0.029985313333333354,
+    "client_transport_residual": 0.45774612666666703
+  },
+  "calls_per_request": {
+    "catalog": 8.0,
+    "delta_metadata": 1.0,
+    "engine_arrow": 5.0,
+    "engine_sql": 1.0,
+    "execution_plumbing": 1.0,
+    "http_submission": 1.0,
+    "lifecycle": 1.0,
+    "result_json": 2.0,
+    "result_limits": 1.0,
+    "session_close": 1.0,
+    "session_open": 1.0,
+    "sql_planning": 1.0,
+    "sqlite_close": 34.0,
+    "sqlite_commit": 10.0,
+    "sqlite_connect": 34.0,
+    "sqlite_execute": 114.0,
+    "sqlite_executemany": 1.0,
+    "statement_sqlite": 7.0
+  },
+  "sql_templates": [
+    {
+      "sql_template": "SELECT catalog_id, name, is_default, comment FROM catalogs ORDER BY name",
+      "calls_per_request": 7.0,
+      "inclusive_mean_ms_per_request": 2.4537964133333356
+    },
+    {
+      "sql_template": "SELECT schema_id, catalog_name, name, is_default, comment FROM schemas WHERE catalog_name = ? ORDER BY name",
+      "calls_per_request": 7.0,
+      "inclusive_mean_ms_per_request": 2.4309279933333343
+    },
+    {
+      "sql_template": "SELECT * FROM sql_statement_admission_leases WHERE statement_id = ?",
+      "calls_per_request": 8.0,
+      "inclusive_mean_ms_per_request": 1.8185519599999982
+    },
+    {
+      "sql_template": "SELECT statement_id FROM sql_statement_results WHERE has_result = 1 AND closed_at IS NULL AND expires_at <= ?",
+      "calls_per_request": 5.0,
+      "inclusive_mean_ms_per_request": 1.7807072133333326
+    },
+    {
+      "sql_template": "SELECT * FROM sql_warehouses WHERE warehouse_id = ? AND deleted_at IS NULL",
+      "calls_per_request": 5.0,
+      "inclusive_mean_ms_per_request": 1.4481213800000001
+    },
+    {
+      "sql_template": "SELECT table_registrations.*, catalogs.catalog_id AS catalog_id, schemas.schema_id AS schema_id FROM table_registrations JOIN catalogs ON catalogs.name = table_registrations.catalog_name JOIN schemas ON schemas.catalog_name = table_registrations.catalog_name AND schemas.name = table_registrations.schema_name WHERE table_registrations.catalog_name = ? AND table_registrations.schema_name = ? ORDER BY table_registrations.name",
+      "calls_per_request": 2.0,
+      "inclusive_mean_ms_per_request": 0.710163626666666
+    },
+    {
+      "sql_template": "SELECT table_registrations.*, catalogs.catalog_id AS catalog_id, schemas.schema_id AS schema_id FROM table_registrations JOIN catalogs ON catalogs.name = table_registrations.catalog_name JOIN schemas ON schemas.catalog_name = table_registrations.catalog_name AND schemas.name = table_registrations.schema_name WHERE table_registrations.table_id = ?",
+      "calls_per_request": 2.0,
+      "inclusive_mean_ms_per_request": 0.7055944133333334
+    },
+    {
+      "sql_template": "INSERT INTO sql_statements (statement_id, warehouse_id, sql_text, parameters_json, row_limit, byte_limit, catalog_name, schema_name, state, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'PENDING', ?)",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.45012363999999994
+    },
+    {
+      "sql_template": "SELECT * FROM sql_statements WHERE statement_id = ?",
+      "calls_per_request": 7.0,
+      "inclusive_mean_ms_per_request": 0.38317881999999964
+    },
+    {
+      "sql_template": "UPDATE sql_statement_admission_leases SET state = 'RELEASED', released_at = ? WHERE statement_id = ? AND state IN ('ACTIVE', 'QUEUED')",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.11376970666666665
+    },
+    {
+      "sql_template": "UPDATE sql_statements SET state = 'SUCCEEDED', finished_at = ?, manifest_json = '{}', result_json = '{}', result_row_count = ?, result_byte_count = ? WHERE statement_id = ? AND state = 'RUNNING'",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.10529107333333332
+    },
+    {
+      "sql_template": "UPDATE sql_statements SET state = 'RUNNING', started_at = ? WHERE statement_id = ? AND state = 'PENDING'",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.09673775333333333
+    },
+    {
+      "sql_template": "INSERT INTO sql_statement_admission_leases (statement_id, warehouse_id, generation, state, admitted_at) VALUES (?, ?, ?, ?, ?)",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.0929808133333333
+    },
+    {
+      "sql_template": "BEGIN IMMEDIATE",
+      "calls_per_request": 10.0,
+      "inclusive_mean_ms_per_request": 0.06285414666666676
+    },
+    {
+      "sql_template": "PRAGMA foreign_keys = ON",
+      "calls_per_request": 34.0,
+      "inclusive_mean_ms_per_request": 0.048969500000000124
+    },
+    {
+      "sql_template": "SELECT COALESCE(sum(stored_bytes), 0) FROM sql_statement_results WHERE has_result = 1 AND closed_at IS NULL",
+      "calls_per_request": 5.0,
+      "inclusive_mean_ms_per_request": 0.04582828000000002
+    },
+    {
+      "sql_template": "INSERT INTO sql_statement_results (statement_id, has_result, manifest_json, expires_at, stored_bytes) VALUES (?, ?, ?, ?, ?)",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.031728033333333336
+    },
+    {
+      "sql_template": "UPDATE sql_warehouses SET last_activity_at = ?, updated_at = ? WHERE warehouse_id = ? AND deleted_at IS NULL",
+      "calls_per_request": 2.0,
+      "inclusive_mean_ms_per_request": 0.030078073333333333
+    },
+    {
+      "sql_template": "INSERT INTO sql_statement_result_chunks (statement_id, chunk_index, result_json, stored_bytes) VALUES (?, ?, ?, ?)",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.029985313333333354
+    },
+    {
+      "sql_template": "SELECT lease.statement_id, lease.warehouse_id, lease.generation FROM sql_statement_admission_leases AS lease JOIN sql_warehouses AS warehouse USING(warehouse_id) WHERE lease.state = 'QUEUED' AND warehouse.state = 'RUNNING' AND warehouse.deleted_at IS NULL AND warehouse.generation = lease.generation AND NOT EXISTS (SELECT 1 FROM sql_statement_admission_leases AS active_lease WHERE active_lease.warehouse_id = lease.warehouse_id AND active_lease.state = 'ACTIVE') ORDER BY lease.admitted_at, lease.statement_id",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.026059739999999994
+    },
+    {
+      "sql_template": "SELECT result_json FROM sql_statement_result_chunks WHERE statement_id = ? AND chunk_index = 0",
+      "calls_per_request": 4.0,
+      "inclusive_mean_ms_per_request": 0.01735398666666665
+    },
+    {
+      "sql_template": "SELECT * FROM sql_statement_results WHERE statement_id = ?",
+      "calls_per_request": 4.0,
+      "inclusive_mean_ms_per_request": 0.014264059999999967
+    },
+    {
+      "sql_template": "SELECT lease.state AS lease_state, lease.generation AS lease_generation, warehouse.state AS warehouse_state, warehouse.generation AS generation, warehouse.deleted_at AS deleted_at FROM sql_statement_admission_leases AS lease LEFT JOIN sql_warehouses AS warehouse USING(warehouse_id) WHERE lease.statement_id = ?",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.01097390666666667
+    },
+    {
+      "sql_template": "SELECT count(*) FROM sql_statement_admission_leases WHERE state = 'ACTIVE'",
+      "calls_per_request": 2.0,
+      "inclusive_mean_ms_per_request": 0.009311999999999997
+    },
+    {
+      "sql_template": "SELECT count(*) FROM sql_statement_admission_leases WHERE warehouse_id = ? AND state = 'ACTIVE'",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.006710553333333332
+    },
+    {
+      "sql_template": "SELECT count(*) FROM sql_statement_admission_leases WHERE warehouse_id = ? AND generation = ? AND state = 'QUEUED'",
+      "calls_per_request": 1.0,
+      "inclusive_mean_ms_per_request": 0.004148039999999997
+    }
+  ],
+  "observed_mean_overhead_percent": {
+    "spans": 5.608183222920116,
+    "cprofile": 26.75026815682846
+  },
+  "detailed_profile_top_self": {
+    "worker": [
+      {
+        "function": "~:0(<method 'execute' of 'sqlite3.Connection' objects>)",
+        "calls": 9000,
+        "self_ms_per_request": 8.284066673333335,
+        "cumulative_ms_per_request": 8.284066673333335
+      },
+      {
+        "function": "~:0(<method 'sql' of 'sparkless.sql.session.PySparkSession' objects>)",
+        "calls": 150,
+        "self_ms_per_request": 3.2444158200000004,
+        "cumulative_ms_per_request": 7.0057546933333334
+      },
+      {
+        "function": "~:0(<built-in method _sqlite3.connect>)",
+        "calls": 3300,
+        "self_ms_per_request": 2.3213617466666663,
+        "cumulative_ms_per_request": 2.443765193333333
+      },
+      {
+        "function": "~:0(<method 'close' of 'sqlite3.Connection' objects>)",
+        "calls": 3300,
+        "self_ms_per_request": 1.5339916399999998,
+        "cumulative_ms_per_request": 1.5339916399999998
+      },
+      {
+        "function": "~:0(<built-in method builtins.next>)",
+        "calls": 7200,
+        "self_ms_per_request": 1.514057213333333,
+        "cumulative_ms_per_request": 7.182520386666667
+      },
+      {
+        "function": "~:0(<method 'commit' of 'sqlite3.Connection' objects>)",
+        "calls": 600,
+        "self_ms_per_request": 1.1681421533333336,
+        "cumulative_ms_per_request": 1.1681421533333336
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/deltalake/table.py:138(__init__)",
+        "calls": 150,
+        "self_ms_per_request": 0.5441511,
+        "cumulative_ms_per_request": 0.5441511
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/results.py:73(<listcomp>)",
+        "calls": 15000,
+        "self_ms_per_request": 0.26737948,
+        "cumulative_ms_per_request": 0.45715639999999996
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/results.py:298(_encode_value)",
+        "calls": 90000,
+        "self_ms_per_request": 0.26481673333333333,
+        "cumulative_ms_per_request": 0.37371066666666664
+      },
+      {
+        "function": "~:0(<built-in method is_deltatable>)",
+        "calls": 150,
+        "self_ms_per_request": 0.17222776666666667,
+        "cumulative_ms_per_request": 0.17222776666666667
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/json/encoder.py:205(iterencode)",
+        "calls": 30900,
+        "self_ms_per_request": 0.17106907999999998,
+        "cumulative_ms_per_request": 0.17106907999999998
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/expressions/core.py:1148(iter_expressions)",
+        "calls": 85500,
+        "self_ms_per_request": 0.16379698000000004,
+        "cumulative_ms_per_request": 0.23399337333333337
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sparkless/sql/types.py:552(asDict)",
+        "calls": 45000,
+        "self_ms_per_request": 0.1203188,
+        "cumulative_ms_per_request": 0.15593284
+      },
+      {
+        "function": "~:0(<built-in method builtins.isinstance>)",
+        "calls": 400950,
+        "self_ms_per_request": 0.11014539333333334,
+        "cumulative_ms_per_request": 0.11014539333333334
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/expressions/core.py:1206(bfs)",
+        "calls": 45000,
+        "self_ms_per_request": 0.10905428,
+        "cumulative_ms_per_request": 0.3641121933333333
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/results.py:145(<listcomp>)",
+        "calls": 15000,
+        "self_ms_per_request": 0.1016768,
+        "cumulative_ms_per_request": 0.2856105466666666
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/json/__init__.py:183(dumps)",
+        "calls": 30900,
+        "self_ms_per_request": 0.09876174666666668,
+        "cumulative_ms_per_request": 0.4258194933333335
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/json/encoder.py:183(encode)",
+        "calls": 30900,
+        "self_ms_per_request": 0.09268693333333336,
+        "cumulative_ms_per_request": 0.2900284066666667
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/results.py:36(collect_bounded_arrow_result)",
+        "calls": 150,
+        "self_ms_per_request": 0.08678442,
+        "cumulative_ms_per_request": 2.561425566666667
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/results.py:119(encode_json_array)",
+        "calls": 150,
+        "self_ms_per_request": 0.08271503999999999,
+        "cumulative_ms_per_request": 0.63198164
+      },
+      {
+        "function": "~:0(<built-in method posix.lstat>)",
+        "calls": 10200,
+        "self_ms_per_request": 0.06896865333333334,
+        "cumulative_ms_per_request": 0.06896865333333334
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sparkless/sql/types.py:421(__new__)",
+        "calls": 15000,
+        "self_ms_per_request": 0.06741056666666669,
+        "cumulative_ms_per_request": 0.13754592
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/pathlib.py:56(parse_parts)",
+        "calls": 5400,
+        "self_ms_per_request": 0.06076196666666668,
+        "cumulative_ms_per_request": 0.09649332666666667
+      },
+      {
+        "function": "~:0(<method 'keys' of 'dict' objects>)",
+        "calls": 15300,
+        "self_ms_per_request": 0.06034373333333334,
+        "cumulative_ms_per_request": 0.06034373333333334
+      },
+      {
+        "function": "<frozen posixpath>:418(_joinrealpath)",
+        "calls": 1200,
+        "self_ms_per_request": 0.04967726666666668,
+        "cumulative_ms_per_request": 0.20147771999999997
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/catalog/identifiers.py:56(parse_identifier)",
+        "calls": 900,
+        "self_ms_per_request": 0.04713391333333333,
+        "cumulative_ms_per_request": 0.08334953333333335
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/copy.py:128(deepcopy)",
+        "calls": 14100,
+        "self_ms_per_request": 0.04273346666666667,
+        "cumulative_ms_per_request": 0.14561251333333336
+      },
+      {
+        "function": "<frozen posixpath>:71(join)",
+        "calls": 10200,
+        "self_ms_per_request": 0.04243004666666667,
+        "cumulative_ms_per_request": 0.06629519333333334
+      },
+      {
+        "function": "~:0(<method 'get' of 'dict' objects>)",
+        "calls": 141000,
+        "self_ms_per_request": 0.041498459999999994,
+        "cumulative_ms_per_request": 0.041498459999999994
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/results.py:139(<listcomp>)",
+        "calls": 150,
+        "self_ms_per_request": 0.03975891333333333,
+        "cumulative_ms_per_request": 0.03975891333333333
+      }
+    ],
+    "http": [
+      {
+        "function": "~:0(<method 'acquire' of '_thread.lock' objects>)",
+        "calls": 1350,
+        "self_ms_per_request": 27.05971496666667,
+        "cumulative_ms_per_request": 27.05971496666667
+      },
+      {
+        "function": "~:0(<method 'execute' of 'sqlite3.Connection' objects>)",
+        "calls": 5700,
+        "self_ms_per_request": 3.5813366466666667,
+        "cumulative_ms_per_request": 3.5813366466666667
+      },
+      {
+        "function": "~:0(<built-in method _sqlite3.connect>)",
+        "calls": 1350,
+        "self_ms_per_request": 1.1304524733333332,
+        "cumulative_ms_per_request": 1.1842367200000001
+      },
+      {
+        "function": "~:0(<method 'commit' of 'sqlite3.Connection' objects>)",
+        "calls": 600,
+        "self_ms_per_request": 0.66368534,
+        "cumulative_ms_per_request": 0.66368534
+      },
+      {
+        "function": "~:0(<method 'close' of 'sqlite3.Connection' objects>)",
+        "calls": 1350,
+        "self_ms_per_request": 0.6328482600000002,
+        "cumulative_ms_per_request": 0.6328482600000002
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/tokenizer_core.py:824(_scan_keywords)",
+        "calls": 4500,
+        "self_ms_per_request": 0.03537677333333333,
+        "cumulative_ms_per_request": 0.12197359333333337
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/tokenizer_core.py:745(_advance)",
+        "calls": 11100,
+        "self_ms_per_request": 0.03381492,
+        "cumulative_ms_per_request": 0.03783937333333334
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/json/encoder.py:205(iterencode)",
+        "calls": 150,
+        "self_ms_per_request": 0.025981366666666672,
+        "cumulative_ms_per_request": 0.025981366666666672
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/tokenizer_core.py:701(_scan)",
+        "calls": 150,
+        "self_ms_per_request": 0.024909546666666678,
+        "cumulative_ms_per_request": 0.1613486666666667
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/expressions/core.py:115(__init__)",
+        "calls": 5400,
+        "self_ms_per_request": 0.022490086666666673,
+        "cumulative_ms_per_request": 0.03524712666666667
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/tokenizer_core.py:1143(_scan_var)",
+        "calls": 2700,
+        "self_ms_per_request": 0.021182406666666664,
+        "cumulative_ms_per_request": 0.06728543999999999
+      },
+      {
+        "function": "~:0(<method 'sendall' of '_socket.socket' objects>)",
+        "calls": 300,
+        "self_ms_per_request": 0.020633146666666675,
+        "cumulative_ms_per_request": 0.020633146666666675
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/expressions/core.py:1148(iter_expressions)",
+        "calls": 8550,
+        "self_ms_per_request": 0.01877414666666667,
+        "cumulative_ms_per_request": 0.02652141333333334
+      },
+      {
+        "function": "~:0(<built-in method builtins.isinstance>)",
+        "calls": 56700,
+        "self_ms_per_request": 0.018293800000000002,
+        "cumulative_ms_per_request": 0.018293800000000002
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/tokenizer_core.py:786(_add)",
+        "calls": 4500,
+        "self_ms_per_request": 0.018102759999999996,
+        "cumulative_ms_per_request": 0.024333780000000006
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/brickhouse/sql/statements.py:521(submit)",
+        "calls": 150,
+        "self_ms_per_request": 0.017023993333333334,
+        "cumulative_ms_per_request": 34.131689179999995
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/functools.py:35(update_wrapper)",
+        "calls": 1350,
+        "self_ms_per_request": 0.014943459999999999,
+        "cumulative_ms_per_request": 0.026894413333333343
+      },
+      {
+        "function": "~:0(<method 'get' of 'dict' objects>)",
+        "calls": 31200,
+        "self_ms_per_request": 0.014187746666666664,
+        "cumulative_ms_per_request": 0.014187746666666664
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/parser.py:2091(_match)",
+        "calls": 21900,
+        "self_ms_per_request": 0.014164153333333334,
+        "cumulative_ms_per_request": 0.019863326666666667
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/expressions/core.py:1206(bfs)",
+        "calls": 4500,
+        "self_ms_per_request": 0.014149066666666666,
+        "cumulative_ms_per_request": 0.04320253333333334
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/parser.py:7095(_parse_column_parts_fast)",
+        "calls": 1200,
+        "self_ms_per_request": 0.014014326666666669,
+        "cumulative_ms_per_request": 0.03519466
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/parser.py:2101(_match_set)",
+        "calls": 19800,
+        "self_ms_per_request": 0.013717606666666668,
+        "cumulative_ms_per_request": 0.01707044
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/parser.py:7468(_parse_function_call)",
+        "calls": 900,
+        "self_ms_per_request": 0.013243066666666671,
+        "cumulative_ms_per_request": 0.07169645333333333
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/pathlib.py:56(parse_parts)",
+        "calls": 1350,
+        "self_ms_per_request": 0.012731186666666665,
+        "cumulative_ms_per_request": 0.0161684
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/parser.py:2127(_match_text_seq)",
+        "calls": 4500,
+        "self_ms_per_request": 0.012232053333333335,
+        "cumulative_ms_per_request": 0.015954893333333334
+      },
+      {
+        "function": "~:0(<built-in method _thread.start_new_thread>)",
+        "calls": 150,
+        "self_ms_per_request": 0.012169420000000002,
+        "cumulative_ms_per_request": 0.012169420000000002
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/json/decoder.py:343(raw_decode)",
+        "calls": 450,
+        "self_ms_per_request": 0.011954213333333331,
+        "cumulative_ms_per_request": 0.011954213333333331
+      },
+      {
+        "function": "/Users/odosmatthews/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/pathlib.py:484(_parse_args)",
+        "calls": 1350,
+        "self_ms_per_request": 0.011119279999999999,
+        "cumulative_ms_per_request": 0.02953290666666667
+      },
+      {
+        "function": "~:0(<method 'fetchone' of 'sqlite3.Cursor' objects>)",
+        "calls": 2400,
+        "self_ms_per_request": 0.010945926666666668,
+        "cumulative_ms_per_request": 0.010945926666666668
+      },
+      {
+        "function": "/tmp/brickhouse-bench-brickhouse-env-20261022/lib/python3.11/site-packages/sqlglot/parser.py:2059(_advance)",
+        "calls": 5400,
+        "self_ms_per_request": 0.010881540000000002,
+        "cumulative_ms_per_request": 0.010881540000000002
+      }
+    ]
+  },
+  "caveats": [
+    "Mean wall partitions add; component medians and cumulative profiles do not.",
+    "cProfile excludes warmups and profiles HTTP plus claimed execution; the worker continuation before/after _execute_claimed is covered by spans only.",
+    "cProfile HTTP lock waiting overlaps worker execution and is not added to it.",
+    "Sparkless boundaries include native planning, scan and Arrow work; they are not a native Rust/C++ internal CPU breakdown."
+  ],
+  "analysis_tool_sha256": "e1e54b456f8fd0a2a94d7be37fb3c97c025b654ee062727fd4b4b3c8dca3c889"
+}

@@ -3779,3 +3779,24 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 3. Execute the comparison locally, retain all measured samples and setup limitations, verify harness correctness and planning consistency, and publish the measured results and reproducible methodology in the README and detailed benchmark documentation.
 
 **Evidence:** Both full native runs passed and every measured sample is pooled: 30 trials, 1,500 timed samples across the three products, exact returned bytes/aggregate values, restart-file checks and immutable fixture hashes. The README includes explicit planned-feature markers and generated median/p95 results. [Validation record](../../artifacts/benchmarks/2026-10-22-local-emulators/validation.json) and [reproduction/methodology](../benchmarks/local-emulators.md) retain source profiles, limitations and setup probes. No capability is promoted.
+
+
+## B068 — Profile the measured BrickHouse SQL request latency
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B067.
+
+**Deliverable:** Opt-in reproducible SQL profiler, verified raw samples and a documented wall-time breakdown.
+
+**Acceptance criteria:**
+
+1. Profile the same real local Delta query and HTTP request used by B067 with cloud credentials removed; retain exact source/dependency/tool provenance and verify every result and unchanged fixture.
+2. Separate uninstrumented measurements, lightweight nested wall spans and detailed worker cProfile measurements; quantify instrumentation overhead and avoid double counting concurrent waits or nested calls.
+3. Retain raw evidence and explain measured bottlenecks and limits in benchmark documentation; validate profiler accounting and planning consistency without changing runtime behavior or capability states.
+
+**Evidence:** All nine trials and 495 exact-result queries passed. The additive
+instrumented 29.60 ms mean attributes 21.09 ms to SQLite calls and 4.98 ms to
+Sparkless SQL/Arrow boundaries. All raw samples/spans, overhead measurements,
+source/tool hashes, detailed profiles and accounting checks are retained in the
+[profile report](../benchmarks/sql-profile.md) and [validation record](../../artifacts/benchmarks/2026-10-22-sql-profile/validation.json). No runtime or capability state changed.

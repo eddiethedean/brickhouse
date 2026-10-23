@@ -48,3 +48,16 @@ BrickHouse release artifact. Ordinary tests and required CI do not download or
 run competitor servers.
 
 The native Go SQL profile attaches fresh native Sail and pinned statement-agent processes. Its direct Delta path and JSON text envelope are explicitly adapted for the same computation and exact expected-row verification. The benchmark-only loopback handler adaptation decision is recorded in [the methodology](../benchmarks/local-emulators.md); it adds no BrickHouse runtime dependency.
+
+
+## B068 — Attribute BrickHouse SQL latency
+
+Profile the same real 10,000-row Delta aggregate and HTTP request with separate
+plain, nested-span and cProfile trials in rotating order. Retain every raw
+sample/span, exclude warmups from detailed profiles, quantify observed overhead,
+verify exact results and fixture integrity, and retain installed source/tool
+hashes. Partition concurrent HTTP/worker wall intervals once; do not add blocking
+waits or cumulative profile times. Ordinary tests consume sanitized evidence only.
+The [completed profile](../benchmarks/sql-profile.md) records SQLite metadata and
+connection work as the main measured cost; optimization requires separate changes
+and behavioral verification. It changes no runtime provider or capability state.

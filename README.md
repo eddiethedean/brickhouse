@@ -174,6 +174,11 @@ product**. Latency cells show **median / p95**; RSS is a single-process median.
 | Warm filtered/grouped SQL over 10,000 Delta rows | 29.95 / 33.19 ms | 2.59 / 3.17 ms | 4.86 / 5.53 ms |
 | Idle core API server RSS (median only) | 44.98 MiB | 98.19 MiB | 15.26 MiB |
 
+A follow-up [SQL profile](docs/benchmarks/sql-profile.md) attributes **71%** of
+BrickHouse's instrumented request time to SQLite calls and **17%** to Sparkless
+SQL/Arrow boundaries. It retains raw traces, an uninstrumented baseline and
+measured profiling overhead; no optimization is included in these results.
+
 Startup includes workspace initialization and the first verified script round
 trip. Startup/RSS cover the core API process before SQL work; they exclude
 optional notebooks and the Go SQL engine/agent processes. The SQL case reads the

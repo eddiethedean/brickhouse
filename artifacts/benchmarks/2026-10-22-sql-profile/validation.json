@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "capture": {
+    "trials": 9,
+    "timed_queries": 450,
+    "warmup_queries": 45,
+    "verified_results": 495,
+    "all_processes_exited_successfully": true,
+    "fixture_unchanged": true,
+    "temporary_state_removed": true,
+    "installed_python_source_matches_checkout": true,
+    "capture_and_analysis_hashes_verified": true
+  },
+  "focused_tests": {
+    "passed": 72,
+    "skipped": 0,
+    "command": "python -m pytest -q tests/unit/test_sql_profile.py tests/unit/test_benchmark_emulators.py tests/unit/test_benchmark_summary.py tests/unit/test_planning_validation.py tests/unit/test_capability_report.py"
+  },
+  "runtime_changes": false,
+  "capability_changes": false,
+  "cloud_calls": false,
+  "static_checks": {
+    "ruff": "passed: src tests scripts",
+    "format": "passed: 142 files",
+    "strict_mypy": "passed: capture and analysis tools with MYPYPATH=src --explicit-package-bases",
+    "git_diff_check": "passed"
+  },
+  "planning": {
+    "status": "passed",
+    "tasks": 210,
+    "top_level_packages": 68,
+    "phase_0_1_children": 142,
+    "capabilities": 67,
+    "release_families": 27,
+    "release_test_selectors": 63,
+    "capability_test_selectors": 253,
+    "local_links_checked": 2147
+  },
+  "development_findings": [
+    "Initial hook smoke used a wrong planner class; fixed before the retained complete capture.",
+    "Initial test invocation omitted the repository root; python -m pytest is the correct invocation.",
+    "Planning audit caught a new backlog status label mismatch; synchronized with the ledger and reran all 72 focused checks successfully."
+  ]
+}

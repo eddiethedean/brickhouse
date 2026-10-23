@@ -3,7 +3,7 @@
 Updated: 2026-10-22
 
 - Current version: **0.1.0**, licensed **Apache-2.0**. The owner authorized choosing the project license. Nothing has been tagged or published.
-- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, B065 release automation, and B066 release preparation are complete. All **142 phase 0.1 children** are done; the ledger has 209 tasks and 67 top-level packages. Future emulator/deployment/cluster work remains planned.
+- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, B065 release automation, and B066 release preparation are complete. All **142 phase 0.1 children** are done; the ledger has 210 tasks and 68 top-level packages. Future emulator/deployment/cluster work remains planned.
 - Final qualification: **1,368 installed-wheel offline cases** and **1,832 full-source cases** (458 per OS/Python pair) pass with zero required skips on Ubuntu 22.04 x86_64/macOS 26 arm64, native CPython 3.11.17/3.12.15. Exact candidate/source hashes, installed runtime versions, source revision and passing CI reports are frozen in the release bundle; historical development reports do not qualify different hashes.
 - Requirement audit: [release-requirements.json](planning/release-requirements.json) maps all 27 document-16 case families to 63 actual test selectors. The validator also checks all 253 unique capability test references and every backlog status against the ledger. The orders workflow computes and writes the exact native BIGINT/DECIMAL aggregate across seven Python jobs, seven ipynb jobs, and three source notebook profiles, then verifies all three warehouses and reopened state.
 - Capability scope: 67 entries remain 24 partial, 2 simulated, and 41 planned; none is fully supported. Cluster/warehouse lifecycle metadata and access modes are simulated. Actual local workers, queries, Delta data, failures, retries, and restart recovery are tested only within the documented versioned subsets.
@@ -16,6 +16,7 @@ Updated: 2026-10-22
 - Release evidence: [0.1.0 review bundle](artifacts/releases/0.1.0/README.md); [final readiness plan](docs/plan/21-release-readiness.md). B066.4 retains the final audited artifacts and passing exact-hash qualification reports.
 
 - Local comparison: B067 is complete. The README compares MiniLake and calvinchengx/databricks-emulator using pinned sources, marks future BrickHouse features, and publishes pooled results from 30 native-process trials / 1,500 timed samples. [Methodology and reproduction](docs/benchmarks/local-emulators.md) retain exact profiles, all samples and limitations. This is benchmark evidence, separate from release conformance.
+- Local SQL profiling: B068 is complete. [Three-mode profiling](docs/benchmarks/sql-profile.md) passed 495 exact-result queries across nine fresh trials. SQLite calls consume 21.09 ms / 71.2% of the 29.60 ms instrumented mean; Sparkless SQL/Arrow consumes 4.98 ms / 16.8%. The uninstrumented median is 27.85 ms; capture overhead, all raw spans/profiles and source hashes are retained. No runtime optimization or capability promotion occurred.
 
 ## Current limitation
 
@@ -510,3 +511,28 @@ The owner requested a sourced README feature comparison and real local benchmark
 Added the README feature matrix with explicit **🗓 Planned**, partial and simulated markers. Compared current pinned MiniLake and calvinchengx/databricks-emulator sources, including strengths such as MiniLake's UI/MCP and the Go emulator's authentication/Connect/MLflow metadata. Added opt-in native benchmark, loopback agent launcher and validated pooling tools. The benchmark-only use of the pinned upstream agent Handler has an explicit contained adaptation decision in the methodology; no third-party source or competitor provider is added to BrickHouse runtime.
 
 Two complete runs passed all 30 trials, preserving every sample: 250 timed 64 KiB file round trips and 250 timed 10,000-row Delta queries per product (1,500 timed measurements total). All 100 aggregate rows, script bytes, unchanged fixture hashes and restart-file checks passed. Pooled median query times were 29.95 ms BrickHouse/Sparkless, 2.59 ms MiniLake/DuckDB and 4.86 ms Go/Sail on the recorded M4 Pro/macOS 26.5.2/CPython 3.11.15 host. Core startup/RSS exclude optional engines; setup, addressing, protocol and durability differences are explicit. The initial complete run and its tool snapshots, final run, raw samples, preflight findings, source/native hashes and reproducible recipe are retained in [the evidence directory](artifacts/benchmarks/2026-10-22-local-emulators/README.md). All 37 benchmark/statistics unit cases, static tool checks and evidence audits pass. Ordinary CI reads sanitized reports only. No personal Databricks account, cloud execution or capability promotion is involved; frozen release conformance retains its recorded source/artifact scope.
+
+
+### 2026-10-22 — B068 SQL latency attribution complete
+
+Profiled the exact B067 SQL workload using three rotating fresh-process/workspace
+trials per mode, 150 timed samples each plus five warmups per trial. All 495
+queries returned the exact expected rows, the fixture remained unchanged, every
+API exited successfully and temporary state was removed. The capture tool and
+every installed runtime Python source hash match the checkout.
+
+The baseline median is 27.85 ms (mean 28.03); nested spans yield median 29.11 ms
+(mean 29.60), an observed mean increase of 5.6%. Detailed cProfile has a 35.53 ms
+mean, 26.8% above baseline, and excludes warmups. Additive wall accounting attributes
+21.09 ms (71.2%) to SQLite calls: 34 connections, 114 execute calls, one executemany
+and 10 commits per request. Catalog/schema listing alone repeats seven times each
+and takes 4.89 ms. Sparkless SQL/Arrow boundaries consume 4.98 ms (16.8%); session
+setup/teardown outside SQLite is only 0.07 ms. Native engine operators are not
+split. Thread waits and nested cumulative times are not double counted.
+
+Added opt-in capture/analysis tools, focused accounting and retained-evidence
+regressions, a detailed findings/reproduction document and a README link. Raw
+traces, all samples, profile files, source/provenance records and validation are
+in [the evidence directory](artifacts/benchmarks/2026-10-22-sql-profile/README.md).
+No engine/runtime source, dependency, capability state, real workspace or release
+conformance artifact changed. Optimization remains separate work.

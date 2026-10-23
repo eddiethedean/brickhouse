@@ -9680,6 +9680,38 @@
       ],
       "blockers": [],
       "children": []
+    },
+    {
+      "id": "B068",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Profile the measured BrickHouse SQL request latency",
+      "status": "done",
+      "depends_on": [
+        "B067"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/22-local-emulator-comparison.md"
+      ],
+      "deliverable": "Opt-in reproducible SQL profiler, verified raw samples and a documented wall-time breakdown.",
+      "acceptance_criteria": [
+        "Profile the same real local Delta query and HTTP request used by B067 with cloud credentials removed; retain exact source/dependency/tool provenance and verify every result and unchanged fixture.",
+        "Separate uninstrumented measurements, lightweight nested wall spans and detailed worker cProfile measurements; quantify instrumentation overhead and avoid double counting concurrent waits or nested calls.",
+        "Retain raw evidence and explain measured bottlenecks and limits in benchmark documentation; validate profiler accounting and planning consistency without changing runtime behavior or capability states."
+      ],
+      "owner": "Codex",
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "verified-local-sql-wall-profile",
+          "command": "python -m scripts.profile_sql --rounds 3 --iterations 50 --warmups 5; python -m scripts.summarize_sql_profile; focused profile/benchmark/planning tests; Ruff; strict mypy; planning/evidence audits",
+          "result": "Nine fresh installed-wheel API trials and 495 exact 100-row results passed, retaining all 450 timed samples and all instrumented warmup/timed spans. Uninstrumented median 27.85 ms, span median 29.11 ms; additive instrumented mean 29.60 ms includes 21.09 ms SQLite (71.2%) and 4.98 ms Sparkless SQL/Arrow (16.8%). Each request uses 34 connects, 114 executes and 10 commits. Captured profiles exclude warmups, document continuation coverage and avoid double-counting HTTP waits. Fixture/source/tool hashes match, every API exited successfully and temporary state was removed. No cloud credentials, runtime changes or capability promotion. See the validation record for final focused/static/planning results.",
+          "artifact": "artifacts/benchmarks/2026-10-22-sql-profile/validation.json"
+        }
+      ],
+      "blockers": [],
+      "children": []
     }
   ],
   "release_roadmap": "ROADMAP.md"
