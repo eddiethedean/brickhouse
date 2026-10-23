@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -101,12 +103,14 @@ def test_memory_redirect_is_scoped_to_the_exact_metadata_file_and_preserves_fact
         connection.close()
 
 
-def test_retained_memory_experiment_recomputes_every_sample_and_lifetime_proof() -> None:
+def test_retained_memory_experiment_recomputes_every_sample_and_lifetime_proof(
+    assert_report_matches: Callable[[Any, Any], None],
+) -> None:
     root = Path(__file__).resolve().parents[2] / "artifacts/benchmarks/2026-10-22-sqlite-memory"
     actual = analyze(root)
     published = json.loads((root / "analysis.json").read_text())
     published.pop("analysis_tool_sha256")
-    assert actual == published
+    assert_report_matches(actual, published)
     assert actual["trial_count"] == 18
     assert actual["verified_queries"] == 990
     assert actual["timed_queries"] == 900

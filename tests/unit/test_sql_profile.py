@@ -3,6 +3,7 @@ from __future__ import annotations
 import gzip
 import json
 import statistics
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -126,12 +127,14 @@ def test_retained_profile_samples_recompute_the_published_breakdown() -> None:
                 ] == pytest.approx(recorded["client_ms"], abs=1e-9)
 
 
-def test_profile_analysis_recomputes_call_counts_and_published_groups() -> None:
+def test_profile_analysis_recomputes_call_counts_and_published_groups(
+    assert_report_matches: Callable[[Any, Any], None],
+) -> None:
     root = Path(__file__).resolve().parents[2] / "artifacts/benchmarks/2026-10-22-sql-profile"
     actual = analyze(root)
     recorded = json.loads((root / "analysis.json").read_text())
     recorded.pop("analysis_tool_sha256")
-    assert actual == recorded
+    assert_report_matches(actual, recorded)
     assert actual["calls_per_request"]["sqlite_connect"] == 34
     assert actual["calls_per_request"]["sqlite_execute"] == 114
     assert actual["calls_per_request"]["sqlite_commit"] == 10

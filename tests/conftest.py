@@ -2,8 +2,39 @@ from __future__ import annotations
 
 import sqlite3
 from collections.abc import Callable
+from typing import Any
 
 import pytest
+
+
+def _assert_report_matches(actual: Any, expected: Any, path: str = "report") -> None:
+    if isinstance(expected, dict):
+        assert isinstance(actual, dict), f"{path}: expected a mapping"
+        assert actual.keys() == expected.keys(), f"{path}: report keys differ"
+        for key, expected_value in expected.items():
+            _assert_report_matches(actual[key], expected_value, f"{path}.{key}")
+        return
+    if isinstance(expected, list):
+        assert isinstance(actual, list), f"{path}: expected a list"
+        assert len(actual) == len(expected), f"{path}: list lengths differ"
+        for index, (actual_value, expected_value) in enumerate(zip(actual, expected, strict=True)):
+            _assert_report_matches(actual_value, expected_value, f"{path}[{index}]")
+        return
+    if isinstance(expected, float):
+        assert isinstance(actual, (int, float)) and not isinstance(actual, bool), (
+            f"{path}: expected a number"
+        )
+        assert actual == pytest.approx(expected, rel=1e-12, abs=1e-12), (
+            f"{path}: calculated and recorded values differ"
+        )
+        return
+    assert actual == expected, f"{path}: calculated and recorded values differ"
+
+
+@pytest.fixture
+def assert_report_matches() -> Callable[[Any, Any], None]:
+    """Compare retained reports exactly except for insignificant float rounding."""
+    return _assert_report_matches
 
 
 @pytest.fixture

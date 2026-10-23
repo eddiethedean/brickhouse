@@ -564,3 +564,17 @@ identities and validation. Added opt-in measurement/summary tools and focused
 real-SQLite/accounting checks. No production runtime, dependency, capability,
 release conformance artifact or cloud workload changed. Memory remains a
 benchmark configuration; no CLI/product storage mode is introduced.
+
+
+### 2026-10-23 — portable retained benchmark report checks
+
+The latest two pre-release GitHub CI runs failed on Python 3.12 because the
+retained SQL-profile and SQLite-memory report tests compared recomputed floating
+point metrics with exact equality. The evidence payloads and integer counts were
+unchanged; only insignificant last-bit rounding differed between environments.
+Added a shared recursive report comparison that retains exact key, order, count,
+and non-float checks while allowing `1e-12` float tolerance. Both affected
+report regressions and a direct tolerance test pass locally, as do Ruff lint and
+format checks. The full release
+matrix still needs to pass on the pushed fix before tagging. No runtime,
+dependency, capability, benchmark measurement, or qualification artifact changed.

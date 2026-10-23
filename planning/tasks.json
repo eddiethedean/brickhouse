@@ -9708,6 +9708,13 @@
           "command": "python -m scripts.profile_sql --rounds 3 --iterations 50 --warmups 5; python -m scripts.summarize_sql_profile; focused profile/benchmark/planning tests; Ruff; strict mypy; planning/evidence audits",
           "result": "Nine fresh installed-wheel API trials and 495 exact 100-row results passed, retaining all 450 timed samples and all instrumented warmup/timed spans. Uninstrumented median 27.85 ms, span median 29.11 ms; additive instrumented mean 29.60 ms includes 21.09 ms SQLite (71.2%) and 4.98 ms Sparkless SQL/Arrow (16.8%). Each request uses 34 connects, 114 executes and 10 commits. Captured profiles exclude warmups, document continuation coverage and avoid double-counting HTTP waits. Fixture/source/tool hashes match, every API exited successfully and temporary state was removed. No cloud credentials, runtime changes or capability promotion. See the validation record for final focused/static/planning results.",
           "artifact": "artifacts/benchmarks/2026-10-22-sql-profile/validation.json"
+        },
+        {
+          "date": "2026-10-23",
+          "kind": "cross-platform-retained-report-test-fix",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_report_comparison.py tests/unit/test_sql_profile.py::test_profile_analysis_recomputes_call_counts_and_published_groups; Ruff check/format",
+          "result": "CI runs 39888687309 and 39894582703 exposed last-bit floating-point differences when recomputing the retained SQL profile analysis on Python 3.12. The report regression now compares nested floats with 1e-12 relative/absolute tolerance while retaining exact keys, ordering, and non-float values. The direct tolerance test and affected report regression pass locally; full release-matrix requalification is pending on the pushed fix. Runtime, benchmark samples, and capability claims are unchanged.",
+          "artifact": "tests/unit/test_sql_profile.py"
         }
       ],
       "blockers": [],
@@ -9740,6 +9747,13 @@
           "command": "python -m scripts.benchmark_sqlite --rounds 3 --iterations 50 --warmups 5; python -m scripts.summarize_sqlite_benchmark; focused local helper/accounting/planning checks; Ruff; strict mypy; evidence hash audit",
           "result": "All 18 fresh API/workspace trials, 900 timed and 90 warmup queries passed with every expected result row and unchanged native Delta files. Baseline medians are 27.15 ms ordinary disk, 11.64 ms disk/shared cache and 9.34 ms named shared-memory metadata (2.91x vs disk). Every mode retains 34 connects/114 executes/10 commits per request. Fresh-thread probes observe all 55 committed statements, memory seeds remain byte-identical and RAM schema disappears after last close; both disk controls persist statements. All processes exit successfully and temporary state is removed. Exact runtime/tool hashes, native SQLite 3.50.4 build, raw spans/samples and observed span variation are retained. Product runtime, dependencies and capability states are unchanged; memory remains benchmark-only. Final checks are in validation.json.",
           "artifact": "artifacts/benchmarks/2026-10-22-sqlite-memory/validation.json"
+        },
+        {
+          "date": "2026-10-23",
+          "kind": "cross-platform-retained-report-test-fix",
+          "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/unit/test_report_comparison.py tests/unit/test_sqlite_benchmark.py::test_retained_memory_experiment_recomputes_every_sample_and_lifetime_proof; Ruff check/format",
+          "result": "CI runs 39888687309 and 39894582703 exposed last-bit floating-point differences when recomputing the retained SQLite memory analysis on Python 3.12. The report regression now compares nested floats with 1e-12 relative/absolute tolerance while retaining exact keys, ordering, and non-float values. The direct tolerance test and affected report regression pass locally; full release-matrix requalification is pending on the pushed fix. Runtime, benchmark samples, and capability claims are unchanged.",
+          "artifact": "tests/unit/test_sqlite_benchmark.py"
         }
       ],
       "blockers": [],
