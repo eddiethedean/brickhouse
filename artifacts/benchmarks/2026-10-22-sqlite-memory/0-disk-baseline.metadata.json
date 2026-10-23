@@ -1,0 +1,51 @@
+{
+  "seed_sha256": "7568aab2e20316febc45ef2a62c278a013e521a21d2badabe7a1135072204342",
+  "storage": "disk",
+  "sqlite_version": "3.50.4",
+  "database_list": [
+    [
+      0,
+      "main",
+      "/private/var/folders/d0/m6dm9m4s1113jt883qbzzpph0000gn/T/brickhouse-sqlite-experiment-rpantgde/0-disk-baseline/workspace/metadata.sqlite"
+    ]
+  ],
+  "journal_mode": "delete",
+  "synchronous": 2,
+  "read_uncommitted": 0,
+  "fresh_thread_observations": [
+    {
+      "statement_states": [
+        [
+          "SUCCEEDED",
+          55
+        ]
+      ],
+      "schema_objects": 142,
+      "database_list": [
+        [
+          0,
+          "main",
+          "/private/var/folders/d0/m6dm9m4s1113jt883qbzzpph0000gn/T/brickhouse-sqlite-experiment-rpantgde/0-disk-baseline/workspace/metadata.sqlite"
+        ]
+      ]
+    },
+    {
+      "statement_states": [
+        [
+          "SUCCEEDED",
+          55
+        ]
+      ],
+      "schema_objects": 142,
+      "database_list": [
+        [
+          0,
+          "main",
+          "/private/var/folders/d0/m6dm9m4s1113jt883qbzzpph0000gn/T/brickhouse-sqlite-experiment-rpantgde/0-disk-baseline/workspace/metadata.sqlite"
+        ]
+      ]
+    }
+  ],
+  "seed_after_sha256": "105b3a298f0099be84b303a0a7497997857a6915dfef7b9d4d52b1369c153497",
+  "disk_statement_count": 55
+}

@@ -3800,3 +3800,25 @@ instrumented 29.60 ms mean attributes 21.09 ms to SQLite calls and 4.98 ms to
 Sparkless SQL/Arrow boundaries. All raw samples/spans, overhead measurements,
 source/tool hashes, detailed profiles and accounting checks are retained in the
 [profile report](../benchmarks/sql-profile.md) and [validation record](../../artifacts/benchmarks/2026-10-22-sql-profile/validation.json). No runtime or capability state changed.
+
+
+## B069 — Benchmark shared in-memory SQLite metadata against disk controls
+
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+
+**Dependencies:** B068.
+
+**Deliverable:** Opt-in isolated SQLite-storage experiment, real query samples, memory/lifetime proofs and comparison report.
+
+**Acceptance criteria:**
+
+1. Run the B067 real Delta SQL request against fresh disk, disk/shared-cache and named shared-memory metadata configurations in rotating order, retaining all raw samples, exact-result checks, source/dependency/tool identities and cleanup evidence without cloud credentials.
+2. Verify independent thread connections share complete seeded metadata, memory writes leave the seed file unchanged and disappear after the last connection closes; retain disk durability and shared-cache differences without advertising a supported runtime configuration.
+3. Compare uninstrumented timings and nested wall spans, quantify observed capture overhead and explain disk/cache/memory limits; validate accounting and update benchmark/planning documentation without changing production runtime or capability states.
+
+**Evidence:** All 990 queries in 18 fresh API trials returned the exact expected
+rows. The baseline medians are 27.15 ms disk, 11.64 ms disk/shared cache and
+9.34 ms memory. Storage/thread/last-close probes, immutable fixture/seed checks,
+all samples/spans and tool/source hashes are retained in the [report](../benchmarks/sqlite-memory.md)
+and [validation record](../../artifacts/benchmarks/2026-10-22-sqlite-memory/validation.json).
+Memory is benchmark-only; no runtime or capability state changed.

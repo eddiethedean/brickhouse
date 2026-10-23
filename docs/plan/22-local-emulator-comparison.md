@@ -61,3 +61,16 @@ waits or cumulative profile times. Ordinary tests consume sanitized evidence onl
 The [completed profile](../benchmarks/sql-profile.md) records SQLite metadata and
 connection work as the main measured cost; optimization requires separate changes
 and behavioral verification. It changes no runtime provider or capability state.
+
+
+## B069 — SQLite metadata storage experiment
+
+The owner requested running the benchmark with SQLite memory storage. Compare
+ordinary disk, disk/shared-cache with a keeper, and named shared-memory metadata
+against the same real Delta SQL request. Keep Delta files on disk. Use fresh
+API/workspace trials, rotate configurations, keep plain/span samples separate,
+and retain all raw samples, per-process storage/last-close/thread proofs and
+source/tool/build identities. This benchmark-only connection routing must not
+change product runtime settings or promote capability states. The [completed
+report](../benchmarks/sqlite-memory.md) records the measured improvement and
+shared-cache/volatility/locking interpretation limits.

@@ -9712,6 +9712,38 @@
       ],
       "blockers": [],
       "children": []
+    },
+    {
+      "id": "B069",
+      "milestone": "M3",
+      "kind": "task",
+      "title": "Benchmark shared in-memory SQLite metadata against disk controls",
+      "status": "done",
+      "depends_on": [
+        "B068"
+      ],
+      "plan_refs": [
+        "docs/plan/09-task-backlog.md",
+        "docs/plan/22-local-emulator-comparison.md"
+      ],
+      "deliverable": "Opt-in isolated SQLite-storage experiment, real query samples, memory/lifetime proofs and comparison report.",
+      "acceptance_criteria": [
+        "Run the B067 real Delta SQL request against fresh disk, disk/shared-cache and named shared-memory metadata configurations in rotating order, retaining all raw samples, exact-result checks, source/dependency/tool identities and cleanup evidence without cloud credentials.",
+        "Verify independent thread connections share complete seeded metadata, memory writes leave the seed file unchanged and disappear after the last connection closes; retain disk durability and shared-cache differences without advertising a supported runtime configuration.",
+        "Compare uninstrumented timings and nested wall spans, quantify observed capture overhead and explain disk/cache/memory limits; validate accounting and update benchmark/planning documentation without changing production runtime or capability states."
+      ],
+      "owner": "Codex",
+      "evidence": [
+        {
+          "date": "2026-10-22",
+          "kind": "verified-disk-cache-memory-sql-experiment",
+          "command": "python -m scripts.benchmark_sqlite --rounds 3 --iterations 50 --warmups 5; python -m scripts.summarize_sqlite_benchmark; focused local helper/accounting/planning checks; Ruff; strict mypy; evidence hash audit",
+          "result": "All 18 fresh API/workspace trials, 900 timed and 90 warmup queries passed with every expected result row and unchanged native Delta files. Baseline medians are 27.15 ms ordinary disk, 11.64 ms disk/shared cache and 9.34 ms named shared-memory metadata (2.91x vs disk). Every mode retains 34 connects/114 executes/10 commits per request. Fresh-thread probes observe all 55 committed statements, memory seeds remain byte-identical and RAM schema disappears after last close; both disk controls persist statements. All processes exit successfully and temporary state is removed. Exact runtime/tool hashes, native SQLite 3.50.4 build, raw spans/samples and observed span variation are retained. Product runtime, dependencies and capability states are unchanged; memory remains benchmark-only. Final checks are in validation.json.",
+          "artifact": "artifacts/benchmarks/2026-10-22-sqlite-memory/validation.json"
+        }
+      ],
+      "blockers": [],
+      "children": []
     }
   ],
   "release_roadmap": "ROADMAP.md"

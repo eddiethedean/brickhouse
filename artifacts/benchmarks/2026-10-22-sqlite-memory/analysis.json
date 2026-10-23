@@ -1,0 +1,96 @@
+{
+  "results_sha256": "e7ab7bb1c18b12068b858e16e8ac3b98b0275822f0481a6151783e21bee8f736",
+  "comparisons": [
+    {
+      "storage": "disk",
+      "baseline": {
+        "count": 150,
+        "median": 27.151562499999997,
+        "p95": 30.869708,
+        "min": 25.804666,
+        "max": 41.269917
+      },
+      "mean_baseline_ms": 27.801424666666666,
+      "spans": {
+        "count": 150,
+        "median": 29.677916500000002,
+        "p95": 34.103333,
+        "min": 26.829209,
+        "max": 41.69425
+      },
+      "mean_spans_ms": 29.79429774666667,
+      "speedup_vs_disk_median": 1.0,
+      "observed_mean_span_difference_percent": 7.168240850582808,
+      "sqlite_mean_span_ms": 21.038501266666668,
+      "sqlite_calls_per_request": {
+        "sqlite_connect": 34.0,
+        "sqlite_execute": 114.0,
+        "sqlite_close": 34.0,
+        "sqlite_commit": 10.0,
+        "sqlite_executemany": 1.0
+      }
+    },
+    {
+      "storage": "disk-shared",
+      "baseline": {
+        "count": 150,
+        "median": 11.6404165,
+        "p95": 13.949792,
+        "min": 10.737958,
+        "max": 27.897542
+      },
+      "mean_baseline_ms": 12.115651373333334,
+      "spans": {
+        "count": 150,
+        "median": 11.812979,
+        "p95": 13.305917,
+        "min": 11.060333,
+        "max": 19.926042
+      },
+      "mean_spans_ms": 12.06529614,
+      "speedup_vs_disk_median": 2.3325250002867164,
+      "observed_mean_span_difference_percent": -0.415621346155326,
+      "sqlite_mean_span_ms": 4.27548082,
+      "sqlite_calls_per_request": {
+        "sqlite_connect": 34.0,
+        "sqlite_execute": 114.0,
+        "sqlite_close": 34.0,
+        "sqlite_commit": 10.0,
+        "sqlite_executemany": 1.0
+      }
+    },
+    {
+      "storage": "memory",
+      "baseline": {
+        "count": 150,
+        "median": 9.3360625,
+        "p95": 10.172125,
+        "min": 8.929417,
+        "max": 10.923625
+      },
+      "mean_baseline_ms": 9.424661106666667,
+      "spans": {
+        "count": 150,
+        "median": 9.0852295,
+        "p95": 9.627333,
+        "min": 8.4615,
+        "max": 10.577583
+      },
+      "mean_spans_ms": 9.1076503,
+      "speedup_vs_disk_median": 2.908245579975498,
+      "observed_mean_span_difference_percent": -3.3636308306345897,
+      "sqlite_mean_span_ms": 1.7037093733333335,
+      "sqlite_calls_per_request": {
+        "sqlite_connect": 34.0,
+        "sqlite_execute": 114.0,
+        "sqlite_close": 34.0,
+        "sqlite_commit": 10.0,
+        "sqlite_executemany": 1.0
+      }
+    }
+  ],
+  "trial_count": 18,
+  "verified_queries": 990,
+  "timed_queries": 900,
+  "analysis_tool_sha256": "b1627cfaa00b58ee21326dbd681d09f53024d712b5aeb13042645907dea92299"
+}

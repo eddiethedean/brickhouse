@@ -268,3 +268,8 @@ instrumented request, with repeated namespace/admission/result-retention work
 and per-operation connection management. Sparkless SQL/Arrow boundaries account
 for 17%; native internals remain unsplit. The original comparison above is
 unchanged; the follow-up quantifies profiling overhead and applies no optimization.
+
+
+The subsequent [SQLite storage experiment](sqlite-memory.md) compares disk,
+disk/shared-cache and memory metadata in BrickHouse only, preserving the original
+competitor table and explicitly separating volatility and cache-lifetime effects.

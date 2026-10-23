@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "measurement": {
+    "trials": 18,
+    "timed_queries": 900,
+    "warmup_queries": 90,
+    "verified_queries": 990,
+    "all_processes_exited_successfully": true,
+    "temporary_state_removed": true,
+    "fixture_unchanged": true,
+    "memory_seed_unchanged": true,
+    "last_close_memory_loss_verified": true,
+    "two_fresh_thread_probes_per_process": true,
+    "runtime_source_matches_checkout": true
+  },
+  "runtime_changes": false,
+  "capability_changes": false,
+  "cloud_calls": false,
+  "focused_tests": {
+    "passed": 81,
+    "skipped": 0,
+    "new_sqlite_cases": 9,
+    "command": "python -m pytest -q tests/unit/test_sqlite_benchmark.py tests/unit/test_sql_profile.py tests/unit/test_benchmark_emulators.py tests/unit/test_benchmark_summary.py tests/unit/test_planning_validation.py tests/unit/test_capability_report.py"
+  },
+  "static_checks": {
+    "ruff": "passed: src tests scripts",
+    "format": "passed: 145 files",
+    "strict_mypy": "passed: SQLite benchmark and analyzer with MYPYPATH=src --explicit-package-bases",
+    "git_diff_check": "passed"
+  },
+  "planning": {
+    "status": "passed",
+    "tasks": 211,
+    "top_level_packages": 69,
+    "phase_0_1_children": 142,
+    "capabilities": 67,
+    "release_families": 27,
+    "release_test_selectors": 63,
+    "capability_test_selectors": 253,
+    "local_links_checked": 2160
+  },
+  "measurement_scope": "SQL only, same 10,000-row native Delta query and HTTP request; no startup/file/competitor rerun.",
+  "observed_span_differences": "Mean vs baseline: disk +7.2%, disk/shared-cache -0.4%, memory -3.4%; retained as instrumentation/interactive-host variation, not subtracted."
+}

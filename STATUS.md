@@ -3,7 +3,7 @@
 Updated: 2026-10-22
 
 - Current version: **0.1.0**, licensed **Apache-2.0**. The owner authorized choosing the project license. Nothing has been tagged or published.
-- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, B065 release automation, and B066 release preparation are complete. All **142 phase 0.1 children** are done; the ledger has 210 tasks and 68 top-level packages. Future emulator/deployment/cluster work remains planned.
+- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, B065 release automation, and B066 release preparation are complete. All **142 phase 0.1 children** are done; the ledger has 211 tasks and 69 top-level packages. Future emulator/deployment/cluster work remains planned.
 - Final qualification: **1,368 installed-wheel offline cases** and **1,832 full-source cases** (458 per OS/Python pair) pass with zero required skips on Ubuntu 22.04 x86_64/macOS 26 arm64, native CPython 3.11.17/3.12.15. Exact candidate/source hashes, installed runtime versions, source revision and passing CI reports are frozen in the release bundle; historical development reports do not qualify different hashes.
 - Requirement audit: [release-requirements.json](planning/release-requirements.json) maps all 27 document-16 case families to 63 actual test selectors. The validator also checks all 253 unique capability test references and every backlog status against the ledger. The orders workflow computes and writes the exact native BIGINT/DECIMAL aggregate across seven Python jobs, seven ipynb jobs, and three source notebook profiles, then verifies all three warehouses and reopened state.
 - Capability scope: 67 entries remain 24 partial, 2 simulated, and 41 planned; none is fully supported. Cluster/warehouse lifecycle metadata and access modes are simulated. Actual local workers, queries, Delta data, failures, retries, and restart recovery are tested only within the documented versioned subsets.
@@ -17,6 +17,7 @@ Updated: 2026-10-22
 
 - Local comparison: B067 is complete. The README compares MiniLake and calvinchengx/databricks-emulator using pinned sources, marks future BrickHouse features, and publishes pooled results from 30 native-process trials / 1,500 timed samples. [Methodology and reproduction](docs/benchmarks/local-emulators.md) retain exact profiles, all samples and limitations. This is benchmark evidence, separate from release conformance.
 - Local SQL profiling: B068 is complete. [Three-mode profiling](docs/benchmarks/sql-profile.md) passed 495 exact-result queries across nine fresh trials. SQLite calls consume 21.09 ms / 71.2% of the 29.60 ms instrumented mean; Sparkless SQL/Arrow consumes 4.98 ms / 16.8%. The uninstrumented median is 27.85 ms; capture overhead, all raw spans/profiles and source hashes are retained. No runtime optimization or capability promotion occurred.
+- SQLite memory experiment: B069 is complete. [Disk/cache/memory benchmarks](docs/benchmarks/sqlite-memory.md) passed 990 exact-result queries across 18 fresh trials. Uninstrumented medians are 27.15 ms ordinary disk, 11.64 ms disk/shared cache and 9.34 ms shared RAM metadata (2.91× faster than ordinary disk). The memory seed stays unchanged and RAM state disappears at last close; Delta stays on disk. Memory is benchmark-only, not a supported runtime setting.
 
 ## Current limitation
 
@@ -536,3 +537,30 @@ traces, all samples, profile files, source/provenance records and validation are
 in [the evidence directory](artifacts/benchmarks/2026-10-22-sql-profile/README.md).
 No engine/runtime source, dependency, capability state, real workspace or release
 conformance artifact changed. Optimization remains separate work.
+
+
+### 2026-10-22 — B069 SQLite memory benchmark complete
+
+Ran three rotating fresh API/workspace trials per storage/capture configuration:
+ordinary disk, disk/shared-cache with an idle keeper, and named shared-memory
+metadata, each with uninstrumented and nested-span capture. All 900 timed and
+90 warmup queries returned the exact expected rows. Native Delta files remained
+unchanged, every owned API exited successfully and temporary state was removed.
+
+The uninstrumented medians are 27.15 ms disk, 11.64 ms disk/shared-cache and
+9.34 ms memory, a 2.91× disk-to-memory speedup. Shared-cache disk already reaches
+2.33×, suggesting cache lifetime accounts for much of the difference. All modes
+still make 34 opens, 114 executes and 10 commits per request. Instrumented SQLite
+time drops from 21.04 ms to 4.28 ms to 1.70 ms; observed instrumentation differences
+and interactive-host variation are retained rather than subtracted.
+
+Fresh connections in two independent threads observe all 55 committed statements
+in every API trial. Both disk controls retain them; each memory trial leaves its
+seed byte-identical, persists no statements there, reports memory SQLite storage,
+and loses its schema on last close. Read-only handles remain query-only. Retained
+[artifacts](artifacts/benchmarks/2026-10-22-sqlite-memory/README.md) include every
+trial/sample/span, storage proofs, native SQLite 3.50.4 build, package/source/tool
+identities and validation. Added opt-in measurement/summary tools and focused
+real-SQLite/accounting checks. No production runtime, dependency, capability,
+release conformance artifact or cloud workload changed. Memory remains a
+benchmark configuration; no CLI/product storage mode is introduced.

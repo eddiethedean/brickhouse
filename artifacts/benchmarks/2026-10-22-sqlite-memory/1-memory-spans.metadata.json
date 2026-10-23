@@ -1,0 +1,52 @@
+{
+  "seed_sha256": "fdc36cedc7bed7395b03c6c87ce6a5280482312556241acb0c012cbc5c1f08ec",
+  "storage": "memory",
+  "sqlite_version": "3.50.4",
+  "database_list": [
+    [
+      0,
+      "main",
+      ""
+    ]
+  ],
+  "journal_mode": "memory",
+  "synchronous": 2,
+  "read_uncommitted": 0,
+  "fresh_thread_observations": [
+    {
+      "statement_states": [
+        [
+          "SUCCEEDED",
+          55
+        ]
+      ],
+      "schema_objects": 142,
+      "database_list": [
+        [
+          0,
+          "main",
+          ""
+        ]
+      ]
+    },
+    {
+      "statement_states": [
+        [
+          "SUCCEEDED",
+          55
+        ]
+      ],
+      "schema_objects": 142,
+      "database_list": [
+        [
+          0,
+          "main",
+          ""
+        ]
+      ]
+    }
+  ],
+  "seed_after_sha256": "fdc36cedc7bed7395b03c6c87ce6a5280482312556241acb0c012cbc5c1f08ec",
+  "disk_statement_count": 0,
+  "objects_after_last_close": 0
+}

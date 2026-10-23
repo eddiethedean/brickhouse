@@ -179,6 +179,12 @@ BrickHouse's instrumented request time to SQLite calls and **17%** to Sparkless
 SQL/Arrow boundaries. It retains raw traces, an uninstrumented baseline and
 measured profiling overhead; no optimization is included in these results.
 
+A separate [SQLite storage experiment](docs/benchmarks/sqlite-memory.md) measured
+**27.15 ms** median with ordinary disk metadata, **11.64 ms** with disk/shared
+cache, and **9.34 ms** with shared in-memory metadata (**2.91×** faster than
+ordinary disk). Memory metadata is benchmark-only and temporary; Delta files
+stay on disk. These configurations do not change the comparison table above.
+
 Startup includes workspace initialization and the first verified script round
 trip. Startup/RSS cover the core API process before SQL work; they exclude
 optional notebooks and the Go SQL engine/agent processes. The SQL case reads the

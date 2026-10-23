@@ -143,3 +143,13 @@ artifacts and never start benchmark servers or discover workspace credentials.
 [Retained evidence](../../artifacts/benchmarks/2026-10-22-sql-profile/README.md)
 contains raw per-request spans, all client samples, detailed profiles, computed
 analysis, complete installed-source hashes and version/provenance records.
+
+
+## Follow-up SQLite storage experiment
+
+The [disk/cache/memory comparison](sqlite-memory.md) holds the SQL workload and
+34-connect/114-execute/10-commit call counts constant. It measures an uninstrumented
+27.15 ms disk median, 11.64 ms with a disk-backed shared cache and idle keeper, and
+9.34 ms with named shared-memory metadata. The controls suggest cache lifetime
+explains much of the gain, with a further reduction when metadata is volatile.
+This is benchmark evidence and does not introduce a supported runtime mode.
