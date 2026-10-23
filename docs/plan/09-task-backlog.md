@@ -3570,7 +3570,7 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 
 ## B065 — Add a tag-gated PyPI Trusted Publishing workflow
 
-**Milestone:** M3 · **Kind:** task · **Current ledger status:** done
+**Milestone:** M3 · **Kind:** task · **Current ledger status:** in_progress
 
 **Dependencies:** B023.3, B064.
 
@@ -3584,7 +3584,7 @@ Current 0.1.0 artifact hashes, platform qualification, Apache-2.0 metadata, and 
 4. Build distributions in a non-publishing job, then publish that exact artifact in a separate job with only the permissions needed for PyPI OIDC Trusted Publishing; store no PyPI API token.
 5. Document the required PyPI trusted-publisher configuration and preserve current release limitations; do not publish during workflow setup.
 
-**Evidence:** The release workflow parsed successfully; tag trigger, dependency gates, OIDC permission scope, action SHA pins, and absence of secret references were checked. `python scripts/validate_planning.py` passed with 197 tasks, 132 phase 0.1 children, and 67 capabilities. No tag workflow or PyPI publication was run. See [release workflow](../../.github/workflows/release.yml).
+**Evidence:** The release workflow parsed successfully; tag trigger, dependency gates, OIDC permission scope, immutable action and image references, and absence of secret references were checked. The first `v0.1.0` run passed checks, all qualification lanes, and artifact audit, but publishing failed before upload because the SHA-pinned composite tried to pull a nonexistent GHCR image tag; no distribution was uploaded. The publisher now uses the verified official `v1.14.2` image digest directly. Ruby YAML parsing, `git diff --check`, and `python scripts/validate_planning.py` pass on the correction; the corrected release run is pending. See [release workflow](../../.github/workflows/release.yml).
 
 
 ## B066 — Prepare and qualify the final 0.1.0 release

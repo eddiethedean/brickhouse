@@ -9202,7 +9202,7 @@
       "milestone": "M3",
       "kind": "task",
       "title": "Add a tag-gated PyPI Trusted Publishing workflow",
-      "status": "done",
+      "status": "in_progress",
       "depends_on": [
         "B023.3",
         "B064"
@@ -9226,6 +9226,13 @@
           "kind": "release-workflow-validation",
           "command": "Parse .github/workflows/release.yml and its embedded Python preflight scripts; verify the tag trigger, gate dependencies, versioned checklist, OIDC permissions, action SHA pins, and absence of secret references; python scripts/validate_planning.py",
           "result": "The release workflow YAML and both inline Python preflight scripts parsed successfully. PyPI publication depends on all static/test and Linux/macOS clean-install matrices, uses a separately built distribution artifact, requires an exact package-version tag, a selected project license, and a complete version-matched readiness checklist. The publish job alone receives id-token: write. All nine action references are full SHA pins; no PyPI token or Databricks credential is referenced. Planning validation passed for 197 tasks, 132 phase 0.1 children, and 67 capabilities. No GitHub release workflow or PyPI publication was run.",
+          "artifact": ".github/workflows/release.yml"
+        },
+        {
+          "date": "2026-10-23",
+          "kind": "pypi-publisher-image-digest-repair",
+          "command": "gh run view 39975894023; inspect official action.yml at a892a5a61159132606e93a2fa6f4358831b04d26; verify GHCR v1.14.2 manifest digest; Ruby YAML parse; python scripts/validate_planning.py; git diff --check",
+          "result": "The tag run passed source checks, candidate qualification on all four OS/Python profiles, the release preflight, and distribution audit. Publishing failed before upload because the SHA-pinned composite action resolved its own commit SHA as the GHCR image tag; that tag was absent, so no distribution was uploaded. Verified the official v1.14.2 image digest sha256:5c2f7030fbef8308068eb4cc9080fd3c9e157ccf6d511924d69f8f4b23dc95c1 and changed the publish job to call that immutable image directly with explicit inputs. Ruby YAML parsing, planning validation, and diff checks pass. The corrected tagged release run is pending.",
           "artifact": ".github/workflows/release.yml"
         }
       ],

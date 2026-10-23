@@ -1,16 +1,16 @@
 # Project status
 
-Updated: 2026-10-22
+Updated: 2026-10-23
 
-- Current version: **0.1.0**, licensed **Apache-2.0**. The owner authorized choosing the project license. Nothing has been tagged or published.
-- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, B065 release automation, and B066 release preparation are complete. All **142 phase 0.1 children** are done; the ledger has 211 tasks and 69 top-level packages. Future emulator/deployment/cluster work remains planned.
+- Current version: **0.1.0**, licensed **Apache-2.0**. The owner authorized this release; `v0.1.0` is tagged, but no distribution has been published.
+- Implementation: the bounded B001–B023/B046 scope, B048 review, all eleven B064 fixes, and B066 release preparation are complete. B065 release automation is being repaired after its first tag run found an unavailable publisher image reference. All **142 phase 0.1 children** are done; the ledger has 211 tasks and 69 top-level packages. Future emulator/deployment/cluster work remains planned.
 - Final qualification: **1,368 installed-wheel offline cases** and **1,832 full-source cases** (458 per OS/Python pair) pass with zero required skips on Ubuntu 22.04 x86_64/macOS 26 arm64, native CPython 3.11.17/3.12.15. Exact candidate/source hashes, installed runtime versions, source revision and passing CI reports are frozen in the release bundle; historical development reports do not qualify different hashes.
 - Requirement audit: [release-requirements.json](planning/release-requirements.json) maps all 27 document-16 case families to 63 actual test selectors. The validator also checks all 253 unique capability test references and every backlog status against the ledger. The orders workflow computes and writes the exact native BIGINT/DECIMAL aggregate across seven Python jobs, seven ipynb jobs, and three source notebook profiles, then verifies all three warehouses and reopened state.
 - Capability scope: 67 entries remain 24 partial, 2 simulated, and 41 planned; none is fully supported. Cluster/warehouse lifecycle metadata and access modes are simulated. Actual local workers, queries, Delta data, failures, retries, and restart recovery are tested only within the documented versioned subsets.
 - Runtime: one persistent catalog and native delta-rs table service are shared by Sparkless DataFrames, SQL, jobs, and notebooks. Sparkless 4.15.2, deltalake 1.2.1, PyArrow 23.0.1, and SQLGlot 30.24.0 are pinned base dependencies. The optional notebook extra is separate; DuckDB is not a fallback.
 - Clients: selected SDK 0.153.0, CLI 1.21.0, Terraform 1.16.6/provider 1.137.0, connector 4.6.0/kernel 1.1.0 cases use real loopback services. Kernel Arrow-stream/LZ4, Thrift, broader metadata, remote authentication, and Windows remain outside qualification. The local API token is not authentication; workers run trusted code as the local user.
 - Known upstream limit: SQL COUNT returns int32 while DataFrame count returns int64 on Sparkless 4.15.2, reported as [issue #1723](https://github.com/eddiethedean/robin-sparkless/issues/1723). The frozen SQL fixture records this limitation. The selected UTC Delta timestamp issue #1720 is fixed in 4.15.2 and passes locally.
-- Release automation: CI and tag releases share source checks and one-candidate G1–G4 qualification on Linux x86_64/macOS arm64, Python 3.11/3.12, base/notebooks. The tag workflow publishes the exact qualified files through a separate OIDC job after the readiness checklist. The GitHub `pypi` environment accepts `v*.*.*` tags. The owner configured the PyPI pending publisher and supplied its saved confirmation; exact fields match. See [publishing configuration](planning/publishing.json).
+- Release automation: CI and tag releases share source checks and one-candidate G1–G4 qualification on Linux x86_64/macOS arm64, Python 3.11/3.12, base/notebooks. The tag workflow publishes the exact qualified files through a separate OIDC job after the readiness checklist. The GitHub `pypi` environment accepts `v*.*.*` tags. The owner configured the PyPI pending publisher and supplied its saved confirmation; exact fields match. The first `v0.1.0` run passed checks, qualification, and artifact audit but failed before upload because a SHA-pinned publisher wrapper requested a GHCR image under an unavailable SHA tag. A digest-pinned official image is now configured for the retry. See [publishing configuration](planning/publishing.json).
 - Reference verification: occasional personal Databricks captures are authorized under [document 15](docs/plan/15-personal-databricks-verification.md). Ordinary tests and required CI never use account credentials or the checkout's `.env`. The latest bounded aggregate capture returned BAD_REQUEST, restored the existing warehouse to STOPPED, and yielded no remote schema/rows oracle.
 - Future work: [ROADMAP.md](ROADMAP.md) retains emulator phases 0.1–0.9. [Self-hosting](docs/plan/18-self-hosted-platform.md) and [optional cluster execution](docs/plan/19-sparkless-cluster-execution.md) remain gated by emulator stability B049 after B042. B056/B063 are completed planning/research only.
 - Release evidence: [0.1.0 review bundle](artifacts/releases/0.1.0/README.md); [final readiness plan](docs/plan/21-release-readiness.md). B066.4 retains the final audited artifacts and passing exact-hash qualification reports.
@@ -578,3 +578,16 @@ report regressions and a direct tolerance test pass locally, as do Ruff lint and
 format checks. The full release
 matrix still needs to pass on the pushed fix before tagging. No runtime,
 dependency, capability, benchmark measurement, or qualification artifact changed.
+
+
+### 2026-10-23 — PyPI publisher image pin correction
+
+Release run [39975894023](https://github.com/eddiethedean/brickhouse/actions/runs/39975894023)
+passed source checks, all four qualification lanes, the tag/version/license
+preflight, the readiness checklist, and distribution audit. The publish step
+failed before starting the publisher because its SHA-pinned composite wrapper
+looked for the same SHA as a GHCR image tag; that image tag does not exist, so no
+distribution was uploaded. Verified the official `v1.14.2` image digest from
+GHCR and changed the publish job to use that immutable image digest directly,
+with explicit package inputs and the existing publish-only OIDC permission.
+The corrected workflow still needs its release run before B065 can be closed.

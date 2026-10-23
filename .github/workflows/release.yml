@@ -126,4 +126,13 @@ jobs:
           name: python-distributions
           path: dist/
       - name: Publish distributions with PyPI Trusted Publishing
-        uses: pypa/gh-action-pypi-publish@a892a5a61159132606e93a2fa6f4358831b04d26 # v1.14.2
+        uses: docker://ghcr.io/pypa/gh-action-pypi-publish@sha256:5c2f7030fbef8308068eb4cc9080fd3c9e157ccf6d511924d69f8f4b23dc95c1
+        with:
+          user: __token__
+          repository-url: https://upload.pypi.org/legacy/
+          packages-dir: dist
+          verify-metadata: "true"
+          skip-existing: "false"
+          verbose: "true"
+          print-hash: "true"
+          attestations: "true"
